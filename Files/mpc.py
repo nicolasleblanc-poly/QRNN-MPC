@@ -4,7 +4,12 @@ import torch
 
 # from run import compute_cost
 
-def mpc_func(prob_vars, horizon, particles, num_particles, action_dim, nb_actions, use_ASGNN, model_QRNN, use_sampling, use_mid, model_ASN):
+def mpc_func(prob_vars, particles, use_ASGNN, model_QRNN, use_sampling, use_mid, model_ASN):
+    horizon = prob_vars.horizon
+    num_particles = prob_vars.num_particles
+    action_dim = prob_vars.action_dim
+    nb_actions = prob_vars.nb_actions
+    
     for h in range(horizon):
         if use_ASGNN and h == horizon-1:
             # Use ASGNN to generate last action/actions based of last non-terminal state

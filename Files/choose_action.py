@@ -3,10 +3,7 @@ import random
 import torch
 
 from mpc import mpc_func
-
-def particle_filtering_func():
-    
-    pass
+from particle_filtering import particle_filtering_func
 
 def choose_action(prob_vars, state, horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps, std, change_prob, nb_top_particles, nb_random, episode=0, step=1, goal_state=None):
 
@@ -67,7 +64,7 @@ def choose_action(prob_vars, state, horizon, particles, do_RS, use_sampling, use
         # print("particles[0] ", particles[0], "\n")
         # print("best_action_sequence ", best_action_sequence, "\n")
 
-
+        
         particles[0] = best_action_sequence
 
         # Get the indices of the top 15 particles
