@@ -4,7 +4,7 @@ import torch
 
 from mpc import mpc_func
 
-def choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps, std, change_prob, nb_top_particles, nb_random, episode=0, step=1, goal_state=None):
+def choose_action(prob_vars, state, horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps, std, change_prob, nb_top_particles, nb_random, episode=0, step=1, goal_state=None):
 
     num_particles = particles.shape[0]
     best_cost = float('inf')
@@ -21,7 +21,7 @@ def choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid,
     if do_RS:
         nb_reps = 1
 
-    for rep in range(nb_reps):
+    for rep in range(prob_vars.nb_reps):
     
         # costs, best_action_sequence = objective_function(particles, sim_states, horizon, model)
         num_particles = particles.shape[0]
@@ -32,7 +32,7 @@ def choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid,
         # best_cost = float('inf')
         # best_action_sequence = None
 
-        
+        costs = mpc_func(prob_vars, horizon, particles, num_particles, action_dim, nb_actions, use_ASGNN, model_QRNN, use_sampling, use_mid, model_ASN)
 
         min_idx = torch.argmin(costs)
         
@@ -74,7 +74,7 @@ def choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid,
         # noise = np.random.normal(0, std, sampled_particles.shape)
         # # particles[1:len(particles)-nb_random] = np.clip(sampled_particles + noise, action_low, action_high)
 
-        if prob == "CartPole":
+        if prob_vars.prob == "CartPole":
             # Randomly change some of the sampled particles
             change_indices = np.random.choice([True, False], len(sampled_particles), p=[change_prob, 1-change_prob])
             sampled_particles[change_indices] = np.random.randint(0, 2, (len(sampled_particles[change_indices]), horizon))
@@ -86,7 +86,7 @@ def choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid,
             particles[len(particles)-nb_random:] = np.random.randint(0, 2, (nb_random, horizon))
             best_first_action = int(best_action_sequence[0].item())
             
-        elif prob == "Acrobot" or prob == "MountainCar":
+        elif prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar":
             # Randomly change some of the sampled particles
             change_indices = np.random.choice([True, False], len(sampled_particles), p=[change_prob, 1-change_prob])
             sampled_particles[change_indices] = np.random.randint(0, 3, (len(sampled_particles[change_indices]), horizon))
@@ -98,7 +98,7 @@ def choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid,
             particles[len(particles)-nb_random:] = np.random.randint(0, 3, (nb_random, horizon))
             best_first_action = int(best_action_sequence[0].item())
         
-        elif prob == "LunarLander":
+        elif prob_vars.prob == "LunarLander":
             # Randomly change some of the sampled particles
             change_indices = np.random.choice([True, False], len(sampled_particles), p=[change_prob, 1-change_prob])
             sampled_particles[change_indices] = np.random.randint(0, 4, (len(sampled_particles[change_indices]), horizon))
@@ -124,7 +124,7 @@ def choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid,
             # print("np.random.uniform(actions_low, actions_high, (nb_random, horizon*action_dim)).shape ", np.random.uniform(action_low, action_high, (nb_random, horizon*action_dim)).shape, "\n")
             # print("particles[len(particles)-nb_random:].shape ", particles[len(particles)-nb_random:].shape, "\n")
             
-            if prob == "PandaReacher" or prob == "MuJoCoReacher" or prob == "PandaPusher" or prob == "MuJoCoPusher" or prob == "LunarLanderContinuous":
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
                 # print("best_cost ", best_cost, "\n")
                 # print("best_action_sequence ", best_action_sequence, "\n")
                 

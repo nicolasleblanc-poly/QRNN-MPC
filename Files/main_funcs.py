@@ -39,12 +39,12 @@ def should_record(episode_id):
     return episode_id % 50 == 0
 
 
-def main_QRNN_MPC(prob, method_name, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, random_seeds, nb_rep_episodes, nb_top_particles, nb_random, nb_reps_MPC, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state):
+def main_QRNN_MPC(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, random_seeds, nb_rep_episodes, nb_top_particles, nb_random, nb_reps_MPC, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state):
     # std is the std for continuous action spaces or the change prob
     # for discrete action spaces
-    episode_rep_rewards = np.zeros((nb_rep_episodes, max_episodes))
+    episode_rep_rewards = np.zeros((prob_vars.nb_rep_episodes, prob_vars.max_episodes))
 
-    if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         episode_rep_SuccessRate= np.zeros((nb_rep_episodes, max_episodes))
         
     for rep_ep in tqdm(range(nb_rep_episodes)):
@@ -62,9 +62,9 @@ def main_QRNN_MPC(prob, method_name, model_QRNN, replay_buffer_QRNN, optimizer_Q
         https://gymnasium.farama.org/main/_modules/gymnasium/wrappers/record_video/
         """
         if change_prob is None and std is not None:
-            env = RecordVideo(env, video_folder="videos", episode_trigger=should_record, name_prefix=f"{prob}_{std}_{method_name}_seed{seed}", video_length=max_steps)
+            env = RecordVideo(env, video_folder="videos", episode_trigger=should_record, name_prefix=f"{prob_vars.prob}_{std}_{method_name}_seed{seed}", video_length=max_steps)
         elif change_prob is not None and std is None:
-            env = RecordVideo(env, video_folder="videos", episode_trigger=should_record, name_prefix=f"{prob}_{change_prob}_{method_name}_seed{seed}", video_length=max_steps)
+            env = RecordVideo(env, video_folder="videos", episode_trigger=should_record, name_prefix=f"{prob_vars.prob}_{change_prob}_{method_name}_seed{seed}", video_length=max_steps)
 
         # Reset models
         # model_QRNN = NextStateQuantileNetwork(state_dim, action_dim, num_quantiles)
@@ -81,12 +81,12 @@ def main_QRNN_MPC(prob, method_name, model_QRNN, replay_buffer_QRNN, optimizer_Q
             
             # episode_reward_list_RS_sampling = start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_top_particles, nb_random, nb_reps_MPC, env, state_dim, action_dim, action_low, action_high, goal_state)
 
-            if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
-                episode_reward_list, episode_SuccessRate = start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_top_particles, nb_random, nb_reps_MPC, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state)
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
+                episode_reward_list, episode_SuccessRate = start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
             
                 episode_rep_SuccessRate[rep_ep] = episode_SuccessRate
             else:    
-                episode_reward_list = start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_top_particles, nb_random, nb_reps_MPC, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state)
+                episode_reward_list = start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
             
             episode_rep_rewards[rep_ep] = episode_reward_list
 
@@ -95,11 +95,11 @@ def main_QRNN_MPC(prob, method_name, model_QRNN, replay_buffer_QRNN, optimizer_Q
             # model_ASN = ActionSequenceNN(state_dim, goal_state_dim, action_dim, discrete=discrete, nb_actions=nb_actions)
             # optimizer_ASN = optim.Adam(model_ASN.parameters(), lr=1e-3)
 
-            if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
-                episode_reward_list, episode_SuccessRate = start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_reps_MPC, nb_top_particles, nb_random, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state)
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
+                episode_reward_list, episode_SuccessRate = start_QRNN_MPC_wASGNN(prob_vars.prob, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN)
                 episode_rep_SuccessRate[rep_ep] = episode_SuccessRate
             else:
-                episode_reward_list = start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_reps_MPC, nb_top_particles, nb_random, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state)
+                episode_reward_list = start_QRNN_MPC_wASGNN(prob_vars.prob, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN)
             
             episode_rep_rewards[rep_ep] = episode_reward_list
         
@@ -107,7 +107,7 @@ def main_QRNN_MPC(prob, method_name, model_QRNN, replay_buffer_QRNN, optimizer_Q
     mean_episode_rep_rewards = np.mean(episode_rep_rewards, axis=0)
     std_episode_rep_rewards = np.std(episode_rep_rewards, axis=0)
 
-    if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         mean_episode_rep_SuccessRate = np.mean(episode_rep_SuccessRate, axis=0)
         std_episode_rep_SuccessRate = np.std(episode_rep_SuccessRate, axis=0)
 

@@ -1,14 +1,15 @@
 import numpy as np
 import random
 import torch
-from run import compute_cost
 
-def mpc_func(prob, horizon, particles, num_particles, action_dim, nb_actions, use_ASGNN, model_ASN, ):
+# from run import compute_cost
+
+def mpc_func(prob_vars, horizon, particles, num_particles, action_dim, nb_actions, use_ASGNN, model_QRNN, use_sampling, use_mid, model_ASN):
     for h in range(horizon):
         if use_ASGNN and h == horizon-1:
             # Use ASGNN to generate last action/actions based of last non-terminal state
-            if prob == "CartPole" or prob == "Acrobot" or prob == "LunarLander" or prob == "MountainCar": # Discrete actions
-                action_probs = model_ASN(next_states, torch.tensor(goal_state, dtype=torch.float32))
+            if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "LunarLander" or prob_vars.prob == "MountainCar": # Discrete actions
+                action_probs = model_ASN(next_states, torch.tensor(prob_vars.goal_state, dtype=torch.float32))
                 
                 # print("action_probs ", action_probs, "\n")
                 # print("action_probs[loop_iter].detach().numpy() ", action_probs[0].detach().numpy(), "\n")
@@ -22,7 +23,7 @@ def mpc_func(prob, horizon, particles, num_particles, action_dim, nb_actions, us
                 # pass
 
             else: # Continuous actions
-                action_mus, action_sigmas = model_ASN(torch.tensor(sim_states, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
+                action_mus, action_sigmas = model_ASN(torch.tensor(sim_states, dtype=torch.float32), torch.tensor(prob_vars.goal_state, dtype=torch.float32))
 
                 # print("action_mus ", action_mus, "\n")
                 # print("action_sigmas ", action_sigmas, "\n")
@@ -39,7 +40,7 @@ def mpc_func(prob, horizon, particles, num_particles, action_dim, nb_actions, us
                     #     print("action_sigmas[loop_iter] ", action_sigmas[loop_iter], "\n")
 
         # else:
-        if prob == "PandaReacher" or prob == "MuJoCoReacher" or prob == "LunarLanderContinuous" or prob == "PandaPusher" or prob == "MuJoCoPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
             particles_t_array = particles[:, h * action_dim : (h + 1) * action_dim]
         else:
             particles_t_array = particles[:, h]
@@ -59,8 +60,8 @@ def mpc_func(prob, horizon, particles, num_particles, action_dim, nb_actions, us
         # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
         #     # Clip states to ensure they are within the valid range
         #     # before inputting them to the model (sorta like normalization)
-        sim_states = torch.clip(sim_states, states_low, states_high)
-        actions = actions.clip(action_low, action_high)
+        sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+        actions = actions.clip(prob_vars.action_low, prob_vars.action_high)
 
         # Predict next states using the quantile model
         predicted_quantiles = model_QRNN(sim_states, actions)
@@ -70,19 +71,19 @@ def mpc_func(prob, horizon, particles, num_particles, action_dim, nb_actions, us
             # '''
             ############# Need to add the sorta quantile ponderated sum here #############
             # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
-            chosen_quantiles = torch.rand(num_particles, state_dim)
+            chosen_quantiles = torch.rand(num_particles, prob_vars.state_dim)
             # https://pytorch.org/docs/main/generated/torch.rand.html
             bottom_int_indices = torch.floor(chosen_quantiles*10).to(torch.int) # .astype(int)
             top_int_indices = bottom_int_indices+1
             top_int_indices[top_int_indices == 11] = 10
             
             # Expand batch dimension to match indexing (assuming batch_size = 1)
-            batch_indices = torch.zeros((num_particles, state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
+            batch_indices = torch.zeros((num_particles, prob_vars.state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
             
             # pred_bottom_quantiles = predicted_quantiles[:, bottom_int_indices, :]
             # pred_top_quantiles = predicted_quantiles[:, top_int_indices, :]
-            pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(state_dim)]
-            pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(state_dim)]
+            pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(prob_vars.state_dim)]
+            pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(prob_vars.state_dim)]
             
             # print("chosen_quantiles.shape ", chosen_quantiles.shape, "\n")
             # print("bottom_int_indices.shape ", bottom_int_indices.shape, "\n")
@@ -109,14 +110,14 @@ def mpc_func(prob, horizon, particles, num_particles, action_dim, nb_actions, us
 
         # Update state and accumulate cost
         sim_states = next_states
-        if prob == "PandaReacher" or prob == "MuJoCoReacher" or prob == "PandaPusher" or prob == "MuJoCoPusher":
-            costs += compute_cost(prob, next_states, h, horizon, actions, goal_state)
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
+            costs += prob_vars.compute_cost(prob_vars.prob, next_states, h, horizon, actions, prob_vars.goal_state)
             # print("costs ", costs, "\n")
             # print("next_states ", next_states, "\n")
             
         else:
-            costs += compute_cost(prob, next_states, h, horizon, actions) # h, horizon,
+            costs += prob_vars.compute_cost(prob_vars.prob, next_states, h, horizon, actions) # h, horizon,
         # trajectory_costs = compute_cost(next_states, h, horizon, actions)
 
-
+    return costs
 

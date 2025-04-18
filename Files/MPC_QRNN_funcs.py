@@ -5,7 +5,7 @@ import random
 from models import quantile_loss, train_ActionSequenceNN
 
 
-def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_reps_MPC, nb_top_particles, nb_random, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state):
+def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN):
     
     episode_reward_list_withASGNN = []
     episode_success_rate_withASGNN = [] # For Panda Gym envs
@@ -24,22 +24,22 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
     #     states_low = torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
     #     states_high = torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
 
-    for episode in range(max_episodes):
+    for episode in range(prob_vars.max_episodes):
         state, _ = env.reset(seed=seed)
         episode_reward = 0
         # is_success_bool = False # For Panda Gym envs
         done = False
         actions_list = []
-        if prob == "Pendulum":
+        if prob_vars.prob == "Pendulum":
             state = env.state.copy()
-        if prob == "PandaReacher" or prob == "PandaPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
             goal_state = state['desired_goal'] # 3 components for Reach and for Push
             state = state['observation'] #[:3] # 6 components for Reach, 18 components for Push
             # print("goal_state ", goal_state, "\n")
-        if prob == "MuJoCoReacher":
+        if prob_vars.prob == "MuJoCoReacher":
             goal_state = np.array([state[4], state[5]])
             state = np.array([state[0], state[1], state[2], state[3], state[6], state[7], state[8], state[9]])
-        if prob == "MuJoCoPusher":
+        if prob_vars.prob == "MuJoCoPusher":
             goal_state = np.array([state[20], state[21], state[22]])
         
         costs = []
@@ -64,19 +64,19 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
         
         # if episode == 0:
         if episode <= 0: #10:
-            if prob == "CartPole":
-                particles = np.random.randint(0, 2, (num_particles, horizon))
-            elif prob == "Acrobot" or prob == "MountainCar":
-                particles = np.random.randint(0, 3, (num_particles, horizon))
-            elif prob == "LunarLander":
-                particles = np.random.randint(0, 4, (num_particles, horizon))
-            elif prob == "PandaReacher" or prob == "MuJoCoReacher" or prob == "PandaPusher" or prob == "MuJoCoPusher" or prob == "LunarLanderContinuous":
-                particles = np.random.uniform(action_low, action_high, (num_particles, action_dim*horizon))
+            if prob_vars.prob == "CartPole":
+                particles = np.random.randint(0, 2, (prob_vars.num_particles, prob_vars.horizon))
+            elif prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar":
+                particles = np.random.randint(0, 3, (prob_vars.num_particles, prob_vars.horizon))
+            elif prob_vars.prob == "LunarLander":
+                particles = np.random.randint(0, 4, (prob_vars.num_particles, prob_vars.horizon))
+            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+                particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.action_dim*prob_vars.horizon))
             else: # Pendulum, MountainCarContinuous, Pendulum_xyomega
-                particles = np.random.uniform(action_low, action_high, (num_particles, horizon))
+                particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.horizon))
         
         else: # New episode action sequences using neural network
-            if prob == "CartPole" or prob == "Acrobot" or prob == "MountainCar" or prob == "LunarLander": # Discrete actions
+            if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander": # Discrete actions
                 action_probs = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))[0]
                 
                 # print("actions_probs.detach().numpy( ", action_probs.detach().numpy(), "\n")
@@ -84,18 +84,18 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
                 # print("np.random.multinomial(num_particles, action_probs.detach().numpy(), size=num_particles) ", np.random.multinomial(num_particles, action_probs.detach().numpy(), size=num_particles), "\n")
                 # particles[:, 0] = np.random.multinomial(num_particles, action_probs.detach().numpy(), size=num_particles)
                 
-                particles[:, 0] = np.random.choice(nb_actions, num_particles, p=action_probs.detach().numpy())
+                particles[:, 0] = np.random.choice(prob_vars.nb_actions, prob_vars.num_particles, p=action_probs.detach().numpy())
                 
                 # for loop_iter in range(num_particles):
                 #     particles[loop_iter, 0] = np.random.normal(action_mu.detach().numpy(), action_sigma.detach().numpy())
                 
                 # for j in range(horizon):
-                for j in range(1, horizon):
+                for j in range(1, prob_vars.horizon):
                     sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                     actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
                     
-                    sim_states = torch.clip(sim_states, states_low, states_high)
-                    actions = torch.clip(actions, action_low, action_high)
+                    sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+                    actions = torch.clip(actions, prob_vars.action_low, prob_vars.action_high)
 
                     # Predict next states using the quantile model_QRNN
                     predicted_quantiles = model_QRNN(sim_states, actions)
@@ -106,19 +106,19 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
                         # '''
                         ############# Need to add the sorta quantile ponderated sum here #############
                         # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
-                        chosen_quantiles = torch.rand(num_particles, state_dim)
+                        chosen_quantiles = torch.rand(prob_vars.num_particles, prob_vars.state_dim)
                         # https://pytorch.org/docs/main/generated/torch.rand.html
                         bottom_int_indices = torch.floor(chosen_quantiles*10).to(torch.int) # .astype(int)
                         top_int_indices = bottom_int_indices+1
                         top_int_indices[top_int_indices == 11] = 10
                         
                         # Expand batch dimension to match indexing (assuming batch_size = 1)
-                        batch_indices = torch.zeros((num_particles, state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
+                        batch_indices = torch.zeros((prob_vars.num_particles, prob_vars.state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
                         
                         # pred_bottom_quantiles = predicted_quantiles[:, bottom_int_indices, :]
                         # pred_top_quantiles = predicted_quantiles[:, top_int_indices, :]
-                        pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(state_dim)]
-                        pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(state_dim)]
+                        pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(prob_vars.state_dim)]
+                        pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(prob_vars.state_dim)]
                         
                         # print("chosen_quantiles.shape ", chosen_quantiles.shape, "\n")
                         # print("bottom_int_indices.shape ", bottom_int_indices.shape, "\n")
@@ -152,9 +152,9 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
                     
                     # particles[loop_iter, j] = np.random.choice(nb_actions, num_particles, p=action_probs[loop_iter].detach().numpy())
 
-                    for loop_iter in range(num_particles):
+                    for loop_iter in range(prob_vars.num_particles):
                         # print("np.random.choice(nb_actions, num_particles, p=action_probs[loop_iter].detach().numpy()) ", np.random.choice(nb_actions, 1, p=action_probs[loop_iter].detach().numpy()), "\n")
-                        particles[loop_iter, j] = np.random.choice(nb_actions, 1, p=action_probs[loop_iter].detach().numpy())
+                        particles[loop_iter, j] = np.random.choice(prob_vars.nb_actions, 1, p=action_probs[loop_iter].detach().numpy())
         
                 
                 # particles = np.random.randint(0, 2, (num_particles, horizon))
@@ -332,12 +332,12 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
         # particles[0] = np.array([-1.982811505902002, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, -1.0812550657808897, 2.0, 2.0, 2.0, 0.6938272212396055, 2.0])
         
         # for step in tqdm(range(max_steps)):
-        for step in range(max_steps):
+        for step in range(prob_vars.max_steps):
             # Get the current state
             # """ Need to change this!!!!!!!!!!!!!!!!! """
             # state = env.state
             # print("step ", step, "\n")
-            if prob == "Pendulum":
+            if prob_vars.prob == "Pendulum":
                 state = env.state.copy()
             
             # Choose the best action sequence
@@ -350,23 +350,23 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
             
             # print("state ", state, "\n")
             
-            particles = np.clip(particles, action_low, action_high)
+            particles = np.clip(particles, prob_vars.action_low, prob_vars.action_high)
             
-            best_particle, action, best_cost, particles = choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps_MPC, std, change_prob, nb_top_particles, nb_random, episode=episode, step=step, goal_state=goal_state)
+            best_particle, action, best_cost, particles = choose_action(prob_vars.prob, state, prob_vars.horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps_MPC, std, change_prob, nb_top_particles, nb_random, episode=episode, step=step, goal_state=goal_state)
             # best_particle, particles, cost = particle_filtering_cheating(particles, env, state, horizon, nb_reps=5, using_Env=usingEnv, episode=episode, step=step)
             
             costs.append(best_cost)
             
             # print("best_particle ", best_particle, "\n")
-            if prob == "Pendulum" or prob == "MountainCarContinuous" or prob == "Pendulum_xyomega":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
                 action = [best_particle[0]]
                 actions_list.append(list(action))
             
-            elif prob == "PanadaReacher" or prob == "MuJoCoReacher" or prob == "PandaPusher" or prob == "MuJoCoPusher" or prob == "LunarLanderContinuous":
-                action = best_particle[:action_dim]
+            elif prob_vars.prob == "PanadaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+                action = best_particle[:prob_vars.action_dim]
                 # actions_list.append(list(action))
             
-            elif prob == "CartPole" or prob == "Acrobot" or prob == "MountainCar" or prob == "LunarLander":
+            elif prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 action = int(action)
                 actions_list.append(action)
             
@@ -387,16 +387,16 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
             # Apply the first action from the optimized sequence
             # next_state, reward, done, terminated, info = env.step(action)
             # episode_reward += reward
-            if prob == "Pendulum":
+            if prob_vars.prob == "Pendulum":
                 # state = env.state.copy()
                 next_state = env.state.copy()
 
-            if prob == "PandaReacher" or prob == "PandaPusher":
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
                 goal_state = next_state['desired_goal'] # 3 components
                 next_state = next_state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
                 # is_success_bool = info['is_success']
                 
-            if prob == "MuJoCoReacher":
+            if prob_vars.prob == "MuJoCoReacher":
                 next_state = np.array([next_state[0], next_state[1], next_state[2], next_state[3], next_state[6], next_state[7], next_state[8], next_state[9]])
             
             # print("state ", state, "next_state ", next_state, "\n")
@@ -413,7 +413,7 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
             #     replay_buffer_QRNN.append((state, action, reward, next_state, done))
             # else:
             #     replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
-            if prob == "CartPole" or prob == "Acrobot" or prob == "MountainCar" or prob == "LunarLander":
+            if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
                 replay_buffer_ASN.push(state, goal_state, np.array([action]))
             else:
@@ -423,12 +423,12 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
             if len (replay_buffer_ASN) < 32:
                 pass
             else:
-                loss = train_ActionSequenceNN(model_ASN, replay_buffer_ASN, batch_size, optimizer_ASN, num_epochs=1)
+                loss = train_ActionSequenceNN(model_ASN, replay_buffer_ASN, prob_vars.batch_size, optimizer_ASN, num_epochs=1)
             
-            if len(replay_buffer_QRNN) < batch_size:
+            if len(replay_buffer_QRNN) < prob_vars.batch_size:
                 pass
             else:
-                batch = random.sample(replay_buffer_QRNN, batch_size)
+                batch = random.sample(replay_buffer_QRNN, prob_vars.batch_size)
                 states, actions_train, rewards, next_states, dones = zip(*batch)
                 # print("batch states ", states, "\n")
                 states = torch.tensor(states, dtype=torch.float32)
@@ -441,8 +441,8 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
                 # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
                 #     # Clip states to ensure they are within the valid range
                 #     # before inputting them to the model (sorta like normalization)
-                states = torch.clip(states, states_low, states_high)
-                actions_tensor = torch.clip(actions_tensor, action_low, action_high)
+                states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
+                actions_tensor = torch.clip(actions_tensor, prob_vars.action_low, prob_vars.action_high)
                 
                 # Predict next state quantiles
                 predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
@@ -454,18 +454,18 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
                 # target_quantiles = next_states.unsqueeze(-1).repeat(1, 1, num_quantiles)
 
                 # Compute Quantile Huber Loss
-                loss = quantile_loss(predicted_quantiles, target_quantiles, quantiles)
+                loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
 
                 
                 # Compute Quantile Huber Loss
-                loss = quantile_loss(predicted_quantiles, target_quantiles, quantiles)
+                loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
                 
                 # Optimize the model_QRNN
                 optimizer_QRNN.zero_grad()
                 loss.backward()
                 optimizer_QRNN.step()
             
-            if prob == "MuJoCoReacher":
+            if prob_vars.prob == "MuJoCoReacher":
                 if np.sqrt(next_state[-2]**2+next_state[-1]**2) < 0.05:
                     # print("Reached target position \n")
                     done = True
@@ -478,7 +478,7 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
             state = next_state
             
             # Shift all particles to the left by removing the first element
-            particles[:, :-action_dim] = particles[:, action_dim:]
+            particles[:, :-prob_vars.action_dim] = particles[:, prob_vars.action_dim:]
             # The last column will be determined in MPC
             
             # if prob == "CartPole" or prob == "Acrobot":
@@ -519,34 +519,34 @@ def start_QRNN_MPC_wASGNN(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, 
         # if prob == "MuJoCoReacher":
         #     print("np.linalg.norm(goal_state-state)=np.sqrt(next_state[-2]**2+next_state[-1]**2) ", np.sqrt(next_state[-2]**2+next_state[-1]**2), "\n")
 
-    if use_sampling:
-        # Assuming `agent` is your RL model and `optimizer` is the optimizer
-        torch.save({
-            'model_state_dict': model_QRNN.state_dict(),
-            'optimizer_state_dict': optimizer_QRNN.state_dict(),
-        }, f"model_QRNN_{prob}_sampling_{change_prob}.pth")
-        torch.save({
-            'model_state_dict': model_ASN.state_dict(),
-            'optimizer_state_dict': optimizer_ASN.state_dict(),
-        }, "model_ASN_{prob}_mid_{change_prob}.pth")
-    if use_mid:
-        torch.save({
-            'model_state_dict': model_QRNN.state_dict(),
-            'optimizer_state_dict': optimizer_QRNN.state_dict(),
-        }, f"model_QRNN_{prob}_mid_{change_prob}.pth")
-        torch.save({
-            'model_state_dict': model_ASN.state_dict(),
-            'optimizer_state_dict': optimizer_ASN.state_dict(),
-        }, "model_ASN_{prob}_mid_{change_prob}.pth")
+    # if use_sampling:
+    #     # Assuming `agent` is your RL model and `optimizer` is the optimizer
+    #     torch.save({
+    #         'model_state_dict': model_QRNN.state_dict(),
+    #         'optimizer_state_dict': optimizer_QRNN.state_dict(),
+    #     }, f"model_QRNN_{prob}_sampling_{change_prob}.pth")
+    #     torch.save({
+    #         'model_state_dict': model_ASN.state_dict(),
+    #         'optimizer_state_dict': optimizer_ASN.state_dict(),
+    #     }, "model_ASN_{prob}_mid_{change_prob}.pth")
+    # if use_mid:
+    #     torch.save({
+    #         'model_state_dict': model_QRNN.state_dict(),
+    #         'optimizer_state_dict': optimizer_QRNN.state_dict(),
+    #     }, f"model_QRNN_{prob}_mid_{change_prob}.pth")
+    #     torch.save({
+    #         'model_state_dict': model_ASN.state_dict(),
+    #         'optimizer_state_dict': optimizer_ASN.state_dict(),
+    #     }, "model_ASN_{prob}_mid_{change_prob}.pth")
 
-    if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         return episode_reward_list_withASGNN, episode_success_rate_withASGNN
     else:
         return episode_reward_list_withASGNN
 
 
 
-def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_top_particles, nb_random, nb_reps_MPC, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state):
+def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN):
 
     episode_reward_list = []
     episode_success_rate = [] # For Panda Gym envs
@@ -565,20 +565,20 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
     # print("env ", env, "\n")
 
     # for episode in range(tqdm(max_episodes)):
-    for episode in range(max_episodes):
+    for episode in range(prob_vars.max_episodes):
         state, _ = env.reset(seed=seed)
         episode_reward = 0
         done = False
         actions_list = []
-        if prob == "Pendulum":
+        if prob_vars.prob == "Pendulum":
             state = env.state.copy()
-        if prob == "PandaReacher" or prob == "PandaPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
             goal_state = state['desired_goal'] # 3 components
             state = state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
-        if prob == "MuJoCoReacher":
+        if prob_vars.prob == "MuJoCoReacher":
             goal_state = np.array([state[4], state[5]])
             state = np.array([state[0], state[1], state[2], state[3], state[6], state[7], state[8], state[9]])
-        if prob == "MuJoCoPusher":
+        if prob_vars.prob == "MuJoCoPusher":
             goal_state = np.array([state[20], state[21], state[22]])
             
         
@@ -601,27 +601,27 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
         
         # particles = [np.random.uniform(-2, 2, horizon) for _ in range(num_particles)] # 2*horizon_list[0]
         
-        if prob == "CartPole":
-            particles = np.random.randint(0, 2, (num_particles, horizon))
-        elif prob == "Acrobot" or prob == "MountainCar": 
-            particles = np.random.randint(0, 3, (num_particles, horizon))
-        elif prob == "LunarLander":
-            particles = np.random.randint(0, 4, (num_particles, horizon))
-        elif prob == "PandaReacher" or prob == "MuJoCoReacher" or prob == "PandaPusher" or prob == "MuJoCoPusher" or prob == "LunarLanderContinuous":
-            particles = np.random.uniform(action_low, action_high, (num_particles, action_dim*horizon))
+        if prob_vars.prob == "CartPole":
+            particles = np.random.randint(0, 2, (prob_vars.num_particles, prob_vars.horizon))
+        elif prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar": 
+            particles = np.random.randint(0, 3, (prob_vars.num_particles, prob_vars.horizon))
+        elif prob_vars.prob == "LunarLander":
+            particles = np.random.randint(0, 4, (prob_vars.num_particles, prob_vars.horizon))
+        elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.action_dim*prob_vars.horizon))
         else: # Pendulum, MountainCarContinuous
-            particles = np.random.uniform(action_low, action_high, (num_particles, horizon))
+            particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.horizon))
         
         # particles = np.zeros((num_particles, horizon))
         # particles[0] = np.array([-1.982811505902002, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, -1.0812550657808897, 2.0, 2.0, 2.0, 0.6938272212396055, 2.0])
         
         # for step in range(tqdm(max_steps)):
-        for step in range(max_steps):
+        for step in range(prob_vars.max_steps):
             # Get the current state
             # """ Need to change this!!!!!!!!!!!!!!!!! """
             # state = env.state
             # print("step ", step, "\n")
-            if prob == "Pendulum":
+            if prob_vars.prob == "Pendulum":
                 state = env.state.copy()
             
             # Choose the best action sequence
@@ -637,22 +637,22 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
             # print("len(particles) ", len(particles), "\n")
             
             if do_RS or do_QRNN_step_rnd:
-                if prob == "CartPole":
-                    particles = np.random.randint(0, 2, (num_particles, horizon))
-                elif prob == "Acrobot" or prob == "MountainCar":
-                    particles = np.random.randint(0, 3, (num_particles, horizon))
-                elif prob == "LunarLander":
-                    particles = np.random.randint(0, 4, (num_particles, horizon))
-                elif prob == "PandaReacher" or prob == "MuJoCoReacher" or prob == "PandaPusher" or prob == "MuJoCoPusher" or prob == "LunarLanderContinuous":
-                    particles = np.random.uniform(action_low, action_high, (num_particles, action_dim*horizon))
+                if prob_vars.prob == "CartPole":
+                    particles = np.random.randint(0, 2, (prob_vars.num_particles, prob_vars.horizon))
+                elif prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar":
+                    particles = np.random.randint(0, 3, (prob_vars.num_particles, prob_vars.horizon))
+                elif prob_vars.prob == "LunarLander":
+                    particles = np.random.randint(0, 4, (prob_vars.num_particles, prob_vars.horizon))
+                elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+                    particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.action_dim*prob_vars.horizon))
                 else: # Pendulum, MountainCarContinuous
-                    particles = np.random.uniform(action_low, action_high, (num_particles, horizon))
+                    particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.horizon))
             # best_particle, action, best_cost, particles = choose_action(prob, state, do_RS, use_sampling, use_mid, use_ASGNN, horizon, particles, model_QRNN, action_low, action_high, nb_reps_MPC, std, change_prob, nb_top_particles, nb_random, episode=episode, step=step, goal_state=goal_state)
             ##
 
-            particles = np.clip(particles, action_low, action_high)
+            particles = np.clip(particles, prob_vars.action_low, prob_vars.action_high)
 
-            best_particle, action, best_cost, particles = choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps_MPC, std, change_prob, nb_top_particles, nb_random, episode=episode, step=step, goal_state=goal_state)
+            best_particle, action, best_cost, particles = choose_action(prob_vars.prob, state, horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps_MPC, std, change_prob, nb_top_particles, nb_random, episode=episode, step=step, goal_state=goal_state)
             
             # best_particle, particles, cost = particle_filtering_cheating(particles, env, state, horizon, nb_reps=5, using_Env=usingEnv, episode=episode, step=step)
             
@@ -666,14 +666,14 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
             
             costs.append(best_cost)
             
-            if prob == "Pendulum" or prob == "MountainCarContinuous" or prob == "Pendulum_xyomega":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
                 action = [best_particle[0]]
                 # print("action ", action, "\n")
             
-            elif prob == "PanadaReacher" or prob == "MuJoCoReacher" or prob == "PandaPusher" or prob == "MuJoCoPusher" or prob == "LunarLanderContinuous":
-                action = best_particle[:action_dim]
+            elif prob_vars.prob == "PanadaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+                action = best_particle[:prob_vars.action_dim]
             
-            elif prob == "CartPole" or prob == "Acrobot" or prob == "MountainCar" or prob == "LunarLander":
+            elif prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 action = int(action)
             
             # if prob == "CartPole" or prob == "Acrobot":
@@ -688,13 +688,13 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
             # Apply the first action from the optimized sequence
             # next_state, reward, done, terminated, info = env.step(action)
             # episode_reward += reward
-            if prob == "Pendulum":
+            if prob_vars.prob == "Pendulum":
                 # state = env.state.copy()
                 next_state = env.state.copy()
-            if prob == "PandaReacher" or prob == "PandaPusher":
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
                 goal_state = next_state['desired_goal'] # 3 components
                 next_state = next_state['observation']#[:3] # 6 components
-            if prob == "MuJoCoReacher":
+            if prob_vars.prob == "MuJoCoReacher":
                 next_state = np.array([next_state[0], next_state[1], next_state[2], next_state[3], next_state[6], next_state[7], next_state[8], next_state[9]])
                 
             # print("state ", state, "next_state ", next_state, "\n")
@@ -711,16 +711,16 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
             #     replay_buffer.append((state, action, reward, next_state, done))
             # else:
             #     replay_buffer.append((state, np.array([action]), reward, next_state, terminated))
-            if prob == "CartPole" or prob == "Acrobot" or prob == "MountainCar" or prob == "LunarLander":
+            if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, truncated))
             else:
                 replay_buffer_QRNN.append((state, action, reward, next_state, truncated))
             
                 
-            if len(replay_buffer_QRNN) < batch_size:
+            if len(replay_buffer_QRNN) < prob_vars.batch_size:
                 pass
             else:
-                batch = random.sample(replay_buffer_QRNN, batch_size)
+                batch = random.sample(replay_buffer_QRNN, prob_vars.batch_size)
                 states, actions_train, rewards, next_states, dones = zip(*batch)
                 # print("batch states ", states, "\n")
                 states = torch.tensor(states, dtype=torch.float32)
@@ -733,8 +733,8 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
                 # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
                 #     # Clip states to ensure they are within the valid range
                 #     # before inputting them to the model (sorta like normalization)
-                states = torch.clip(states, states_low, states_high)
-                actions_tensor = torch.clip(actions_tensor, action_low, action_high)
+                states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
+                actions_tensor = torch.clip(actions_tensor, prob_vars.action_low, prob_vars.action_high)
                 
                 # Predict next state quantiles
                 predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
@@ -746,11 +746,10 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
                 # target_quantiles = next_states.unsqueeze(-1).repeat(1, 1, num_quantiles)
 
                 # Compute Quantile Huber Loss
-                loss = quantile_loss(predicted_quantiles, target_quantiles, quantiles)
-
+                loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
                 
-                # Compute Quantile Huber Loss
-                loss = quantile_loss(predicted_quantiles, target_quantiles, quantiles)
+                # # Compute Quantile Huber Loss
+                # loss = quantile_loss(predicted_quantiles, target_quantiles, quantiles)
                 
                 # Optimize the model
                 optimizer_QRNN.zero_grad()
@@ -817,7 +816,7 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
                     
                     # Add the new values to the last position
                     particles[:, -1:] = new_values
-            particles = np.clip(particles, action_low, action_high)
+            particles = np.clip(particles, prob_vars.action_low, prob_vars.action_high)
             
             # if step == 0:
             #     # print("len(init_particles) ", len(init_particles), "\n")
@@ -859,47 +858,47 @@ def start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, mode
         # if prob == "MuJoCoReacher":
         #     print("np.linalg.norm(goal_state-state)=np.sqrt(next_state[-2]**2+next_state[-1]**2) ", np.sqrt(next_state[-2]**2+next_state[-1]**2), "\n")
 
-    if use_sampling:
-        if do_RS:
-            # Assuming `agent` is your RL model and `optimizer` is the optimizer
-            torch.save({
-                'model_state_dict': model_QRNN.state_dict(),
-                'optimizer_state_dict': optimizer_QRNN.state_dict(),
-            }, f"RS_{prob}_sampling_{change_prob}.pth")
-        elif do_QRNN_step_rnd:
-            # Assuming `agent` is your RL model and `optimizer` is the optimizer
-            torch.save({
-                'model_state_dict': model_QRNN.state_dict(),
-                'optimizer_state_dict': optimizer_QRNN.state_dict(),
-            }, f"QRNN_step_rnd_{prob}_sampling_{change_prob}.pth")
-        else:
-            # Assuming `agent` is your RL model and `optimizer` is the optimizer
-            torch.save({
-                'model_state_dict': model_QRNN.state_dict(),
-                'optimizer_state_dict': optimizer_QRNN.state_dict(),
-            }, f"QRNN_basic_{prob}_sampling_{change_prob}.pth")
-    if use_mid:
-        if do_RS:
-            # Assuming `agent` is your RL model and `optimizer` is the optimizer
-            torch.save({
-                'model_state_dict': model_QRNN.state_dict(),
-                'optimizer_state_dict': optimizer_QRNN.state_dict(),
-            }, f"RS_{prob}_mid_{change_prob}.pth")
-        elif do_QRNN_step_rnd:
-            # Assuming `agent` is your RL model and `optimizer` is the optimizer
-            torch.save({
-                'model_state_dict': model_QRNN.state_dict(),
-                'optimizer_state_dict': optimizer_QRNN.state_dict(),
-            }, f"QRNN_step_rnd_{prob}_mid_{change_prob}.pth")
-        else:
-            # Assuming `agent` is your RL model and `optimizer` is the optimizer
-            torch.save({
-                'model_state_dict': model_QRNN.state_dict(),
-                'optimizer_state_dict': optimizer_QRNN.state_dict(),
-            }, f"QRNN_basic_{prob}_mid_{change_prob}.pth")
+    # if use_sampling:
+    #     if do_RS:
+    #         # Assuming `agent` is your RL model and `optimizer` is the optimizer
+    #         torch.save({
+    #             'model_state_dict': model_QRNN.state_dict(),
+    #             'optimizer_state_dict': optimizer_QRNN.state_dict(),
+    #         }, f"RS_{prob_vars.prob}_sampling_{prob_vars.change_prob}.pth")
+    #     elif do_QRNN_step_rnd:
+    #         # Assuming `agent` is your RL model and `optimizer` is the optimizer
+    #         torch.save({
+    #             'model_state_dict': model_QRNN.state_dict(),
+    #             'optimizer_state_dict': optimizer_QRNN.state_dict(),
+    #         }, f"QRNN_step_rnd_{prob_vars.prob}_sampling_{prob_vars.change_prob}.pth")
+    #     else:
+    #         # Assuming `agent` is your RL model and `optimizer` is the optimizer
+    #         torch.save({
+    #             'model_state_dict': model_QRNN.state_dict(),
+    #             'optimizer_state_dict': optimizer_QRNN.state_dict(),
+    #         }, f"QRNN_basic_{prob_vars.prob}_sampling_{prob_vars.change_prob}.pth")
+    # if use_mid:
+    #     if do_RS:
+    #         # Assuming `agent` is your RL model and `optimizer` is the optimizer
+    #         torch.save({
+    #             'model_state_dict': model_QRNN.state_dict(),
+    #             'optimizer_state_dict': optimizer_QRNN.state_dict(),
+    #         }, f"RS_{prob_vars.prob}_mid_{prob_vars.change_prob}.pth")
+    #     elif do_QRNN_step_rnd:
+    #         # Assuming `agent` is your RL model and `optimizer` is the optimizer
+    #         torch.save({
+    #             'model_state_dict': model_QRNN.state_dict(),
+    #             'optimizer_state_dict': optimizer_QRNN.state_dict(),
+    #         }, f"QRNN_step_rnd_{prob_vars.prob}_mid_{prob_vars.change_prob}.pth")
+    #     else:
+    #         # Assuming `agent` is your RL model and `optimizer` is the optimizer
+    #         torch.save({
+    #             'model_state_dict': model_QRNN.state_dict(),
+    #             'optimizer_state_dict': optimizer_QRNN.state_dict(),
+    #         }, f"QRNN_basic_{prob_vars.prob}_mid_{prob_vars.change_prob}.pth")
 
     # return episode_reward_list
-    if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         return episode_reward_list, episode_success_rate
     else:
         return episode_reward_list

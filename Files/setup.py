@@ -1,4 +1,6 @@
 import numpy as np
+import torch
+import gymnasium as gym
 
 
 class setup_class:
@@ -21,36 +23,36 @@ class setup_class:
         self.nb_random = 0 # 10
 
         if prob == "CartPole":
-            discrete = True
-            horizon = 30
-            max_episodes = 100
-            max_steps = 200
-            std = None
-            change_prob = 0.01
+            self.discrete = True
+            self.horizon = 30
+            self.max_episodes = 100
+            self.max_steps = 200
+            self.std = None
+            self.change_prob = 0.01
             # change_prob = 0.05
             # change_prob = 0.1
             # change_prob = 0.3
             # change_prob = 0.5
             
-            nb_actions = 2
+            self.nb_actions = 2
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('CartPole-v0', render_mode="rgb_array").unwrapped # To save time since 200 instead of 500 steps per episode
+            self.env = gym.make('CartPole-v0', render_mode="rgb_array").unwrapped # To save time since 200 instead of 500 steps per episode
             
             # Hyperparameters
-            state_dim = env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
+            self.state_dim = self.env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
             # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
-            action_dim = 1
-            action_low = 0 #env.action_space.low[0]
-            action_high = 1 # env.action_space.high[0]
+            self.action_dim = 1
+            self.action_low = 0 #env.action_space.low[0]
+            self.action_high = 1 # env.action_space.high[0]
             
-            goal_state = torch.tensor([0, 0, 0, 0], dtype=torch.float32)
-            goal_state_dim = len(goal_state)
+            self.goal_state = torch.tensor([0, 0, 0, 0], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
 
-            states_low = torch.tensor([-4.8, -torch.inf, -0.41887903, -torch.inf])
-            states_high = torch.tensor([4.8, torch.inf, 0.41887903, torch.inf])
+            self.states_low = torch.tensor([-4.8, -torch.inf, -0.41887903, -torch.inf])
+            self.states_high = torch.tensor([4.8, torch.inf, 0.41887903, torch.inf])
             
             def compute_cost_CartPole(states, t, horizon, actions):
                 """
@@ -67,36 +69,36 @@ class setup_class:
 
 
         elif prob == "Acrobot":
-            discrete = True
-            horizon = 30
-            max_episodes = 300
-            max_steps = 200
-            std = None
-            change_prob = 0.01
-            # change_prob = 0.05
-            # change_prob = 0.1
-            # change_prob = 0.3
-            # change_prob = 0.5
+            self.discrete = True
+            self.horizon = 30
+            self.max_episodes = 300
+            self.max_steps = 200
+            self.std = None
+            self.change_prob = 0.01
+            # self.change_prob = 0.05
+            # self.change_prob = 0.1
+            # self.change_prob = 0.3
+            # self.change_prob = 0.5
             
-            nb_actions = 3
+            self.nb_actions = 3
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('Acrobot-v1', render_mode="rgb_array").unwrapped
+            self.env = gym.make('Acrobot-v1', render_mode="rgb_array").unwrapped
             
             # Hyperparameters
-            state_dim = env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
+            self.state_dim = self.env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
             # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
-            action_dim = 1
-            action_low = 0 #env.action_space.low[0]
-            action_high = 2 # env.action_space.high[0]
+            self.action_dim = 1
+            self.action_low = 0 #env.action_space.low[0]
+            self.action_high = 2 # env.action_space.high[0]
             
-            goal_state = torch.tensor([-1, 0, 1, 0, 0, 0], dtype=torch.float32)
-            goal_state_dim = len(goal_state)
+            self.goal_state = torch.tensor([-1, 0, 1, 0, 0, 0], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
 
-            states_low = torch.tensor([-1, -1, -1, -1, -12.566371, -28.274334])
-            states_high = torch.tensor([1, 1, 1, 1, 12.566371, 28.274334])
+            self.states_low = torch.tensor([-1, -1, -1, -1, -12.566371, -28.274334])
+            self.states_high = torch.tensor([1, 1, 1, 1, 12.566371, 28.274334])
             
             def compute_cost_Acrobot(states, t, horizon, actions):
                 """
@@ -117,48 +119,48 @@ class setup_class:
                 return cost
             
         elif prob == "LunarLander": # ToDo
-            discrete = True
-            horizon = 30
-            max_episodes = 400
+            self.discrete = True
+            self.horizon = 30
+            self.max_episodes = 400
             # max_steps = 200 # No defined max episode length
-            max_steps = 1000
-            std = None
-            change_prob = 0.01
-            # change_prob = 0.05
-            # change_prob = 0.1
-            # change_prob = 0.3
-            # change_prob = 0.5
+            self.max_steps = 1000
+            self.std = None
+            self.change_prob = 0.01
+            # self.change_prob = 0.05
+            # self.change_prob = 0.1
+            # self.change_prob = 0.3
+            # self.change_prob = 0.5
 
-            if change_prob == 0.01:
-                std_string = "001"
-            elif change_prob == 0.05:
-                std_string = "005"
-            elif change_prob == 0.1:
-                std_string = "01"
-            elif change_prob == 0.3:
-                std_string = "03"
-            elif change_prob == 0.5:
-                std_string = "05"
+            if self.change_prob == 0.01:
+                self.std_string = "001"
+            elif self.change_prob == 0.05:
+                self.std_string = "005"
+            elif self.change_prob == 0.1:
+                self.std_string = "01"
+            elif self.change_prob == 0.3:
+                self.std_string = "03"
+            elif self.change_prob == 0.5:
+                self.std_string = "05"
 
-            nb_actions = 3
+            self.nb_actions = 3
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('LunarLander-v3', continuous=False, render_mode="rgb_array").unwrapped
+            self.env = gym.make('LunarLander-v3', continuous=False, render_mode="rgb_array").unwrapped
             
             # Hyperparameters
-            state_dim = env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
+            self.state_dim = self.env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
             # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
-            action_dim = 1
-            action_low = 0 #env.action_space.low[0]
-            action_high = 2 # env.action_space.high[0]
+            self.action_dim = 1
+            self.action_low = 0 #env.action_space.low[0]
+            self.action_high = 2 # env.action_space.high[0]
             
-            goal_state = torch.tensor([0, 0, 0, 0, 0, 0, 1, 1], dtype=torch.float32)
-            goal_state_dim = len(goal_state)
+            self.goal_state = torch.tensor([0, 0, 0, 0, 0, 0, 1, 1], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
 
-            states_low = torch.tensor([-2.5, -2.5, -10, -10, -6.2831855, -10, 0, 0])
-            states_high = torch.tensor([2.5, 2.5, 10, 10, 6.2831855, 10, 1, 1])
+            self.states_low = torch.tensor([-2.5, -2.5, -10, -10, -6.2831855, -10, 0, 0])
+            self.states_high = torch.tensor([2.5, 2.5, 10, 10, 6.2831855, 10, 1, 1])
             
             def compute_cost_LunarLander(states, t, horizon, actions):
                 """
@@ -180,39 +182,39 @@ class setup_class:
                 return cost
 
         elif prob == "MountainCar": # ToDo
-            discrete = True
-            horizon = 70
+            self.discrete = True
+            self.horizon = 70
             # horizon = 100
             # max_episodes = 100
-            max_episodes = 400
-            max_steps = 200
-            std = None
+            self.max_episodes = 400
+            self.max_steps = 200
+            self.std = None
             # change_prob = 0.01
             # change_prob = 0.05
-            change_prob = 0.1
-            # change_prob = 0.3
-            # change_prob = 0.5
+            self.change_prob = 0.1
+            # self.change_prob = 0.3
+            # self.change_prob = 0.5
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
 
-            nb_actions = 3
+            self.nb_actions = 3
             
-            env = gym.make('MountainCar-v0', render_mode="rgb_array").unwrapped
+            self.env = gym.make('MountainCar-v0', render_mode="rgb_array").unwrapped
             
             # Hyperparameters
-            state_dim = env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
+            self.state_dim = self.env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
             # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
-            action_dim = 1
-            action_low = 0
-            action_high = 3
+            self.action_dim = 1
+            self.action_low = 0
+            self.action_high = 3
             
             # goal_state = torch.tensor([0, 0, 0, 0], dtype=torch.float32)
-            goal_state = torch.tensor([0.5], dtype=torch.float32)
-            goal_state_dim = len(goal_state)
+            self.goal_state = torch.tensor([0.5], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
 
-            states_low = torch.tensor([-1.2, -0.07])
-            states_high = torch.tensor([0.6, 0.07])
+            self.states_low = torch.tensor([-1.2, -0.07])
+            self.states_high = torch.tensor([0.6, 0.07])
             
             def compute_cost_MountainCar(states, t, horizon, actions):
                 goal_position = 0.5  # Position goal in Mountain Car
@@ -226,45 +228,45 @@ class setup_class:
                 return reverse_discount_factor*distance_reward 
 
         elif prob == "Pendulum_xyomega":
-            discrete = False
-            horizon = 15
-            max_episodes = 300
-            max_steps = 200
+            self.discrete = False
+            self.horizon = 15
+            self.max_episodes = 300
+            self.max_steps = 200
 
             # Current test values
-            std = 0
-            # std = 3e-1
-            # std = 1.5
+            self.std = 0
+            # self.std = 3e-1
+            # self.std = 1.5
 
             # Older test values
             # std = 1e-1
             # std = 3e-1
             # std = 1
             # std = 1.5
-            change_prob = None
+            self.change_prob = None
 
-            std_string = "0"
+            self.std_string = "0"
             # std_string = "3em1"
             # std_string = "15"
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('Pendulum-v1', render_mode="rgb_array").unwrapped
+            self.env = gym.make('Pendulum-v1', render_mode="rgb_array").unwrapped
             
             # Hyperparameters
-            state_dim = env.observation_space.shape[0]
+            self.state_dim = self.env.observation_space.shape[0]
             # state_dim = env.observation_space.shape[0]-1 # Since we only care about angle and omega which are given using env.state
             # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
-            action_dim = 1
-            action_low = env.action_space.low[0]
-            action_high = env.action_space.high[0]
+            self.action_dim = 1
+            self.action_low = self.env.action_space.low[0]
+            self.action_high = self.env.action_space.high[0]
             
-            goal_state = torch.tensor([0, 0], dtype=torch.float32)
-            goal_state_dim = len(goal_state)
+            self.goal_state = torch.tensor([0, 0], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
 
-            states_low = torch.tensor([-1, -1, -8])
-            states_high = torch.tensor([1, 1, 8])
+            self.states_low = torch.tensor([-1, -1, -8])
+            self.states_high = torch.tensor([1, 1, 8])
             
             def angle_normalize(x):
                 return ((x + np.pi) % (2 * np.pi)) - np.pi
@@ -312,42 +314,42 @@ class setup_class:
                 return cost * reverse_discount_factor  # Shape: [num_particles]
 
         elif prob == "Pendulum":
-            discrete = False
-            horizon = 15
-            max_episodes = 300
-            max_steps = 200
+            self.discrete = False
+            self.horizon = 15
+            self.max_episodes = 300
+            self.max_steps = 200
 
             # Current test values
-            std = 0
-            # std = 3e-1
-            # std = 1.5
+            self.std = 0
+            # self.std = 3e-1
+            # self.std = 1.5
 
             # Older test values
             # std = 1e-1
             # std = 3e-1
             # std = 1
             # std = 1.5
-            change_prob = None
+            self.change_prob = None
 
-            std_string = "0"
+            self.std_string = "0"
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('Pendulum-v1', render_mode="rgb_array").unwrapped
+            self.env = gym.make('Pendulum-v1', render_mode="rgb_array").unwrapped
             
             # Hyperparameters
-            state_dim = env.observation_space.shape[0]-1 # Since we only care about angle and omega which are given using env.state
+            self.state_dim = self.env.observation_space.shape[0]-1 # Since we only care about angle and omega which are given using env.state
             # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
-            action_dim = 1
-            action_low = env.action_space.low[0]
-            action_high = env.action_space.high[0]
+            self.action_dim = 1
+            self.action_low = self.env.action_space.low[0]
+            self.action_high = self.env.action_space.high[0]
             
-            goal_state = torch.tensor([0, 0], dtype=torch.float32)
-            goal_state_dim = len(goal_state)
+            self.goal_state = torch.tensor([0, 0], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
 
-            states_low = torch.tensor([-torch.inf, -torch.inf, -8])
-            states_high = torch.tensor([torch.inf, torch.inf, 8])
+            self.states_low = torch.tensor([-torch.inf, -torch.inf, -8])
+            self.states_high = torch.tensor([torch.inf, torch.inf, 8])
             
             def angle_normalize(x):
                 return ((x + np.pi) % (2 * np.pi)) - np.pi
@@ -390,35 +392,35 @@ class setup_class:
                 return cost * reverse_discount_factor  # Shape: [num_particles]
             
         elif prob == "MountainCarContinuous":
-            discrete = False
-            horizon = 70
+            self.discrete = False
+            self.horizon = 70
             # horizon = 100
-            max_episodes = 100
-            max_steps = 300 # 999 # in reality
+            self.max_episodes = 100
+            self.max_steps = 300 # 999 # in reality
             # std = 1e-2
-            std = 1e-1
-            # std = 3e-1
-            # std = 6e-1
-            change_prob = None
+            self.std = 1e-1
+            # self.std = 3e-1
+            # self.std = 6e-1
+            self.change_prob = None
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('MountainCarContinuous-v0', render_mode="rgb_array").unwrapped
+            self.env = gym.make('MountainCarContinuous-v0', render_mode="rgb_array").unwrapped
             
             # Hyperparameters
-            state_dim = env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
+            self.state_dim = self.env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
             # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
-            action_dim = 1
-            action_low = env.action_space.low[0]
-            action_high = env.action_space.high[0]
+            self.action_dim = 1
+            self.action_low = self.env.action_space.low[0]
+            self.action_high = self.env.action_space.high[0]
             
             # goal_state = torch.tensor([0, 0, 0, 0], dtype=torch.float32)
-            goal_state = torch.tensor([0.45], dtype=torch.float32)
-            goal_state_dim = len(goal_state)
+            self.goal_state = torch.tensor([0.45], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
 
-            states_low = torch.tensor([-1.2, -0.07])
-            states_high = torch.tensor([0.6, 0.07])
+            self.states_low = torch.tensor([-1.2, -0.07])
+            self.states_high = torch.tensor([0.6, 0.07])
             
             def compute_cost_MountainCarContinuous(states, t, horizon, actions):
                 goal_position = 0.45  # Position goal in Mountain Car
@@ -432,33 +434,33 @@ class setup_class:
                 return reverse_discount_factor*distance_reward
 
         elif prob == "LunarLanderContinuous": # ToDo
-            discrete = False
-            horizon = 30
-            max_episodes = 300
-            max_steps = 200 # No defined max episode length
-            std = 1e-1
-            # std = 3e-1
-            # std = 1
-            # std = 1.5
-            change_prob = None
+            self.discrete = False
+            self.horizon = 30
+            self.max_episodes = 300
+            self.max_steps = 200 # No defined max episode length
+            self.std = 1e-1
+            # self.std = 3e-1
+            # self.std = 1
+            # self.std = 1.5
+            self.change_prob = None
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('LunarLander-v3', continuous=True, render_mode="rgb_array").unwrapped
+            self.env = gym.make('LunarLander-v3', continuous=True, render_mode="rgb_array").unwrapped
             
             # Hyperparameters
-            state_dim = env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
+            self.state_dim = self.env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
             # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
-            action_dim = 2
-            action_low = -1 #env.action_space.low[0]
-            action_high = 1 # env.action_space.high[0]
+            self.action_dim = 2
+            self.action_low = -1 #env.action_space.low[0]
+            self.action_high = 1 # env.action_space.high[0]
             
-            goal_state = torch.tensor([0, 0, 0, 0, 0, 0, 1, 1], dtype=torch.float32)
-            goal_state_dim = len(goal_state)
+            self.goal_state = torch.tensor([0, 0, 0, 0, 0, 0, 1, 1], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
 
-            states_low = torch.tensor([-2.5, -2.5, -10, -10, -6.2831855, -10, 0, 0])
-            states_high = torch.tensor([2.5, 2.5, 10, 10, 6.2831855, 10, 1, 1])
+            self.states_low = torch.tensor([-2.5, -2.5, -10, -10, -6.2831855, -10, 0, 0])
+            self.states_high = torch.tensor([2.5, 2.5, 10, 10, 6.2831855, 10, 1, 1])
             
             def compute_cost_LunarLanderContinuous(states, t, horizon, actions):
                 """
@@ -480,47 +482,47 @@ class setup_class:
                 return cost
 
         elif prob == "PandaReacher":
-            discrete = False
-            horizon = 15
-            max_episodes = 100
+            self.discrete = False
+            self.horizon = 15
+            self.max_episodes = 100
             # max_episodes = 400
-            max_steps = 50 
-            # std = 1e-1
-            # std = 3e-1
-            # std = 1
-            std = 1.5
-            change_prob = None
+            self.max_steps = 50 
+            # self.std = 1e-1
+            # self.std = 3e-1
+            # self.std = 1
+            self.std = 1.5
+            self.change_prob = None
 
-            if std == 1e-1:
-                std_string = "1em1"
-            elif std == 3e-1:
-                std_string = "3em1"
-            elif std == 1:
-                std_string = "1"
-            elif std == 1.5:
-                std_string = "15"
+            if self.std == 1e-1:
+                self.std_string = "1em1"
+            elif self.std == 3e-1:
+                self.std_string = "3em1"
+            elif self.std == 1:
+                self.std_string = "1"
+            elif self.std == 1.5:
+                self.std_string = "15"
             
-            goal_state = None # Defined when resetting the env
+            self.goal_state = None # Defined when resetting the env
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('PandaReach-v3', render_mode="rgb_array").unwrapped # Reward only when the end effector is at the goal position
+            self.env = gym.make('PandaReach-v3', render_mode="rgb_array").unwrapped # Reward only when the end effector is at the goal position
             # env = gym.make('PandaReachDense-v3', render_mode='human').unwrapped # Reward at each time step based on the distance to the goal position
             
             # Hyperparameters    
-            actions_low = env.action_space.low#[0] #[:3]
-            actions_high = env.action_space.high#[0] #[:3]
-            states_low = env.observation_space['observation'].low#[:3]
-            states_high = env.observation_space['observation'].high#[:3]
-            state_dim = len(states_low)
-            action_dim = len(actions_low)
-            action_low = actions_low[0]
-            action_high = actions_high[0]
-            goal_state_dim = 3 #len(states_low)
+            self.actions_low = self.env.action_space.low#[0] #[:3]
+            self.actions_high = self.env.action_space.high#[0] #[:3]
+            self.states_low = self.env.observation_space['observation'].low#[:3]
+            self.states_high = self.env.observation_space['observation'].high#[:3]
+            self.state_dim = len(self.states_low)
+            self.action_dim = len(self.actions_low)
+            self.action_low = self.actions_low[0]
+            self.action_high = self.actions_high[0]
+            self.goal_state_dim = 3 #len(states_low)
             
-            states_low = torch.tensor([-10, -10, -10, -10, -10, -10])
-            states_high = torch.tensor([10, 10, 10, 10, 10, 10])
+            self.states_low = torch.tensor([-10, -10, -10, -10, -10, -10])
+            self.states_high = torch.tensor([10, 10, 10, 10, 10, 10])
             
             def compute_cost_PandaReacher(states, t, horizon, actions, goal_state=None):
                 # print("states ", states, "\n")
@@ -536,39 +538,39 @@ class setup_class:
                 # torch.norm(states[:, :3]-torch.tensor(goal_state, dtype=torch.float32), dim=1)# +0.1*(torch.norm(actions))**2
 
         elif prob == "PandaPusher": # ToDo
-            discrete = False
-            horizon = 15
-            max_episodes = 100
-            max_steps = 50 
-            std = 1e-1
-            # std = 3e-1
-            # std = 1
-            # std = 1.5
-            change_prob = None
+            self.discrete = False
+            self.horizon = 15
+            self.max_episodes = 100
+            self.max_steps = 50 
+            self.std = 1e-1
+            # self.std = 3e-1
+            # self.std = 1
+            # self.std = 1.5
+            self.change_prob = None
             
-            std_string = "1em1"
+            self.std_string = "1em1"
             
-            goal_state = None # Defined when resetting the env
+            self.goal_state = None # Defined when resetting the env
             
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
             # env = gym.make("PandaPush-v3").unwrapped # Reward only when the end effector is at the goal position
-            env = gym.make('PandaPushDense-v3', render_mode="rgb_array").unwrapped # Reward at each time step based on the distance to the goal position
+            self.env = gym.make('PandaPushDense-v3', render_mode="rgb_array").unwrapped # Reward at each time step based on the distance to the goal position
             
             # Hyperparameters    
-            actions_low = env.action_space.low #[:3]
-            actions_high = env.action_space.high #[:3]
-            states_low = env.observation_space['observation'].low #[:3]
-            states_high = env.observation_space['observation'].high #[:3]
-            state_dim = len(states_low)
-            action_dim = len(actions_low)
-            action_low = actions_low[0]
-            action_high = actions_high[0]
-            goal_state_dim = 3 #len(states_low)
+            self.actions_low = self.env.action_space.low #[:3]
+            self.actions_high = self.env.action_space.high #[:3]
+            self.states_low = self.env.observation_space['observation'].low #[:3]
+            self.states_high = self.env.observation_space['observation'].high #[:3]
+            self.state_dim = len(self.states_low)
+            self.action_dim = len(self.actions_low)
+            self.action_low = self.actions_low[0]
+            self.action_high = self.actions_high[0]
+            self.goal_state_dim = 3 #len(states_low)
 
-            states_low = torch.tensor([-10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10])
-            states_high = torch.tensor([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])
+            self.states_low = torch.tensor([-10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10])
+            self.states_high = torch.tensor([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])
             
             def compute_cost_PandaPusher(states, t, horizon, actions, goal_state=None):
                 # print("goal_state ", goal_state, "\n")
@@ -589,48 +591,47 @@ class setup_class:
             
 
         elif prob == "MuJoCoReacher":
-            discrete = False
-            horizon = 15
-            max_episodes = 400
-            max_steps = 50 
-            std = 1e-1
-            # std = 3e-1
-            # std = 1
-            # std = 1.5
-            change_prob = None
+            self.discrete = False
+            self.horizon = 15
+            self.max_episodes = 400
+            self.max_steps = 50 
+            self.std = 1e-1
+            # self.std = 3e-1
+            # self.std = 1
+            # self.std = 1.5
+            self.change_prob = None
 
-            if std == 1e-1:
-                std_string = "1em1"
-            elif std == 3e-1:
-                std_string = "3em1"
-            elif std == 1:
-                std_string = "1"
-            elif std == 1.5:
-                std_string = "15"
+            if self.std == 1e-1:
+                self.std_string = "1em1"
+            elif self.std == 3e-1:
+                self.std_string = "3em1"
+            elif self.std == 1:
+                self.std_string = "1"
+            elif self.std == 1.5:
+                self.std_string = "15"
             
+            self.goal_state = None # Defined when resetting the env
             
-            goal_state = None # Defined when resetting the env
-            
-            nb_top_particles = 5
+            self.nb_top_particles = 5
             # nb_random = 10
             
-            env = gym.make('Reacher-v5', render_mode="rgb_array").unwrapped
+            self.env = gym.make('Reacher-v5', render_mode="rgb_array").unwrapped
             
             # Hyperparameters    
-            actions_low = env.action_space.low#[:3]
-            actions_high = env.action_space.high#[:3]
+            self.actions_low = self.env.action_space.low#[:3]
+            self.actions_high = self.env.action_space.high#[:3]
             # states_low = env.observation_space['observation'].low#[:3]
             # states_high = env.observation_space['observation'].high#[:3]
-            state_dim = 8
-            action_dim = len(actions_low)
+            self.state_dim = 8
+            self.action_dim = len(self.actions_low)
             
-            action_low = actions_low[0]
-            action_high = actions_high[0]
+            self.action_low = self.actions_low[0]
+            self.action_high = self.actions_high[0]
             
-            goal_state_dim = 2
+            self.goal_state_dim = 2
 
-            states_low = torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
-            states_high = torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
+            self.states_low = torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
+            self.states_high = torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
             
             def compute_cost_MuJoCoReacher(states, t, horizon, actions, goal_state=None):
                 # cost1 = torch.sqrt(states[0, -2]**2+states[0, -1]**2)+0.1*(torch.norm(actions[0]))**2
@@ -644,46 +645,46 @@ class setup_class:
 
 
         elif prob == "MuJoCoPusher": # ToDo 
-        discrete = False
-        horizon = 15
-        max_episodes = 100
-        max_steps = 50 
-        std = 1e-1
-        # std = 3e-1
-        # std = 1
-        # std = 1.5
-        change_prob = None
-        
-        goal_state = None # Defined when resetting the env
-        
-        nb_top_particles = 5
-        # nb_random = 10
-        
-        env = gym.make('Pusher-v5', render_mode="rgb_array").unwrapped
-        
-        # Hyperparameters    
-        actions_lows = env.action_space.low#[:3]
-        actions_highs = env.action_space.high#[:3]
-        states_low = env.observation_space['observation'].low#[:3]
-        states_high = env.observation_space['observation'].high#[:3]
-        state_dim = len(states_low)
-        action_dim = len(actions_lows)
-        
-        action_low = actions_lows[0]
-        action_high = actions_highs[0]
-        
-        goal_state_dim = 3
-
-        # TBD
-        states_low = None # torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
-        states_high = None # torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
-        
-        def compute_cost_MuJoCoPusher(states, t, horizon, actions, goal_state=None):
-            return torch.norm(states[:, 14:17]-states[:, 17:20], dim=1)+torch.norm(states[:, 17:20]-states[:, 20:], dim=1)
+            self.discrete = False
+            self.horizon = 15
+            self.max_episodes = 100
+            self.max_steps = 50 
+            self.std = 1e-1
+            # self.std = 3e-1
+            # self.std = 1
+            # self.std = 1.5
+            self.change_prob = None
             
-            # return torch.sqrt(states[:, -2]**2+states[:, -1]**2)+0.1*(torch.norm(actions))**2
-        
-        # torch.norm(states[:, :3]-torch.tensor(goal_state, dtype=torch.float32))
+            self.goal_state = None # Defined when resetting the env
+            
+            self.nb_top_particles = 5
+            # nb_random = 10
+            
+            self.env = gym.make('Pusher-v5', render_mode="rgb_array").unwrapped
+            
+            # Hyperparameters    
+            self.actions_lows = self.env.action_space.low#[:3]
+            self.actions_highs = self.env.action_space.high#[:3]
+            self.states_low = self.env.observation_space['observation'].low#[:3]
+            self.states_high = self.env.observation_space['observation'].high#[:3]
+            self.state_dim = len(self.states_low)
+            self.action_dim = len(self.actions_lows)
+            
+            self.action_low = self.actions_lows[0]
+            self.action_high = self.actions_highs[0]
+            
+            self.goal_state_dim = 3
+
+            # TBD
+            self.states_low = None # torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
+            self.states_high = None # torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
+            
+            def compute_cost_MuJoCoPusher(states, t, horizon, actions, goal_state=None):
+                return torch.norm(states[:, 14:17]-states[:, 17:20], dim=1)+torch.norm(states[:, 17:20]-states[:, 20:], dim=1)
+                
+                # return torch.sqrt(states[:, -2]**2+states[:, -1]**2)+0.1*(torch.norm(actions))**2
+            
+            # torch.norm(states[:, :3]-torch.tensor(goal_state, dtype=torch.float32))
 
     def compute_cost(self, prob, states, t, horizon, actions, goal_state=None):
         if prob == "CartPole":

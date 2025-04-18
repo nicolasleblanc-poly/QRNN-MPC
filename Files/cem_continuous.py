@@ -6,12 +6,14 @@ from evotorch.algorithms import CEM
 from evotorch.logging import StdOutLogger
 import torch
 import numpy as np
+import random
 
 import logging
 
 logging.getLogger("evotorch").disabled = True
 logging.getLogger("evotorch").setLevel(logging.ERROR)  # or logging.CRITICAL
 
+from models import quantile_loss, quantile_loss_median, mse_loss
 
 # Ideas and code taken from: https://docs.evotorch.ai/v0.1.1/examples/notebooks/reacher_mpc/#definitions
 
@@ -156,7 +158,7 @@ def do_planning_cem(prob, state_dim, action_dim, horizon, state, action_low, act
     searcher.run(20)  # run for this many generations
     return searcher.status["best"].values[:action_dim].clone().numpy()
 
-def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid, horizon, max_episodes, max_steps, seed, env, state_dim, action_dim, action_low, action_high, states_low, states_high, goal_state):
+def start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid):
     
     episode_reward_list = []
     episode_success_rate = [] # For Panda Gym envs
@@ -171,22 +173,22 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
     #     states_low = torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
     #     states_high = torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
 
-    for episode in range(max_episodes):
+    for episode in range(prob_vars.max_episodes):
         state, _ = env.reset(seed=seed)
         episode_reward = 0
         # is_success_bool = False # For Panda Gym envs
         done = False
         actions_list = []
-        if prob == "Pendulum":
+        if prob_vars.prob == "Pendulum":
             state = env.state.copy()
-        if prob == "PandaReacher" or prob == "PandaPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
             goal_state = state['desired_goal'] # 3 components for Reach and for Push
             state = state['observation'] #[:3] # 6 components for Reach, 18 components for Push
             # print("goal_state ", goal_state, "\n")
-        if prob == "MuJoCoReacher":
+        if prob_vars.prob == "MuJoCoReacher":
             goal_state = np.array([state[4], state[5]])
             state = np.array([state[0], state[1], state[2], state[3], state[6], state[7], state[8], state[9]])
-        if prob == "MuJoCoPusher":
+        if prob_vars.prob == "MuJoCoPusher":
             goal_state = np.array([state[20], state[21], state[22]])
         
         costs = []
@@ -194,12 +196,12 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
         episodic_step_reward_values = []
         
         # for step in tqdm(range(max_steps)):
-        for step in range(max_steps):
+        for step in range(prob_vars.max_steps):
             # Get the current state
             # """ Need to change this!!!!!!!!!!!!!!!!! """
             # state = env.state
             # print("step ", step, "\n")
-            if prob == "Pendulum":
+            if prob_vars.prob == "Pendulum":
                 state = env.state.copy()
             
             # particles = np.clip(particles, action_low, action_high)
@@ -207,14 +209,14 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
             # best_particle, action, best_cost, particles = choose_action(prob, state, horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, nb_reps_MPC, std, change_prob, nb_top_particles, nb_random, episode=episode, step=step, goal_state=goal_state)
             # best_particle, particles, cost = particle_filtering_cheating(particles, env, state, horizon, nb_reps=5, using_Env=usingEnv, episode=episode, step=step)
             
-            action = do_planning_cem(prob, state_dim, action_dim, horizon, state, action_low, action_high, states_low, states_high, goal_state, model_QRNN, use_sampling, use_mid)
+            action = do_planning_cem(prob_vars, state, goal_state, model_QRNN, use_sampling, use_mid)
 
             print("action ", action, "\n")
             
             # costs.append(best_cost)
             
             # print("best_particle ", best_particle, "\n")
-            if prob == "Pendulum" or prob == "MountainCarContinuous" or prob == "Pendulum_xyomega":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
                 # action = [best_particle[0]]
                 action = [action]
                 actions_list.append(list(action))
@@ -223,7 +225,7 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
                 # action = best_particle[:action_dim]
                 # actions_list.append(list(action))
             
-            elif prob == "CartPole" or prob == "Acrobot" or prob == "MountainCar" or prob == "LunarLander":
+            elif prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 action = int(action)
                 actions_list.append(action)
             
@@ -244,19 +246,19 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
             # Apply the first action from the optimized sequence
             # next_state, reward, done, terminated, info = env.step(action)
             # episode_reward += reward
-            if prob == "Pendulum":
+            if prob_vars.prob == "Pendulum":
                 # state = env.state.copy()
                 next_state = env.state.copy()
 
-            if prob == "PandaReacher" or prob == "PandaPusher":
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
                 goal_state = next_state['desired_goal'] # 3 components
                 next_state = next_state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
                 # is_success_bool = info['is_success']
                 
-            if prob == "MuJoCoReacher":
+            if prob_vars.prob == "MuJoCoReacher":
                 next_state = np.array([next_state[0], next_state[1], next_state[2], next_state[3], next_state[6], next_state[7], next_state[8], next_state[9]])
             
-            next_state = next_state.reshape(state_dim)
+            next_state = next_state.reshape(prob_vars.state_dim)
 
             # print("state ", state, "next_state ", next_state, "\n")
             # print("states[0] ", state[0], "states[1] ", state[1], "\n")
@@ -272,24 +274,24 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
             #     replay_buffer_QRNN.append((state, action, reward, next_state, done))
             # else:
             #     replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
-            if prob == "CartPole" or prob == "Acrobot" or prob == "MountainCar" or prob == "LunarLander":
+            if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
             else:
-                state = state.reshape(state_dim)
-                next_state = next_state.reshape(state_dim)
+                state = state.reshape(prob_vars.state_dim)
+                next_state = next_state.reshape(prob_vars.state_dim)
                 # print("state ", state, "\n")
                 # print("next_state ", next_state, "\n")
                 replay_buffer_QRNN.append((state, action, reward, next_state, terminated))
             
-            if len(replay_buffer_QRNN) < batch_size:
+            if len(replay_buffer_QRNN) < prob_vars.batch_size:
                 pass
             else:
-                batch = random.sample(replay_buffer_QRNN, batch_size)
+                batch = random.sample(replay_buffer_QRNN, prob_vars.batch_size)
                 states, actions_train, rewards, next_states, dones = zip(*batch)
                 # print("batch states ", states, "\n")
                 # print("type(states[0]) ", type(states[0]), "\n")
                 states = torch.tensor(states, dtype=torch.float32)
-                actions_tensor = torch.tensor(actions_train, dtype=torch.float32).reshape(batch_size, action_dim)
+                actions_tensor = torch.tensor(actions_train, dtype=torch.float32).reshape(prob_vars.batch_size, prob_vars.action_dim)
                 # print("actions.shape ", actions_tensor, "\n")
                 rewards = torch.tensor(rewards, dtype=torch.float32)
                 next_states = torch.tensor(next_states, dtype=torch.float32)
@@ -299,10 +301,10 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
                 # print("actions_tensor.shape ", actions_tensor.shape, "\n")
 
 
-                if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
+                if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
                     # Clip states to ensure they are within the valid range
                     # before inputting them to the model (sorta like normalization)
-                    states = torch.clip(states, states_low, states_high)
+                    states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
                 
                 # Predict next state quantiles
                 predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
@@ -314,18 +316,18 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
                 # target_quantiles = next_states.unsqueeze(-1).repeat(1, 1, num_quantiles)
 
                 # Compute Quantile Huber Loss
-                loss = quantile_huber_loss(predicted_quantiles, target_quantiles, quantiles)
+                loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
 
                 
                 # Compute Quantile Huber Loss
-                loss = quantile_huber_loss(predicted_quantiles, target_quantiles, quantiles)
+                loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
                 
                 # Optimize the model_QRNN
                 optimizer_QRNN.zero_grad()
                 loss.backward()
                 optimizer_QRNN.step()
             
-            if prob == "MuJoCoReacher":
+            if prob_vars.prob == "MuJoCoReacher":
                 if np.sqrt(next_state[-2]**2+next_state[-1]**2) < 0.05:
                     # print("Reached target position \n")
                     done = True
@@ -335,7 +337,7 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
                 nb_episode_success += 1
                 break
             
-            state = np.copy(next_state).reshape(state_dim)
+            state = np.copy(next_state).reshape(prob_vars.state_dim)
             
             # Shift all particles to the left by removing the first element
             # particles[:, :-action_dim] = particles[:, action_dim:]
@@ -369,7 +371,7 @@ def start_QRNN_MPC_CEM(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use
         # if prob == "MuJoCoReacher":
         #     print("np.linalg.norm(goal_state-state)=np.sqrt(next_state[-2]**2+next_state[-1]**2) ", np.sqrt(next_state[-2]**2+next_state[-1]**2), "\n")
 
-    if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         return episode_reward_list, episode_success_rate
     else:
         return episode_reward_list
