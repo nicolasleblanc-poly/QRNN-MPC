@@ -2,10 +2,11 @@ import numpy as np
 import random
 import torch
 
-from mpc import mpc_func
+# from mpc import mpc_func
+from mpc_50NN_MSENN import mpc_50NN_MSENN_func
 from particle_filtering import particle_filtering_func
 
-def choose_action_func(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, episode=0, step=1, goal_state=None):
+def choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, episode=0, step=1, goal_state=None):
 
     best_cost = float('inf')
     best_action_sequence = None
@@ -44,7 +45,7 @@ def choose_action_func(prob_vars, state, particles, do_RS, use_sampling, use_mid
         # best_cost = float('inf')
         # best_action_sequence = None
 
-        costs = mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampling, use_mid, model_ASN)
+        costs = mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampling, use_mid, model_ASN)
 
         min_idx = torch.argmin(costs)
         

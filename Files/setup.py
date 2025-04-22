@@ -5,7 +5,7 @@ import gymnasium as gym
 
 class setup_class:
     def __init__(self, prob):
-        self.memory = prob
+        self.prob = prob
 
         self.nb_actions = None
 
@@ -67,17 +67,23 @@ class setup_class:
                 cart_velocity = states[:, 1]
                 return pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
 
+            self.compute_cost_CartPole = compute_cost_CartPole
 
         elif prob == "Acrobot":
             self.discrete = True
             self.horizon = 30
-            self.max_episodes = 300
-            self.max_steps = 200
+            # self.max_episodes = 300
+            # self.max_steps = 200
+
+            # For test
+            # self.max_episodes = 2
+            # self.max_steps = 3
+
             self.std = None
-            self.change_prob = 0.01
+            # self.change_prob = 0.01
             # self.change_prob = 0.05
             # self.change_prob = 0.1
-            # self.change_prob = 0.3
+            self.change_prob = 0.3
             # self.change_prob = 0.5
             
             self.nb_actions = 3
@@ -117,6 +123,8 @@ class setup_class:
                 cost = distance_to_goal ** 2
                 
                 return cost
+            
+            self.compute_cost_Acrobot = compute_cost_Acrobot
             
         elif prob == "LunarLander": # ToDo
             self.discrete = True
@@ -180,6 +188,8 @@ class setup_class:
                 # cost = distance_to_goal ** 2
                 
                 return cost
+            
+            self.compute_cost_LunarLander = compute_cost_LunarLander
 
         elif prob == "MountainCar": # ToDo
             self.discrete = True
@@ -225,7 +235,9 @@ class setup_class:
                 
                 reverse_discount_factor = gamma**(horizon-t-1)
                 
-                return reverse_discount_factor*distance_reward 
+                return reverse_discount_factor*distance_reward
+            
+            self.compute_cost_MountainCar = compute_cost_MountainCar
 
         elif prob == "Pendulum_xyomega":
             self.discrete = False
@@ -234,8 +246,8 @@ class setup_class:
             self.max_steps = 200
 
             # Current test values
-            self.std = 0
-            # self.std = 3e-1
+            # self.std = 0
+            self.std = 3e-1
             # self.std = 1.5
 
             # Older test values
@@ -245,8 +257,8 @@ class setup_class:
             # std = 1.5
             self.change_prob = None
 
-            self.std_string = "0"
-            # std_string = "3em1"
+            # self.std_string = "0"
+            self.std_string = "3em1"
             # std_string = "15"
             
             self.nb_top_particles = 5
@@ -312,6 +324,8 @@ class setup_class:
                 # print("cost ", cost, "\n")
 
                 return cost * reverse_discount_factor  # Shape: [num_particles]
+            
+            self.compute_cost_Pendulum_xy_omega = compute_cost_Pendulum_xy_omega
 
         elif prob == "Pendulum":
             self.discrete = False
@@ -391,6 +405,8 @@ class setup_class:
 
                 return cost * reverse_discount_factor  # Shape: [num_particles]
             
+            self.compute_cost_Pendulum = compute_cost_Pendulum
+            
         elif prob == "MountainCarContinuous":
             self.discrete = False
             self.horizon = 70
@@ -432,6 +448,8 @@ class setup_class:
                 reverse_discount_factor = gamma**(horizon-t-1)
                 
                 return reverse_discount_factor*distance_reward
+            
+            self.compute_cost_MountainCarContinuous = compute_cost_MountainCarContinuous
 
         elif prob == "LunarLanderContinuous": # ToDo
             self.discrete = False
@@ -480,6 +498,8 @@ class setup_class:
                 # cost = distance_to_goal ** 2
                 
                 return cost
+            
+            self.compute_cost_LunarLanderContinuous = compute_cost_LunarLanderContinuous
 
         elif prob == "PandaReacher":
             self.discrete = False
@@ -537,6 +557,8 @@ class setup_class:
                 return costs
                 # torch.norm(states[:, :3]-torch.tensor(goal_state, dtype=torch.float32), dim=1)# +0.1*(torch.norm(actions))**2
 
+            self.compute_cost_PandaReacher = compute_cost_PandaReacher
+
         elif prob == "PandaPusher": # ToDo
             self.discrete = False
             self.horizon = 15
@@ -589,6 +611,7 @@ class setup_class:
                 
                 return costs
             
+            self.compute_cost_PandaPusher = compute_cost_PandaPusher
 
         elif prob == "MuJoCoReacher":
             self.discrete = False
@@ -643,6 +666,7 @@ class setup_class:
                 return costs
             # torch.norm(states[:, :3]-torch.tensor(goal_state, dtype=torch.float32))
 
+            self.compute_cost_MuJoCoReacher = compute_cost_MuJoCoReacher
 
         elif prob == "MuJoCoPusher": # ToDo 
             self.discrete = False
@@ -685,6 +709,8 @@ class setup_class:
                 # return torch.sqrt(states[:, -2]**2+states[:, -1]**2)+0.1*(torch.norm(actions))**2
             
             # torch.norm(states[:, :3]-torch.tensor(goal_state, dtype=torch.float32))
+
+            self.compute_cost_MuJoCoPusher = compute_cost_MuJoCoPusher
 
     def compute_cost(self, prob, states, t, horizon, actions, goal_state=None):
         if prob == "CartPole":

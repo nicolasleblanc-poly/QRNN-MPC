@@ -4,9 +4,9 @@ import random
 
 from state_pred_models import quantile_loss
 from ASGNN import train_ActionSequenceNN
-from choose_action import choose_action_func
+from choose_action_50NN_MSENN import choose_action_func_50NN_MSENN
 
-def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN):
+def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN):
     
     episode_reward_list_withASGNN = []
     episode_success_rate_withASGNN = [] # For Panda Gym envs
@@ -101,51 +101,52 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                     actions = torch.clip(actions, prob_vars.action_low, prob_vars.action_high)
 
                     # Predict next states using the quantile model_QRNN
-                    predicted_quantiles = model_QRNN(sim_states, actions)
-                    # mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
-                    # next_states = mid_quantile
+                    # predicted_quantiles = model_QRNN(sim_states, actions)
+                    # # mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
+                    # # next_states = mid_quantile
 
-                    if use_sampling:
-                        # '''
-                        ############# Need to add the sorta quantile ponderated sum here #############
-                        # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
-                        chosen_quantiles = torch.rand(prob_vars.num_particles, prob_vars.state_dim)
-                        # https://pytorch.org/docs/main/generated/torch.rand.html
-                        bottom_int_indices = torch.floor(chosen_quantiles*10).to(torch.int) # .astype(int)
-                        top_int_indices = bottom_int_indices+1
-                        top_int_indices[top_int_indices == 11] = 10
+                    # if use_sampling:
+                    #     # '''
+                    #     ############# Need to add the sorta quantile ponderated sum here #############
+                    #     # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
+                    #     chosen_quantiles = torch.rand(prob_vars.num_particles, prob_vars.state_dim)
+                    #     # https://pytorch.org/docs/main/generated/torch.rand.html
+                    #     bottom_int_indices = torch.floor(chosen_quantiles*10).to(torch.int) # .astype(int)
+                    #     top_int_indices = bottom_int_indices+1
+                    #     top_int_indices[top_int_indices == 11] = 10
                         
-                        # Expand batch dimension to match indexing (assuming batch_size = 1)
-                        batch_indices = torch.zeros((prob_vars.num_particles, prob_vars.state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
+                    #     # Expand batch dimension to match indexing (assuming batch_size = 1)
+                    #     batch_indices = torch.zeros((prob_vars.num_particles, prob_vars.state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
                         
-                        # pred_bottom_quantiles = predicted_quantiles[:, bottom_int_indices, :]
-                        # pred_top_quantiles = predicted_quantiles[:, top_int_indices, :]
-                        pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(prob_vars.state_dim)]
-                        pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(prob_vars.state_dim)]
+                    #     # pred_bottom_quantiles = predicted_quantiles[:, bottom_int_indices, :]
+                    #     # pred_top_quantiles = predicted_quantiles[:, top_int_indices, :]
+                    #     pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(prob_vars.state_dim)]
+                    #     pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(prob_vars.state_dim)]
                         
-                        # print("chosen_quantiles.shape ", chosen_quantiles.shape, "\n")
-                        # print("bottom_int_indices.shape ", bottom_int_indices.shape, "\n")
-                        # print("top_int_indices.shape ", top_int_indices.shape, "\n")
-                        # print("pred_bottom_quantiles.shape ", pred_bottom_quantiles.shape, "\n")
-                        # print("pred_top_quantiles.shape ", pred_top_quantiles.shape, "\n")
+                    #     # print("chosen_quantiles.shape ", chosen_quantiles.shape, "\n")
+                    #     # print("bottom_int_indices.shape ", bottom_int_indices.shape, "\n")
+                    #     # print("top_int_indices.shape ", top_int_indices.shape, "\n")
+                    #     # print("pred_bottom_quantiles.shape ", pred_bottom_quantiles.shape, "\n")
+                    #     # print("pred_top_quantiles.shape ", pred_top_quantiles.shape, "\n")
                         
-                        # print("chosen_quantiles ", chosen_quantiles, "\n")
-                        # print("bottom_int_indices ", bottom_int_indices, "\n")
-                        # print("top_int_indices ", top_int_indices, "\n")
-                        # print("pred_bottom_quantiles ", pred_bottom_quantiles, "\n")
-                        # print("pred_top_quantiles ", pred_top_quantiles, "\n")
+                    #     # print("chosen_quantiles ", chosen_quantiles, "\n")
+                    #     # print("bottom_int_indices ", bottom_int_indices, "\n")
+                    #     # print("top_int_indices ", top_int_indices, "\n")
+                    #     # print("pred_bottom_quantiles ", pred_bottom_quantiles, "\n")
+                    #     # print("pred_top_quantiles ", pred_top_quantiles, "\n")
                         
-                        next_states = (top_int_indices-10*chosen_quantiles)*pred_bottom_quantiles+(10*chosen_quantiles-bottom_int_indices)*(pred_top_quantiles) 
-                        # '''
+                    #     next_states = (top_int_indices-10*chosen_quantiles)*pred_bottom_quantiles+(10*chosen_quantiles-bottom_int_indices)*(pred_top_quantiles) 
+                    #     # '''
 
                         
-                        # print("next_states ", next_states, "\n")
+                    #     # print("next_states ", next_states, "\n")
 
                 
-                    if use_mid:
-                        mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
-                        next_states = mid_quantile
+                    # if use_mid:
+                    #     mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
+                    #     next_states = mid_quantile
                         
+                    next_states = model_state(sim_states, actions)
                     
                     # action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
                     action_probs = model_ASN(next_states, torch.tensor(goal_state, dtype=torch.float32))
@@ -200,49 +201,51 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                         sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
                         actions = torch.clip(actions, prob_vars.action_low, prob_vars.action_high)
 
-                        # Predict next states using the quantile model
-                        predicted_quantiles = model_QRNN(sim_states, actions)
-                        # print("predicted_quantiles ", predicted_quantiles, "\n")
+                        # # Predict next states using the quantile model
+                        # predicted_quantiles = model_QRNN(sim_states, actions)
+                        # # print("predicted_quantiles ", predicted_quantiles, "\n")
 
-                        if use_sampling:
-                            # '''
-                            ############# Need to add the sorta quantile ponderated sum here #############
-                            # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
-                            chosen_quantiles = torch.rand(prob_vars.num_particles, prob_vars.state_dim)
-                            # https://pytorch.org/docs/main/generated/torch.rand.html
-                            bottom_int_indices = torch.floor(chosen_quantiles*10).to(torch.int) # .astype(int)
-                            top_int_indices = bottom_int_indices+1
-                            top_int_indices[top_int_indices == 11] = 10
+                        # if use_sampling:
+                        #     # '''
+                        #     ############# Need to add the sorta quantile ponderated sum here #############
+                        #     # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
+                        #     chosen_quantiles = torch.rand(prob_vars.num_particles, prob_vars.state_dim)
+                        #     # https://pytorch.org/docs/main/generated/torch.rand.html
+                        #     bottom_int_indices = torch.floor(chosen_quantiles*10).to(torch.int) # .astype(int)
+                        #     top_int_indices = bottom_int_indices+1
+                        #     top_int_indices[top_int_indices == 11] = 10
                             
-                            # Expand batch dimension to match indexing (assuming batch_size = 1)
-                            batch_indices = torch.zeros((prob_vars.num_particles, prob_vars.state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
+                        #     # Expand batch dimension to match indexing (assuming batch_size = 1)
+                        #     batch_indices = torch.zeros((prob_vars.num_particles, prob_vars.state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
                             
-                            # pred_bottom_quantiles = predicted_quantiles[:, bottom_int_indices, :]
-                            # pred_top_quantiles = predicted_quantiles[:, top_int_indices, :]
-                            pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(prob_vars.state_dim)]
-                            pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(prob_vars.state_dim)]
+                        #     # pred_bottom_quantiles = predicted_quantiles[:, bottom_int_indices, :]
+                        #     # pred_top_quantiles = predicted_quantiles[:, top_int_indices, :]
+                        #     pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(prob_vars.state_dim)]
+                        #     pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(prob_vars.state_dim)]
                             
-                            # print("chosen_quantiles.shape ", chosen_quantiles.shape, "\n")
-                            # print("bottom_int_indices.shape ", bottom_int_indices.shape, "\n")
-                            # print("top_int_indices.shape ", top_int_indices.shape, "\n")
-                            # print("pred_bottom_quantiles.shape ", pred_bottom_quantiles.shape, "\n")
-                            # print("pred_top_quantiles.shape ", pred_top_quantiles.shape, "\n")
+                        #     # print("chosen_quantiles.shape ", chosen_quantiles.shape, "\n")
+                        #     # print("bottom_int_indices.shape ", bottom_int_indices.shape, "\n")
+                        #     # print("top_int_indices.shape ", top_int_indices.shape, "\n")
+                        #     # print("pred_bottom_quantiles.shape ", pred_bottom_quantiles.shape, "\n")
+                        #     # print("pred_top_quantiles.shape ", pred_top_quantiles.shape, "\n")
                             
-                            # print("chosen_quantiles ", chosen_quantiles, "\n")
-                            # print("bottom_int_indices ", bottom_int_indices, "\n")
-                            # print("top_int_indices ", top_int_indices, "\n")
-                            # print("pred_bottom_quantiles ", pred_bottom_quantiles, "\n")
-                            # print("pred_top_quantiles ", pred_top_quantiles, "\n")
+                        #     # print("chosen_quantiles ", chosen_quantiles, "\n")
+                        #     # print("bottom_int_indices ", bottom_int_indices, "\n")
+                        #     # print("top_int_indices ", top_int_indices, "\n")
+                        #     # print("pred_bottom_quantiles ", pred_bottom_quantiles, "\n")
+                        #     # print("pred_top_quantiles ", pred_top_quantiles, "\n")
                             
-                            next_states = (top_int_indices-10*chosen_quantiles)*pred_bottom_quantiles+(10*chosen_quantiles-bottom_int_indices)*(pred_top_quantiles) 
-                            # '''
+                        #     next_states = (top_int_indices-10*chosen_quantiles)*pred_bottom_quantiles+(10*chosen_quantiles-bottom_int_indices)*(pred_top_quantiles) 
+                        #     # '''
 
                             
-                            # print("next_states ", next_states, "\n")
+                        #     # print("next_states ", next_states, "\n")
 
-                        if use_mid:
-                            mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
-                            next_states = mid_quantile
+                        # if use_mid:
+                        #     mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
+                        #     next_states = mid_quantile
+                        
+                        next_states = model_state(sim_states, actions)
                         
                         # action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
                         action_mu, action_sigma = model_ASN(next_states, torch.tensor(goal_state, dtype=torch.float32))
@@ -271,53 +274,54 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                         sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
                         actions = torch.clip(actions, prob_vars.action_low, prob_vars.action_high)
                         
-                        # Predict next states using the quantile model_QRNN
-                        predicted_quantiles = model_QRNN(sim_states, actions)
-                        # mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
-                        # next_states = mid_quantile
+                        # # Predict next states using the quantile model_QRNN
+                        # predicted_quantiles = model_QRNN(sim_states, actions)
+                        # # mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
+                        # # next_states = mid_quantile
 
-                        if use_sampling:
-                            # '''
-                            ############# Need to add the sorta quantile ponderated sum here #############
-                            # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
-                            chosen_quantiles = torch.rand(prob_vars.num_particles, prob_vars.state_dim)
-                            # https://pytorch.org/docs/main/generated/torch.rand.html
-                            bottom_int_indices = torch.floor(chosen_quantiles*10).to(torch.int) # .astype(int)
-                            top_int_indices = bottom_int_indices+1
-                            top_int_indices[top_int_indices == 11] = 10
+                        # if use_sampling:
+                        #     # '''
+                        #     ############# Need to add the sorta quantile ponderated sum here #############
+                        #     # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
+                        #     chosen_quantiles = torch.rand(prob_vars.num_particles, prob_vars.state_dim)
+                        #     # https://pytorch.org/docs/main/generated/torch.rand.html
+                        #     bottom_int_indices = torch.floor(chosen_quantiles*10).to(torch.int) # .astype(int)
+                        #     top_int_indices = bottom_int_indices+1
+                        #     top_int_indices[top_int_indices == 11] = 10
                             
-                            # Expand batch dimension to match indexing (assuming batch_size = 1)
-                            batch_indices = torch.zeros((prob_vars.num_particles, prob_vars.state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
+                        #     # Expand batch dimension to match indexing (assuming batch_size = 1)
+                        #     batch_indices = torch.zeros((prob_vars.num_particles, prob_vars.state_dim), dtype=torch.long)  # Shape (num_particles, state_dim)
                             
-                            # pred_bottom_quantiles = predicted_quantiles[:, bottom_int_indices, :]
-                            # pred_top_quantiles = predicted_quantiles[:, top_int_indices, :]
-                            pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(prob_vars.state_dim)]
-                            pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(prob_vars.state_dim)]
+                        #     # pred_bottom_quantiles = predicted_quantiles[:, bottom_int_indices, :]
+                        #     # pred_top_quantiles = predicted_quantiles[:, top_int_indices, :]
+                        #     pred_bottom_quantiles = predicted_quantiles[batch_indices, bottom_int_indices, torch.arange(prob_vars.state_dim)]
+                        #     pred_top_quantiles = predicted_quantiles[batch_indices, top_int_indices, torch.arange(prob_vars.state_dim)]
                             
-                            # print("chosen_quantiles.shape ", chosen_quantiles.shape, "\n")
-                            # print("bottom_int_indices.shape ", bottom_int_indices.shape, "\n")
-                            # print("top_int_indices.shape ", top_int_indices.shape, "\n")
-                            # print("pred_bottom_quantiles.shape ", pred_bottom_quantiles.shape, "\n")
-                            # print("pred_top_quantiles.shape ", pred_top_quantiles.shape, "\n")
+                        #     # print("chosen_quantiles.shape ", chosen_quantiles.shape, "\n")
+                        #     # print("bottom_int_indices.shape ", bottom_int_indices.shape, "\n")
+                        #     # print("top_int_indices.shape ", top_int_indices.shape, "\n")
+                        #     # print("pred_bottom_quantiles.shape ", pred_bottom_quantiles.shape, "\n")
+                        #     # print("pred_top_quantiles.shape ", pred_top_quantiles.shape, "\n")
                             
-                            # print("chosen_quantiles ", chosen_quantiles, "\n")
-                            # print("bottom_int_indices ", bottom_int_indices, "\n")
-                            # print("top_int_indices ", top_int_indices, "\n")
-                            # print("pred_bottom_quantiles ", pred_bottom_quantiles, "\n")
-                            # print("pred_top_quantiles ", pred_top_quantiles, "\n")
+                        #     # print("chosen_quantiles ", chosen_quantiles, "\n")
+                        #     # print("bottom_int_indices ", bottom_int_indices, "\n")
+                        #     # print("top_int_indices ", top_int_indices, "\n")
+                        #     # print("pred_bottom_quantiles ", pred_bottom_quantiles, "\n")
+                        #     # print("pred_top_quantiles ", pred_top_quantiles, "\n")
                             
-                            next_states = (top_int_indices-10*chosen_quantiles)*pred_bottom_quantiles+(10*chosen_quantiles-bottom_int_indices)*(pred_top_quantiles) 
-                            # '''
+                        #     next_states = (top_int_indices-10*chosen_quantiles)*pred_bottom_quantiles+(10*chosen_quantiles-bottom_int_indices)*(pred_top_quantiles) 
+                        #     # '''
 
                             
-                            # print("next_states ", next_states, "\n")
+                        #     # print("next_states ", next_states, "\n")
 
                     
-                        if use_mid:
-                            mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
-                            next_states = mid_quantile
+                        # if use_mid:
+                        #     mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
+                        #     next_states = mid_quantile
                         
-                        
+                        next_states = model_state(sim_states, actions)
+
                         # action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
                         action_mu, action_sigma = model_ASN(next_states, torch.tensor(goal_state, dtype=torch.float32))
                         
@@ -355,7 +359,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
             
             particles = np.clip(particles, prob_vars.action_low, prob_vars.action_high)
 
-            best_particle, action, best_cost, particles = choose_action_func(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, episode=episode, step=step, goal_state=prob_vars.goal_state)
+            best_particle, action, best_cost, particles = choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_state, model_ASN, episode=episode, step=step, goal_state=prob_vars.goal_state)
             # best_particle, particles, cost = particle_filtering_cheating(particles, env, state, horizon, nb_reps=5, using_Env=usingEnv, episode=episode, step=step)
             
             costs.append(best_cost)
@@ -417,10 +421,10 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
             # else:
             #     replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
-                replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
+                replay_buffer_state.append((state, np.array([action]), reward, next_state, terminated))
                 replay_buffer_ASN.push(state, goal_state, np.array([action]))
             else:
-                replay_buffer_QRNN.append((state, action, reward, next_state, terminated))
+                replay_buffer_state.append((state, action, reward, next_state, terminated))
                 replay_buffer_ASN.push(state, goal_state, action)
             
             if len (replay_buffer_ASN) < 32:
@@ -428,10 +432,10 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
             else:
                 loss = train_ActionSequenceNN(model_ASN, replay_buffer_ASN, prob_vars.batch_size, optimizer_ASN, num_epochs=1)
             
-            if len(replay_buffer_QRNN) < prob_vars.batch_size:
+            if len(replay_buffer_state) < prob_vars.batch_size:
                 pass
             else:
-                batch = random.sample(replay_buffer_QRNN, prob_vars.batch_size)
+                batch = random.sample(replay_buffer_state, prob_vars.batch_size)
                 states, actions_train, rewards, next_states, dones = zip(*batch)
                 # print("batch states ", states, "\n")
                 states = torch.tensor(states, dtype=torch.float32)
@@ -448,25 +452,26 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                 actions_tensor = torch.clip(actions_tensor, prob_vars.action_low, prob_vars.action_high)
                 
                 # Predict next state quantiles
-                predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
+                # predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
+                predicted_next_states = model_state(states, actions_tensor)
                 
                 # Use next state as target (can be improved with target policy)
-                target_quantiles = next_states
+                # target_quantiles = next_states
                 
                 # Compute the target quantiles (e.g., replicate next state across the quantile dimension)
                 # target_quantiles = next_states.unsqueeze(-1).repeat(1, 1, num_quantiles)
 
                 # Compute Quantile Huber Loss
-                loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
-
+                # loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
+                loss = loss_state(predicted_next_states, next_states)
                 
                 # # Compute Quantile Huber Loss
                 # loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
                 
                 # Optimize the model_QRNN
-                optimizer_QRNN.zero_grad()
+                optimizer_state.zero_grad()
                 loss.backward()
-                optimizer_QRNN.step()
+                optimizer_state.step()
             
             if prob_vars.prob == "MuJoCoReacher":
                 if np.sqrt(next_state[-2]**2+next_state[-1]**2) < 0.05:
@@ -549,7 +554,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
 
 
 
-def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN):
+def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN):
 
     episode_reward_list = []
     episode_success_rate = [] # For Panda Gym envs
@@ -657,7 +662,7 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
 
             particles = np.clip(particles, prob_vars.action_low, prob_vars.action_high)
 
-            best_particle, action, best_cost, particles = choose_action_func(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, episode=episode, step=step, goal_state=prob_vars.goal_state)
+            best_particle, action, best_cost, particles = choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_state, model_ASN, episode=episode, step=step, goal_state=prob_vars.goal_state)
             # best_particle, action, best_cost, particles = choose_action(prob_vars.prob, state, horizon, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps_MPC, std, change_prob, nb_top_particles, nb_random, episode=episode, step=step, goal_state=goal_state)
             
             # best_particle, particles, cost = particle_filtering_cheating(particles, env, state, horizon, nb_reps=5, using_Env=usingEnv, episode=episode, step=step)
@@ -718,15 +723,15 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
             # else:
             #     replay_buffer.append((state, np.array([action]), reward, next_state, terminated))
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
-                replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, truncated))
+                replay_buffer_state.append((state, np.array([action]), reward, next_state, truncated))
             else:
-                replay_buffer_QRNN.append((state, action, reward, next_state, truncated))
+                replay_buffer_state.append((state, action, reward, next_state, truncated))
             
                 
-            if len(replay_buffer_QRNN) < prob_vars.batch_size:
+            if len(replay_buffer_state) < prob_vars.batch_size:
                 pass
             else:
-                batch = random.sample(replay_buffer_QRNN, prob_vars.batch_size)
+                batch = random.sample(replay_buffer_state, prob_vars.batch_size)
                 states, actions_train, rewards, next_states, dones = zip(*batch)
                 # print("batch states ", states, "\n")
                 states = torch.tensor(states, dtype=torch.float32)
@@ -743,24 +748,27 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
                 actions_tensor = torch.clip(actions_tensor, prob_vars.action_low, prob_vars.action_high)
                 
                 # Predict next state quantiles
-                predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
+                # predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
                 
                 # Use next state as target (can be improved with target policy)
-                target_quantiles = next_states
+                # target_quantiles = next_states
+                
+                predicted_next_states = model_state(states, actions_tensor)
                 
                 # Compute the target quantiles (e.g., replicate next state across the quantile dimension)
                 # target_quantiles = next_states.unsqueeze(-1).repeat(1, 1, num_quantiles)
 
                 # Compute Quantile Huber Loss
-                loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
+                # loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
+                loss = loss_state(predicted_next_states, next_states)
                 
                 # # Compute Quantile Huber Loss
                 # loss = quantile_loss(predicted_quantiles, target_quantiles, quantiles)
                 
                 # Optimize the model
-                optimizer_QRNN.zero_grad()
+                optimizer_state.zero_grad()
                 loss.backward()
-                optimizer_QRNN.step()
+                optimizer_state.step()
             
             # if prob == "MuJoCoReacher":
             #     if np.sqrt(next_state[-2]**2+next_state[-1]**2) < 0.05:

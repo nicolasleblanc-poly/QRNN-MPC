@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from collections import deque, namedtuple
 import random
-from models import quantile_loss
+from state_pred_models import quantile_loss
 import numpy as np
 
 

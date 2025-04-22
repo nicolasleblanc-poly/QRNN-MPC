@@ -116,6 +116,7 @@ class NextStateSinglePredNetwork(nn.Module):
         x = torch.relu(self.layer1(x))
         x = torch.relu(self.layer2(x))
         return self.layer3(x)
+    
 # Uses quantile regression loss with 0.5 only
 def quantile_loss_median(predicted, target):
     error = target - predicted
@@ -133,5 +134,12 @@ def mse_loss(predicted, target):
 
 # def model_predict_and_train():
 
+    
+
+
+
+
+#     pass
+#     # return pass
 
 
