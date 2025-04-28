@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import gymnasium as gym
-
+# import panda_gym
 
 class setup_class:
     def __init__(self, prob):
@@ -27,13 +27,28 @@ class setup_class:
             self.horizon = 30
             self.max_episodes = 100
             self.max_steps = 200
+
+            # For test
+            # self.max_episodes = 2
+            # self.max_steps = 3            
             self.std = None
-            self.change_prob = 0.01
-            # change_prob = 0.05
-            # change_prob = 0.1
-            # change_prob = 0.3
-            # change_prob = 0.5
-            
+            # self.change_prob = 0.01
+            # self.change_prob = 0.05
+            self.change_prob = 0.1
+            # self.change_prob = 0.3
+            # self.change_prob = 0.5
+
+            if self.change_prob == 0.01:
+                self.change_prob_std = "001"
+            elif self.change_prob == 0.05:
+                self.change_prob_std = "005"
+            elif self.change_prob == 0.1:
+                self.change_prob_std = "01"
+            elif self.change_prob == 0.3:
+                self.change_prob_std = "03"
+            elif self.change_prob == 0.5:
+                self.change_prob_std = "05"    
+      
             self.nb_actions = 2
             
             self.nb_top_particles = 5
@@ -72,8 +87,8 @@ class setup_class:
         elif prob == "Acrobot":
             self.discrete = True
             self.horizon = 30
-            # self.max_episodes = 300
-            # self.max_steps = 200
+            self.max_episodes = 300
+            self.max_steps = 200
 
             # For test
             # self.max_episodes = 2
@@ -85,6 +100,17 @@ class setup_class:
             # self.change_prob = 0.1
             self.change_prob = 0.3
             # self.change_prob = 0.5
+
+            if self.change_prob == 0.01:
+                self.change_prob_std = "001"
+            elif self.change_prob == 0.05:
+                self.change_prob_std = "005"
+            elif self.change_prob == 0.1:
+                self.change_prob_std = "01"
+            elif self.change_prob == 0.3:
+                self.change_prob_std = "03"
+            elif self.change_prob == 0.5:
+                self.change_prob_std = "05" 
             
             self.nb_actions = 3
             
@@ -132,12 +158,14 @@ class setup_class:
             self.max_episodes = 400
             # max_steps = 200 # No defined max episode length
             self.max_steps = 1000
+            # self.max_episodes = 2
+            # self.max_steps = 5
             self.std = None
-            self.change_prob = 0.01
+            # self.change_prob = 0.01
             # self.change_prob = 0.05
             # self.change_prob = 0.1
             # self.change_prob = 0.3
-            # self.change_prob = 0.5
+            self.change_prob = 0.5
 
             if self.change_prob == 0.01:
                 self.std_string = "001"
@@ -149,6 +177,7 @@ class setup_class:
                 self.std_string = "03"
             elif self.change_prob == 0.5:
                 self.std_string = "05"
+                
 
             self.nb_actions = 3
             
@@ -204,6 +233,17 @@ class setup_class:
             self.change_prob = 0.1
             # self.change_prob = 0.3
             # self.change_prob = 0.5
+
+            if self.change_prob == 0.01:
+                self.change_prob_std = "001"
+            elif self.change_prob == 0.05:
+                self.change_prob_std = "005"
+            elif self.change_prob == 0.1:
+                self.change_prob_std = "01"
+            elif self.change_prob == 0.3:
+                self.change_prob_std = "03"
+            elif self.change_prob == 0.5:
+                self.change_prob_std = "05" 
             
             self.nb_top_particles = 5
             # nb_random = 10
@@ -244,6 +284,10 @@ class setup_class:
             self.horizon = 15
             self.max_episodes = 300
             self.max_steps = 200
+
+            # For test
+            # self.max_episodes = 2
+            # self.max_steps = 3
 
             # Current test values
             # self.std = 0
@@ -455,12 +499,26 @@ class setup_class:
             self.discrete = False
             self.horizon = 30
             self.max_episodes = 300
-            self.max_steps = 200 # No defined max episode length
-            self.std = 1e-1
+            # self.max_steps = 200 # No defined max episode length
+            self.max_steps = 1000
+
+            # self.max_episodes = 2 #300
+            # self.max_steps = 10 #200 # No defined max episode length
+
+            # self.std = 1e-1
             # self.std = 3e-1
-            # self.std = 1
+            self.std = 1
             # self.std = 1.5
             self.change_prob = None
+
+            if self.std == 1e-1:
+                self.std_string = "1em1"
+            elif self.std == 3e-1:
+                self.std_string = "3em1"
+            elif self.std == 1:
+                self.std_string = "1"
+            elif self.std == 1.5:
+                self.std_string = "15"
             
             self.nb_top_particles = 5
             # nb_random = 10
@@ -504,13 +562,18 @@ class setup_class:
         elif prob == "PandaReacher":
             self.discrete = False
             self.horizon = 15
-            self.max_episodes = 100
-            # max_episodes = 400
-            self.max_steps = 50 
+            # self.max_episodes = 100
+            self.max_episodes = 400
+            self.max_steps = 50
+            
+            # For test
+            # self.max_episodes = 3
+            # self.max_steps = 5
+            
             # self.std = 1e-1
-            # self.std = 3e-1
+            self.std = 3e-1
             # self.std = 1
-            self.std = 1.5
+            # self.std = 1.5
             self.change_prob = None
 
             if self.std == 1e-1:
@@ -618,8 +681,8 @@ class setup_class:
             self.horizon = 15
             self.max_episodes = 400
             self.max_steps = 50 
-            self.std = 1e-1
-            # self.std = 3e-1
+            # self.std = 1e-1
+            self.std = 3e-1
             # self.std = 1
             # self.std = 1.5
             self.change_prob = None

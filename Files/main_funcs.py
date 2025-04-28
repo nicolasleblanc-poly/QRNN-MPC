@@ -50,6 +50,8 @@ def main_50NN_MSENN_MPC(prob_vars, method_name, model_state, replay_buffer_state
 
     if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         episode_rep_SuccessRate= np.zeros((prob_vars.nb_rep_episodes, prob_vars.max_episodes))
+
+    env = prob_vars.env
         
     # for rep_ep in tqdm(range(prob_vars.nb_rep_episodes)):
     for rep_ep in range(prob_vars.nb_rep_episodes):
@@ -128,6 +130,8 @@ def main_QRNN_MPC(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimi
 
     if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         episode_rep_SuccessRate= np.zeros((prob_vars.nb_rep_episodes, prob_vars.max_episodes))
+
+    env = prob_vars.env
         
     # for rep_ep in tqdm(range(prob_vars.nb_rep_episodes)):
     for rep_ep in range(prob_vars.nb_rep_episodes):
@@ -204,6 +208,8 @@ def main_CEM(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_samp
     
     episode_rep_rewards = np.zeros((prob_vars.nb_rep_episodes, prob_vars.max_episodes))
 
+    env = prob_vars.env
+
     if prob_vars == "PandaReacher" or prob_vars == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         episode_rep_SuccessRate= np.zeros((prob_vars.nb_rep_episodes, prob_vars.max_episodes))
         
@@ -226,11 +232,11 @@ def main_CEM(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_samp
             # episode_reward_list_RS_sampling = start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_top_particles, nb_random, nb_reps_MPC, env, state_dim, action_dim, action_low, action_high, goal_state)
 
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
-            episode_reward_list, episode_SuccessRate = start_QRNN_MPC_CEM(prob_vars.prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
+            episode_reward_list, episode_SuccessRate = start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
         
             episode_rep_SuccessRate[rep_ep] = np.array(episode_SuccessRate)
         else:
-            episode_reward_list = start_QRNN_MPC_CEM(prob_vars.prob, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
+            episode_reward_list = start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
         
         episode_rep_rewards[rep_ep] = np.array(episode_reward_list).reshape(prob_vars.max_episodes)
         
@@ -255,6 +261,8 @@ def main_CEM_50NN_MSENN(prob_vars, model_state, replay_buffer_state, optimizer_s
     if prob_vars == "PandaReacher" or prob_vars == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
         episode_rep_SuccessRate= np.zeros((prob_vars.nb_rep_episodes, prob_vars.max_episodes))
         
+    env = prob_vars.env
+    
     # for rep_ep in tqdm(range(prob_vars.nb_rep_episodes)):
     for rep_ep in range(prob_vars.nb_rep_episodes):
     # for seed in tqdm(random_seeds):
@@ -274,11 +282,11 @@ def main_CEM_50NN_MSENN(prob_vars, model_state, replay_buffer_state, optimizer_s
             # episode_reward_list_RS_sampling = start_QRNNrand_RS(prob, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN, horizon, max_episodes, max_steps, std, change_prob, seed, nb_top_particles, nb_random, nb_reps_MPC, env, state_dim, action_dim, action_low, action_high, goal_state)
 
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
-            episode_reward_list, episode_SuccessRate = start_50NN_MSENN_MPC_CEM(prob_vars.prob, model_state, replay_buffer_state, optimizer_state, loss_state, use_sampling, use_mid)
+            episode_reward_list, episode_SuccessRate = start_50NN_MSENN_MPC_CEM(prob_vars, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, use_sampling, use_mid)
         
             episode_rep_SuccessRate[rep_ep] = np.array(episode_SuccessRate)
         else:
-            episode_reward_list = start_50NN_MSENN_MPC_CEM(prob_vars.prob, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, use_sampling, use_mid)
+            episode_reward_list = start_50NN_MSENN_MPC_CEM(prob_vars, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, use_sampling, use_mid)
         
         episode_rep_rewards[rep_ep] = np.array(episode_reward_list).reshape(prob_vars.max_episodes)
         

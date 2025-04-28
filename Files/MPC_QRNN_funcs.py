@@ -11,7 +11,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
     episode_reward_list_withASGNN = []
     episode_success_rate_withASGNN = [] # For Panda Gym envs
 
-    goal_state = prob_vars.goal_state
+    # goal_state = prob_vars.goal_state
 
     nb_episode_success = 0 # For Panda Gym envs
 
@@ -36,14 +36,14 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
         if prob_vars.prob == "Pendulum":
             state = env.state.copy()
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
-            goal_state = state['desired_goal'] # 3 components for Reach and for Push
+            prob_vars.goal_state = state['desired_goal'] # 3 components for Reach and for Push
             state = state['observation'] #[:3] # 6 components for Reach, 18 components for Push
             # print("goal_state ", goal_state, "\n")
         if prob_vars.prob == "MuJoCoReacher":
-            goal_state = np.array([state[4], state[5]])
+            prob_vars.goal_state = np.array([state[4], state[5]])
             state = np.array([state[0], state[1], state[2], state[3], state[6], state[7], state[8], state[9]])
         if prob_vars.prob == "MuJoCoPusher":
-            goal_state = np.array([state[20], state[21], state[22]])
+            prob_vars.goal_state = np.array([state[20], state[21], state[22]])
         
         costs = []
         episodic_step_rewards = []
@@ -80,7 +80,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
         
         else: # New episode action sequences using neural network
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander": # Discrete actions
-                action_probs = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))[0]
+                action_probs = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(prob_vars.goal_state, dtype=torch.float32))[0]
                 
                 # print("actions_probs.detach().numpy( ", action_probs.detach().numpy(), "\n")
                 
@@ -148,7 +148,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                         
                     
                     # action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
-                    action_probs = model_ASN(next_states, torch.tensor(goal_state, dtype=torch.float32))
+                    action_probs = model_ASN(next_states, torch.tensor(prob_vars.goal_state, dtype=torch.float32))
                     
                     # print("action_probs ", action_probs, "\n")
                     # print("action_probs[loop_iter].detach().numpy() ", action_probs[0].detach().numpy(), "\n")
@@ -167,7 +167,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
             
             
             else: # Continuous actions # Pendulum, MountainCarContinuous, PandaReacher
-                action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
+                action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(prob_vars.goal_state, dtype=torch.float32))
                 # print("num_particles ", num_particles, "\n")
                 # print("action_mu ", action_mu, "\n")
                 # print("action_sigma ", action_sigma, "\n")
@@ -245,7 +245,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                             next_states = mid_quantile
                         
                         # action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
-                        action_mu, action_sigma = model_ASN(next_states, torch.tensor(goal_state, dtype=torch.float32))
+                        action_mu, action_sigma = model_ASN(next_states, torch.tensor(prob_vars.goal_state, dtype=torch.float32))
                         
                         # print("action_mu.shape ", action_mu.shape, "\n")
                         # print("action_sigma.shape ", action_sigma.shape, "\n")
@@ -319,7 +319,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                         
                         
                         # action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
-                        action_mu, action_sigma = model_ASN(next_states, torch.tensor(goal_state, dtype=torch.float32))
+                        action_mu, action_sigma = model_ASN(next_states, torch.tensor(prob_vars.goal_state, dtype=torch.float32))
                         
                         # print("action_mu.shape ", action_mu.shape, "\n")
                         # print("action_sigma.shape ", action_sigma.shape, "\n")
@@ -395,7 +395,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                 next_state = env.state.copy()
 
             if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
-                goal_state = next_state['desired_goal'] # 3 components
+                prob_vars.goal_state = next_state['desired_goal'] # 3 components
                 next_state = next_state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
                 # is_success_bool = info['is_success']
                 
@@ -418,10 +418,10 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
             #     replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
-                replay_buffer_ASN.push(state, goal_state, np.array([action]))
+                replay_buffer_ASN.push(state, prob_vars.goal_state, np.array([action]))
             else:
                 replay_buffer_QRNN.append((state, action, reward, next_state, terminated))
-                replay_buffer_ASN.push(state, goal_state, action)
+                replay_buffer_ASN.push(state, prob_vars.goal_state, action)
             
             if len (replay_buffer_ASN) < 32:
                 pass
@@ -554,7 +554,7 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
     episode_reward_list = []
     episode_success_rate = [] # For Panda Gym envs
 
-    goal_state = prob_vars.goal_state
+    # goal_state = prob_vars.goal_state
 
     nb_episode_success = 0 # For Panda Gym envs
 
@@ -578,13 +578,13 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
         if prob_vars.prob == "Pendulum":
             state = env.state.copy()
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
-            goal_state = state['desired_goal'] # 3 components
+            prob_vars.goal_state = state['desired_goal'] # 3 components
             state = state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
         if prob_vars.prob == "MuJoCoReacher":
-            goal_state = np.array([state[4], state[5]])
+            prob_vars.goal_state = np.array([state[4], state[5]])
             state = np.array([state[0], state[1], state[2], state[3], state[6], state[7], state[8], state[9]])
         if prob_vars.prob == "MuJoCoPusher":
-            goal_state = np.array([state[20], state[21], state[22]])
+            prob_vars.goal_state = np.array([state[20], state[21], state[22]])
             
         
         costs = []
@@ -698,7 +698,7 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
                 # state = env.state.copy()
                 next_state = env.state.copy()
             if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
-                goal_state = next_state['desired_goal'] # 3 components
+                prob_vars.goal_state = next_state['desired_goal'] # 3 components
                 next_state = next_state['observation']#[:3] # 6 components
             if prob_vars.prob == "MuJoCoReacher":
                 next_state = np.array([next_state[0], next_state[1], next_state[2], next_state[3], next_state[6], next_state[7], next_state[8], next_state[9]])

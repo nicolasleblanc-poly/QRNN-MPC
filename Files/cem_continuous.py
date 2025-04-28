@@ -133,31 +133,34 @@ class PlanningProblem(Problem):
             if use_mid:
                 mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
                 state_batch = mid_quantile
+
+            # costs += self.compute_cost(self.prob, state_batch, t, horizon, action_batch, self.goal_state)
             
         return state_batch
+        # return costs
 
     def _evaluate_batch(self, solutions: SolutionBatch):
 
-        costs = self.predict_plan_outcome(self.state, self.state_dim, self.action_dim, solutions.values, self.model_QRNN, self.use_sampling, self.use_mid, self.action_low, self.action_high, self.states_low, self.states_high)
+        # costs = self.predict_plan_outcome(self.state, self.state_dim, self.action_dim, solutions.values, self.model_QRNN, self.use_sampling, self.use_mid, self.action_low, self.action_high, self.states_low, self.states_high)
 
-        # final_states = self.predict_plan_outcome(self.state, self.state_dim, self.action_dim, solutions.values, self.model_QRNN, self.use_sampling, self.use_mid, self.action_low, self.action_high, self.states_low, self.states_high)
+        final_states = self.predict_plan_outcome(self.state, self.state_dim, self.action_dim, solutions.values, self.model_QRNN, self.use_sampling, self.use_mid, self.action_low, self.action_high, self.states_low, self.states_high)
         
-        # final_xys = final_states[:, -self.state_dim:]
+        final_xys = final_states[:, -self.state_dim:]
 
-        # # print("final_xys.shape ", final_xys.shape, "\n")
-        # # print("solutions.values.shape ", solutions.values.shape, "\n")
-        # # print("self.action_dim ", self.action_dim, "\n")
-        # # print("solutions.values[:, -self.action_dim] ", solutions.values[:, -self.action_dim:], "\n")
+        # print("final_xys.shape ", final_xys.shape, "\n")
+        # print("solutions.values.shape ", solutions.values.shape, "\n")
+        # print("self.action_dim ", self.action_dim, "\n")
+        # print("solutions.values[:, -self.action_dim] ", solutions.values[:, -self.action_dim:], "\n")
 
-        # if self.action_dim > 1:
-        #     errors = self.compute_cost(self.prob, final_xys, self.horizon, self.horizon, solutions.values[:, -self.action_dim:], self.goal_state)
-        # else:
-        #     errors = self.compute_cost(self.prob, final_xys, self.horizon, self.horizon, solutions.values[:, -self.action_dim], self.goal_state)
+        if self.action_dim > 1:
+            errors = self.compute_cost(self.prob, final_xys, self.horizon, self.horizon, solutions.values[:, -self.action_dim:], self.goal_state)
+        else:
+            errors = self.compute_cost(self.prob, final_xys, self.horizon, self.horizon, solutions.values[:, -self.action_dim], self.goal_state)
             
-        # # torch.linalg.norm(final_xys - self.target_xy, dim=-1)
-        # solutions.set_evals(errors)
+        # torch.linalg.norm(final_xys - self.target_xy, dim=-1)
+        solutions.set_evals(errors)
 
-        solutions.set_vals.evals(costs)
+        # solutions.set_evals(costs)
 
 def do_planning_cem(prob_vars, state, model_QRNN, use_sampling, use_mid):
     problem = PlanningProblem(prob_vars, state, model_QRNN, use_sampling, use_mid)

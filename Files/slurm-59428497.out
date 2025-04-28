@@ -7,8 +7,8 @@ The following modules were not unloaded:
   4) gcc/12.3        9)  ucc/1.2.0
   5) hwloc/2.9.1     10) openmpi/4.1.5
 Traceback (most recent call last):
-  File "/project/6086407/nileb3/QRNN-MPC/Files/run.py", line 20, in <module>
-    from main_funcs import main_QRNN_MPC, main_CEM, main_50NN_MSENN_MPC, main_CEM_50NN_MSENN
-  File "/project/6086407/nileb3/QRNN-MPC/Files/main_funcs.py", line 11, in <module>
+  File "/project/6086407/nileb3/QRNN-MPC/Files/run.py", line 22, in <module>
+    from setup import setup_class
+  File "/project/6086407/nileb3/QRNN-MPC/Files/setup.py", line 4, in <module>
     import panda_gym
 ModuleNotFoundError: No module named 'panda_gym'
