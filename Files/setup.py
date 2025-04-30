@@ -88,7 +88,8 @@ class setup_class:
             self.discrete = True
             self.horizon = 30
             self.max_episodes = 300
-            self.max_steps = 200
+            # self.max_steps = 200
+            self.max_steps = 600
 
             # For test
             # self.max_episodes = 2
@@ -158,14 +159,12 @@ class setup_class:
             self.max_episodes = 400
             # max_steps = 200 # No defined max episode length
             self.max_steps = 1000
-            # self.max_episodes = 2
-            # self.max_steps = 5
             self.std = None
             # self.change_prob = 0.01
             # self.change_prob = 0.05
             # self.change_prob = 0.1
-            # self.change_prob = 0.3
-            self.change_prob = 0.5
+            self.change_prob = 0.3
+            # self.change_prob = 0.5
 
             if self.change_prob == 0.01:
                 self.std_string = "001"
@@ -286,8 +285,8 @@ class setup_class:
             self.max_steps = 200
 
             # For test
-            # self.max_episodes = 2
-            # self.max_steps = 3
+            self.max_episodes = 2
+            self.max_steps = 3
 
             # Current test values
             # self.std = 0
@@ -376,6 +375,10 @@ class setup_class:
             self.horizon = 15
             self.max_episodes = 300
             self.max_steps = 200
+
+            # For test
+            # self.max_episodes = 3
+            # self.max_steps = 5
 
             # Current test values
             self.std = 0
@@ -499,26 +502,17 @@ class setup_class:
             self.discrete = False
             self.horizon = 30
             self.max_episodes = 300
-            # self.max_steps = 200 # No defined max episode length
-            self.max_steps = 1000
+            self.max_steps = 200 # No defined max episode length
 
-            # self.max_episodes = 2 #300
-            # self.max_steps = 10 #200 # No defined max episode length
+            # For test
+            # self.max_episodes = 2
+            # self.max_steps = 3
 
             # self.std = 1e-1
-            # self.std = 3e-1
-            self.std = 1
+            self.std = 3e-1
+            # self.std = 1
             # self.std = 1.5
             self.change_prob = None
-
-            if self.std == 1e-1:
-                self.std_string = "1em1"
-            elif self.std == 3e-1:
-                self.std_string = "3em1"
-            elif self.std == 1:
-                self.std_string = "1"
-            elif self.std == 1.5:
-                self.std_string = "15"
             
             self.nb_top_particles = 5
             # nb_random = 10
@@ -563,12 +557,12 @@ class setup_class:
             self.discrete = False
             self.horizon = 15
             # self.max_episodes = 100
-            self.max_episodes = 400
-            self.max_steps = 50
+            # self.max_episodes = 400
+            # self.max_steps = 50
             
             # For test
-            # self.max_episodes = 3
-            # self.max_steps = 5
+            self.max_episodes = 3
+            self.max_steps = 5
             
             # self.std = 1e-1
             self.std = 3e-1
@@ -626,9 +620,14 @@ class setup_class:
             self.discrete = False
             self.horizon = 15
             self.max_episodes = 100
-            self.max_steps = 50 
-            self.std = 1e-1
-            # self.std = 3e-1
+            self.max_steps = 50
+
+            # For test
+            # self.max_episodes = 3
+            # self.max_steps = 5
+
+            # self.std = 1e-1
+            self.std = 3e-1
             # self.std = 1
             # self.std = 1.5
             self.change_prob = None
@@ -681,6 +680,11 @@ class setup_class:
             self.horizon = 15
             self.max_episodes = 400
             self.max_steps = 50 
+
+            # For test
+            # self.max_episodes = 3
+            # self.max_steps = 5
+
             # self.std = 1e-1
             self.std = 3e-1
             # self.std = 1
@@ -736,8 +740,13 @@ class setup_class:
             self.horizon = 15
             self.max_episodes = 100
             self.max_steps = 50 
-            self.std = 1e-1
-            # self.std = 3e-1
+
+            # For test
+            # self.max_episodes = 3
+            # self.max_steps = 5
+
+            # self.std = 1e-1
+            self.std = 3e-1
             # self.std = 1
             # self.std = 1.5
             self.change_prob = None
@@ -748,13 +757,17 @@ class setup_class:
             # nb_random = 10
             
             self.env = gym.make('Pusher-v5', render_mode="rgb_array").unwrapped
+
+            self.states_low = torch.tensor([-100]*23)
+            self.states_high = torch.tensor([100]*23)
             
             # Hyperparameters    
             self.actions_lows = self.env.action_space.low#[:3]
             self.actions_highs = self.env.action_space.high#[:3]
-            self.states_low = self.env.observation_space['observation'].low#[:3]
-            self.states_high = self.env.observation_space['observation'].high#[:3]
-            self.state_dim = len(self.states_low)
+            # self.states_low = self.env.observation_space['observation'].low#[:3]
+            # self.states_high = self.env.observation_space['observation'].high#[:3]
+            # self.state_dim = len(self.states_low)
+            self.state_dim = 23
             self.action_dim = len(self.actions_lows)
             
             self.action_low = self.actions_lows[0]
@@ -763,8 +776,8 @@ class setup_class:
             self.goal_state_dim = 3
 
             # TBD
-            self.states_low = None # torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
-            self.states_high = None # torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
+            # self.states_low = None # torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
+            # self.states_high = None # torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
             
             def compute_cost_MuJoCoPusher(states, t, horizon, actions, goal_state=None):
                 return torch.norm(states[:, 14:17]-states[:, 17:20], dim=1)+torch.norm(states[:, 17:20]-states[:, 20:], dim=1)

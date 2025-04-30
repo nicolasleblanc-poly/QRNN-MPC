@@ -1,10 +1,10 @@
 import numpy as np
 import torch
 import random
-
+from scipy.optimize import minimize
 from state_pred_models import quantile_loss
 from ASGNN import train_ActionSequenceNN
-from choose_action_50NN_MSENN import choose_action_func_50NN_MSENN
+from choose_action_50NN_MSENN import choose_action_func_50NN_MSENN, choose_action_func_50NN_MSENN_LBFGSB
 
 def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN):
     
@@ -369,7 +369,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 action = [best_particle[0]]
                 actions_list.append(list(action))
             
-            elif prob_vars.prob == "PanadaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
                 action = best_particle[:prob_vars.action_dim]
                 # actions_list.append(list(action))
             
@@ -547,7 +547,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
     #         'optimizer_state_dict': optimizer_ASN.state_dict(),
     #     }, "model_ASN_{prob}_mid_{change_prob}.pth")
 
-    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher":
         return episode_reward_list_withASGNN, episode_success_rate_withASGNN
     else:
         return episode_reward_list_withASGNN
@@ -681,7 +681,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
                 action = [best_particle[0]]
                 # print("action ", action, "\n")
             
-            elif prob_vars.prob == "PanadaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
                 action = best_particle[:prob_vars.action_dim]
             
             elif prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
@@ -912,8 +912,225 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
     #         }, f"QRNN_basic_{prob_vars.prob}_mid_{prob_vars.change_prob}.pth")
 
     # return episode_reward_list
-    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher":
         return episode_reward_list, episode_success_rate
     else:
         return episode_reward_list
     
+
+def start_50NN_MSENN_MPC_LBFGSB(prob_vars, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, use_sampling, use_mid):
+    
+    episode_reward_list = []
+    episode_success_rate = [] # For Panda Gym envs
+
+    # goal_state = prob_vars.goal_state
+
+    nb_episode_success = 0 # For Panda Gym envs
+
+    # if prob == "PandaReacher" or prob == "PandaPusher":
+    #     states_low = torch.tensor(-10)
+    #     states_high = torch.tensor(10)
+
+    # if prob == "MuJoCoReacher":
+    #     states_low = torch.tensor([-1, -1, -1, -1, -100, -100, -torch.inf, -torch.inf])
+    #     states_high = torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
+
+    # print("seed ", seed, "\n")
+    # print("env ", env, "\n")
+
+    # for episode in range(tqdm(max_episodes)):
+    for episode in range(prob_vars.max_episodes):
+        state, _ = env.reset(seed=seed)
+        episode_reward = 0
+        done = False
+        actions_list = []
+        if prob_vars.prob == "Pendulum":
+            state = env.state.copy()
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
+            prob_vars.goal_state = state['desired_goal'] # 3 components
+            state = state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
+        if prob_vars.prob == "MuJoCoReacher":
+            prob_vars.goal_state = np.array([state[4], state[5]])
+            state = np.array([state[0], state[1], state[2], state[3], state[6], state[7], state[8], state[9]])
+        if prob_vars.prob == "MuJoCoPusher":
+            prob_vars.goal_state = np.array([state[20], state[21], state[22]])
+            
+        if episode <= 0:
+            if prob_vars.prob == "CartPole":
+                actions = np.random.randint(0, 2, (prob_vars.num_particles, prob_vars.horizon))
+            elif prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar": 
+                actions = np.random.randint(0, 3, (prob_vars.num_particles, prob_vars.horizon))
+            elif prob_vars.prob == "LunarLander":
+                actions = np.random.randint(0, 4, (prob_vars.num_particles, prob_vars.horizon))
+            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+                actions = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.action_dim*prob_vars.horizon))
+            else: # Pendulum, MountainCarContinuous
+                actions = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.horizon))
+        
+   
+        
+        # particles = np.zeros((num_particles, horizon))
+        # particles[0] = np.array([-1.982811505902002, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, -1.0812550657808897, 2.0, 2.0, 2.0, 0.6938272212396055, 2.0])
+        
+        # for step in range(tqdm(max_steps)):
+        for step in range(prob_vars.max_steps):
+            # Get the current state
+            # """ Need to change this!!!!!!!!!!!!!!!!! """
+            # state = env.state
+            # print("step ", step, "\n")
+            if prob_vars.prob == "Pendulum":
+                state = env.state.copy()
+            
+            best_cost = np.inf
+            best_action_sequence = None
+            for rep in range(prob_vars.nb_reps_MPC):
+                iter_rep = minimize(fun=choose_action_func_50NN_MSENN_LBFGSB,
+                        x0 = actions,
+                        jac=True,
+                        args=(prob_vars, state, use_sampling, use_mid, model_state),
+                        method='L-BFGS-B',
+                        bounds= [(prob_vars.action_low, prob_vars.action_high)],
+                        options= {
+                            "disp": None, "maxcor": 8, "ftol": 1e-18, "gtol": 1e-18, "eps": 1e-2, "maxfun": 8,
+                            "maxiter": 8, "iprint": -1, "maxls": 8, "finite_diff_rel_step": None
+                            },
+                )
+                actions_rep = iter_rep.x
+                cost_iter = iter_rep.fun
+                if cost_iter < best_cost:
+                    best_cost = cost_iter
+                    best_action_sequence = actions_rep
+
+                # actions, grads = choose_action_LBFGSB(actions, prob, state, horizon, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps, std, change_prob, nb_top_particles, nb_random)
+                        
+            # action = actions[0] #.detach().numpy()
+            action = best_action_sequence[0]
+            # print("action ", action, "\n")
+            
+            if action is None:
+                print("actions_rep ", actions_rep, '\n')
+                print("cost_iter ", cost_iter, "\n")
+            
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
+                # action = [best_particle[0]]
+                action = [action]
+            #     # print("action ", action, "\n")
+            
+            # elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            #     action = best_particle[:prob_vars.action_dim]
+            
+            elif prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
+                action = int(action)
+            
+            # if prob == "CartPole" or prob == "Acrobot":
+            #     action = int(action)
+            
+            # Apply the first action from the optimized sequence
+            next_state, reward, done, truncated, info = env.step(action)
+            
+            episode_reward += reward
+            actions_list.append(action)
+            
+            # Apply the first action from the optimized sequence
+            # next_state, reward, done, terminated, info = env.step(action)
+            # episode_reward += reward
+            if prob_vars.prob == "Pendulum":
+                # state = env.state.copy()
+                next_state = env.state.copy()
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
+                prob_vars.goal_state = next_state['desired_goal'] # 3 components
+                next_state = next_state['observation']#[:3] # 6 components
+            if prob_vars.prob == "MuJoCoReacher":
+                next_state = np.array([next_state[0], next_state[1], next_state[2], next_state[3], next_state[6], next_state[7], next_state[8], next_state[9]])
+                
+            # print("state ", state, "next_state ", next_state, "\n")
+            # print("states[0] ", state[0], "states[1] ", state[1], "\n")
+            
+            # episodic_step_rewards.append(episode_reward)
+            # episodic_step_reward_values.append(reward)
+            
+            # next_state = env.state.copy()
+            # Store experience in replay buffer
+            # print("state ", state, "\n")
+            
+            # if prob != "CartPole" and prob != "Acrobot":
+            #     replay_buffer.append((state, action, reward, next_state, done))
+            # else:
+            #     replay_buffer.append((state, np.array([action]), reward, next_state, terminated))
+            if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
+                replay_buffer_state.append((state, np.array([action]), reward, next_state, truncated))
+            else:
+                replay_buffer_state.append((state, action, reward, next_state, truncated))
+            
+                
+            if len(replay_buffer_state) < prob_vars.batch_size:
+                pass
+            else:
+                batch = random.sample(replay_buffer_state, prob_vars.batch_size)
+                states, actions_train, rewards, next_states, dones = zip(*batch)
+                # print("batch states ", states, "\n")
+                states = torch.tensor(states, dtype=torch.float32)
+                actions_tensor = torch.tensor(actions_train, dtype=torch.float32)
+                # print("actions.shape ", actions_tensor, "\n")
+                rewards = torch.tensor(rewards, dtype=torch.float32)
+                next_states = torch.tensor(next_states, dtype=torch.float32)
+                dones = torch.tensor(dones, dtype=torch.float32)
+
+                # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
+                #     # Clip states to ensure they are within the valid range
+                #     # before inputting them to the model (sorta like normalization)
+                states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
+                actions_tensor = torch.clip(actions_tensor, prob_vars.action_low, prob_vars.action_high)
+                
+                # Predict next state quantiles
+                # predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
+                
+                # Use next state as target (can be improved with target policy)
+                # target_quantiles = next_states
+                
+                predicted_next_states = model_state(states, actions_tensor)
+                
+                # Compute the target quantiles (e.g., replicate next state across the quantile dimension)
+                # target_quantiles = next_states.unsqueeze(-1).repeat(1, 1, num_quantiles)
+
+                # Compute Quantile Huber Loss
+                # loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
+                loss = loss_state(predicted_next_states, next_states)
+                
+                # # Compute Quantile Huber Loss
+                # loss = quantile_loss(predicted_quantiles, target_quantiles, quantiles)
+                
+                # Optimize the model
+                optimizer_state.zero_grad()
+                loss.backward()
+                optimizer_state.step()
+            
+            # if prob == "MuJoCoReacher":
+            #     if np.sqrt(next_state[-2]**2+next_state[-1]**2) < 0.05:
+            #         print("Reached target position \n")
+            #         done = True
+            
+            done = done or truncated
+            if done:
+                nb_episode_success += 1
+                break
+            
+            state = next_state
+        
+        # print("best_particle ", best_particle, "\n")
+        # print("actions ", actions, "\n")
+        # print('horizon: %d, episode: %d, reward: %d' % (horizon, episode, episode_reward))
+        episode_reward_list.append(episode_reward)
+
+        episode_success_rate.append(nb_episode_success/(episode+1)) # Episodic success rate for Panda Gym envs
+        # episode_success_rate.append(nb_episode_success) # /max_steps # Episodic success rate for Panda Gym envs     
+        
+        # print("actions_list ", actions_list, "\n")
+
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher":
+        return episode_reward_list, episode_success_rate
+    else:
+        return episode_reward_list
+    
+
+

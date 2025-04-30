@@ -77,10 +77,11 @@ class PlanningProblem(Problem):
         # cost = torch.zeros(num_particles, dtype=torch.float32)
         
         for t in range(horizon):
-            if self.action_dim > 1:
-                action_batch = plan_batch[:, t:t+action_dim, :]
-            else:
-                action_batch = plan_batch[:, t, :]
+            # if self.action_dim > 1:
+            #     action_batch = plan_batch[:, t:t+action_dim, :]
+            # else:
+            #     action_batch = plan_batch[:, t, :]
+            action_batch = plan_batch[:, t, :]
             # state_batch = model_QRNN(state_batch, action_batch)
 
             # print("state_batch.shape 2 ", state_batch.shape, "\n")
@@ -100,7 +101,7 @@ class PlanningProblem(Problem):
 
         # costs = self.predict_plan_outcome(self.state, self.state_dim, self.action_dim, solutions.values, self.model_QRNN, self.use_sampling, self.use_mid, self.action_low, self.action_high, self.states_low, self.states_high)
 
-        final_states = self.predict_plan_outcome(self.state, self.state_dim, self.action_dim, solutions.values, self.model_QRNN, self.use_sampling, self.use_mid, self.action_low, self.action_high, self.states_low, self.states_high)
+        final_states = self.predict_plan_outcome(self.state, self.state_dim, self.action_dim, solutions.values, self.model_state, self.use_sampling, self.use_mid, self.action_low, self.action_high, self.states_low, self.states_high)
         
         final_xys = final_states[:, -self.state_dim:]
 
@@ -184,7 +185,7 @@ def start_50NN_MSENN_MPC_CEM(prob_vars, env, seed, model_state, replay_buffer_st
             
             action = do_planning_cem(prob_vars, state, model_state, use_sampling, use_mid)
 
-            print("action ", action, "\n")
+            # print("action ", action, "\n")
             
             # costs.append(best_cost)
             

@@ -4,13 +4,18 @@ import torch
 
 # from run import compute_cost
 
-def mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampling, use_mid, model_ASN):
+def mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampling, use_mid, model_ASN=None): # , use_LBFGSB=False
     horizon = prob_vars.horizon
     num_particles = prob_vars.num_particles
     action_dim = prob_vars.action_dim
     nb_actions = prob_vars.nb_actions
 
     costs = torch.zeros(prob_vars.num_particles)
+
+    # print("len(sim_states) ", len(sim_states[0]), "\n")
+    # # print("sim_states ", sim_states, "\n")
+    # print("prob_vars.states_low ", prob_vars.states_low, "\n")
+    # print("prob_vars.states_high ", prob_vars.states_high, "\n")
     
     for h in range(horizon):
         if use_ASGNN and h == horizon-1:
@@ -46,12 +51,20 @@ def mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampli
                     #     print("action_mus[loop_iter] ", action_mus[loop_iter], "\n")
                     #     print("action_sigmas[loop_iter] ", action_sigmas[loop_iter], "\n")
 
+        # print("particles.shape ", particles.shape, "\n")
+
+        # if use_LBFGSB: # particles is a 1D array
+        #     if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
+        #         particles_t_array = particles[h * action_dim : (h + 1) * action_dim]
+        #     else:
+        #         particles_t_array = particles[h:h+1]
+
         # else:
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
             particles_t_array = particles[:, h * action_dim : (h + 1) * action_dim]
         else:
             particles_t_array = particles[:, h]
-            
+        
         actions = torch.tensor([particles_t_array], dtype=torch.float32).reshape(len(particles),action_dim)
         
         # print("actions.shape ", actions.shape, "\n")

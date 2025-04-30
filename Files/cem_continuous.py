@@ -63,31 +63,41 @@ class PlanningProblem(Problem):
         # print("num_particles ", num_particles, "\n")
 
         # print("state.shape ", state.shape, "\n")
+
+        # print("plan_batch.shape ", plan_batch.shape, "\n")
         
         # state_batch = state*torch.ones(num_particles, len(state))
         state_batch = state.repeat(num_particles, 1)  # Correct way to repeat along the first dimension
 
         # print("state_batch.shape ", state_batch.shape, "\n")
 
-        plan_batch = plan_batch.reshape(num_particles, -1, action_dim)
+        plan_batch = plan_batch.reshape(num_particles, -1, action_dim) # Reshape to (num_particles, horizon, action_dim)
         # print("plan_batch.shape 1 ", plan_batch.shape, "\n")
         horizon = plan_batch.shape[1]
         # print("horizon ", horizon, "\n")
 
-        costs = torch.zeros(num_particles)
-        
-        for t in range(horizon):
-            if self.action_dim > 1:
-                action_batch = plan_batch[:, t:t+self.action_dim, :]
-            else:
-                action_batch = plan_batch[:, t, :]
-            # state_batch = model_QRNN(state_batch, action_batch)
+        # print("plan_batch.shape ", plan_batch.shape, "\n")
 
+        costs = torch.zeros(num_particles)
+        # print("self.action_dim", self.action_dim, "\n")
+        
+        for t in range(horizon): # Actual horizon or action_dim*horizon
+            # print("t ", t, "\n")
+            # if self.action_dim > 1:
+            #     # action_batch = plan_batch[:, t:t+self.action_dim] # , :
+            # else:
+            #     action_batch = plan_batch[:, t]
+            action_batch = plan_batch[:, t] # , :
+            # state_batch = model_QRNN(state_batch, action_batch)
+            # print("plan_batch[:, 0].shape ", plan_batch[:, 0].shape, "\n")
             # print("state_batch.shape 2 ", state_batch.shape, "\n")
             # print("action_batch.shape 2 ", action_batch.shape, "\n")
 
             state_batch = torch.clip(state_batch, states_low, states_high)
             action_batch = torch.clip(action_batch, action_low, action_high)
+
+            # print("state_batch.shape 3 ", state_batch.shape, "\n")
+            # print("action_batch.shape 3 ", action_batch.shape, "\n")
 
             # Predict next states using the quantile model
             predicted_quantiles = model_QRNN(state_batch, action_batch)
@@ -198,14 +208,14 @@ def start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opt
         if prob_vars.prob == "Pendulum":
             state = env.state.copy()
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
-            goal_state = state['desired_goal'] # 3 components for Reach and for Push
+            prob_vars.goal_state = state['desired_goal'] # 3 components for Reach and for Push
             state = state['observation'] #[:3] # 6 components for Reach, 18 components for Push
             # print("goal_state ", goal_state, "\n")
         if prob_vars.prob == "MuJoCoReacher":
-            goal_state = np.array([state[4], state[5]])
+            prob_vars.goal_state = np.array([state[4], state[5]])
             state = np.array([state[0], state[1], state[2], state[3], state[6], state[7], state[8], state[9]])
         if prob_vars.prob == "MuJoCoPusher":
-            goal_state = np.array([state[20], state[21], state[22]])
+            prob_vars.goal_state = np.array([state[20], state[21], state[22]])
         
         costs = []
         episodic_step_rewards = []
@@ -227,7 +237,7 @@ def start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opt
             
             action = do_planning_cem(prob_vars, state, model_QRNN, use_sampling, use_mid)
 
-            print("action ", action, "\n")
+            # print("action ", action, "\n")
             
             # costs.append(best_cost)
             
