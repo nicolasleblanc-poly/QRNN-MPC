@@ -25,7 +25,8 @@ class setup_class:
         if prob == "CartPole":
             self.discrete = True
             self.horizon = 30
-            self.max_episodes = 100
+            # self.max_episodes = 100
+            self.max_episodes = 400
             self.max_steps = 200
 
             # For test
