@@ -88,9 +88,10 @@ class setup_class:
         elif prob == "Acrobot":
             self.discrete = True
             self.horizon = 30
-            self.max_episodes = 300
-            # self.max_steps = 200
-            self.max_steps = 600
+            # self.max_episodes = 300
+            self.max_episodes = 600
+            self.max_steps = 200
+            # self.max_steps = 600
 
             # For test
             # self.max_episodes = 2
@@ -225,7 +226,7 @@ class setup_class:
             self.horizon = 70
             # horizon = 100
             # max_episodes = 100
-            self.max_episodes = 400
+            self.max_episodes = 500
             self.max_steps = 200
             self.std = None
             # change_prob = 0.01
@@ -272,8 +273,11 @@ class setup_class:
                 
                 # Distance reward: Encourage progress towards the goal
                 distance_reward = (states[:, 0]-goal_position)**2 # -abs(goal_position - state[0])
-                
+
                 reverse_discount_factor = gamma**(horizon-t-1)
+                distance_reward = reverse_discount_factor*distance_reward
+                distance_reward += 0.05*(actions)**2
+                return distance_reward
                 
                 return reverse_discount_factor*distance_reward
             
@@ -457,10 +461,13 @@ class setup_class:
             
         elif prob == "MountainCarContinuous":
             self.discrete = False
-            self.horizon = 70
+            # self.horizon = 70
+            self.horizon = 12
             # horizon = 100
-            self.max_episodes = 100
-            self.max_steps = 300 # 999 # in reality
+            # self.max_episodes = 100
+            self.max_episodes = 500
+            # self.max_steps = 300 # 999 # in reality
+            self.max_steps = 1000
             # std = 1e-2
             self.std = 1e-1
             # self.std = 3e-1
@@ -494,8 +501,10 @@ class setup_class:
                 distance_reward = (states[:, 0]-goal_position)**2 # -abs(goal_position - state[0])
                 
                 reverse_discount_factor = gamma**(horizon-t-1)
-                
-                return reverse_discount_factor*distance_reward
+                distance_reward = reverse_discount_factor*distance_reward
+                distance_reward += 0.05*(actions)**2
+                return distance_reward
+                # return reverse_discount_factor*distance_reward
             
             self.compute_cost_MountainCarContinuous = compute_cost_MountainCarContinuous
 
@@ -503,7 +512,8 @@ class setup_class:
             self.discrete = False
             self.horizon = 30
             self.max_episodes = 300
-            self.max_steps = 200 # No defined max episode length
+            # self.max_steps = 200 # No defined max episode length
+            self.max_steps = 1000
 
             # For test
             # self.max_episodes = 2
