@@ -35,13 +35,9 @@ from setup import setup_class
 prob = "MuJoCoReacher"
 # prob = "MuJoCoPusher"
 
-<<<<<<< HEAD
-method_name = "MPC_QRNN_ASGNN_mid"
-# method_name = "MPC_QRNN_basic_mid"
-=======
+
 # method_name = "MPC_QRNN_ASGNN_mid"
 method_name = "MPC_QRNN_basic_mid"
->>>>>>> refs/remotes/origin/main
 # method_name = "MPC_QRNN_random_mid"
 # method_name = "MPC_QRNN_CEM_mid"
 # method_name = "MPC_QRNN_LBFGSB_mid"
