@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import gymnasium as gym
-# import panda_gym
+import panda_gym
 
 class setup_class:
     def __init__(self, prob):
@@ -568,12 +568,12 @@ class setup_class:
             self.discrete = False
             self.horizon = 15
             # self.max_episodes = 100
-            # self.max_episodes = 400
-            # self.max_steps = 50
+            self.max_episodes = 400
+            self.max_steps = 50
             
             # For test
-            self.max_episodes = 3
-            self.max_steps = 5
+            # self.max_episodes = 3
+            # self.max_steps = 5
             
             # self.std = 1e-1
             self.std = 3e-1
@@ -693,8 +693,8 @@ class setup_class:
             self.max_steps = 50 
 
             # For test
-            # self.max_episodes = 3
-            # self.max_steps = 5
+            self.max_episodes = 3
+            self.max_steps = 5
 
             # self.std = 1e-1
             self.std = 3e-1
