@@ -80,7 +80,8 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     std_rewards=std_episodic_returns
     )
 
-"""
+# First run
+# """
 # if method_name == "MPC_QRNN_ASGNN_mid":
 # Run MPC-QRNN-ASGNN mid
 do_RS = False
@@ -146,8 +147,9 @@ else:
 
 save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_basic_mid, mean_episode_rep_rewards_MPC_PF_QRNN_basic_mid, std_episode_rep_rewards_MPC_PF_QRNN_basic_mid)
 print("episode_rep_rewards_MPC_PF_QRNN_basic_mid saved \n")
-"""
-###################################################################################3
+# """
+###################################################################################
+# Second run
 """
 # if method_name == "MPC_QRNN_random_mid":
 # Run MPC-QRNN random mid
@@ -274,6 +276,7 @@ print("episode_rep_rewards_RS_mid_QRNN saved \n")
 # # # save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid)
 """
 
+# Third run
 """
 '''
 -----------------------------------------------------
@@ -346,6 +349,7 @@ save_data(prob, method_name, episode_rep_rewards_MPC_PF_50NN_basic_mid, mean_epi
 print("episode_rep_rewards_MPC_PF_50NN_basic_mid saved \n")
 """
 
+# Fourth run
 """
 # if method_name == "MPC_50NN_random_mid":
 # Run MPC-QRNN random mid
@@ -476,7 +480,7 @@ print("episode_rep_rewards_RS_mid_50NN saved \n")
 
 ##################################
 
-"""
+
 # NEED TO RUN ALL ENVS FROM HERE
 # '''
 # -----------------------------------------------------
@@ -484,6 +488,8 @@ print("episode_rep_rewards_RS_mid_50NN saved \n")
 # ------------------------------------------------------
 # '''
 
+# Run 5
+"""
 # if method_name == "MPC_MSENN_ASGNN_mid":
 # Run MPC-MSE-ASGNN mid
 do_RS = False
@@ -547,7 +553,10 @@ else:
 
 save_data(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid)
 print("episode_rep_rewards_MPC_PF_MSENN_basic_mid saved \n")
+"""
 
+# Run 6
+"""
 # if method_name == "MPC_MSENN_random_mid":
 # Run MPC-QRNN random mid
 do_RS = False
