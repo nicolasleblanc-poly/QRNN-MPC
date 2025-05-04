@@ -74,12 +74,13 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     np.savez(
-    f"test_{prob}_{method_name}_May4.npz",
+    f"{prob}_{method_name}_May4.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
     )
 
+"""
 # if method_name == "MPC_QRNN_ASGNN_mid":
 # Run MPC-QRNN-ASGNN mid
 do_RS = False
@@ -146,6 +147,8 @@ else:
 save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_basic_mid, mean_episode_rep_rewards_MPC_PF_QRNN_basic_mid, std_episode_rep_rewards_MPC_PF_QRNN_basic_mid)
 print("episode_rep_rewards_MPC_PF_QRNN_basic_mid saved \n")
 """
+###################################################################################3
+"""
 # if method_name == "MPC_QRNN_random_mid":
 # Run MPC-QRNN random mid
 do_RS = False
@@ -177,38 +180,39 @@ else:
 save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid)
 print("episode_rep_rewards_MPC_PF_QRNN_random_mid saved \n")
 
-# if method_name == "MPC_QRNN_CEM_mid":
-# Run MPC-QRNN-CEM mid
-if not prob_vars.discrete:
-    do_RS = False
-    use_ASGNN = False
-    model_QRNN_pretrained = None
-    optimizer_QRNN_pretrained = None
-    use_QRNN = True
-    use_50NN = False
-    use_MSENN = False
+# # if method_name == "MPC_QRNN_CEM_mid":
+# # Run MPC-QRNN-CEM mid
+# if not prob_vars.discrete:
+#     do_RS = False
+#     use_ASGNN = False
+#     model_QRNN_pretrained = None
+#     optimizer_QRNN_pretrained = None
+#     use_QRNN = True
+#     use_50NN = False
+#     use_MSENN = False
 
-    method_name = "MPC_QRNN_CEM_mid"
+#     method_name = "MPC_QRNN_CEM_mid"
 
-    # Experience replay buffer
-    replay_buffer_QRNN_pretrained = None
+#     # Experience replay buffer
+#     replay_buffer_QRNN_pretrained = None
 
-    use_sampling = False
-    use_mid = True
+#     use_sampling = False
+#     use_mid = True
 
-    model_QRNN = NextStateQuantileNetwork(prob_vars.state_dim, prob_vars.action_dim, prob_vars.num_quantiles)
-    optimizer_QRNN = optim.Adam(model_QRNN.parameters(), lr=1e-3)
+#     model_QRNN = NextStateQuantileNetwork(prob_vars.state_dim, prob_vars.action_dim, prob_vars.num_quantiles)
+#     optimizer_QRNN = optim.Adam(model_QRNN.parameters(), lr=1e-3)
 
-    # Experience replay buffer
-    replay_buffer_QRNN = []
+#     # Experience replay buffer
+#     replay_buffer_QRNN = []
 
-    if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
-        episode_rep_rewards_QRNN_MPC_CEM_mid, mean_episode_rep_rewards_QRNN_MPC_CEM_mid, std_episode_rep_rewards_QRNN_MPC_CEM_mid, episode_rep_SuccessRate_QRNN_MPC_CEM_mid, mean_episode_rep_SuccessRate_MPC_PF_QRNN_WithASGNN_sampling_mid, std_episode_rep_SuccessRate_QRNN_MPC_CEM_mid = main_CEM(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
+#     if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
+#         episode_rep_rewards_QRNN_MPC_CEM_mid, mean_episode_rep_rewards_QRNN_MPC_CEM_mid, std_episode_rep_rewards_QRNN_MPC_CEM_mid, episode_rep_SuccessRate_QRNN_MPC_CEM_mid, mean_episode_rep_SuccessRate_MPC_PF_QRNN_WithASGNN_sampling_mid, std_episode_rep_SuccessRate_QRNN_MPC_CEM_mid = main_CEM(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
 
-    else:
-        episode_rep_rewards_QRNN_MPC_CEM_mid, mean_episode_rep_rewards_QRNN_MPC_CEM_mid, std_episode_rep_rewards_QRNN_MPC_CEM_mid = main_CEM(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
+#     else:
+#         episode_rep_rewards_QRNN_MPC_CEM_mid, mean_episode_rep_rewards_QRNN_MPC_CEM_mid, std_episode_rep_rewards_QRNN_MPC_CEM_mid = main_CEM(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
 
-    save_data(prob, method_name, episode_rep_rewards_QRNN_MPC_CEM_mid, mean_episode_rep_rewards_QRNN_MPC_CEM_mid, std_episode_rep_rewards_QRNN_MPC_CEM_mid)
+#     save_data(prob, method_name, episode_rep_rewards_QRNN_MPC_CEM_mid, mean_episode_rep_rewards_QRNN_MPC_CEM_mid, std_episode_rep_rewards_QRNN_MPC_CEM_mid)
+#     print("episode_rep_rewards_QRNN_MPC_CEM_mid saved \n")
 
 # if method_name == "RS_mid_QRNN":
 # Run Random shooting using QRNN (RS-QRNN)
@@ -241,6 +245,7 @@ else:
 save_data(prob, method_name, episode_rep_rewards_RS_mid, mean_episode_rep_rewards_RS_mid, std_episode_rep_rewards_RS_mid)
 print("episode_rep_rewards_RS_mid_QRNN saved \n")
 
+
 # # # Run MPC-QRNN L-BFGS-B mid
 # # # use_ASGNN = False
 # # # use_sampling = False
@@ -267,8 +272,9 @@ print("episode_rep_rewards_RS_mid_QRNN saved \n")
 # # #     episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid = main_QRNN_MPC_LBFGSB(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
                                                                                                                                                                                 
 # # # save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid)
+"""
 
-
+"""
 '''
 -----------------------------------------------------
 Only 50% quantile used in predictions
@@ -338,7 +344,9 @@ else:
 
 save_data(prob, method_name, episode_rep_rewards_MPC_PF_50NN_basic_mid, mean_episode_rep_rewards_MPC_PF_50NN_basic_mid, std_episode_rep_rewards_MPC_PF_50NN_basic_mid)
 print("episode_rep_rewards_MPC_PF_50NN_basic_mid saved \n")
+"""
 
+"""
 # if method_name == "MPC_50NN_random_mid":
 # Run MPC-QRNN random mid
 do_RS = False
@@ -372,38 +380,39 @@ save_data(prob, method_name, episode_rep_rewards_MPC_PF_50NN_random_mid, mean_ep
 print("episode_rep_rewards_MPC_PF_50NN_random_mid saved \n")
 
 # if method_name == "MPC_50NN_CEM_mid":
-# Run MPC-QRNN-CEM mid
-if not prob_vars.discrete:
-    do_RS = False
-    use_ASGNN = False
-    model_QRNN_pretrained = None
-    optimizer_QRNN_pretrained = None
-    use_QRNN = False
-    use_50NN = True
-    use_MSENN = False
+# # Run MPC-QRNN-CEM mid
+# if not prob_vars.discrete:
+#     do_RS = False
+#     use_ASGNN = False
+#     model_QRNN_pretrained = None
+#     optimizer_QRNN_pretrained = None
+#     use_QRNN = False
+#     use_50NN = True
+#     use_MSENN = False
 
-    method_name = "MPC_50NN_CEM_mid"
+#     method_name = "MPC_50NN_CEM_mid"
 
-    # Experience replay buffer
-    replay_buffer_QRNN_pretrained = None
+#     # Experience replay buffer
+#     replay_buffer_QRNN_pretrained = None
 
-    use_sampling = False
-    use_mid = True
+#     use_sampling = False
+#     use_mid = True
 
-    model_50NN = NextStateSinglePredNetwork(prob_vars.state_dim, prob_vars.action_dim)
-    optimizer_50NN = optim.Adam(model_50NN.parameters(), lr=1e-3)
-    loss_50NN = quantile_loss_median
+#     model_50NN = NextStateSinglePredNetwork(prob_vars.state_dim, prob_vars.action_dim)
+#     optimizer_50NN = optim.Adam(model_50NN.parameters(), lr=1e-3)
+#     loss_50NN = quantile_loss_median
 
-    # Experience replay buffer
-    replay_buffer_50NN = []
+#     # Experience replay buffer
+#     replay_buffer_50NN = []
 
-    if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
-        episode_rep_rewards_50NN_MPC_CEM_mid, mean_episode_rep_rewards_50NN_MPC_CEM_mid, std_episode_rep_rewards_50NN_MPC_CEM_mid, episode_rep_SuccessRate_50NN_MPC_CEM_mid, mean_episode_rep_SuccessRate_MPC_PF_50NN_WithASGNN_sampling_mid, std_episode_rep_SuccessRate_50NN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_50NN, replay_buffer_50NN, optimizer_50NN, loss_50NN, use_sampling, use_mid)
+#     if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
+#         episode_rep_rewards_50NN_MPC_CEM_mid, mean_episode_rep_rewards_50NN_MPC_CEM_mid, std_episode_rep_rewards_50NN_MPC_CEM_mid, episode_rep_SuccessRate_50NN_MPC_CEM_mid, mean_episode_rep_SuccessRate_MPC_PF_50NN_WithASGNN_sampling_mid, std_episode_rep_SuccessRate_50NN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_50NN, replay_buffer_50NN, optimizer_50NN, loss_50NN, use_sampling, use_mid)
 
-    else:
-        episode_rep_rewards_50NN_MPC_CEM_mid, mean_episode_rep_rewards_50NN_MPC_CEM_mid, std_episode_rep_rewards_50NN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_50NN, replay_buffer_50NN, optimizer_50NN, loss_50NN, use_sampling, use_mid)
+#     else:
+#         episode_rep_rewards_50NN_MPC_CEM_mid, mean_episode_rep_rewards_50NN_MPC_CEM_mid, std_episode_rep_rewards_50NN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_50NN, replay_buffer_50NN, optimizer_50NN, loss_50NN, use_sampling, use_mid)
 
-    save_data(prob, method_name, episode_rep_rewards_50NN_MPC_CEM_mid, mean_episode_rep_rewards_50NN_MPC_CEM_mid, std_episode_rep_rewards_50NN_MPC_CEM_mid)
+#     save_data(prob, method_name, episode_rep_rewards_50NN_MPC_CEM_mid, mean_episode_rep_rewards_50NN_MPC_CEM_mid, std_episode_rep_rewards_50NN_MPC_CEM_mid)
+#     print("episode_rep_rewards_50NN_MPC_CEM_mid saved \n")
 
 # if method_name == "RS_mid_50NN":
 # Run Random shooting (RS)
@@ -463,8 +472,12 @@ print("episode_rep_rewards_RS_mid_50NN saved \n")
 #     episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid = main_50NN_MSENN_MPC_LBFGSB(prob_vars, method_name, model_50NN, replay_buffer_50NN, optimizer_50NN, loss_50NN, use_sampling, use_mid)
 
 # save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid)
+"""
 
+##################################
 
+"""
+# NEED TO RUN ALL ENVS FROM HERE
 # '''
 # -----------------------------------------------------
 # Predict next state using classic MSE error as loss

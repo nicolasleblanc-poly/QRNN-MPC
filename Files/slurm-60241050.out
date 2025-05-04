@@ -6,11 +6,7 @@ The following modules were not unloaded:
   3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
   4) gcc/12.3        9)  ucc/1.2.0
   5) hwloc/2.9.1     10) openmpi/4.1.5
-prob  Acrobot 
-
-method_name  MPC_50NN_random_mid 
-
-episode_rep_rewards_MPC_PF_50NN_random_mid saved 
-
-all done 
-
+  File "/project/6086407/nileb3/QRNN-MPC/Files/run_some.py", line 678
+    """
+    ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 678)
