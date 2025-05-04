@@ -35,7 +35,7 @@ prob = "CartPole"
 # prob = "MuJoCoReacher"
 # prob = "MuJoCoPusher"
 
-# method_name = "MPC_QRNN_ASGNN_mid"
+method_name = "MPC_QRNN_ASGNN_mid"
 # method_name = "MPC_QRNN_basic_mid"
 # method_name = "MPC_QRNN_random_mid"
 # method_name = "MPC_QRNN_CEM_mid"
@@ -54,7 +54,7 @@ prob = "CartPole"
 # method_name = "MPC_MSENN_random_mid"
 # method_name = "MPC_MSENN_CEM_mid"
 # method_name = "MPC_MSENN_LBFGSB_mid"
-method_name = "RS_mid_MSENN"
+# method_name = "RS_mid_MSENN"
 
 
 print("prob ", prob, "\n")
@@ -72,7 +72,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     np.savez(
-    f"{prob}_{method_name}_April2_1000_StepsPerEpisodeContLLepisodes_results.npz",
+    f"test_{prob}_{method_name}_April2_1000_StepsPerEpisodeContLLepisodes_results.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
@@ -85,7 +85,7 @@ if method_name == "MPC_QRNN_ASGNN_mid":
     use_sampling = False
     use_mid = True
     do_QRNN_step_rnd = False
-    method_name = "MPC_QRNN_ASGNN_mid"
+    # method_name = "MPC_QRNN_ASGNN_mid"
     use_QRNN = True
     use_50NN = False
     use_MSENN = False
@@ -207,6 +207,7 @@ if method_name == "MPC_QRNN_CEM_mid":
             episode_rep_rewards_QRNN_MPC_CEM_mid, mean_episode_rep_rewards_QRNN_MPC_CEM_mid, std_episode_rep_rewards_QRNN_MPC_CEM_mid = main_CEM(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, use_sampling, use_mid)
 
         save_data(prob, method_name, episode_rep_rewards_QRNN_MPC_CEM_mid, mean_episode_rep_rewards_QRNN_MPC_CEM_mid, std_episode_rep_rewards_QRNN_MPC_CEM_mid)
+        print("episode_rep_rewards_QRNN_MPC_CEM_mid saved \n")
 
 if method_name == "RS_mid_QRNN":
     # Run Random shooting using QRNN (RS-QRNN)
@@ -402,6 +403,7 @@ if method_name == "MPC_50NN_CEM_mid":
             episode_rep_rewards_50NN_MPC_CEM_mid, mean_episode_rep_rewards_50NN_MPC_CEM_mid, std_episode_rep_rewards_50NN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_50NN, replay_buffer_50NN, optimizer_50NN, loss_50NN, use_sampling, use_mid)
 
         save_data(prob, method_name, episode_rep_rewards_50NN_MPC_CEM_mid, mean_episode_rep_rewards_50NN_MPC_CEM_mid, std_episode_rep_rewards_50NN_MPC_CEM_mid)
+        print("episode_rep_rewards_50NN_MPC_CEM_mid saved \n")
 
 if method_name == "RS_mid_50NN":
     # Run Random shooting (RS)
@@ -598,6 +600,7 @@ if method_name == "MPC_MSENN_CEM_mid":
             episode_rep_rewards_MSENN_MPC_CEM_mid, mean_episode_rep_rewards_MSENN_MPC_CEM_mid, std_episode_rep_rewards_MSENN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, use_sampling, use_mid)
 
         save_data(prob, method_name, episode_rep_rewards_MSENN_MPC_CEM_mid, mean_episode_rep_rewards_MSENN_MPC_CEM_mid, std_episode_rep_rewards_MSENN_MPC_CEM_mid)
+        print("episode_rep_rewards_MSENN_MPC_CEM_mid saved \n")
 
 if method_name == "RS_mid_MSENN":
     # Run Random shooting (RS)
