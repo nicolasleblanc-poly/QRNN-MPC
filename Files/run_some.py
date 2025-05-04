@@ -22,14 +22,14 @@ from ASGNN import ReplayBuffer_ASGNN, ActionSequenceNN, gaussian_nll_loss, categ
 from setup import setup_class
 
 # Problem setup
-prob = "CartPole"
+# prob = "CartPole"
 # prob = "Acrobot"
 # prob = "MountainCar"
 # prob = "LunarLander"
 # prob = "Pendulum"
 # prob = "Pendulum_xyomega"
 # prob = "MountainCarContinuous"
-# prob = "LunarLanderContinuous"
+prob = "LunarLanderContinuous"
 # prob = "PandaReacher"
 # prob = "PandaPusher"
 # prob = "MuJoCoReacher"
@@ -81,7 +81,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     )
 
 # First run
-# """
+"""
 # if method_name == "MPC_QRNN_ASGNN_mid":
 # Run MPC-QRNN-ASGNN mid
 do_RS = False
@@ -147,7 +147,8 @@ else:
 
 save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_basic_mid, mean_episode_rep_rewards_MPC_PF_QRNN_basic_mid, std_episode_rep_rewards_MPC_PF_QRNN_basic_mid)
 print("episode_rep_rewards_MPC_PF_QRNN_basic_mid saved \n")
-# """
+"""
+
 ###################################################################################
 # Second run
 """
@@ -556,7 +557,7 @@ print("episode_rep_rewards_MPC_PF_MSENN_basic_mid saved \n")
 """
 
 # Run 6
-"""
+# """
 # if method_name == "MPC_MSENN_random_mid":
 # Run MPC-QRNN random mid
 do_RS = False
@@ -687,5 +688,6 @@ print("episode_rep_rewards_RS_mid_MSENN saved \n")
 # print("part 3 MSENN \n")
 # print("only RS MSENN \n")
 # print("CEM for real now \n")
+# """
 print("all done \n")
-"""
+

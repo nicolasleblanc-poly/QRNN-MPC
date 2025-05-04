@@ -26,12 +26,12 @@ class setup_class:
             self.discrete = True
             self.horizon = 30
             # self.max_episodes = 100
-            # self.max_episodes = 400
-            # self.max_steps = 200
+            self.max_episodes = 400
+            self.max_steps = 200
 
             # For test
-            self.max_episodes = 2
-            self.max_steps = 3
+            # self.max_episodes = 2
+            # self.max_steps = 3
                         
             self.std = None
             # self.change_prob = 0.01
