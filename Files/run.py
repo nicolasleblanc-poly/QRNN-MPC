@@ -22,7 +22,7 @@ from ASGNN import ReplayBuffer_ASGNN, ActionSequenceNN, gaussian_nll_loss, categ
 from setup import setup_class
 
 # Problem setup
-prob = "CartPole"
+# prob = "CartPole"
 # prob = "Acrobot"
 # prob = "MountainCar"
 # prob = "LunarLander"
@@ -32,11 +32,11 @@ prob = "CartPole"
 # prob = "LunarLanderContinuous"
 # prob = "PandaReacher"
 # prob = "PandaPusher"
-# prob = "MuJoCoReacher"
+prob = "MuJoCoReacher"
 # prob = "MuJoCoPusher"
 
 # method_name = "MPC_QRNN_ASGNN_mid"
-# method_name = "MPC_QRNN_basic_mid"
+method_name = "MPC_QRNN_basic_mid"
 # method_name = "MPC_QRNN_random_mid"
 # method_name = "MPC_QRNN_CEM_mid"
 # method_name = "MPC_QRNN_LBFGSB_mid"
@@ -54,11 +54,12 @@ prob = "CartPole"
 # method_name = "MPC_MSENN_random_mid"
 # method_name = "MPC_MSENN_CEM_mid"
 # method_name = "MPC_MSENN_LBFGSB_mid"
-method_name = "RS_mid_MSENN"
+# method_name = "RS_mid_MSENN"
 
 
 print("prob ", prob, "\n")
 print("method_name ", method_name, "\n")
+
 
 prob_vars = setup_class(prob)
 
@@ -72,7 +73,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     np.savez(
-    f"{prob}_{method_name}_April2_1000_StepsPerEpisodeContLLepisodes_results.npz",
+    f"test_{prob}_{method_name}_April2_1000_StepsPerEpisodeContLLepisodes_results.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
