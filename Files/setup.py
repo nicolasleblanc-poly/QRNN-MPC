@@ -269,17 +269,11 @@ class setup_class:
             self.states_high = torch.tensor([0.6, 0.07])
             
             def compute_cost_MountainCar(states, t, horizon, actions):
-                actions = actions.reshape(-1)  # Ensure actions are flattened
-
                 goal_position = 0.5  # Position goal in Mountain Car
                 gamma = 0.90 # 0.0  # Discount factor for delayed rewards
                 
                 # Distance reward: Encourage progress towards the goal
                 distance_reward = (states[:, 0]-goal_position)**2 # -abs(goal_position - state[0])
-
-                # print("states[:, 0].shape ", states[:, 0].shape, "\n")
-                # print("actions.shape ", actions.shape, "\n")
-                # print("distance_reward.shape ", distance_reward.shape, "\n")
 
                 reverse_discount_factor = gamma**(horizon-t-1)
                 distance_reward = reverse_discount_factor*distance_reward
