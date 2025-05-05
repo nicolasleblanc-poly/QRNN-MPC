@@ -22,7 +22,7 @@ from ASGNN import ReplayBuffer_ASGNN, ActionSequenceNN, gaussian_nll_loss, categ
 from setup import setup_class
 
 # Problem setup
-prob = "CarTPole"
+prob = "CartPole"
 
 print("prob ", prob, "\n")
 print("all methods \n")

@@ -73,7 +73,8 @@ def mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_state
         # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
         #     # Clip states to ensure they are within the valid range
         #     # before inputting them to the model (sorta like normalization)
-        sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+        # sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+        sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
         actions = actions.clip(prob_vars.action_low, prob_vars.action_high)
 
         # Predict next states using the quantile model

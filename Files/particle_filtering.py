@@ -81,3 +81,65 @@ def particle_filtering_func(prob_vars, particles, costs, best_action_sequence):
     return best_first_action, particles
 
 
+def discrete_cem_func(prob_vars, particles, costs, best_action_sequence):
+
+    # num_sequences, sequence_length = particles.shape
+    num_particles = prob_vars.num_particles
+    horizon = prob_vars.horizon
+    num_actions = prob_vars.nb_actions
+
+    laplace_alpha = prob_vars.laplace_alpha
+
+    # Get the indices of the top 15 particles
+    top_indices = torch.argsort(costs)[:prob_vars.nb_top_particles]
+    top_particles = particles[top_indices]
+
+    position_probs = np.zeros((horizon, num_actions))
+
+    for t in range(horizon):
+        counts = np.bincount(top_particles[:, t], minlength=num_actions)
+        smoothed_counts = counts + laplace_alpha
+        position_probs[t] = smoothed_counts / smoothed_counts.sum()
+
+    new_particles = np.zeros((prob_vars.num_particles, horizon), dtype=int)
+    
+    for t in range(horizon):
+        new_particles[:, t] = np.random.choice(num_actions, size=num_particles, p=position_probs[t])
+
+    return new_particles
+
+
+
+def continuous_cem_func(prob_vars, particles, costs, best_action_sequence, noisy=False):
+
+    # num_sequences, sequence_length = particles.shape
+    num_particles = prob_vars.num_particles
+    horizon = prob_vars.horizon
+    num_actions = prob_vars.nb_actions
+
+    mu0 = np.mean(particles, axis=0)
+
+    if prob_vars.action_dim > 1:
+        sigma0 = np.std(particles)
+    else:
+        sigma0 = np.cov(particles, rowvar=False, bias = True)
+
+    
+    # Get the indices of the top 15 particles
+    top_indices = torch.argsort(costs)[:prob_vars.nb_top_particles]
+    top_particles = particles[top_indices]
+
+    mean = np.mean(top_particles, axis=0)
+    std = np.std(top_particles, axis=0)
+
+
+    if noisy:
+        pass
+
+
+    
+    # Sample new_particles
+    new_particles = np.random.multivariate_normal(mu0, sigma0, size=num_particles)
+
+    return new_particles
+

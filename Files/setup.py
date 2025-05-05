@@ -14,6 +14,8 @@ class setup_class:
         # print("random_seeds ", type(random_seeds[0]), "\n")
         self.nb_rep_episodes = len(self.random_seeds)
 
+        self.laplace_alpha = 1
+
         # Constants
         self.batch_size = 32
         self.num_particles = 100
@@ -136,7 +138,7 @@ class setup_class:
             self.states_low = torch.tensor([-1, -1, -1, -1, -12.566371, -28.274334])
             self.states_high = torch.tensor([1, 1, 1, 1, 12.566371, 28.274334])
             
-            def compute_cost_Acrobot(states, t, horizon, actions):
+            def compute_cost_Acrobot(self, states, t, horizon, actions):
                 """
                 Compute the cost based on the state and action for the CartPole environment.
                 """
@@ -146,8 +148,11 @@ class setup_class:
                 
                 # distance_to_goal = 1 + (np.cos(theta1) + np.cos(theta1 + theta2))
                 
-                theta1 = torch.arccos(torch.clip(states[:, 0],-1,1))  # First joint angle
-                theta2 = torch.arccos(torch.clip(states[:, 2],-1,1))  # Second joint angle
+                # theta1 = torch.arccos(torch.clip(states[:, 0],-1,1))  # First joint angle
+                # theta2 = torch.arccos(torch.clip(states[:, 2],-1,1))  # Second joint angle
+
+                theta1 = 2 * ((states[:, 0] - self.states_low) / (self.states_high - self.states_low)) - 1
+                theta2 = 2 * ((states[:, 2] - self.states_low) / (self.states_high - self.states_low)) - 1
                 
                 distance_to_goal = 1 + (torch.cos(theta1) + torch.cos(theta1 + theta2))
                 cost = distance_to_goal ** 2
@@ -269,6 +274,8 @@ class setup_class:
             self.states_high = torch.tensor([0.6, 0.07])
             
             def compute_cost_MountainCar(states, t, horizon, actions):
+                actions = actions.reshape(-1)
+
                 goal_position = 0.5  # Position goal in Mountain Car
                 gamma = 0.90 # 0.0  # Discount factor for delayed rewards
                 
@@ -278,6 +285,10 @@ class setup_class:
                 reverse_discount_factor = gamma**(horizon-t-1)
                 distance_reward = reverse_discount_factor*distance_reward
                 distance_reward += 0.05*(actions)**2
+
+                # weights = np.array([1, 0])
+                # distance_reward = np.dot(weights, distance_reward)
+
                 return distance_reward
                 
                 return reverse_discount_factor*distance_reward
