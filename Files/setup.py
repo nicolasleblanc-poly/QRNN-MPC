@@ -510,6 +510,10 @@ class setup_class:
             self.states_high = torch.tensor([0.6, 0.07])
             
             def compute_cost_MountainCarContinuous(states, t, horizon, actions):
+                
+                # print("actions.shape ", actions.shape, "\n")
+                actions = actions.reshape(-1)
+
                 goal_position = 0.45  # Position goal in Mountain Car
                 gamma = 0.90 # 0.0  # Discount factor for delayed rewards
                 
