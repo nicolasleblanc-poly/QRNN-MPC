@@ -16,7 +16,10 @@ def mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_state
         if use_ASGNN and h == horizon-1:
             # Use ASGNN to generate last action/actions based of last non-terminal state
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "LunarLander" or prob_vars.prob == "MountainCar": # Discrete actions
-                action_probs = model_ASN(next_states, torch.tensor(prob_vars.goal_state, dtype=torch.float32))
+
+                # print("sim_states ", sim_states, "\n")
+
+                action_probs = model_ASN(sim_states, torch.tensor(prob_vars.goal_state, dtype=torch.float32))
                 
                 # print("action_probs ", action_probs, "\n")
                 # print("action_probs[loop_iter].detach().numpy() ", action_probs[0].detach().numpy(), "\n")
@@ -73,8 +76,8 @@ def mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_state
         # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
         #     # Clip states to ensure they are within the valid range
         #     # before inputting them to the model (sorta like normalization)
-        # sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
-        sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+        sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+        # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
         actions = actions.clip(prob_vars.action_low, prob_vars.action_high)
 
         # Predict next states using the quantile model
@@ -123,9 +126,13 @@ def mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_state
         #     next_states = mid_quantile
 
         next_states = model_state(sim_states, actions)
+        # print("next_states ", next_states, "\n")
 
         # Update state and accumulate cost
         sim_states = next_states
+        sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+        # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+        
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
             costs += prob_vars.compute_cost(prob_vars.prob, next_states, h, horizon, actions, prob_vars.goal_state)
             # print("costs ", costs, "\n")

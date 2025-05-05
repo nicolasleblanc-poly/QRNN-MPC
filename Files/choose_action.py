@@ -192,6 +192,7 @@ def choose_action_func_LBFGSB(actions, prob_vars, state, use_sampling, use_mid, 
         #     # Clip states to ensure they are within the valid range
         #     # before inputting them to the model (sorta like normalization)
         sim_state = torch.clip(sim_state, prob_vars.states_low, prob_vars.states_high)
+        # sim_state = 2 * ((sim_state - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
         action_tensor = action_tensor.clip(prob_vars.action_low, prob_vars.action_high)
 
         # print("sim_state.shape ", sim_state.shape, '\n')

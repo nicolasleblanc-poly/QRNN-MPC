@@ -83,8 +83,8 @@ def mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampli
         #     # before inputting them to the model (sorta like normalization)
 
 
-        # # sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
-        sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+        sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+        # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
 
         actions = actions.clip(prob_vars.action_low, prob_vars.action_high)
 
@@ -135,6 +135,8 @@ def mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampli
 
         # Update state and accumulate cost
         sim_states = next_states
+        sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+        # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
         
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
             costs += prob_vars.compute_cost(prob_vars.prob, next_states, h, horizon, actions, prob_vars.goal_state)

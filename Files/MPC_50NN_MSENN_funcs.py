@@ -97,8 +97,8 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                     sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                     actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
                     
-                    # sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
-                    sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+                    sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+                    # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
                     actions = torch.clip(actions, prob_vars.action_low, prob_vars.action_high)
 
                     # Predict next states using the quantile model_QRNN
@@ -199,8 +199,8 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                         # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
                         #     # Clip states to ensure they are within the valid range
                         #     # before inputting them to the model (sorta like normalization)
-                        # sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
-                        sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+                        sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+                        # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
                         actions = torch.clip(actions, prob_vars.action_low, prob_vars.action_high)
 
                         # # Predict next states using the quantile model
@@ -273,8 +273,8 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                         # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
                         #     # Clip states to ensure they are within the valid range
                         #     # before inputting them to the model (sorta like normalization)
-                        # sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
-                        sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+                        sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
+                        # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
                         actions = torch.clip(actions, prob_vars.action_low, prob_vars.action_high)
                         
                         # # Predict next states using the quantile model_QRNN
@@ -451,8 +451,8 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
                 #     # Clip states to ensure they are within the valid range
                 #     # before inputting them to the model (sorta like normalization)
-                # states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
-                states = 2 * ((states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+                states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
+                # states = 2 * ((states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
                 actions_tensor = torch.clip(actions_tensor, prob_vars.action_low, prob_vars.action_high)
                 
                 # Predict next state quantiles
@@ -748,8 +748,8 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
                 # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
                 #     # Clip states to ensure they are within the valid range
                 #     # before inputting them to the model (sorta like normalization)
-                # states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
-                states = 2 * ((states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+                states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
+                # states = 2 * ((states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
                 actions_tensor = torch.clip(actions_tensor, prob_vars.action_low, prob_vars.action_high)
                 
                 # Predict next state quantiles
@@ -1084,8 +1084,8 @@ def start_50NN_MSENN_MPC_LBFGSB(prob_vars, env, seed, model_state, replay_buffer
                 # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
                 #     # Clip states to ensure they are within the valid range
                 #     # before inputting them to the model (sorta like normalization)
-                # states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
-                states = 2 * ((states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+                states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
+                # states = 2 * ((states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
                 actions_tensor = torch.clip(actions_tensor, prob_vars.action_low, prob_vars.action_high)
                 
                 # Predict next state quantiles
