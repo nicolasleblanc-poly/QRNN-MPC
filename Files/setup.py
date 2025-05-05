@@ -138,7 +138,7 @@ class setup_class:
             self.states_low = torch.tensor([-1, -1, -1, -1, -12.566371, -28.274334])
             self.states_high = torch.tensor([1, 1, 1, 1, 12.566371, 28.274334])
             
-            def compute_cost_Acrobot(self, states, t, horizon, actions):
+            def compute_cost_Acrobot(states, t, horizon, actions):
                 """
                 Compute the cost based on the state and action for the CartPole environment.
                 """
@@ -148,11 +148,15 @@ class setup_class:
                 
                 # distance_to_goal = 1 + (np.cos(theta1) + np.cos(theta1 + theta2))
                 
-                # theta1 = torch.arccos(torch.clip(states[:, 0],-1,1))  # First joint angle
-                # theta2 = torch.arccos(torch.clip(states[:, 2],-1,1))  # Second joint angle
+                theta1 = torch.arccos(torch.clip(states[:, 0],-1,1))  # First joint angle
+                theta2 = torch.arccos(torch.clip(states[:, 2],-1,1))  # Second joint angle
 
-                theta1 = 2 * ((states[:, 0] - self.states_low) / (self.states_high - self.states_low)) - 1
-                theta2 = 2 * ((states[:, 2] - self.states_low) / (self.states_high - self.states_low)) - 1
+                
+                # states_low = torch.tensor([-1, -1, -1, -1, -12.566371, -28.274334])
+                # states_high = torch.tensor([1, 1, 1, 1, 12.566371, 28.274334])
+                # theta1 = 2 * ((states[:, 0] - states_low) / (states_high - states_low)) - 1
+                # theta2 = 2 * ((states[:, 2] - states_low) / (states_high - states_low)) - 1
+                
                 
                 distance_to_goal = 1 + (torch.cos(theta1) + torch.cos(theta1 + theta2))
                 cost = distance_to_goal ** 2

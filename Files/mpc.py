@@ -21,6 +21,7 @@ def mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampli
         if use_ASGNN and h == horizon-1:
             # Use ASGNN to generate last action/actions based of last non-terminal state
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "LunarLander" or prob_vars.prob == "MountainCar": # Discrete actions
+                # print("sim_states ", sim_states, "\n")
                 action_probs = model_ASN(sim_states, torch.tensor(prob_vars.goal_state, dtype=torch.float32))
                 
                 # print("action_probs ", action_probs, "\n")
