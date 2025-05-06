@@ -7,7 +7,8 @@ from mpc import mpc_func
 def particle_filtering_func(prob_vars, particles, costs, best_action_sequence):
 
     # print("costs.shape ", costs.shape, "\n")
-    costs = costs.sum(dim=1)
+    if not prob_vars.discrete:
+        costs = costs.sum(dim=1)
     # print("costs.shape ", costs.shape, "\n")
 
     # Get the indices of the top 15 particles
@@ -87,7 +88,9 @@ def particle_filtering_func(prob_vars, particles, costs, best_action_sequence):
 
 def discrete_cem_func(prob_vars, particles, costs, best_action_sequence):
 
-    costs = costs.sum(dim=1)
+    # costs = costs.sum(dim=1)
+    if not prob_vars.discrete:
+        costs = costs.sum(dim=1)
 
     # num_sequences, sequence_length = particles.shape
     num_particles = prob_vars.num_particles
@@ -112,7 +115,17 @@ def discrete_cem_func(prob_vars, particles, costs, best_action_sequence):
     for t in range(horizon):
         new_particles[:, t] = np.random.choice(num_actions, size=num_particles, p=position_probs[t])
 
-    return new_particles
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+        # print("best_cost ", best_cost, "\n")
+        # print("best_action_sequence ", best_action_sequence, "\n")
+        
+        particles[prob_vars.num_particles-prob_vars.nb_random:] = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.nb_random, prob_vars.horizon*prob_vars.action_dim))
+        best_first_action = best_action_sequence[:prob_vars.action_dim] # .item()
+    else: # Pendulum, MountainCarContinuous
+        particles[prob_vars.num_particles-prob_vars.nb_random:] = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.nb_random, prob_vars.horizon))
+        best_first_action = best_action_sequence[0].item()
+
+    return best_first_action, new_particles
 
 def continuous_cem_func(prob_vars, particles, costs, best_action_sequence, noisy=False):
 
@@ -140,7 +153,17 @@ def continuous_cem_func(prob_vars, particles, costs, best_action_sequence, noisy
     else:
         new_particles = np.random.normal(mu, sigma, size=(num_particles, horizon))
 
-    return new_particles
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+        # print("best_cost ", best_cost, "\n")
+        # print("best_action_sequence ", best_action_sequence, "\n")
+        
+        particles[prob_vars.num_particles-prob_vars.nb_random:] = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.nb_random, prob_vars.horizon*prob_vars.action_dim))
+        best_first_action = best_action_sequence[:prob_vars.action_dim] # .item()
+    else: # Pendulum, MountainCarContinuous
+        particles[prob_vars.num_particles-prob_vars.nb_random:] = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.nb_random, prob_vars.horizon))
+        best_first_action = best_action_sequence[0].item()
+
+    return best_first_action, new_particles
 
 
 """
