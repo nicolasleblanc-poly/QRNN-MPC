@@ -112,34 +112,56 @@ def discrete_cem_func(prob_vars, particles, costs, best_action_sequence):
 
 def continuous_cem_func(prob_vars, particles, costs, best_action_sequence, noisy=False):
 
+    alpha = 0.7 # Update rate
+    
+    if noisy:
+        a = 5
+        b = 100
+
     # num_sequences, sequence_length = particles.shape
     num_particles = prob_vars.num_particles
     horizon = prob_vars.horizon
     num_actions = prob_vars.nb_actions
 
-    mu0 = np.mean(particles, axis=0)
+    # mu0 = np.mean(particles, axis=0)
 
-    if prob_vars.action_dim > 1:
-        sigma0 = np.std(particles)
-    else:
-        sigma0 = np.cov(particles, rowvar=False, bias = True)
+    # if prob_vars.action_dim > 1:
+    #     sigma0 = np.std(particles)
+    # else:
+    #     sigma0 = np.cov(particles, rowvar=False, bias = True)
 
     
     # Get the indices of the top 15 particles
     top_indices = torch.argsort(costs)[:prob_vars.nb_top_particles]
     top_particles = particles[top_indices]
 
-    mean = np.mean(top_particles, axis=0)
-    std = np.std(top_particles, axis=0)
+    new_mu = np.mean(top_particles, axis=0)
+    # sigma = np.std(top_particles, axis=0)
 
+    # Smoothing
+    mu = alpha * new_mu + (1 - alpha) * mu
 
-    if noisy:
-        pass
+    if prob_vars.action_dim > 1:
+        new_sigma = np.cov(top_particles, rowvar=False, bias = True)
 
+        # Smoothing and add noise if so
+        if noisy:
+            noise = max(0, a-num_particles/b)
+            noise = np.diag([noise]*horizon)
+        else:
+            sigma = alpha**2 * new_sigma + (1 - alpha)**2 * (sigma+noise)
 
+    else: # 1D action space
+        new_sigma = np.std(top_particles, axis=0)
+
+        # Smoothing and add noise if so
+        if noisy:
+            pass
+        else:
+            sigma = alpha**2 * new_sigma + (1 - alpha)**2 * (sigma+noise)
     
     # Sample new_particles
-    new_particles = np.random.multivariate_normal(mu0, sigma0, size=num_particles)
+    new_particles = np.random.multivariate_normal(mu, sigma, size=num_particles)
 
     return new_particles
 
