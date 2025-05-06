@@ -4,7 +4,7 @@ import gymnasium as gym
 # import panda_gym
 
 class setup_class:
-    def __init__(self, prob):
+    def __init__(self, prob, use_CEM=False):
         self.prob = prob
 
         self.nb_actions = None
@@ -15,6 +15,7 @@ class setup_class:
         self.nb_rep_episodes = len(self.random_seeds)
 
         self.laplace_alpha = 1
+        self.use_CEM = use_CEM
 
         # Constants
         self.batch_size = 32
