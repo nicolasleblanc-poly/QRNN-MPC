@@ -7,8 +7,8 @@ from mpc import mpc_func
 def particle_filtering_func(prob_vars, particles, costs, best_action_sequence):
 
     # print("costs.shape ", costs.shape, "\n")
-    if not prob_vars.discrete:
-        costs = costs.sum(dim=1)
+    # if not prob_vars.discrete:
+    #     costs = costs.sum(dim=1)
     # print("costs.shape ", costs.shape, "\n")
 
     # Get the indices of the top 15 particles
@@ -89,8 +89,8 @@ def particle_filtering_func(prob_vars, particles, costs, best_action_sequence):
 def discrete_cem_func(prob_vars, particles, costs, best_action_sequence):
 
     # costs = costs.sum(dim=1)
-    if not prob_vars.discrete:
-        costs = costs.sum(dim=1)
+    # if not prob_vars.discrete:
+    #     costs = costs.sum(dim=1)
 
     # num_sequences, sequence_length = particles.shape
     num_particles = prob_vars.num_particles
@@ -129,7 +129,7 @@ def discrete_cem_func(prob_vars, particles, costs, best_action_sequence):
 
 def continuous_cem_func(prob_vars, particles, costs, best_action_sequence, noisy=False):
 
-    costs = costs.sum(dim=1)
+    # costs = costs.sum(dim=1)
 
     # num_sequences, sequence_length = particles.shape
     num_particles = prob_vars.num_particles

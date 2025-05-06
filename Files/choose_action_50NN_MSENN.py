@@ -78,9 +78,9 @@ def choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampli
 
         if prob_vars.use_CEM:
             if prob_vars.discrete:
-                particles = discrete_cem_func(prob_vars, particles, costs, best_action_sequence)
+                best_first_action, particles = discrete_cem_func(prob_vars, particles, costs, best_action_sequence)
             else:
-                particles = continuous_cem_func(prob_vars, particles, costs, best_action_sequence)
+                best_first_action, particles = continuous_cem_func(prob_vars, particles, costs, best_action_sequence)
 
         else:
             best_first_action, particles = particle_filtering_func(prob_vars, particles, costs, best_action_sequence)
@@ -88,7 +88,7 @@ def choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampli
     # best_first_action = int(best_action_sequence[0].item())
     return best_action_sequence, best_first_action, best_cost, particles
 
-
+# old stuff
 def choose_action_func_50NN_MSENN_LBFGSB(actions, prob_vars, state, use_sampling, use_mid, model_state, episode=0, step=1, goal_state=None):
 
     sim_state = torch.tensor(state, dtype=torch.float32)

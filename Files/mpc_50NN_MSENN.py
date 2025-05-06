@@ -59,6 +59,7 @@ def mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_state
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
             particles_t_array = particles[:, h * action_dim : (h + 1) * action_dim]
         else:
+            # print("particles.shape ", particles.shape, "\n")
             particles_t_array = particles[:, h]
         
         actions = torch.tensor([particles_t_array], dtype=torch.float32).reshape(len(particles),action_dim)
