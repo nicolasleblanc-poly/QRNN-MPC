@@ -156,14 +156,14 @@ def start_50NN_MSENN_MPC_CEM(prob_vars, env, seed, model_state, replay_buffer_st
         if prob_vars.prob == "Pendulum":
             state = env.state.copy()
         if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
-            goal_state = state['desired_goal'] # 3 components for Reach and for Push
+            prob_vars.goal_state = state['desired_goal'] # 3 components for Reach and for Push
             state = state['observation'] #[:3] # 6 components for Reach, 18 components for Push
             # print("goal_state ", goal_state, "\n")
         if prob_vars.prob == "MuJoCoReacher":
-            goal_state = np.array([state[4], state[5]])
+            prob_vars.goal_state = np.array([state[4], state[5]])
             state = np.array([state[0], state[1], state[2], state[3], state[6], state[7], state[8], state[9]])
         if prob_vars.prob == "MuJoCoPusher":
-            goal_state = np.array([state[20], state[21], state[22]])
+            prob_vars.goal_state = np.array([state[20], state[21], state[22]])
         
         costs = []
         episodic_step_rewards = []
