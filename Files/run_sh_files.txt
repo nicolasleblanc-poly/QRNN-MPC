@@ -106,3 +106,8 @@ sbatch --job-name=PE_MSE_AS_ba run-PE-MSE-AS-ba.sh
 sbatch --job-name=PE_MSE_AS_ba_CEM run-PE-MSE-AS-ba-CEM.sh
 sbatch --job-name=PE_MSE_rnd_RS run-PE-MSE-rnd-RS.sh
 sbatch --job-name=PE_MSE_rnd_RS_CEM run-PE-MSE-rnd-RS-CEM.sh
+
+sbatch --job-name=PE_Q_evoCEM run-PE-Q-EvoCEM.sh
+sbatch --job-name=PE_50_EvoCEM run-PE-50-EvoCEM.sh
+sbatch --job-name=PE_MSE_EvoCEM run-PE-MSE-EvoCEM.sh
+
