@@ -300,6 +300,66 @@ class setup_class:
             
             self.compute_cost_MountainCar = compute_cost_MountainCar
 
+        elif prob == "InveredPendulum":
+            self.discrete = False
+            self.horizon = 15
+            self.max_episodes = 300
+            self.max_steps = 1000
+
+            # For test
+            # self.max_episodes = 2
+            # self.max_steps = 3
+
+            # Current test values
+            # self.std = 0
+            self.std = 3e-1
+            # self.std = 1.5
+
+            # Older test values
+            # std = 1e-1
+            # std = 3e-1
+            # std = 1
+            # std = 1.5
+            self.change_prob = None
+
+            # self.std_string = "0"
+            self.std_string = "3em1"
+            # std_string = "15"
+            
+            self.nb_top_particles = 5
+            # nb_random = 10
+            
+            self.env = gym.make('InvertedPendulum-v1', render_mode="rgb_array").unwrapped
+            
+            # Hyperparameters
+            self.state_dim = self.env.observation_space.shape[0]
+            # state_dim = env.observation_space.shape[0]-1 # Since we only care about angle and omega which are given using env.state
+            # action_dim = self.env.action_space.shape[0]  # For Pendulum, it's continuous
+            self.action_dim = 1
+            self.action_low = self.env.action_space.low[0]
+            self.action_high = self.env.action_space.high[0]
+            
+            self.goal_state = torch.tensor([0, 0, 0, 0], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
+
+            self.states_low = torch.tensor([-100, -1, -100, -100])
+            self.states_high = torch.tensor([100, 1, 100, 100])
+            
+            def compute_cost_InvertedPendulum(states, t, horizon, actions):
+                """
+                Vectorized cost computation for multiple states and actions.
+                
+                :param states: Tensor of shape (batch_size, state_dim)
+                :param actions: Tensor of shape (batch_size,)
+                :return: Cost tensor of shape (batch_size,)
+                """
+                cart_position = states[:, 0]
+                pole_angle = states[:, 1] # Opposite of cart pole
+                cart_velocity = states[:, 2] # Opposite of cart pole
+                return pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
+
+            self.compute_cost_CartPole = compute_cost_InvertedPendulum
+
         elif prob == "Pendulum_xyomega":
             self.discrete = False
             self.horizon = 15
@@ -307,8 +367,8 @@ class setup_class:
             self.max_steps = 200
 
             # For test
-            self.max_episodes = 2
-            self.max_steps = 3
+            # self.max_episodes = 2
+            # self.max_steps = 3
 
             # Current test values
             # self.std = 0
@@ -391,6 +451,7 @@ class setup_class:
                 return cost * reverse_discount_factor  # Shape: [num_particles]
             
             self.compute_cost_Pendulum_xy_omega = compute_cost_Pendulum_xy_omega
+
 
         elif prob == "Pendulum":
             self.discrete = False
@@ -829,6 +890,8 @@ class setup_class:
             return self.compute_cost_LunarLander(states, t, horizon, actions)
         elif prob == "MountainCar":
             return self.compute_cost_MountainCar(states, t, horizon, actions)
+        elif prob == "InvertedPendulum":
+            return self.compute_cost_InvertedPendulum(states, t, horizon, actions)
         elif prob == "Pendulum":
             return self.compute_cost_Pendulum(states, t, horizon, actions)
         elif prob == "Pendulum_xyomega":
