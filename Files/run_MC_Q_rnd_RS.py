@@ -49,38 +49,38 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     )
 
 ###################################################################################
-# Second run
-# """
-# if method_name == "MPC_QRNN_random_mid":
-# Run MPC-QRNN random mid
-do_RS = False
-use_ASGNN = False
-use_sampling = False
-use_mid = True
-do_QRNN_step_rnd = True
-method_name = "MPC_QRNN_random_mid"
-use_QRNN = True
-use_50NN = False
-use_MSENN = False
+# # Second run
+# # """
+# # if method_name == "MPC_QRNN_random_mid":
+# # Run MPC-QRNN random mid
+# do_RS = False
+# use_ASGNN = False
+# use_sampling = False
+# use_mid = True
+# do_QRNN_step_rnd = True
+# method_name = "MPC_QRNN_random_mid"
+# use_QRNN = True
+# use_50NN = False
+# use_MSENN = False
 
-model_QRNN = NextStateQuantileNetwork(prob_vars.state_dim, prob_vars.action_dim, prob_vars.num_quantiles)
-optimizer_QRNN = optim.Adam(model_QRNN.parameters(), lr=1e-3)
+# model_QRNN = NextStateQuantileNetwork(prob_vars.state_dim, prob_vars.action_dim, prob_vars.num_quantiles)
+# optimizer_QRNN = optim.Adam(model_QRNN.parameters(), lr=1e-3)
 
-# Experience replay buffer
-replay_buffer_QRNN = []
+# # Experience replay buffer
+# replay_buffer_QRNN = []
 
-replay_buffer_ASN = None
-model_ASN = None
-optimizer_ASN = None
+# replay_buffer_ASN = None
+# model_ASN = None
+# optimizer_ASN = None
 
-if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
-    episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid, episode_rep_SuccessRate_MPC_PF_QRNN_random_mid, mean_episode_rep_SuccessRate_MPC_PF_QRNN_random_mid, std_episode_rep_SuccessRate_MPC_PF_QRNN_random_mid = main_QRNN_MPC(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+# if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
+#     episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid, episode_rep_SuccessRate_MPC_PF_QRNN_random_mid, mean_episode_rep_SuccessRate_MPC_PF_QRNN_random_mid, std_episode_rep_SuccessRate_MPC_PF_QRNN_random_mid = main_QRNN_MPC(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
 
-else:
-    episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid = main_QRNN_MPC(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+# else:
+#     episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid = main_QRNN_MPC(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
 
-save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid)
-print("episode_rep_rewards_MPC_PF_QRNN_random_mid saved \n")
+# save_data(prob, method_name, episode_rep_rewards_MPC_PF_QRNN_random_mid, mean_episode_rep_rewards_MPC_PF_QRNN_random_mid, std_episode_rep_rewards_MPC_PF_QRNN_random_mid)
+# print("episode_rep_rewards_MPC_PF_QRNN_random_mid saved \n")
 
 # # if method_name == "MPC_QRNN_CEM_mid":
 # # Run MPC-QRNN-CEM mid
