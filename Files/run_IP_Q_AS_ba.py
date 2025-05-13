@@ -22,14 +22,13 @@ from ASGNN import ReplayBuffer_ASGNN, ActionSequenceNN, gaussian_nll_loss, categ
 from setup import setup_class
 
 # Problem setup
-prob = "Pendulum_xyomega"
+prob = "InvertedPendulum"
 
 print("prob ", prob, "\n")
 print("all methods \n")
 # print("method_name ", method_name, "\n")
 
-use_CEM = True
-prob_vars = setup_class(prob, use_CEM)
+prob_vars = setup_class(prob)
 
 def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
@@ -41,7 +40,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     np.savez(
-    f"{prob}_{method_name}_May6_CEM.npz",
+    f"{prob}_{method_name}_May6.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns

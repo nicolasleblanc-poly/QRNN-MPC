@@ -22,7 +22,7 @@ from ASGNN import ReplayBuffer_ASGNN, ActionSequenceNN, gaussian_nll_loss, categ
 from setup import setup_class
 
 # Problem setup
-prob = "Pendulum"
+prob = "Pendulum_xyomega"
 
 
 print("prob ", prob, "\n")

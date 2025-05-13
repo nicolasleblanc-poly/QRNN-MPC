@@ -111,3 +111,22 @@ sbatch --job-name=PE_Q_evoCEM run-PE-Q-EvoCEM.sh
 sbatch --job-name=PE_50_EvoCEM run-PE-50-EvoCEM.sh
 sbatch --job-name=PE_MSE_EvoCEM run-PE-MSE-EvoCEM.sh
 
+
+----------------------------------------------------------
+sbatch --job-name=IP_Q_AS_ba run-PE-Q-AS-ba.sh
+sbatch --job-name=IP_Q_AS_ba_CEM run-PE-Q-AS-ba-CEM.sh
+sbatch --job-name=IP_Q_rnd_RS run-PE-Q-rnd-RS.sh
+sbatch --job-name=IP_Q_rnd_RS_CEM run-PE-Q-rnd-RS-CEM.sh
+sbatch --job-name=IP_50_AS_ba run-PE-50-AS-ba.sh
+sbatch --job-name=IP_50_AS_ba_CEM run-PE-50-AS-ba-CEM.sh
+sbatch --job-name=IP_50_rnd_RS run-PE-50-rnd-RS.sh
+sbatch --job-name=IP_50_rnd_RS_CEM run-PE-50-rnd-RS-CEM.sh
+sbatch --job-name=IP_MSE_AS_ba run-PE-MSE-AS-ba.sh
+sbatch --job-name=IP_MSE_AS_ba_CEM run-PE-MSE-AS-ba-CEM.sh
+sbatch --job-name=IP_MSE_rnd_RS run-PE-MSE-rnd-RS.sh
+sbatch --job-name=IP_MSE_rnd_RS_CEM run-PE-MSE-rnd-RS-CEM.sh
+
+sbatch --job-name=IP_Q_evoCEM run-PE-Q-EvoCEM.sh
+sbatch --job-name=IP_50_EvoCEM run-PE-50-EvoCEM.sh
+sbatch --job-nameIP_MSE_EvoCEM run-PE-MSE-EvoCEM.sh
+

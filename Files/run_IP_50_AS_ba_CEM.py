@@ -21,7 +21,7 @@ from main_funcs import main_QRNN_MPC, main_CEM, main_50NN_MSENN_MPC, main_CEM_50
 from ASGNN import ReplayBuffer_ASGNN, ActionSequenceNN, gaussian_nll_loss, categorical_cross_entropy_loss, train_ActionSequenceNN
 from setup import setup_class
 
-prob = "Pendulum_xyomega"
+prob = "InvertedPendulum"
 
 print("prob ", prob, "\n")
 print("all methods \n")
