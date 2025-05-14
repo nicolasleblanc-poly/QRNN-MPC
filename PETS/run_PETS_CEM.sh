@@ -13,4 +13,4 @@ module load mujoco
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python run_PETS_CEM.py # my_script.py
+python main_PETS_CEM.py # my_script.py

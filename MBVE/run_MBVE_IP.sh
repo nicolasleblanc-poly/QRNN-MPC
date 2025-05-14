@@ -13,4 +13,4 @@ module load mujoco
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python run_MBVE_IP.py # my_script.py
+python train.py # my_script.py
