@@ -2,7 +2,7 @@ import gymnasium as gym
 # from gymnasium import ObservationWrapper
 # import panda_gym
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from sb3_contrib import TQC
 from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 # from stable_baselines3.common.monitor import Monitor
@@ -10,6 +10,15 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecMonitor
 # from stable_baselines3.common.callbacks import ProgressBarCallback, EvalCallback
 from stable_baselines3.common.callbacks import BaseCallback
 
+
+def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+
+    np.savez(
+    f"{prob}_{method_name}_results.npz",
+    episode_rewards=episodic_rep_returns,
+    mean_rewards=mean_episodic_returns,
+    std_rewards=std_episodic_returns
+    )
 
 class EpisodicReturnLogger(BaseCallback):
     def __init__(self, max_episodes):
@@ -32,4 +41,94 @@ class EpisodicReturnLogger(BaseCallback):
                     return False
                 
         return True
+   
+env_seeds = [0, 8, 15]
+
+method_name = "A2C"
+# method_name = "DDPG"
+# method_name = "PPO"
+# method_name = "SAC"
+# method_name = "TD3"
+# method_name = "TQC"
+
+def run(prob, method_name, steps_per_episode, max_episodes):
+    # Create the environment
+    env = gym.make("CartPole-v1") # , render_mode="human"
+    # env = gym.make("LunarLander-v3", render_mode="human")
+    # env = Monitor(env)  # Wraps env to log episode stats
+    env = DummyVecEnv([lambda: env])  # Required for SB3
+    env = VecMonitor(env, "logs/")  # Saves logs to "logs/"
     
+
+    episodic_return_seeds = []
+    
+    for seed in env_seeds:
+        if prob == "CartPole":
+            env = gym.make("CartPole-v1")
+        elif prob == "Acrobot":
+            env = gym.make("Acrobot-v1")
+        elif prob == "MountainCar":
+            env = gym.make("MountainCar-v0")
+        elif prob == "LunarLander":
+            env = gym.make("LunarLander-v3")
+        elif prob == "Pendulum":
+            env = gym.make("Pendulum-v1")
+        elif prob == "MountainCar":
+            env = gym.make("MountainCarContinuous-v0")
+        elif prob == "LunarLander":
+            env = gym.make("LunarLanderContinuous-v3")
+        elif prob == "Reacher":
+            env = gym.make("Reacher-v5")
+        
+        if method_name == "A2C":
+            model = A2C("MlpPolicy", env)
+        elif method_name == "DDPG":
+            model = DDPG("MlpPolicy", env)
+        elif method_name == "PPO":
+            model = PPO("MlpPolicy", env)
+        elif method_name == "SAC":
+            model = SAC("MlpPolicy", env)
+        elif method_name == "TD3":
+            model = TD3("MlpPolicy", env)
+        elif method_name == "TQC":
+            model = TQC("MlpPolicy", env)
+        # env = gym.make("LunarLander-v3", render_mode="human")
+        # env = Monitor(env)  # Wraps env to log episode stats
+        env = DummyVecEnv([lambda: env])  # Required for SB3
+        env = VecMonitor(env, "logs/")  # Saves logs to "logs/"
+        env.seed(seed)  # Set the seed for reproducibility
+
+        model = A2C("MlpPolicy", env) # , verbose=1
+        # model.learn(total_timesteps=1000)
+        # model.save("a2c_cartpole")
+
+        # Initialize callback
+        return_logger = EpisodicReturnLogger(max_episodes)
+
+        model.learn(total_timesteps=steps_per_episode*max_episodes, callback=return_logger)
+        
+        episodic_return_seeds.append(return_logger.episodic_returns)
+        
+    episodic_return_seeds = np.array(episodic_return_seeds)
+
+    mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
+    std_episodic_return = np.std(episodic_return_seeds, axis=0)
+    
+    save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+
+steps_per_episode = 200
+max_episodes = 100
+# A2C
+run("CartPole", "A2C", steps_per_episode, max_episodes)
+# PPO
+run("CartPole", "PPO", steps_per_episode, max_episodes)
+# # DDPG
+# run("CartPole", "DDPG", steps_per_episode, max_episodes)
+# # SAC
+# run("CartPole", "SAC", steps_per_episode, max_episodes)
+# # TD3
+# run("CartPole", "TD3", steps_per_episode, max_episodes)
+# # TQC
+# run("CartPole", "TQC", steps_per_episode, max_episodes)
+
+
