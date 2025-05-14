@@ -368,7 +368,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
             costs.append(best_cost)
             
             # print("best_particle ", best_particle, "\n")
-            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "InvertedPendulum":
                 action = [best_particle[0]]
                 actions_list.append(list(action))
             
@@ -681,7 +681,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
             
             costs.append(best_cost)
             
-            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "InvertedPendulum":
                 action = [best_particle[0]]
                 # print("action ", action, "\n")
             

@@ -369,7 +369,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
             costs.append(best_cost)
             
             # print("best_particle ", best_particle, "\n")
-            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "InvertedPendulum":
                 action = [best_particle[0]]
                 actions_list.append(list(action))
             
@@ -681,7 +681,7 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
             
             costs.append(best_cost)
             
-            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "InvertedPendulum":
                 action = [best_particle[0]]
                 # print("action ", action, "\n")
             

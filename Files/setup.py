@@ -300,15 +300,15 @@ class setup_class:
             
             self.compute_cost_MountainCar = compute_cost_MountainCar
 
-        elif prob == "InveredPendulum":
+        elif prob == "InvertedPendulum":
             self.discrete = False
             self.horizon = 15
             self.max_episodes = 300
             self.max_steps = 1000
 
             # For test
-            # self.max_episodes = 2
-            # self.max_steps = 3
+            self.max_episodes = 2
+            self.max_steps = 3
 
             # Current test values
             # self.std = 0
@@ -329,7 +329,7 @@ class setup_class:
             self.nb_top_particles = 5
             # nb_random = 10
             
-            self.env = gym.make('InvertedPendulum-v1', render_mode="rgb_array").unwrapped
+            self.env = gym.make('InvertedPendulum-v5', render_mode="rgb_array").unwrapped
             
             # Hyperparameters
             self.state_dim = self.env.observation_space.shape[0]
@@ -358,7 +358,7 @@ class setup_class:
                 cart_velocity = states[:, 2] # Opposite of cart pole
                 return pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
 
-            self.compute_cost_CartPole = compute_cost_InvertedPendulum
+            self.compute_cost_InvertedPendulum = compute_cost_InvertedPendulum
 
         elif prob == "Pendulum_xyomega":
             self.discrete = False
