@@ -52,9 +52,9 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             env = gym.make("Pendulum-v1")
         elif prob == "InvertedPendulum":
             env = gym.make("InvertedPendulum-v5")
-        elif prob == "MountainCar":
+        elif prob == "MountainCarContinuous":
             env = gym.make("MountainCarContinuous-v0")
-        elif prob == "LunarLander":
+        elif prob == "LunarLanderContinuous":
             env = gym.make("LunarLanderContinuous-v3")
         elif prob == "Reacher":
             env = gym.make("Reacher-v5")
