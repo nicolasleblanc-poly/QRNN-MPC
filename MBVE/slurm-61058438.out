@@ -1,0 +1,31 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/MBVE/train.py", line 9, in <module>
+    agent = Agent(alpha=0.000025, beta=0.00025, input_dims=[4], tau=0.001, env=env,model=model,H=10,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/MBVE/MBVE_torch.py", line 191, in __init__
+    self.actor = ActorNetwork(alpha, input_dims, layer1_size,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/MBVE/MBVE_torch.py", line 159, in __init__
+    self.to(self.device)
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1343, in to
+    return self._apply(convert)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 903, in _apply
+    module._apply(fn)
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    param_applied = fn(param)
+                    ^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1329, in convert
+    return t.to(
+           ^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/torch/cuda/__init__.py", line 319, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx
