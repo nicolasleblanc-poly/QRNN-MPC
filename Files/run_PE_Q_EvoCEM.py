@@ -66,6 +66,9 @@ if not prob_vars.discrete:
     # Experience replay buffer
     replay_buffer_QRNN = []
 
+    use_sampling = False
+    use_mid = True
+
     replay_buffer_ASN = None
     model_ASN = None
     optimizer_ASN = None

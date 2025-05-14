@@ -113,20 +113,31 @@ sbatch --job-name=PE_MSE_EvoCEM run-PE-MSE-EvoCEM.sh
 
 
 ----------------------------------------------------------
-sbatch --job-name=IP_Q_AS_ba run-PE-Q-AS-ba.sh
-sbatch --job-name=IP_Q_AS_ba_CEM run-PE-Q-AS-ba-CEM.sh
-sbatch --job-name=IP_Q_rnd_RS run-PE-Q-rnd-RS.sh
-sbatch --job-name=IP_Q_rnd_RS_CEM run-PE-Q-rnd-RS-CEM.sh
-sbatch --job-name=IP_50_AS_ba run-PE-50-AS-ba.sh
-sbatch --job-name=IP_50_AS_ba_CEM run-PE-50-AS-ba-CEM.sh
-sbatch --job-name=IP_50_rnd_RS run-PE-50-rnd-RS.sh
-sbatch --job-name=IP_50_rnd_RS_CEM run-PE-50-rnd-RS-CEM.sh
-sbatch --job-name=IP_MSE_AS_ba run-PE-MSE-AS-ba.sh
-sbatch --job-name=IP_MSE_AS_ba_CEM run-PE-MSE-AS-ba-CEM.sh
-sbatch --job-name=IP_MSE_rnd_RS run-PE-MSE-rnd-RS.sh
-sbatch --job-name=IP_MSE_rnd_RS_CEM run-PE-MSE-rnd-RS-CEM.sh
+sbatch --job-name=IP_Q_AS run-IP-Q-AS.sh
+sbatch --job-name=IP_Q_ba run-IP-Q-ba.sh
+sbatch --job-name=IP_Q_AS_CEM run-IP-Q-AS-CEM.sh
+sbatch --job-name=IP_Q_ba_CEM run-IP-Q-ba-CEM.sh
+sbatch --job-name=IP_Q_rnd run-IP-Q-rnd.sh
+sbatch --job-name=IP_Q_RS run-IP-Q-RS.sh
+sbatch --job-name=IP_Q_rnd_RS_CEM run-IP-Q-rnd-RS-CEM.sh
+sbatch --job-name=IP_50_AS run-IP-50-AS.sh
+sbatch --job-name=IP_50_ba run-IP-50-ba.sh
+sbatch --job-name=IP_50_AS_CEM run-IP-50-AS-CEM.sh
+sbatch --job-name=IP_50_ba_CEM run-IP-50-ba-CEM.sh
+sbatch --job-name=IP_50_rnd run-IP-50-rnd.sh
+sbatch --job-name=IP_50_RS run-IP-50-RS.sh
+sbatch --job-name=IP_50_rnd_CEM run-IP-50-rnd-CEM.sh
+sbatch --job-name=IP_MSE_AS_ba run-IP-MSE-AS-ba.sh
+sbatch --job-name=IP_MSE_AS_ba run-IP-MSE-AS-ba.sh
+sbatch --job-name=IP_MSE_AS_CEM run-IP-MSE-AS-CEM.sh
+sbatch --job-name=IP_MSE_ba_CEM run-IP-MSE-ba-CEM.sh
+sbatch --job-name=IP_MSE_rnd run-IP-MSE-rnd.sh
+sbatch --job-name=IP_MSE_RS run-IP-MSE-RS.sh
+sbatch --job-name=IP_MSE_rnd_CEM run-IP-MSE-rnd-CEM.sh
 
-sbatch --job-name=IP_Q_evoCEM run-PE-Q-EvoCEM.sh
-sbatch --job-name=IP_50_EvoCEM run-PE-50-EvoCEM.sh
-sbatch --job-nameIP_MSE_EvoCEM run-PE-MSE-EvoCEM.sh
+sbatch --job-name=IP_Q_evoCEM run-IP-Q-EvoCEM.sh
+sbatch --job-name=IP_50_EvoCEM run-IP-50-EvoCEM.sh
+sbatch --job-nameIP_MSE_EvoCEM run-IP-MSE-EvoCEM.sh
+
+
 
