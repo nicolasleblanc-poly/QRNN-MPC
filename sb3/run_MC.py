@@ -10,12 +10,12 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecMonitor
 # from stable_baselines3.common.callbacks import ProgressBarCallback, EvalCallback
 from stable_baselines3.common.callbacks import BaseCallback
 from funcs import run
-   
+
 env_seeds = [0, 8, 15]
 
 steps_per_episode = 200
-max_episodes = 400
-prob = "CartPole"
+max_episodes = 1000
+prob = "MountainCar"
 # A2C
 run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
 # PPO

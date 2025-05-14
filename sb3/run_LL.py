@@ -13,9 +13,9 @@ from funcs import run
    
 env_seeds = [0, 8, 15]
 
-steps_per_episode = 200
+steps_per_episode = 1000
 max_episodes = 400
-prob = "CartPole"
+prob = "LunarLander"
 # A2C
 run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
 # PPO

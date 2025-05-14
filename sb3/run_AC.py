@@ -14,19 +14,18 @@ from funcs import run
 env_seeds = [0, 8, 15]
 
 steps_per_episode = 200
-max_episodes = 400
-prob = "CartPole"
+max_episodes = 100
 # A2C
-run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
+run(env_seeds, "CartPole", "A2C", steps_per_episode, max_episodes)
 # PPO
-run(env_seeds, prob, "PPO", steps_per_episode, max_episodes)
+run(env_seeds, "CartPole", "PPO", steps_per_episode, max_episodes)
 # # DDPG
-# run(prob, "DDPG", steps_per_episode, max_episodes)
+# run("CartPole", "DDPG", steps_per_episode, max_episodes)
 # # SAC
-# run("prob, "SAC", steps_per_episode, max_episodes)
+# run("CartPole", "SAC", steps_per_episode, max_episodes)
 # # TD3
-# run(prob, "TD3", steps_per_episode, max_episodes)
+# run("CartPole", "TD3", steps_per_episode, max_episodes)
 # # TQC
-# run(prob, "TQC", steps_per_episode, max_episodes)
+# run("CartPole", "TQC", steps_per_episode, max_episodes)
 
 
