@@ -12,7 +12,7 @@ module purge
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python run_IP_Q_rnd_RS.py # my_script.py
+python run_IP_MSE_rnd.py # my_script.py
 # echo "all done"
 
 # #!/bin/bash
