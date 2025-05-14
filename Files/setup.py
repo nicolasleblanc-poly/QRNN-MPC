@@ -307,8 +307,8 @@ class setup_class:
             self.max_steps = 1000
 
             # For test
-            self.max_episodes = 2
-            self.max_steps = 3
+            # self.max_episodes = 2
+            # self.max_steps = 3
 
             # Current test values
             # self.std = 0
