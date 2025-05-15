@@ -41,7 +41,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
     
     for seed in env_seeds:
         if prob == "CartPole":
-            env = gym.make("CartPole-v1")
+            env = gym.make("CartPole-v0")
         elif prob == "Acrobot":
             env = gym.make("Acrobot-v1")
         elif prob == "MountainCar":
