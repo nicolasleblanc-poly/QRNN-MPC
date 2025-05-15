@@ -14,7 +14,7 @@ from funcs import run
 env_seeds = [0, 8, 15]
 
 steps_per_episode = 1000
-max_episodes = 400
+max_episodes = 300
 prob = "LunarLanderContinuous"
 # A2C
 run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
