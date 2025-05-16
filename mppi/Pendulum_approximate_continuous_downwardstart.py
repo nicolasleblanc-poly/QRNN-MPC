@@ -12,7 +12,6 @@ from pytorch_mppi import mppi
 # from gymnasium import logger as gym_log
 from gym import logger as gym_log
 import logging
-import os 
 
 gym_log.set_level(gym_log.INFO)
 # # gym_log.min_level(gym_log.INFO)
@@ -25,7 +24,7 @@ logging.basicConfig(level=logging.INFO,
 if __name__ == "__main__":
     ENV_NAME = "Pendulum-v1"
     TIMESTEPS = 15  # T
-    N_SAMPLES = 200  # K
+    N_SAMPLES = 100  # K
     ACTION_LOW = -2.0
     ACTION_HIGH = 2.0
 
@@ -120,20 +119,6 @@ if __name__ == "__main__":
         cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2
         return cost
 
-    def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
-
-        # Get the folder where this script is located
-        origin_folder = os.path.dirname(os.path.abspath(__file__))
-        # Construct full path to save
-        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
-
-        np.savez(
-        save_path,
-        f"{prob}_{method_name}_results.npz",
-        episode_rewards=episodic_rep_returns,
-        mean_rewards=mean_episodic_returns,
-        std_rewards=std_episodic_returns
-        )
 
     dataset = None
     # create some true dynamics validation set to compare model against
@@ -190,17 +175,16 @@ if __name__ == "__main__":
         dtheta = angular_diff_batch(yp[:, 0], yt[:, 0])
         dtheta_dt = yp[:, 1] - yt[:, 1]
         E = torch.cat((dtheta.view(-1, 1), dtheta_dt.view(-1, 1)), dim=1).norm(dim=1)
-        # # Printing logging info
-        # logger.info("Error with true dynamics theta %f theta_dt %f norm %f", dtheta.abs().mean(),
-        #             dtheta_dt.abs().mean(), E.mean())
+        logger.info("Error with true dynamics theta %f theta_dt %f norm %f", dtheta.abs().mean(),
+                    dtheta_dt.abs().mean(), E.mean())
         logger.debug("Start next collection sequence")
 
 
-    # downward_start = True
-    env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
+    downward_start = True
+    env = gym.make(ENV_NAME, render_mode="human")  # bypass the default TimeLimit wrapper
     env.reset()
-    # if downward_start:
-    #     env.state = env.unwrapped.state = [np.pi, 1]
+    if downward_start:
+        env.state = env.unwrapped.state = [np.pi, 1]
 
     # bootstrap network with random actions
     if BOOT_STRAP_ITER:
@@ -216,39 +200,13 @@ if __name__ == "__main__":
 
         train(new_data)
         logger.info("bootstrapping finished")
-        
-        # Save the initial weights after bootstrapping
-        initial_state_dict = network.state_dict()
 
-    env_seeds = [0, 8, 15]
-    episodic_return_seeds = []
-    max_episodes = 300
-    method_name = "MPPI"
-    prob = "Pendulum"
-    
-    for seed in env_seeds:
-        episodic_return = []
-        # Reset network to initial pretrained weights
-        network.load_state_dict(initial_state_dict)
-        
-        for episode in range(max_episodes):
-            env.reset(seed=seed)
+    env.reset()
+    if downward_start:
+        env.state = env.unwrapped.state = [np.pi, 1]
 
-            # N_SAMPLES = 200 is the number of steps per episode
-            mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-            total_reward, data = mppi.run_mppi(mppi_gym, env, train)
-            episodic_return.append(total_reward)
-            
-            logger.info("Total reward %f", total_reward)
-
-        episodic_return_seeds.append(episodic_return)
-        
-    episodic_return_seeds = np.array(episodic_return_seeds)
-
-    mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
-    std_episodic_return = np.std(episodic_return_seeds, axis=0)
-    
-    save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
-    print("Saved data \n")
+    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+                         lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+                         u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    total_reward, data = mppi.run_mppi(mppi_gym, env, train)
+    logger.info("Total reward %f", total_reward)

@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
-    ENV_NAME = "MountainCarContinuous-v0"
+    ENV_NAME = "LunarLanderContinuous-v2"
     TIMESTEPS = 15  # T
     N_SAMPLES = 1000  # K
     ACTION_LOW = -1.0
@@ -148,9 +148,11 @@ if __name__ == "__main__":
         # xu = XU[:-1]  # make same size as Y
         # xu = torch.cat(dx.view(-1, 1), dv.view(-1, 1), xu[:, 1:], dim=1)
         
-        dx = XU[1:, 0] - XU[:-1, 0]
-        dv = XU[1:, 1] - XU[:-1, 1]
-        Y = torch.cat((dx.view(-1, 1), dv.view(-1, 1)), dim=1)  # x' - x residual
+        # dx = XU[1:, 0] - XU[:-1, 0]
+        # dv = XU[1:, 1] - XU[:-1, 1]
+        # Y = torch.cat((dx.view(-1, 1), dv.view(-1, 1)), dim=1)  # x' - x residual
+        dx = XU[1:, :nx] - XU[:-1, :nx]
+        Y = dx
         xu = XU[:-1]  # make same size as Y
         xu = torch.cat((xu, ), dim=1)
 
@@ -206,7 +208,7 @@ if __name__ == "__main__":
         for i in range(BOOT_STRAP_ITER):
             pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH, size=nu)
-            obs, _, terminated, _ = env.step(action) # env.step([action])
+            obs, _, terminated, truncated, _ = env.step(action) # env.step([action])
             # truncated
             # env.render()
             new_data[i, :nx] = pre_action_state
@@ -223,7 +225,7 @@ if __name__ == "__main__":
     #     env.state = env.unwrapped.state = [np.pi, 1]
 
     mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                         lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                         u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+                         lambda_=lambda_, device=d, u_min=torch.tensor([ACTION_LOW, ACTION_LOW], dtype=torch.double, device=d),
+                         u_max=torch.tensor([ACTION_HIGH, ACTION_HIGH], dtype=torch.double, device=d))
     total_reward, data = mppi.run_mppi(mppi_gym, env, train)
     logger.info("Total reward %f", total_reward)
