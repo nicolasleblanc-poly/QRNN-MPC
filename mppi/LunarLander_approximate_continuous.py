@@ -8,7 +8,7 @@ import numpy as np
 import torch
 import logging
 import math
-from pytorch_mppi import mppi
+from pytorch_mppi_folder import mppi_modified as mppi
 from gym import logger as gym_log
 
 gym_log.set_level(gym_log.INFO)
@@ -27,7 +27,8 @@ if __name__ == "__main__":
     d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     dtype = torch.double
 
-    noise_sigma = torch.tensor(1, device=d, dtype=dtype)
+    # noise_sigma = torch.tensor(1, device=d, dtype=dtype)
+    noise_sigma = torch.eye(2, device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
     lambda_ = 1.
 
@@ -62,8 +63,8 @@ if __name__ == "__main__":
         if state.dim() == 1 or u.dim() == 1:
             state = state.view(1, -1)
             u = u.view(1, -1)
-        if u.shape[1] > 1:
-            u = u[:, 0].view(-1, 1)
+        # if u.shape[1] > 1:
+        #     u = u[:, 0].view(-1, 1)
         xu = torch.cat((state, u), dim=1)
         
         state_residual = network(xu)
@@ -105,14 +106,14 @@ if __name__ == "__main__":
         return cost
 
     dataset = None
-    # create some true dynamics validation set to compare model against
-    Nv = 1000
-    statev = torch.cat((
-            torch.rand(Nv, 1, dtype=torch.double, device=d) * (0.6 + 1.2) - 1.2,  # position in [-1.2, 0.6]
-            torch.rand(Nv, 1, dtype=torch.double, device=d) * 0.14 - 0.07         # velocity in [-0.07, 0.07]
-        ), dim=1)
+    # # create some true dynamics validation set to compare model against
+    # Nv = 1000
+    # statev = torch.cat((
+    #         torch.rand(Nv, 1, dtype=torch.double, device=d) * (0.6 + 1.2) - 1.2,  # position in [-1.2, 0.6]
+    #         torch.rand(Nv, 1, dtype=torch.double, device=d) * 0.14 - 0.07         # velocity in [-0.07, 0.07]
+    #     ), dim=1)
 
-    actionv = torch.rand(Nv, 1, dtype=torch.double, device=d) * (ACTION_HIGH - ACTION_LOW) + ACTION_LOW
+    # actionv = torch.rand(Nv, 1, dtype=torch.double, device=d) * (ACTION_HIGH - ACTION_LOW) + ACTION_LOW
 
 
     def train(new_data):
@@ -191,10 +192,62 @@ if __name__ == "__main__":
         #             dv.abs().mean(), E.mean())
         # logger.debug("Start next collection sequence")
         
+    # from gym import Wrapper
+    # class LunarLanderStateWrapper(Wrapper):
+    #     """Wrapper that adds state access and continuous angle representation"""
+    #     def __init__(self, env):
+    #         super().__init__(env)
+    #         self.original_observation_space = env.observation_space
+    #         # Modify observation space to include sin/cos of angle
+    #         low = env.observation_space.low
+    #         high = env.observation_space.high
+    #         # low = np.append(env.observation_space.low[:4], [-1.0, -1.0, env.observation_space.low[5:]])
+    #         # high = np.append(env.observation_space.high[:4], [1.0, 1.0, env.observation_space.high[5:]])
+    #         self.observation_space = gym.spaces.Box(low=low, high=high, dtype=np.float32)
+            
+    #     @property
+    #     def state(self):
+    #         """Returns the full physics state as a numpy array"""
+    #         return np.array([
+    #             self.env.lander.position.x,          # x position
+    #             self.env.lander.position.y,          # y position
+    #             self.env.lander.linearVelocity.x,    # x velocity
+    #             self.env.lander.linearVelocity.y,    # y velocity
+    #             self.env.lander.angle,               # angle (radians)
+    #             self.env.lander.angularVelocity,    # angular velocity
+    #             float(self.env.legs[0].ground_contact),  # left leg contact
+    #             float(self.env.legs[1].ground_contact)   # right leg contact
+    #         ])
+        
+    #     @state.setter
+    #     def state(self, state_array):
+    #         """Sets the physics state from a numpy array"""
+    #         self.env.lander.position = (state_array[0], state_array[1])
+    #         self.env.lander.linearVelocity = (state_array[2], state_array[3])
+    #         self.env.lander.angle = state_array[4]
+    #         self.env.lander.angularVelocity = state_array[5]
+        
+    #     def reset(self, **kwargs):
+    #         obs, info = self.env.reset(**kwargs)
+    #         return obs, info
+        
+    #     def step(self, action):
+    #         obs, reward, terminated, truncated, info = self.env.step(action)
+    #         info['true_state'] = self.state  # Store full state in info
+    #         return obs, reward, terminated, truncated, info
+
+    # def make_lunar_lander_with_state():
+    #     """Creates a LunarLander environment with state access"""
+    #     env = gym.make('LunarLander-v3', continuous=True)
+    #     wrapped_env = LunarLanderStateWrapper(env)
+    #     return wrapped_env
+
 
     # downward_start = True
     env = gym.make(ENV_NAME, render_mode="human")  # bypass the default TimeLimit wrapper
+    # env = make_lunar_lander_with_state()
     state, info = env.reset()
+    # print("env.state", env.state)
     # state, info = env.reset()
     # print("state", state)
     # print("env.state", env.state)
@@ -224,12 +277,13 @@ if __name__ == "__main__":
         train(new_data)
         logger.info("bootstrapping finished")
 
-    env.reset()
+    # env.reset()
     # if downward_start:
     #     env.state = env.unwrapped.state = [np.pi, 1]
-
+    seed = 0
     mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
                          lambda_=lambda_, device=d, u_min=torch.tensor([ACTION_LOW, ACTION_LOW], dtype=torch.double, device=d),
                          u_max=torch.tensor([ACTION_HIGH, ACTION_HIGH], dtype=torch.double, device=d))
-    total_reward, data = mppi.run_mppi(mppi_gym, env, train)
+    total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train)
     logger.info("Total reward %f", total_reward)
+    env.close()

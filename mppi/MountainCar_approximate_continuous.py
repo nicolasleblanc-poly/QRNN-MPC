@@ -231,7 +231,7 @@ if __name__ == "__main__":
     max_episodes = 1 # 300
     method_name = "MPPI"
     prob = "MountainCarContinuous"
-    
+    max_steps = 1000
     for seed in env_seeds:
         episodic_return = []
         # Reset network to initial pretrained weights
@@ -244,7 +244,7 @@ if __name__ == "__main__":
             mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
                                 lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
                                 u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-            total_reward, data = mppi.run_mppi(mppi_gym, env, train)
+            total_reward, data = mppi.run_mppi(mppi_gym, env, train, iter=max_episodes, render=False)
             episodic_return.append(total_reward)
             
             # logger.info("Total reward %f", total_reward)
