@@ -8,6 +8,7 @@ from numba import jit
 from ilqr import iLQR
 from ilqr.containers import Dynamics, Cost
 from ilqr.utils import GetSyms, Constrain, Bounded
+import os 
 
 # Initialize Gymnasium Pendulum environment
 # env = gym.make('Pendulum-v1', render_mode='human')
