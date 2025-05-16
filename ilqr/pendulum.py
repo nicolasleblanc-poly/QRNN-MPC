@@ -135,13 +135,13 @@ for seed in env_seeds:
         
     episodic_return_seeds.append(episodic_return)
         
-    episodic_return_seeds = np.array(episodic_return_seeds)
+episodic_return_seeds = np.array(episodic_return_seeds)
 
-    mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
-    std_episodic_return = np.std(episodic_return_seeds, axis=0)
-    
-    save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
-    print("Saved data \n")
+mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
+std_episodic_return = np.std(episodic_return_seeds, axis=0)
+
+save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+print("Saved data \n")
 print("Total reward:", total_reward, "\n")
 env.close()
 
