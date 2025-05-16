@@ -13,4 +13,4 @@ module load mujoco
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python LunarLander_approximate_continuous.py # my_script.py
+python pendulum.py # my_script.py
