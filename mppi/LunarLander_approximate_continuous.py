@@ -2,7 +2,8 @@
 Same as approximate dynamics, but now the input is sine and cosine of theta (output is still dtheta)
 This is a continuous representation of theta, which some papers show is easier for a NN to learn.
 """
-import gym
+import gymnasium as gym
+# import gym
 import numpy as np
 import torch
 import logging
@@ -17,7 +18,7 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
-    ENV_NAME = "LunarLanderContinuous-v2"
+    ENV_NAME = "LunarLanderContinuous-v3"
     TIMESTEPS = 15  # T
     N_SAMPLES = 1000  # K
     ACTION_LOW = -1.0
@@ -193,7 +194,7 @@ if __name__ == "__main__":
 
     # downward_start = True
     env = gym.make(ENV_NAME, render_mode="human")  # bypass the default TimeLimit wrapper
-    env.reset()
+    state, info = env.reset()
     # state, info = env.reset()
     # print("state", state)
     # print("env.state", env.state)
@@ -206,15 +207,18 @@ if __name__ == "__main__":
         logger.info("bootstrapping with random action for %d actions", BOOT_STRAP_ITER)
         new_data = np.zeros((BOOT_STRAP_ITER, nx + nu))
         for i in range(BOOT_STRAP_ITER):
-            pre_action_state = env.state
+            # pre_action_state = env.state
+            pre_action_state = state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH, size=nu)
-            obs, _, terminated, truncated, _ = env.step(action) # env.step([action])
+            state, _, terminated, truncated, _ = env.step(action) # env.step([action])
+            # env.step(action)
             # truncated
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
             
             if terminated:
+                state, info = env.reset()
                 env.reset()
 
         train(new_data)
