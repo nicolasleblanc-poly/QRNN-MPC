@@ -9,13 +9,13 @@ import torch
 import logging
 import math
 from pytorch_mppi_folder import mppi_modified as mppi
-from gym import logger as gym_log
+# from gym import logger as gym_log
 
-gym_log.set_level(gym_log.INFO)
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO,
-                    format='[%(levelname)s %(asctime)s %(pathname)s:%(lineno)d] %(message)s',
-                    datefmt='%m-%d %H:%M:%S')
+# gym_log.set_level(gym_log.INFO)
+# logger = logging.getLogger(__name__)
+# logging.basicConfig(level=logging.INFO,
+#                     format='[%(levelname)s %(asctime)s %(pathname)s:%(lineno)d] %(message)s',
+#                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
     ENV_NAME = "LunarLanderContinuous-v3"
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     random.seed(randseed)
     np.random.seed(randseed)
     torch.manual_seed(randseed)
-    logger.info("random seed %d", randseed)
+    # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
     H_UNITS = 32
@@ -171,7 +171,7 @@ if __name__ == "__main__":
             loss = (Y - Yhat).norm(2, dim=1) ** 2
             loss.mean().backward()
             optimizer.step()
-            logger.debug("ds %d epoch %d loss %f", dataset.shape[0], epoch, loss.mean().item())
+            # logger.debug("ds %d epoch %d loss %f", dataset.shape[0], epoch, loss.mean().item())
 
         # freeze network
         for param in network.parameters():
@@ -257,7 +257,7 @@ if __name__ == "__main__":
 
     # bootstrap network with random actions
     if BOOT_STRAP_ITER:
-        logger.info("bootstrapping with random action for %d actions", BOOT_STRAP_ITER)
+        # logger.info("bootstrapping with random action for %d actions", BOOT_STRAP_ITER)
         new_data = np.zeros((BOOT_STRAP_ITER, nx + nu))
         for i in range(BOOT_STRAP_ITER):
             # pre_action_state = env.state
@@ -275,15 +275,18 @@ if __name__ == "__main__":
                 env.reset()
 
         train(new_data)
-        logger.info("bootstrapping finished")
+        # logger.info("bootstrapping finished")
+        print("bootstrapping finished \n")
 
     # env.reset()
     # if downward_start:
     #     env.state = env.unwrapped.state = [np.pi, 1]
     seed = 0
+    max_steps = 1000
     mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
                          lambda_=lambda_, device=d, u_min=torch.tensor([ACTION_LOW, ACTION_LOW], dtype=torch.double, device=d),
                          u_max=torch.tensor([ACTION_HIGH, ACTION_HIGH], dtype=torch.double, device=d))
     total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True) # mppi.run_mppi(mppi_gym, seed, env, train)
-    logger.info("Total reward %f", total_reward)
+    # logger.info("Total reward %f", total_reward)
+    print("Total reward %f", total_reward)
     env.close()

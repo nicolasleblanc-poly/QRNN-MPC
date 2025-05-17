@@ -10,14 +10,14 @@ import logging
 import math
 # from pytorch_mppi import mppi
 from pytorch_mppi_folder import mppi_modified as mppi
-from gym import logger as gym_log
+# from gym import logger as gym_log
 import os
 
-gym_log.set_level(gym_log.INFO)
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO,
-                    format='[%(levelname)s %(asctime)s %(pathname)s:%(lineno)d] %(message)s',
-                    datefmt='%m-%d %H:%M:%S')
+# gym_log.set_level(gym_log.INFO)
+# logger = logging.getLogger(__name__)
+# logging.basicConfig(level=logging.INFO,
+#                     format='[%(levelname)s %(asctime)s %(pathname)s:%(lineno)d] %(message)s',
+#                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
     ENV_NAME = "MountainCarContinuous-v0"
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     random.seed(randseed)
     np.random.seed(randseed)
     torch.manual_seed(randseed)
-    logger.info("random seed %d", randseed)
+    # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
     H_UNITS = 32
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     nx = 2
     nu = 1
-    # network output is state residual
+    # network output is state residualcc
     network = torch.nn.Sequential(
         torch.nn.Linear(nx + nu, H_UNITS),
         torch.nn.Tanh(),
@@ -179,7 +179,7 @@ if __name__ == "__main__":
             loss = (Y - Yhat).norm(2, dim=1) ** 2
             loss.mean().backward()
             optimizer.step()
-            logger.debug("ds %d epoch %d loss %f", dataset.shape[0], epoch, loss.mean().item())
+            # logger.debug("ds %d epoch %d loss %f", dataset.shape[0], epoch, loss.mean().item())
 
         # freeze network
         for param in network.parameters():
@@ -202,6 +202,7 @@ if __name__ == "__main__":
         
     # downward_start = True
     env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
+    env = env.unwrapped
     state, info = env.reset()
     # state, info = env.reset()
     # print("state", state)
@@ -212,10 +213,11 @@ if __name__ == "__main__":
 
     # bootstrap network with random actions
     if BOOT_STRAP_ITER:
-        logger.info("bootstrapping with random action for %d actions", BOOT_STRAP_ITER)
+        # logger.info("bootstrapping with random action for %d actions", BOOT_STRAP_ITER)
         new_data = np.zeros((BOOT_STRAP_ITER, nx + nu))
         for i in range(BOOT_STRAP_ITER):
-            pre_action_state = state # env.state
+            # pre_action_state = state # env.state
+            pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
             env.step([action])
             # env.render()
@@ -223,14 +225,15 @@ if __name__ == "__main__":
             new_data[i, nx:] = action
 
         train(new_data)
-        logger.info("bootstrapping finished")
+        # logger.info("bootstrapping finished")
+        print("bootstrapping finished \n")
         
         # Save the initial weights after bootstrapping
         initial_state_dict = network.state_dict()
 
     env_seeds = [0, 8, 15]
     episodic_return_seeds = []
-    max_episodes = 1 # 300
+    max_episodes = 300
     method_name = "MPPI"
     prob = "MountainCarContinuous"
     max_steps = 1000
@@ -246,7 +249,7 @@ if __name__ == "__main__":
             mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
                                 lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
                                 u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
             episodic_return.append(total_reward)
             
             # logger.info("Total reward %f", total_reward)
