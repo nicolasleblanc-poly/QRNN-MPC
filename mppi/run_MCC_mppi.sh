@@ -10,8 +10,10 @@
 # python /home/nileb3/projects/def-bonizzat/nileb3/job-scripts/my_script.py
 module purge
 module load mujoco
-module load python/3.10.13 scipy-stack
-source ~/py310/bin/activate
+# module load python/3.10.13 scipy-stack
+# source ~/py310/bin/activate
+module load python/3.11.9 scipy-stack
+source ~/myenv/bin/activate
 
 python MountainCar_approximate_continuous.py # my_script.py
 
