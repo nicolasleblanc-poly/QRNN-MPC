@@ -14,7 +14,7 @@
 module purge
 module load mujoco
 module load python/3.10.13 scipy-stack
-source ~/myenv/bin/activate
+source ~/py310/bin/activate
 
 python MountainCar_approximate_continuous.py # my_script.py
 
