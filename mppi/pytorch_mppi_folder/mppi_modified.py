@@ -626,5 +626,5 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
             dataset.zero_()
         dataset[di, :mppi.nx] = torch.tensor(state, dtype=mppi.U.dtype)
         dataset[di, mppi.nx:] = action
-    print("i ", i, "\n")
+    # print("i ", i, "\n")
     return total_reward, dataset

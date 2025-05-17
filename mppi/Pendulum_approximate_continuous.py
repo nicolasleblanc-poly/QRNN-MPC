@@ -2,13 +2,14 @@
 Same as approximate dynamics, but now the input is sine and cosine of theta (output is still dtheta)
 This is a continuous representation of theta, which some papers show is easier for a NN to learn.
 """
-# import gymnasium as gym
-import gym
+import gymnasium as gym
+# import gym
 import numpy as np
 import torch
 import logging
 import math
-from pytorch_mppi import mppi
+# from pytorch_mppi import mppi
+from pytorch_mppi_folder import mppi_modified as mppi
 # from gymnasium import logger as gym_log
 from gym import logger as gym_log
 import logging
@@ -198,7 +199,7 @@ if __name__ == "__main__":
 
     # downward_start = True
     env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
-    env.reset()
+    state, info = env.reset()
     # if downward_start:
     #     env.state = env.unwrapped.state = [np.pi, 1]
 
@@ -207,7 +208,7 @@ if __name__ == "__main__":
         logger.info("bootstrapping with random action for %d actions", BOOT_STRAP_ITER)
         new_data = np.zeros((BOOT_STRAP_ITER, nx + nu))
         for i in range(BOOT_STRAP_ITER):
-            pre_action_state = env.state
+            pre_action_state = state # env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
             env.step([action])
             # env.render()
@@ -238,7 +239,7 @@ if __name__ == "__main__":
             mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
                                 lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
                                 u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-            total_reward, data = mppi.run_mppi(mppi_gym, env, train, iter=max_steps, render=False)
+            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True) # mppi.run_mppi(mppi_gym, env, train, iter=max_steps, render=False)
             episodic_return.append(total_reward)
             
             logger.info("Total reward %f", total_reward)
