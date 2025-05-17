@@ -1,0 +1,28 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+
+The following have been reloaded with a version change:
+  1) python/3.11.5 => python/3.10.13
+
+[INFO 05-16 20:57:47 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:47] random seed 24
+[INFO 05-16 20:57:48 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:207] bootstrapping with random action for 100 actions
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py", line 212, in <module>
+    env.step([action])
+  File "/home/nileb3/py310/lib/python3.10/site-packages/gym/wrappers/time_limit.py", line 50, in step
+    observation, reward, terminated, truncated, info = self.env.step(action)
+  File "/home/nileb3/py310/lib/python3.10/site-packages/gym/wrappers/order_enforcing.py", line 37, in step
+    return self.env.step(action)
+  File "/home/nileb3/py310/lib/python3.10/site-packages/gym/wrappers/env_checker.py", line 37, in step
+    return env_step_passive_checker(self.env, action)
+  File "/home/nileb3/py310/lib/python3.10/site-packages/gym/utils/passive_env_checker.py", line 233, in env_step_passive_checker
+    if not isinstance(terminated, (bool, np.bool8)):
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/scipy-stack/2025a/lib/python3.10/site-packages/numpy/__init__.py", line 414, in __getattr__
+    raise AttributeError("module {!r} has no attribute "
+AttributeError: module 'numpy' has no attribute 'bool8'. Did you mean: 'bool'?
