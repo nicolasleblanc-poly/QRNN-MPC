@@ -2,6 +2,10 @@
 # %matplotlib inline
 # import matplotlib as mpl
 # import matplotlib.pyplot as plt
+
+import sys
+print("Python Version:", sys.version)
+
 import numpy as np
 import torch
 import omegaconf
