@@ -245,7 +245,7 @@ if __name__ == "__main__":
             mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
                                 lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
                                 u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True, prob = prob) # mppi.run_mppi(mppi_gym, env, train, iter=max_steps, render=False)
+            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob = prob) # mppi.run_mppi(mppi_gym, env, train, iter=max_steps, render=False)
             episodic_return.append(total_reward)
             
             # logger.info("Total reward %f", total_reward)

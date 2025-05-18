@@ -9,6 +9,7 @@ import torch
 import logging
 import math
 from pytorch_mppi_folder import mppi_modified as mppi
+import os
 # from gym import logger as gym_log
 
 # gym_log.set_level(gym_log.INFO)
@@ -104,6 +105,21 @@ if __name__ == "__main__":
             + 0.3 * (theta ** 2 + dtheta ** 2) \
             + 0.001 * (a1 ** 2 + a2 ** 2)
         return cost
+
+    def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+
+        # Get the folder where this script is located
+        origin_folder = os.path.dirname(os.path.abspath(__file__))
+        # Construct full path to save
+        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+
+        np.savez(
+        save_path,
+        f"{prob}_{method_name}_results.npz",
+        episode_rewards=episodic_rep_returns,
+        mean_rewards=mean_episodic_returns,
+        std_rewards=std_episodic_returns
+        )
 
     dataset = None
     # # create some true dynamics validation set to compare model against
@@ -244,7 +260,7 @@ if __name__ == "__main__":
 
 
     # downward_start = True
-    env = gym.make(ENV_NAME, render_mode="human")  # bypass the default TimeLimit wrapper
+    env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
     # env = make_lunar_lander_with_state()
     state, info = env.reset()
     # print("env.state", env.state)
@@ -278,15 +294,57 @@ if __name__ == "__main__":
         # logger.info("bootstrapping finished")
         print("bootstrapping finished \n")
 
-    # env.reset()
-    # if downward_start:
-    #     env.state = env.unwrapped.state = [np.pi, 1]
-    seed = 0
+        # Save the initial weights after bootstrapping
+        initial_state_dict = network.state_dict()
+
+    env_seeds = [0, 8, 15]
+    episodic_return_seeds = []
+    max_episodes = 3#00
+    method_name = "MPPI"
+    prob = "LunarLanderContinuous"
     max_steps = 1000
-    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                         lambda_=lambda_, device=d, u_min=torch.tensor([ACTION_LOW, ACTION_LOW], dtype=torch.double, device=d),
-                         u_max=torch.tensor([ACTION_HIGH, ACTION_HIGH], dtype=torch.double, device=d))
-    total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True) # mppi.run_mppi(mppi_gym, seed, env, train)
-    # logger.info("Total reward %f", total_reward)
-    print("Total reward %f", total_reward)
+    for seed in env_seeds:
+        episodic_return = []
+        # Reset network to initial pretrained weights
+        network.load_state_dict(initial_state_dict)
+        
+        for episode in range(max_episodes):
+            env.reset(seed=seed)
+
+            # N_SAMPLES = 200 is the number of steps per episode
+            mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+            episodic_return.append(total_reward)
+            
+            # logger.info("Total reward %f", total_reward)
+
+        episodic_return_seeds.append(episodic_return)
+        
+    episodic_return_seeds = np.array(episodic_return_seeds)
+
+    mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
+    std_episodic_return = np.std(episodic_return_seeds, axis=0)
+    
+    print("max_episodes", max_episodes, "\n")
+    print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
+    print("mean_episodic_return ", mean_episodic_return.shape, "\n")
+    print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
+    
+    save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+    print("Saved data \n")
     env.close()
+
+    # # env.reset()
+    # # if downward_start:
+    # #     env.state = env.unwrapped.state = [np.pi, 1]
+    # seed = 0
+    # max_steps = 1000
+    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+    #                      lambda_=lambda_, device=d, u_min=torch.tensor([ACTION_LOW, ACTION_LOW], dtype=torch.double, device=d),
+    #                      u_max=torch.tensor([ACTION_HIGH, ACTION_HIGH], dtype=torch.double, device=d))
+    # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True) # mppi.run_mppi(mppi_gym, seed, env, train)
+    # # logger.info("Total reward %f", total_reward)
+    # print("Total reward %f", total_reward)
+    # env.close()
