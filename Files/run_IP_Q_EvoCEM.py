@@ -63,6 +63,9 @@ if not prob_vars.discrete:
     model_QRNN = NextStateQuantileNetwork(prob_vars.state_dim, prob_vars.action_dim, prob_vars.num_quantiles)
     optimizer_QRNN = optim.Adam(model_QRNN.parameters(), lr=1e-3)
 
+    use_sampling = False
+    use_mid = True
+
     # Experience replay buffer
     replay_buffer_QRNN = []
 

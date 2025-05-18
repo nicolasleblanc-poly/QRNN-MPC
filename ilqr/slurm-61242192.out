@@ -1,0 +1,17 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/classic_control/pendulum.py:178: UserWarning: [33mWARN: You are calling render method without specifying any render mode. You can specify the render_mode at initialization, e.g. gym.make("Pendulum-v1", render_mode="rgb_array")[0m
+  gym.logger.warn(
+Saved data 
+
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr/pendulum.py", line 136, in <module>
+    episodic_return_seeds.append(episodic_return)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'numpy.ndarray' object has no attribute 'append'

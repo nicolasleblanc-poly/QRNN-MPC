@@ -10,7 +10,7 @@
 # python /home/nileb3/projects/def-bonizzat/nileb3/job-scripts/my_script.py
 module purge
 module load mujoco
-module load python/3.11.9 scipy-stack
-source ~/myenv/bin/activate
+module load python/3.10.9 scipy-stack
+source ~/py310/bin/activate
 
-python run_MBVE_IP.py # my_script.py
+python train.py # my_script.py

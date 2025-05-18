@@ -1,7 +1,11 @@
-from IPython import display
+# from IPython import display
 # %matplotlib inline
-import matplotlib as mpl
-import matplotlib.pyplot as plt
+# import matplotlib as mpl
+# import matplotlib.pyplot as plt
+
+import sys
+print("Python Version:", sys.version)
+
 import numpy as np
 import torch
 import omegaconf
