@@ -1,0 +1,24 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+[INFO 05-17 17:10:25 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:47] random seed 24
+[INFO 05-17 17:10:26 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:207] bootstrapping with random action for 100 actions
+/home/nileb3/myenv/lib/python3.11/site-packages/gym/utils/passive_env_checker.py:233: DeprecationWarning: `np.bool8` is a deprecated alias for `np.bool_`.  (Deprecated NumPy 1.24)
+  if not isinstance(terminated, (bool, np.bool8)):
+[INFO 05-17 17:11:13 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:218] bootstrapping finished
+[INFO 05-17 17:11:18 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -864.318344
+[INFO 05-17 17:11:24 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -129.050095
+[INFO 05-17 17:11:31 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -740.598239
+[INFO 05-17 17:11:43 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -424.485375
+[INFO 05-17 17:11:56 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -259.289330
+[INFO 05-17 17:12:08 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -124.720076
+[INFO 05-17 17:12:21 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -375.427845
+[INFO 05-17 17:12:40 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -379.837485
+[INFO 05-17 17:13:00 /project/6086407/nileb3/QRNN-MPC/mppi/Pendulum_approximate_continuous.py:244] Total reward -380.361294
+Saved data 
+
