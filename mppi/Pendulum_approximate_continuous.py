@@ -257,5 +257,10 @@ if __name__ == "__main__":
     mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
     std_episodic_return = np.std(episodic_return_seeds, axis=0)
     
+    print("max_episodes", max_episodes, "\n")
+    print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
+    print("mean_episodic_return ", mean_episodic_return.shape, "\n")
+    print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
+    
     save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
     print("Saved data \n")
