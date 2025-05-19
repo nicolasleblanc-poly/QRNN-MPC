@@ -12,7 +12,7 @@ import os
 
 # Initialize Gymnasium Pendulum environment
 # env = gym.make('Pendulum-v1', render_mode='human')
-env = gym.make('Pendulum-v1')
+env = gym.make('Pendulum-v1', render_mode='rgb_array')
 n_x = 3  # [cos(theta), sin(theta), angular velocity]
 n_u = 1  # [torque]
 # dt = env.dt  # Use the environment's time step (0.05 by default)
@@ -80,18 +80,18 @@ observation, _ = env.reset()
 states = []
 actions = []
 
-# Initial state (pointing downward)
-# x0 = np.array([-1, 0, 0])
-x0 = observation
+# # Initial state (pointing downward)
+# # x0 = np.array([-1, 0, 0])
+# x0 = observation
 
-# Initial guess for controls
-max_steps = 200
-us_init = np.random.uniform(low=-2, high=2, size=(max_steps, n_u))
-# us_init = np.random.randn(max_steps, n_u) * 0.01
-# us_init = np.random.randn(200, n_u) * 0.01
+# # Initial guess for controls
+# max_steps = 200
+# us_init = np.random.uniform(low=-2, high=2, size=(max_steps, n_u))
+# # us_init = np.random.randn(max_steps, n_u) * 0.01
+# # us_init = np.random.randn(200, n_u) * 0.01
 
-# Get optimal states and actions
-xs, us, cost_trace = controller.fit(x0, us_init)
+# # Get optimal states and actions
+# xs, us, cost_trace = controller.fit(x0, us_init)
 
 # Set initial state to match our starting point
 # env.unwrapped.state = [np.pi, 0]  # [theta, theta_dot]
@@ -113,14 +113,24 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
 
 env_seeds = [0, 8, 15]
 episodic_return_seeds = []
-max_episodes = 300
+max_steps = 200
+max_episodes = 5 #300
 method_name = "iLQR"
 prob = "Pendulum"
+
+# env = gym.wrappers.RecordVideo(env, video_folder="videos", episode_trigger=lambda e: True)
 
 for seed in env_seeds:
     episodic_return = []
     for episode in range(max_episodes):
         total_reward = 0
+        observation, _ = env.reset()
+        # Initial guess for controls
+        us_init = np.random.uniform(low=-2, high=2, size=(max_steps, n_u))
+        x0 = observation
+        # Get optimal states and actions
+        xs, us, cost_trace = controller.fit(x0, us_init)
+        
         for i in range(len(us)):
             action = us[i]
             observation, reward, terminated, truncated, _ = env.step(action)
@@ -132,6 +142,7 @@ for seed in env_seeds:
             if terminated or truncated:
                 break
         episodic_return.append(total_reward)
+        # print("Total reward:", total_reward, "\n")
         
     episodic_return_seeds.append(episodic_return)
         
@@ -139,10 +150,14 @@ episodic_return_seeds = np.array(episodic_return_seeds)
 
 mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
 std_episodic_return = np.std(episodic_return_seeds, axis=0)
+print("max_episodes", max_episodes, "\n")
+print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
+print("mean_episodic_return ", mean_episodic_return.shape, "\n")
+print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
 
-save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+# save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
 print("Saved data \n")
-print("Total reward:", total_reward, "\n")
+# print("Total reward:", total_reward, "\n")
 env.close()
 
 
