@@ -166,9 +166,9 @@ print("Saved data \n")
 # print("Total reward:", total_reward, "\n")
 env.close()
 
-import matplotlib.pyplot as plt
-plt.plot(mean_episodic_return, label='Mean Episodic Return')
-plt.show()
+# import matplotlib.pyplot as plt
+# plt.plot(mean_episodic_return, label='Mean Episodic Return')
+# plt.show()
 
 
 # # Plot results
