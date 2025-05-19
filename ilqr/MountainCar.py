@@ -12,66 +12,70 @@ import os
 
 # Initialize Gymnasium Pendulum environment
 # env = gym.make('Pendulum-v1', render_mode='human')
-env = gym.make('Pendulum-v1', render_mode='rgb_array')
-n_x = 3  # [cos(theta), sin(theta), angular velocity]
-n_u = 1  # [torque]
+env = gym.make('MountainCarContinuous-v0', render_mode='rgb_array')
+n_x = 2  # [x, v]
+n_u = 1  # [force]
 # dt = env.dt  # Use the environment's time step (0.05 by default)
 dt = 0.05
 
-# Physics parameters
-g = 10.0
-m = 1.0
-l = 1.0
-max_torque = 2.0
-max_speed = 8.0
+# # Physics parameters
+# g = 10.0
+# m = 1.0
+# l = 1.0
+# max_torque = 2.0
+# max_speed = 8.0
 
 # Numba-compatible dynamics function
 @jit(nopython=True)
 def f_numba(x, u):
-    # Convert state to angle and angular velocity
-    theta = np.arctan2(x[1], x[0])
-    thdot = x[2]
+    position = x[0]
+    velocity = x[1]
+    
+    # Physics constants (from env source code)
+    # print("u[0]", u[0], "\n")
+    # force = np.clip(u[0], -1.0, 1.0)
+    force = min(max(u[0], -1), 1) # np.clip(u, -1.0, 1.0)
+    
+    # force = force[0]
+    gravity = -0.0025
+    min_position = -1.2
+    max_position = 0.6
+    max_speed = 0.07
+    goal_position = 0.45
+    power = 0.0015
+    
+    velocity += force * power - gravity * np.cos(3 * position)
+    # velocity = np.clip(velocity, -max_speed, max_speed)
+    velocity = min(max(velocity, -max_speed), max_speed)
+    position += velocity
+    # position = np.clip(position, min_position, max_position)
+    position = min(max(position, -max_position), max_position)
 
-    # Clip the action
-    u_clipped = min(max(u[0], -max_torque), max_torque)
-    
-    # Calculate angular acceleration
-    thdot_dot = 3 * g / (2 * l) * np.sin(theta) + 3.0 / (m * l**2) * u_clipped
-    # (3 * g / (2 * l) * np.sin(theta) + 3.0 / (m * l**2) * u_clipped
-    
-    # Update angular velocity with manual clipping
-    new_thdot = thdot + thdot_dot * dt
-    if new_thdot > max_speed:
-        new_thdot = max_speed
-    elif new_thdot < -max_speed:
-        new_thdot = -max_speed
-    
-    # Update angle
-    new_theta = theta + new_thdot * dt
-    
-    # Return state in Gymnasium format
-    return np.array([np.cos(new_theta), np.sin(new_theta), new_thdot])
+    # Stop the car if it hits the left wall
+    if position == min_position and velocity < 0:
+        velocity = 0.0
+
+    return np.array([position, velocity])
+
 
 # Wrapper function to match expected interface
 def f(x, u):
     return f_numba(x, u)
 
 # Create dynamics container
-Pendulum = Dynamics.Discrete(f)
+MoutainCarcontinuous = Dynamics.Discrete(f)
 
 # Construct cost function
 x, u = GetSyms(n_x, n_u)
-x_goal = np.array([1, 0, 0])  # Upright position
-Q = np.diag([1, 1, 0.1])      # State cost weights
-R = np.diag([0.1])             # Control cost weight
-QT = np.diag([10, 10, 1])      # Terminal state cost weights
-
-# Add torque constraints
-cons = Bounded(u, high=[max_torque], low=[-max_torque])
-SwingUpCost = Cost.QR(Q, R, QT, x_goal, cons)
+x_goal = np.array([0.45, 0.0])
+Q = np.diag([10, 0.1])       # Penalize position error more
+R = np.diag([0.001])         # Penalize control effort lightly
+QT = np.diag([100, 1])       # Strong terminal cost
+cons = Bounded(u, high=[1.0], low=[-1.0])
+MountainCarContinuousCost = Cost.QR(Q, R, QT, x_goal, cons)
 
 # Initialize the controller
-controller = iLQR(Pendulum, SwingUpCost)
+controller = iLQR(MoutainCarcontinuous, MountainCarContinuousCost)
 
 # Run simulation
 observation, _ = env.reset()
@@ -111,17 +115,17 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
 
 env_seeds = [0, 8, 15]
 episodic_return_seeds = []
-max_steps = 200
-max_episodes = 10 #300
+max_steps = 1000
+max_episodes = 5 #300
 method_name = "iLQR"
-prob = "Pendulum"
+prob = "MountainCarContinuous"
 
 # env = gym.wrappers.RecordVideo(env, video_folder="videos", episode_trigger=lambda e: True)
 
 for seed in env_seeds:
     episodic_return = []
     # Initial guess for controls
-    us_init = np.random.uniform(low=-2, high=2, size=(max_steps, n_u))
+    us_init = np.random.uniform(low=-1, high=1, size=(max_steps, n_u))
     for episode in range(max_episodes):
         total_reward = 0
         observation, _ = env.reset()
@@ -129,6 +133,8 @@ for seed in env_seeds:
             us_init = us
         x0 = observation
         # Get optimal states and actions
+        # print("x0", x0.shape, "\n")
+        # print("us_init", us_init.shape, "\n")
         xs, us, cost_trace = controller.fit(x0, us_init)
         
         for i in range(len(us)):
@@ -155,14 +161,14 @@ print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
 print("mean_episodic_return ", mean_episodic_return.shape, "\n")
 print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
 
-# import matplotlib.pyplot as plt
-# plt.plot(mean_episodic_return, label='Mean Episodic Return')
-# plt.show()
-
-save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+# save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
 print("Saved data \n")
 # print("Total reward:", total_reward, "\n")
 env.close()
+
+import matplotlib.pyplot as plt
+plt.plot(mean_episodic_return, label='Mean Episodic Return')
+plt.show()
 
 
 # # Plot results
