@@ -6,6 +6,7 @@ import torch
 from torch.distributions.multivariate_normal import MultivariateNormal
 from arm_pytorch_utilities import handle_batch_input
 from functorch import vmap
+import panda_gym
 
 # logger = logging.getLogger(__name__)
 
@@ -333,6 +334,9 @@ class MPPI():
 
     def _bound_action(self, action):
         if self.u_max is not None:
+            # print("action ", action.shape, "\n")
+            # print("self.u_max ", self.u_max.shape, "\n")
+            # print("self.u_min ", self.u_min.shape, "\n")
             return torch.max(torch.min(action, self.u_max), self.u_min)
         return action
 
@@ -605,14 +609,15 @@ class KMPPI(MPPI):
 def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True, prob = None):
     dataset = torch.zeros((retrain_after_iter, mppi.nx + mppi.nu), dtype=mppi.U.dtype, device=mppi.d)
     total_reward = 0
-    state, info = env.reset(seed=seed)
-    state  = state['observation']
-    goal_state = state['desired_goal']
+    observation, info = env.reset(seed=seed)
+    state  = observation['observation']
+    # global goal_state
+    goal_state = observation['desired_goal']
     for i in range(iter):
         if prob == "Pendulum" or prob == "MountainCarContinuous":
             state = env.unwrapped.state.copy()
-        elif prob == "PandaReach":
-            state  = state['observation']
+        # elif prob == "PandaReach":
+        #     state  = state['observation']
         command_start = time.perf_counter()
         # print("state", state, "\n")
         action = mppi.command(state)
@@ -633,6 +638,7 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
             retrain_dynamics(dataset)
             # don't have to clear dataset since it'll be overridden, but useful for debugging
             dataset.zero_()
+        # print("state ", state, "\n")
         dataset[di, :mppi.nx] = torch.tensor(state, dtype=mppi.U.dtype)
         dataset[di, mppi.nx:] = action
     # print("i ", i, "\n")

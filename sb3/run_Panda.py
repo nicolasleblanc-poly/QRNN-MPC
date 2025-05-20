@@ -58,22 +58,26 @@ class ObservationOnlyWrapper(gym.Wrapper):
     """
     def __init__(self, env: gym.Env):
         super().__init__(env)
+        # Override observation_space to match the extracted observation
+        self.observation_space = env.observation_space["observation"]
         
     def reset(self, **kwargs):
         """
         Reset the environment and return only the observation
         """
         obs_dict, info = self.env.reset(**kwargs)
-        return obs_dict['observation']
+        # print("obs_dict['observation']: ", obs_dict['observation'], "\n")
+        return obs_dict['observation'], info #['observation']
     
     def step(self, action):
         """
         Take a step in the environment and return (obs, reward, done, info)
         with obs being just the observation component
         """
-        obs_dict, reward, done, info = self.env.step(action)
+        obs_dict, reward, terminated, truncated, info = self.env.step(action)
         obs = obs_dict['observation']
-        return obs, reward, done, info
+        # print("obs_dict: ", obs_dict, "\n")
+        return obs, reward, terminated, truncated, info
 
 def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
     episodic_return_seeds = []
@@ -115,9 +119,11 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             model = TQC("MlpPolicy", env)
         # env = gym.make("LunarLander-v3", render_mode="human")
         # env = Monitor(env)  # Wraps env to log episode stats
+        # env = ObservationOnlyWrapper(env)
         env = DummyVecEnv([lambda: env])  # Required for SB3
         env = VecMonitor(env, "logs/")  # Saves logs to "logs/"
         env.seed(seed)  # Set the seed for reproducibility
+        
 
         # model = A2C("MlpPolicy", env) # , verbose=1
         # model.learn(total_timesteps=1000)
