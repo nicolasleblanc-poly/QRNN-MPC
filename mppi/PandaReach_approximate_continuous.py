@@ -19,7 +19,7 @@ import os
 #                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
-    ENV_NAME = "Reacher-v5"
+    ENV_NAME = "PandaReach-v3"
     TIMESTEPS = 15  # T
     N_SAMPLES = 50  # K
     # ACTION_LOW = -1.0
@@ -94,11 +94,10 @@ if __name__ == "__main__":
 
     #     return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action):
-        # Assuming the last two elements of the state vector represent the vector from fingertip to target
-        distance = torch.norm(state[:, -2:], dim=1)
-        control_cost = torch.sum(action ** 2, dim=1)
-        cost = distance + 0.001 * control_cost
+    def running_cost(state, action, goal_state):
+        goal_state = torch.tensor(goal_state, dtype=torch.float32, device=state.device).reshape(1, 3)
+        cost = torch.norm(state[:, :3] - goal_state, dim=1)
+
         return cost
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
@@ -210,6 +209,8 @@ if __name__ == "__main__":
     # downward_start = True
     env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
     state, info = env.reset()
+    state  = state['observation']
+    goal_state = state['desired_goal']
     # state, info = env.reset()
     # print("state", state)
     # print("env.state", env.state)

@@ -607,7 +607,7 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
     total_reward = 0
     state, info = env.reset(seed=seed)
     for i in range(iter):
-        if prob:
+        if prob == "Pendulum" or prob == "MountainCarContinuous":
             state = env.unwrapped.state.copy()
         command_start = time.perf_counter()
         # print("state", state, "\n")
