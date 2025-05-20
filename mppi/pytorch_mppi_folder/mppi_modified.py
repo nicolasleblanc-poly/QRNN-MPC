@@ -609,10 +609,11 @@ class KMPPI(MPPI):
 def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True, prob = None):
     dataset = torch.zeros((retrain_after_iter, mppi.nx + mppi.nu), dtype=mppi.U.dtype, device=mppi.d)
     total_reward = 0
-    observation, info = env.reset(seed=seed)
-    state  = observation['observation']
-    # global goal_state
-    goal_state = observation['desired_goal']
+    state, info = env.reset(seed=seed)
+    if prob == "PandaReach":
+        # # global goal_state
+        # goal_state = state['desired_goal']
+        state  = state['observation']
     for i in range(iter):
         if prob == "Pendulum" or prob == "MountainCarContinuous":
             state = env.unwrapped.state.copy()
