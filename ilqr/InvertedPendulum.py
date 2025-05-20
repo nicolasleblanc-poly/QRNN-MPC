@@ -71,7 +71,7 @@ x_goal = np.array([0.0, 0.0, 0.0, 0.0])
 Q = np.diag([10.0, 0.1, 100.0, 0.1]) # Penalize position error more
 R = np.diag([0.01]) # Penalize control effort lightly
 QT = np.diag([100.0, 1.0, 1000.0, 1.0]) # Strong terminal cost
-cons = Bounded(u, high=[1.0], low=[-1.0])
+cons = Bounded(u, high=[3.0], low=[-3.0])
 InvertedPendulumCost = Cost.QR(Q, R, QT, x_goal, cons)
 
 # Initialize the controller
