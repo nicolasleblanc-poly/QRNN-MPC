@@ -12,11 +12,11 @@ import os
 
 # Initialize Gymnasium Pendulum environment
 # env = gym.make('Pendulum-v1', render_mode='human')
-env = gym.make('InvertedPendulum-v5', render_mode='rgb_array')
-n_x = 4  # [x, v]
-n_u = 1  # [force]
+env = gym.make('LunarLander-v3', render_mode='rgb_array', continuous=True)
+n_x = 8
+n_u = 2
 # dt = env.dt  # Use the environment's time step (0.05 by default)
-dt = 0.02
+dt = 0.05
 
 # # Physics parameters
 # g = 10.0
@@ -26,18 +26,41 @@ dt = 0.02
 # max_speed = 8.0
 
 # Numba-compatible dynamics function
-# @jit(nopython=True)
-# def f_numba(x, u, env):
-def f(x, u, env):
+@jit(nopython=True)
+def f_numba(x, u):
+    position = x[0]
+    velocity = x[1]
     
-    state, reward, terminated, truncated, info = env.step(u)
+    # Physics constants (from env source code)
+    # print("u[0]", u[0], "\n")
+    # force = np.clip(u[0], -1.0, 1.0)
+    force = min(max(u[0], -1), 1) # np.clip(u, -1.0, 1.0)
+    
+    # force = force[0]
+    gravity = -0.0025
+    min_position = -1.2
+    max_position = 0.6
+    max_speed = 0.07
+    goal_position = 0.45
+    power = 0.0015
+    
+    velocity += force * power - gravity * np.cos(3 * position)
+    # velocity = np.clip(velocity, -max_speed, max_speed)
+    velocity = min(max(velocity, -max_speed), max_speed)
+    position += velocity
+    # position = np.clip(position, min_position, max_position)
+    position = min(max(position, -max_position), max_position)
 
-    return state
+    # Stop the car if it hits the left wall
+    if position == min_position and velocity < 0:
+        velocity = 0.0
+
+    return np.array([position, velocity])
+
 
 # Wrapper function to match expected interface
-def f(x, u, env):
-    # return f_numba(x, u, env)
-    return f(x, u, env)
+def f(x, u):
+    return f_numba(x, u)
 
 # Create dynamics container
 InvertedPendulum = Dynamics.Discrete(f)
