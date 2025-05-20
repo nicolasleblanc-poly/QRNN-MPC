@@ -241,7 +241,7 @@ if __name__ == "__main__":
     episodic_return_seeds = []
     max_episodes = 400
     method_name = "MPPI"
-    prob = "MuJoCoReacher"
+    prob = "PandaReach"
     max_steps = 50
     for seed in env_seeds:
         episodic_return = []
