@@ -93,7 +93,7 @@ if __name__ == "__main__":
     #     return torch.cat((position, velocity), dim=1)
 
     def running_cost(state, action):
-        goal = 0.45
+        # goal = 0.45
         cart_position = state[:, 0]
         pole_angle = state[:, 1]
         cart_velocity = state[:, 2]
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     # env_seeds = [0, 8, 15]
     seed = 15
     episodic_return_seeds = []
-    max_episodes = 300
+    max_episodes = 400
     method_name = "MPPI"
     prob = "InvertedPendulum"
     max_steps = 1000
