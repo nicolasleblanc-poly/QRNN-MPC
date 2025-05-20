@@ -63,7 +63,7 @@ class ObservationOnlyWrapper(gym.Wrapper):
         """
         Reset the environment and return only the observation
         """
-        obs_dict = self.env.reset(**kwargs)
+        obs_dict, info = self.env.reset(**kwargs)
         return obs_dict['observation']
     
     def step(self, action):
