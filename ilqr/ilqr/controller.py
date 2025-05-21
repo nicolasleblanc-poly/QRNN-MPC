@@ -1,4 +1,4 @@
-import numba
+# import numba
 import numpy as np
 
 
@@ -78,7 +78,7 @@ class MPC:
         return us[:self.ch]
 
 
-@numba.njit
+# @numba.njit
 def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_stop,
              alphas, regu_init = 20, max_regu = 10000, min_regu = 0.001):
     '''
@@ -118,7 +118,7 @@ def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_
     return xs, us, cost_trace
 
 
-@numba.njit
+# @numba.njit
 def rollout(f, L, Lf, x0, us):
     '''
       Rollout with initial state and control trajectory
@@ -133,7 +133,7 @@ def rollout(f, L, Lf, x0, us):
     return xs, cost
 
 
-@numba.njit
+# @numba.njit
 def forward_pass(f, L, Lf, xs, us, ks, Ks, alpha):
     '''
        Forward Pass
@@ -154,7 +154,7 @@ def forward_pass(f, L, Lf, xs, us, ks, Ks, alpha):
     return xs_new, us_new, cost_new
 
 
-@numba.njit
+# @numba.njit
 def backward_pass(f_prime, L_prime, Lf_prime, xs, us, regu):
     '''
        Backward Pass

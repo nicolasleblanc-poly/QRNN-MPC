@@ -93,8 +93,8 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
 
 env_seeds = [0]#, 8, 15]
 episodic_return_seeds = []
-max_steps = 10#00
-max_episodes = 3#00
+max_steps = 1000
+max_episodes = 300
 method_name = "iLQR"
 prob = "InvertedPendulum"
 
