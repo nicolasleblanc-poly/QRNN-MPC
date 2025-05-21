@@ -124,7 +124,7 @@ for seed in env_seeds:
     us_init = np.random.uniform(low=-2, high=2, size=(max_steps, n_u))
     for episode in range(max_episodes):
         total_reward = 0
-        observation, _ = env.reset()
+        observation, _ = env.reset(seed=seed)
         if episode > 0:
             us_init = us
         x0 = observation

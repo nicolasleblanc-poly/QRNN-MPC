@@ -105,14 +105,14 @@ for seed in env_seeds:
     us_init = np.random.uniform(low=-3, high=3, size=(max_steps, n_u))
     for episode in range(max_episodes):
         total_reward = 0
-        observation, _ = env.reset()
+        observation, _ = env.reset(seed=seed)
         if episode > 0:
             us_init = us
         x0 = observation
         # Get optimal states and actions
         # print("x0", x0.shape, "\n")
         # print("us_init", us_init.shape, "\n")
-        xs, us, cost_trace = controller.fit(x0, us_init)
+        xs, us, cost_trace = controller.fit(x0, us_init, env)
         
         for i in range(len(us)):
             action = us[i]
