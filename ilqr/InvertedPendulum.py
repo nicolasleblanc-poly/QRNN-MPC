@@ -4,7 +4,7 @@ with Numba-compatible dynamics
 '''
 import gymnasium as gym
 import numpy as np
-# from numba import jit
+from numba import jit
 from ilqr import iLQR
 from ilqr.containers import Dynamics, Cost
 from ilqr.utils import GetSyms, Constrain, Bounded

@@ -159,7 +159,7 @@ print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
 # plt.plot(mean_episodic_return, label='Mean Episodic Return')
 # plt.show()
 
-save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+# save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
 print("Saved data \n")
 # print("Total reward:", total_reward, "\n")
 env.close()
