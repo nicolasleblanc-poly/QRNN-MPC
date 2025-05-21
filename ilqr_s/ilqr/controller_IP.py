@@ -1,4 +1,4 @@
-# import numba
+
 import numpy as np
 
 
@@ -35,7 +35,7 @@ class iLQR_IP:
                         self.cost.Lf, self.cost.L_prime, self.cost.Lf_prime,
                         x0, us_init, copy_env, maxiters, early_stop, **self.params)
 
-    def rollout(self, x0, us):
+    def rollout(self, x0, us, copy_env):
         '''
         Args:
           x0: initial state
@@ -45,7 +45,7 @@ class iLQR_IP:
           xs: rolled out states
           cost: cost of trajectory
         '''
-        return rollout(self.dynamics.f, self.cost.L, self.cost.Lf, x0, us)
+        return rollout(self.dynamics.f, self.cost.L, self.cost.Lf, x0, us, copy_env)
 
 
 class MPC:
@@ -66,19 +66,19 @@ class MPC:
             raise Exception('prediction horizon must be greater than control horizon')
         self.us_init = us_init
 
-    def control(self, x0, maxiters = 50, early_stop = True):
+    def control(self, x0, copy_env, maxiters = 50, early_stop = True):
         '''
         Returns optimal actions
         Supposed to be called Sequentially with observed state
         '''
         if self.us_init is None:
             raise Exception('initial guess has not been set')
-        xs, us, cost_trace = self.controller.fit(x0, self.us_init, maxiters, early_stop)
+        xs, us, cost_trace = self.controller.fit(x0, self.us_init, copy_env, maxiters, early_stop)
         self.us_init[:-self.ch] = self.us_init[self.ch:]
         return us[:self.ch]
 
 
-# @numba.njit
+
 def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, copy_env, max_iters, early_stop,
              alphas, regu_init = 20, max_regu = 10000, min_regu = 0.001):
     '''
@@ -118,7 +118,7 @@ def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, copy_env, max_ite
     return xs, us, cost_trace
 
 
-# @numba.njit
+
 def rollout(f, L, Lf, x0, us, copy_env):
     '''
       Rollout with initial state and control trajectory
@@ -133,7 +133,7 @@ def rollout(f, L, Lf, x0, us, copy_env):
     return xs, cost
 
 
-# @numba.njit
+
 def forward_pass(f, L, Lf, xs, us, ks, Ks, alpha):
     '''
        Forward Pass
@@ -154,7 +154,7 @@ def forward_pass(f, L, Lf, xs, us, ks, Ks, alpha):
     return xs_new, us_new, cost_new
 
 
-# @numba.njit
+
 def backward_pass(f_prime, L_prime, Lf_prime, xs, us, regu):
     '''
        Backward Pass
@@ -194,3 +194,4 @@ def backward_pass(f_prime, L_prime, Lf_prime, xs, us, regu):
         delta_V += Q_u.T@k + 0.5*k.T@Q_uu@k
 
     return ks, Ks, delta_V
+

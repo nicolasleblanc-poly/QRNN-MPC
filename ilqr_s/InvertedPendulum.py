@@ -4,8 +4,8 @@ with Numba-compatible dynamics
 '''
 import gymnasium as gym
 import numpy as np
-from numba import jit
-from ilqr import iLQR
+# from numba import jit
+from ilqr import iLQR_IP
 from ilqr.containers import Dynamics, Cost
 from ilqr.utils import GetSyms, Constrain, Bounded
 import os 
@@ -53,7 +53,7 @@ cons = Bounded(u, high=[3.0], low=[-3.0])
 InvertedPendulumCost = Cost.QR(Q, R, QT, x_goal, cons)
 
 # Initialize the controller
-controller = iLQR(InvertedPendulum, InvertedPendulumCost)
+controller = iLQR_IP(InvertedPendulum, InvertedPendulumCost)
 
 # Run simulation
 observation, _ = env.reset()
@@ -140,7 +140,7 @@ print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
 print("mean_episodic_return ", mean_episodic_return.shape, "\n")
 print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
 
-# save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
 print("Saved data \n")
 # print("Total reward:", total_reward, "\n")
 env.close()

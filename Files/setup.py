@@ -302,7 +302,7 @@ class setup_class:
 
         elif prob == "InvertedPendulum":
             self.discrete = False
-            self.horizon = 15
+            self.horizon = 30
             self.max_episodes = 300
             self.max_steps = 1000
 
