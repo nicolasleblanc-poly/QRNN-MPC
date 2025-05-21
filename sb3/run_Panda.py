@@ -11,7 +11,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecMonitor
 from stable_baselines3.common.callbacks import BaseCallback
 from funcs import run
 import panda_gym
-
+import os
 import gymnasium as gym
 import numpy as np
 from sb3_contrib import TQC
@@ -20,6 +20,11 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecMonitor
 from stable_baselines3.common.callbacks import BaseCallback
 
 def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+
+    # Get the folder where this script is located
+    origin_folder = os.path.dirname(os.path.abspath(__file__))
+    # Construct full path to save
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
 
     np.savez(
     f"{prob}_{method_name}_results.npz",
