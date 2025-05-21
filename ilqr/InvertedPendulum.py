@@ -4,11 +4,12 @@ with Numba-compatible dynamics
 '''
 import gymnasium as gym
 import numpy as np
-from numba import jit
+# from numba import jit
 from ilqr import iLQR
 from ilqr.containers import Dynamics, Cost
 from ilqr.utils import GetSyms, Constrain, Bounded
 import os 
+import copy
 
 # Initialize Gymnasium Pendulum environment
 # env = gym.make('Pendulum-v1', render_mode='human')
@@ -28,16 +29,16 @@ dt = 0.02
 # Numba-compatible dynamics function
 # @jit(nopython=True)
 # def f_numba(x, u, env):
-def f(x, u, env):
-    
-    state, reward, terminated, truncated, info = env.step(u)
+def f(x, u, copy_env):
+    copy_env.unwrapped.set_state(x[:2], x[2:])
+    state, reward, terminated, truncated, info = copy_env.step(u)
 
     return state
 
 # Wrapper function to match expected interface
-def f(x, u, env):
+def f(x, u, copy_env):
     # return f_numba(x, u, env)
-    return f(x, u, env)
+    return f(x, u, copy_env)
 
 # Create dynamics container
 InvertedPendulum = Dynamics.Discrete(f)
@@ -90,10 +91,10 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
         std_rewards=std_episodic_returns
         )
 
-env_seeds = [0, 8, 15]
+env_seeds = [0]#, 8, 15]
 episodic_return_seeds = []
-max_steps = 1000
-max_episodes = 300
+max_steps = 10#00
+max_episodes = 3#00
 method_name = "iLQR"
 prob = "InvertedPendulum"
 
@@ -112,7 +113,8 @@ for seed in env_seeds:
         # Get optimal states and actions
         # print("x0", x0.shape, "\n")
         # print("us_init", us_init.shape, "\n")
-        xs, us, cost_trace = controller.fit(x0, us_init, env)
+        copy_env = copy.deepcopy(env)
+        xs, us, cost_trace = controller.fit(x0, us_init, copy_env)
         
         for i in range(len(us)):
             action = us[i]
