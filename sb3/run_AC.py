@@ -14,7 +14,7 @@ from funcs import run
 env_seeds = [0, 8, 15]
 
 steps_per_episode = 200
-max_episodes = 100
+max_episodes = 600
 prob = "Acrobot"
 # A2C
 run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)

@@ -6,7 +6,7 @@ import torch
 from torch.distributions.multivariate_normal import MultivariateNormal
 from arm_pytorch_utilities import handle_batch_input
 from functorch import vmap
-import panda_gym
+# import panda_gym
 
 # logger = logging.getLogger(__name__)
 
@@ -610,7 +610,7 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
     dataset = torch.zeros((retrain_after_iter, mppi.nx + mppi.nu), dtype=mppi.U.dtype, device=mppi.d)
     total_reward = 0
     state, info = env.reset(seed=seed)
-    if prob == "PandaReach":
+    if prob == "PandaReach" or prob == "PandaReachDense":
         # # global goal_state
         # goal_state = state['desired_goal']
         state  = state['observation']
@@ -627,7 +627,7 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
         state, r = res[0], res[1]
         if prob == "Pendulum" or prob == "MountainCarContinuous":
             state = env.unwrapped.state.copy()
-        elif prob == "PandaReach":
+        elif prob == "PandaReach" or "PandaReachDense":
             state  = state['observation']
         total_reward += r
         # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)

@@ -1,0 +1,22 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr/InvertedPendulum.py", line 117, in <module>
+    xs, us, cost_trace = controller.fit(x0, us_init, copy_env)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr/ilqr/controller.py", line 34, in fit
+    return run_ilqr(self.dynamics.f, self.dynamics.f_prime, self.cost.L,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr/ilqr/controller.py", line 90, in run_ilqr
+    xs, J_old = rollout(f, L, Lf, x0, us)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr/ilqr/controller.py", line 130, in rollout
+    xs[n+1] = f(xs[n], us[n])
+              ^^^^^^^^^^^^^^^
+TypeError: not enough arguments: expected 3, got 2

@@ -1,8 +1,8 @@
-import numba
+
 import numpy as np
 
 
-class iLQR:
+class iLQR_IP:
 
     def __init__(self, dynamics, cost):
         '''
@@ -18,7 +18,7 @@ class iLQR:
                        'max_regu' : 10000,
                        'min_regu' : 0.001}
 
-    def fit(self, x0, us_init, maxiters = 50, early_stop = True):
+    def fit(self, x0, us_init, copy_env = None, maxiters = 50, early_stop = True):
         '''
         Args:
           x0: initial state
@@ -33,9 +33,9 @@ class iLQR:
         '''
         return run_ilqr(self.dynamics.f, self.dynamics.f_prime, self.cost.L,
                         self.cost.Lf, self.cost.L_prime, self.cost.Lf_prime,
-                        x0, us_init, maxiters, early_stop, **self.params)
+                        x0, us_init, copy_env, maxiters, early_stop, **self.params)
 
-    def rollout(self, x0, us):
+    def rollout(self, x0, us, copy_env):
         '''
         Args:
           x0: initial state
@@ -45,7 +45,7 @@ class iLQR:
           xs: rolled out states
           cost: cost of trajectory
         '''
-        return rollout(self.dynamics.f, self.cost.L, self.cost.Lf, x0, us)
+        return rollout(self.dynamics.f, self.cost.L, self.cost.Lf, x0, us, copy_env)
 
 
 class MPC:
@@ -66,20 +66,20 @@ class MPC:
             raise Exception('prediction horizon must be greater than control horizon')
         self.us_init = us_init
 
-    def control(self, x0, maxiters = 50, early_stop = True):
+    def control(self, x0, copy_env, maxiters = 50, early_stop = True):
         '''
         Returns optimal actions
         Supposed to be called Sequentially with observed state
         '''
         if self.us_init is None:
             raise Exception('initial guess has not been set')
-        xs, us, cost_trace = self.controller.fit(x0, self.us_init, maxiters, early_stop)
+        xs, us, cost_trace = self.controller.fit(x0, self.us_init, copy_env, maxiters, early_stop)
         self.us_init[:-self.ch] = self.us_init[self.ch:]
         return us[:self.ch]
 
 
-@numba.njit
-def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_stop,
+
+def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, copy_env, max_iters, early_stop,
              alphas, regu_init = 20, max_regu = 10000, min_regu = 0.001):
     '''
        iLQR main loop
@@ -87,7 +87,7 @@ def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_
     us = u_init
     regu = regu_init
     # First forward rollout
-    xs, J_old = rollout(f, L, Lf, x0, us)
+    xs, J_old = rollout(f, L, Lf, x0, us, copy_env)
     # cost trace
     cost_trace = [J_old]
 
@@ -118,8 +118,8 @@ def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_
     return xs, us, cost_trace
 
 
-@numba.njit
-def rollout(f, L, Lf, x0, us):
+
+def rollout(f, L, Lf, x0, us, copy_env):
     '''
       Rollout with initial state and control trajectory
     '''
@@ -127,13 +127,13 @@ def rollout(f, L, Lf, x0, us):
     xs[0] = x0
     cost = 0
     for n in range(us.shape[0]):
-      xs[n+1] = f(xs[n], us[n])
+      xs[n+1] = f(xs[n], us[n], copy_env)
       cost += L(xs[n], us[n])
     cost += Lf(xs[-1])
     return xs, cost
 
 
-@numba.njit
+
 def forward_pass(f, L, Lf, xs, us, ks, Ks, alpha):
     '''
        Forward Pass
@@ -154,7 +154,7 @@ def forward_pass(f, L, Lf, xs, us, ks, Ks, alpha):
     return xs_new, us_new, cost_new
 
 
-@numba.njit
+
 def backward_pass(f_prime, L_prime, Lf_prime, xs, us, regu):
     '''
        Backward Pass
@@ -194,3 +194,4 @@ def backward_pass(f_prime, L_prime, Lf_prime, xs, us, regu):
         delta_V += Q_u.T@k + 0.5*k.T@Q_uu@k
 
     return ks, Ks, delta_V
+
