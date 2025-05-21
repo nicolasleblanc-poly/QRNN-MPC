@@ -13,4 +13,4 @@ module load mujoco
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python run_CP.py # my_script.py
+python run_AC.py # my_script.py
