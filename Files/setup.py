@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import gymnasium as gym
-# import panda_gym
+import panda_gym
 
 class setup_class:
     def __init__(self, prob, use_CEM=False):
@@ -709,6 +709,69 @@ class setup_class:
 
             self.compute_cost_PandaReacher = compute_cost_PandaReacher
 
+        elif prob == "PandaReacherDense":
+            self.discrete = False
+            self.horizon = 15
+            # self.max_episodes = 100
+            self.max_episodes = 400
+            self.max_steps = 50
+            
+            # For test
+            # self.max_episodes = 3
+            # self.max_steps = 5
+            
+            # self.std = 1e-1
+            self.std = 3e-1
+            # self.std = 1
+            # self.std = 1.5
+            self.change_prob = None
+
+            if self.std == 1e-1:
+                self.std_string = "1em1"
+            elif self.std == 3e-1:
+                self.std_string = "3em1"
+            elif self.std == 1:
+                self.std_string = "1"
+            elif self.std == 1.5:
+                self.std_string = "15"
+            
+            self.goal_state = None # Defined when resetting the env
+            
+            self.nb_top_particles = 5
+            # nb_random = 10
+            
+            self.env = gym.make('PandaReachDense-v3', render_mode="rgb_array").unwrapped # Reward only when the end effector is at the goal position
+            # env = gym.make('PandaReachDense-v3', render_mode='human').unwrapped # Reward at each time step based on the distance to the goal position
+            
+            # Hyperparameters    
+            self.actions_low = self.env.action_space.low#[0] #[:3]
+            self.actions_high = self.env.action_space.high#[0] #[:3]
+            self.states_low = self.env.observation_space['observation'].low#[:3]
+            self.states_high = self.env.observation_space['observation'].high#[:3]
+            self.state_dim = len(self.states_low)
+            self.action_dim = len(self.actions_low)
+            self.action_low = self.actions_low[0]
+            self.action_high = self.actions_high[0]
+            self.goal_state_dim = 3 #len(states_low)
+            
+            self.states_low = torch.tensor([-10, -10, -10, -10, -10, -10])
+            self.states_high = torch.tensor([10, 10, 10, 10, 10, 10])
+            
+            def compute_cost_PandaReacherDense(states, t, horizon, actions, goal_state=None):
+                # print("states ", states, "\n")
+                # print("states[:, :3] ", states[:, :3], "\n")
+                goal_state = torch.tensor(goal_state, dtype=torch.float32, device=states.device).reshape(1, 3)
+                costs = torch.norm(states[:, :3] - goal_state, dim=1)
+
+                # print("goal_state ", goal_state, "\n")
+                # print("costs ", costs, "\n")
+                # print("cost 0 ", torch.norm(states[0, :3]-torch.tensor(goal_state, dtype=torch.float32)), "\n")
+                # print("cost 1 ", torch.norm(states[1, :3]-torch.tensor(goal_state, dtype=torch.float32)), "\n")
+                return costs
+                # torch.norm(states[:, :3]-torch.tensor(goal_state, dtype=torch.float32), dim=1)# +0.1*(torch.norm(actions))**2
+
+            self.compute_cost_PandaReacherDense = compute_cost_PandaReacherDense
+
         elif prob == "PandaPusher": # ToDo
             self.discrete = False
             self.horizon = 15
@@ -902,6 +965,8 @@ class setup_class:
             return self.compute_cost_LunarLanderContinuous(states, t, horizon, actions)
         elif prob == "PandaReacher":
             return self.compute_cost_PandaReacher(states, t, horizon, actions, goal_state)
+        elif prob == "PandaReacherDense":
+            return self.compute_cost_PandaReacherDense(states, t, horizon, actions, goal_state)
         elif prob == "PandaPusher":
             return self.compute_cost_PandaPusher(states, t, horizon, actions, goal_state)
         elif prob == "MuJoCoReacher":

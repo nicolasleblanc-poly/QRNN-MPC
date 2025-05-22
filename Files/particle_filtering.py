@@ -73,7 +73,7 @@ def particle_filtering_func(prob_vars, particles, costs, best_action_sequence):
         # print("np.random.uniform(actions_low, actions_high, (nb_random, horizon*action_dim)).shape ", np.random.uniform(action_low, action_high, (nb_random, horizon*action_dim)).shape, "\n")
         # print("particles[len(particles)-nb_random:].shape ", particles[len(particles)-nb_random:].shape, "\n")
         
-        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
             # print("best_cost ", best_cost, "\n")
             # print("best_action_sequence ", best_action_sequence, "\n")
             
@@ -115,7 +115,7 @@ def discrete_cem_func(prob_vars, particles, costs, best_action_sequence):
     for t in range(horizon):
         new_particles[:, t] = np.random.choice(num_actions, size=num_particles, p=position_probs[t])
 
-    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
         # print("best_cost ", best_cost, "\n")
         # print("best_action_sequence ", best_action_sequence, "\n")
         
@@ -153,7 +153,7 @@ def continuous_cem_func(prob_vars, particles, costs, best_action_sequence, noisy
     else:
         new_particles = np.random.normal(mu, sigma, size=(num_particles, horizon))
 
-    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
         # print("best_cost ", best_cost, "\n")
         # print("best_action_sequence ", best_action_sequence, "\n")
         

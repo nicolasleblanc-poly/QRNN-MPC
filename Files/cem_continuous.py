@@ -207,7 +207,7 @@ def start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opt
         actions_list = []
         if prob_vars.prob == "Pendulum":
             state = env.state.copy()
-        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "PandaReacherDense":
             prob_vars.goal_state = state['desired_goal'] # 3 components for Reach and for Push
             state = state['observation'] #[:3] # 6 components for Reach, 18 components for Push
             # print("goal_state ", goal_state, "\n")
@@ -276,7 +276,7 @@ def start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opt
                 # state = env.state.copy()
                 next_state = env.state.copy()
 
-            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "PandaReacherDense":
                 goal_state = next_state['desired_goal'] # 3 components
                 next_state = next_state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
                 # is_success_bool = info['is_success']
@@ -327,7 +327,7 @@ def start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opt
                 # print("actions_tensor.shape ", actions_tensor.shape, "\n")
 
 
-                if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
+                if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaReacherDense":
                     # Clip states to ensure they are within the valid range
                     # before inputting them to the model (sorta like normalization)
                     states = torch.clip(states, prob_vars.states_low, prob_vars.states_high)
@@ -397,7 +397,7 @@ def start_QRNN_MPC_CEM(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opt
         # if prob == "MuJoCoReacher":
         #     print("np.linalg.norm(goal_state-state)=np.sqrt(next_state[-2]**2+next_state[-1]**2) ", np.sqrt(next_state[-2]**2+next_state[-1]**2), "\n")
 
-    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaReacherDense":
         return episode_reward_list, episode_success_rate
     else:
         return episode_reward_list

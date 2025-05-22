@@ -61,7 +61,7 @@ def mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampli
         #         particles_t_array = particles[h:h+1]
 
         # else:
-        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
             particles_t_array = particles[:, h * action_dim : (h + 1) * action_dim]
         else:
             particles_t_array = particles[:, h]
@@ -138,7 +138,7 @@ def mpc_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_sampli
         sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
         # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
         
-        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
             costs += prob_vars.compute_cost(prob_vars.prob, next_states, h, horizon, actions, prob_vars.goal_state)
             # print("costs ", costs, "\n")
             # print("next_states ", next_states, "\n")

@@ -35,7 +35,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
         actions_list = []
         if prob_vars.prob == "Pendulum":
             state = env.state.copy()
-        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "PandaReacherDense":
             prob_vars.goal_state = state['desired_goal'] # 3 components for Reach and for Push
             state = state['observation'] #[:3] # 6 components for Reach, 18 components for Push
             # print("goal_state ", goal_state, "\n")
@@ -73,7 +73,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 particles = np.random.randint(0, 3, (prob_vars.num_particles, prob_vars.horizon))
             elif prob_vars.prob == "LunarLander":
                 particles = np.random.randint(0, 4, (prob_vars.num_particles, prob_vars.horizon))
-            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                 particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.action_dim*prob_vars.horizon))
             else: # Pendulum, MountainCarContinuous, Pendulum_xyomega
                 particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.horizon))
@@ -179,7 +179,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 
                 # print("action_mu.detach().numpy()[0] ", action_mu.detach().numpy()[0], "\n")
                 
-                if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+                if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                     for loop_iter in range(prob_vars.num_particles):
                         # print("np.random.normal(action_mu.detach().numpy()[0], action_sigma.detach().numpy()[0]) ", np.random.normal(action_mu.detach().numpy()[0], action_sigma.detach().numpy()[0]), "\n")
                         particles[loop_iter, :prob_vars.action_dim] = np.random.normal(action_mu.detach().numpy()[0], action_sigma.detach().numpy()[0])
@@ -372,7 +372,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 action = [best_particle[0]]
                 actions_list.append(list(action))
             
-            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                 action = best_particle[:prob_vars.action_dim]
                 # actions_list.append(list(action))
             
@@ -401,7 +401,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 # state = env.state.copy()
                 next_state = env.state.copy()
 
-            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "PandaReacherDense":
                 prob_vars.goal_state = next_state['desired_goal'] # 3 components
                 next_state = next_state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
                 # is_success_bool = info['is_success']
@@ -551,7 +551,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
     #         'optimizer_state_dict': optimizer_ASN.state_dict(),
     #     }, "model_ASN_{prob}_mid_{change_prob}.pth")
 
-    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
         return episode_reward_list_withASGNN, episode_success_rate_withASGNN
     else:
         return episode_reward_list_withASGNN
@@ -586,7 +586,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
         actions_list = []
         if prob_vars.prob == "Pendulum":
             state = env.state.copy()
-        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "PandaReacherDense":
             prob_vars.goal_state = state['desired_goal'] # 3 components
             state = state['observation']#[:3] # 6 components for Reacher, 18 components for Pusher
         if prob_vars.prob == "MuJoCoReacher":
@@ -621,7 +621,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
             particles = np.random.randint(0, 3, (prob_vars.num_particles, prob_vars.horizon))
         elif prob_vars.prob == "LunarLander":
             particles = np.random.randint(0, 4, (prob_vars.num_particles, prob_vars.horizon))
-        elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+        elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
             particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.action_dim*prob_vars.horizon))
         else: # Pendulum, MountainCarContinuous
             particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.horizon))
@@ -657,7 +657,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
                     particles = np.random.randint(0, 3, (prob_vars.num_particles, prob_vars.horizon))
                 elif prob_vars.prob == "LunarLander":
                     particles = np.random.randint(0, 4, (prob_vars.num_particles, prob_vars.horizon))
-                elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+                elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                     particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.action_dim*prob_vars.horizon))
                 else: # Pendulum, MountainCarContinuous
                     particles = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.horizon))
@@ -685,7 +685,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
                 action = [best_particle[0]]
                 # print("action ", action, "\n")
             
-            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                 action = best_particle[:prob_vars.action_dim]
             
             elif prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
@@ -706,7 +706,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
             if prob_vars.prob == "Pendulum":
                 # state = env.state.copy()
                 next_state = env.state.copy()
-            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher":
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "PandaReacherDense":
                 prob_vars.goal_state = next_state['desired_goal'] # 3 components
                 next_state = next_state['observation']#[:3] # 6 components
             if prob_vars.prob == "MuJoCoReacher":
@@ -816,7 +816,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
                     # Add the new values to the last position
                     particles[:, -1:] = new_values
                 
-                elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+                elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                     # Shift all particles to the left by removing the first element
                     particles[:, :-prob_vars.action_dim] = particles[:, prob_vars.action_dim:]
                     
@@ -917,7 +917,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
     #         }, f"QRNN_basic_{prob_vars.prob}_mid_{prob_vars.change_prob}.pth")
 
     # return episode_reward_list
-    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
         return episode_reward_list, episode_success_rate
     else:
         return episode_reward_list
@@ -967,7 +967,7 @@ def start_50NN_MSENN_MPC_LBFGSB(prob_vars, env, seed, model_state, replay_buffer
                 actions = np.random.randint(0, 3, (prob_vars.num_particles, prob_vars.horizon))
             elif prob_vars.prob == "LunarLander":
                 actions = np.random.randint(0, 4, (prob_vars.num_particles, prob_vars.horizon))
-            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                 actions = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.action_dim*prob_vars.horizon))
             else: # Pendulum, MountainCarContinuous
                 actions = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.num_particles, prob_vars.horizon))
@@ -1133,7 +1133,7 @@ def start_50NN_MSENN_MPC_LBFGSB(prob_vars, env, seed, model_state, replay_buffer
         
         # print("actions_list ", actions_list, "\n")
 
-    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher":
+    if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
         return episode_reward_list, episode_success_rate
     else:
         return episode_reward_list

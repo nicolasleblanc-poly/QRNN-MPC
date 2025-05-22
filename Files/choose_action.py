@@ -87,7 +87,7 @@ def choose_action_func(prob_vars, state, particles, do_RS, use_sampling, use_mid
             else:
                 best_first_action, particles = particle_filtering_func(prob_vars, particles, costs, best_action_sequence)
         else:
-            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous":
+            if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                 # print("best_cost ", best_cost, "\n")
                 # print("best_action_sequence ", best_action_sequence, "\n")
                 
@@ -188,7 +188,7 @@ def choose_action_func_LBFGSB(actions, prob_vars, state, use_sampling, use_mid, 
     # cost = mpc_func(prob_vars, sim_state, actions, use_ASGNN, model_QRNN, use_sampling, use_mid, use_LBFGSB=True)
     for h in range(prob_vars.horizon):
 
-        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
             # action_array = actions[:, h * action_dim : (h + 1) * action_dim]
             action_tensor = actions_tensor[h * prob_vars.action_dim : (h + 1) * prob_vars.action_dim]
         else:
@@ -270,7 +270,7 @@ def choose_action_func_LBFGSB(actions, prob_vars, state, use_sampling, use_mid, 
         # print("next_state.shape ", next_state.shape, "\n")
         # print("next_state ", next_state, "\n")
         sim_state = next_state.reshape(next_state.shape[1])
-        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher":
+        if prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
             cost += prob_vars.compute_cost(prob_vars.prob, next_state, h, prob_vars.horizon, action_tensor, prob_vars.goal_state)
             # print("costs ", costs, "\n")
             # print("next_states ", next_states, "\n")

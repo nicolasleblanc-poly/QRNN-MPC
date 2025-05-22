@@ -31,8 +31,9 @@ from setup import setup_class
 # prob = "MountainCarContinuous"
 # prob = "LunarLanderContinuous"
 # prob = "PandaReacher"
+prob = "PandaReacherDense"
 # prob = "PandaPusher"
-prob = "MuJoCoReacher"
+# prob = "MuJoCoReacher"
 # prob = "MuJoCoPusher"
 
 print("prob ", prob, "\n")
