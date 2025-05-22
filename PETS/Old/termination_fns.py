@@ -3,11 +3,12 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 import math
+
 import torch
 
 # TODO remove act from all of these, it's not needed
 
-############### Already implementated termination functions ################
+
 def hopper(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
     assert len(next_obs.shape) == 2
 
@@ -93,7 +94,10 @@ def humanoid(act: torch.Tensor, next_obs: torch.Tensor):
     done = done[:, None]
     return done
 
-######################## My own functions ########################
+import torch
+import math
+
+
 def lunarlander_continuous(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
     # next_obs: [x, y, vx, vy, theta, vtheta, leg1_contact, leg2_contact]
     assert len(next_obs.shape) == 2

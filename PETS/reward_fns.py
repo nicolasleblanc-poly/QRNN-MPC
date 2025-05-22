@@ -7,7 +7,95 @@ import torch
 # from . import termination_fns
 import termination_fns
 
+######################## My own cost functions ########################
 
+def lunarlander_continuous(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
+    # next_obs: [x, y, vx, vy, theta, vtheta, leg1_contact, leg2_contact]
+    # assert len(next_obs.shape) == len(act.shape) == 2
+
+    pos = next_obs[:, :2]
+    vel = next_obs[:, 2:4]
+    angle = next_obs[:, 4]
+    ang_vel = next_obs[:, 5]
+    legs = next_obs[:, 6:8]
+
+    reward = (
+        -10 * torch.norm(pos, dim=1)  # distance to center
+        - torch.norm(vel, dim=1)  # penalize velocity
+        - torch.abs(angle)       # penalize angle
+        - torch.abs(ang_vel)      # penalize angular velocity
+        + 10 * legs.sum(dim=1)         # bonus for contact with legs
+        + 0.1 * (act**2).sum(dim=1)  # penalize action
+    )
+    return reward.view(-1, 1)
+
+def mountaincar_continuous(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
+    # next_obs: [position, velocity]
+    # assert len(next_obs.shape) == len(act.shape) == 2
+
+    # pos = next_obs[:, 0]
+    # reward = -0.1 * (act**2).sum(dim=1)  # control cost
+    # reward += (pos >= 0.45).float() * 100.0  # bonus for reaching goal
+    # return reward.view(-1, 1)
+    act = act.reshape(-1)
+    goal_position = 0.45  # Position goal in Mountain Car
+    cost = (next_obs[:, 0]-goal_position)**2
+    cost += 0.05*(act)**2
+    
+    return -cost.view(-1, 1)
+
+def inverted_pendulum(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
+    assert len(next_obs.shape) == len(act.shape) == 2
+    
+    cart_position = next_obs[:, 0]
+    pole_angle = next_obs[:, 1]
+    cart_velocity = next_obs[:, 2]
+    # force = action[:, 0]
+    cost = pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
+
+    return -cost.view(-1, 1)
+
+def pendulum(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
+    # next_obs: [cos(theta), sin(theta), theta_dot]
+    assert len(next_obs.shape) == len(act.shape) == 2
+    
+    # cos_theta = next_obs[:, 0]
+    # sin_theta = next_obs[:, 1]
+    # theta_dot = next_obs[:, 2]
+
+    # theta = torch.atan2(sin_theta, cos_theta)
+    # cost = - (theta**2 + 0.1 * theta_dot**2 + 0.001 * (act**2).sum(dim=1))
+    
+    x = next_obs[:, 0]
+    y = next_obs[:, 1]
+    omega = next_obs[:, 2]
+
+    cost = (1-x)**2 + y**2 + 0.1 * omega**2 + 0.01 * act.reshape(len(act)) ** 2
+    
+    return -cost.view(-1, 1)
+
+def reacher(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
+    # next_obs: [cos(theta1), sin(theta1), cos(theta2), sin(theta2), vel1, vel2, fingertip_x-target_x, fingertip_y-target_y]
+    assert len(next_obs.shape) == len(act.shape) == 2
+
+    dist = next_obs[:, 6:8].pow(2).sum(dim=1).sqrt()
+
+    reward_dist = -dist
+    reward_ctrl = -0.1 * (act**2).sum(dim=1)
+
+    return (reward_dist + reward_ctrl).view(-1, 1)
+
+def panda_reach(act: torch.Tensor, next_obs: torch.Tensor, goal_obs) -> torch.Tensor:
+    # next_obs: contains positions of end effector and object
+    assert len(next_obs.shape) == len(act.shape) == 2
+    
+    goal_state = torch.tensor(goal_state, dtype=torch.float32, device=next_obs.device).reshape(1, 3)
+
+    cost = torch.norm(next_obs[:, :3] - goal_state, dim=1)
+    
+    return -cost.view(-1, 1)
+
+############### Already implementated termination functions ################
 def cartpole(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
     assert len(next_obs.shape) == len(act.shape) == 2
 
@@ -25,10 +113,11 @@ def cartpole_pets(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
     return (obs_cost + act_cost).view(-1, 1)
 
 
-def inverted_pendulum(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
-    assert len(next_obs.shape) == len(act.shape) == 2
+# def inverted_pendulum(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
+#     assert len(next_obs.shape) == len(act.shape) == 2
 
-    return (~termination_fns.inverted_pendulum(act, next_obs)).float().view(-1, 1)
+#     return (~termination_fns.inverted_pendulum(act, next_obs)).float().view(-1, 1)
+
 
 
 def halfcheetah(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
@@ -53,64 +142,6 @@ def pusher(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
 
     return -(obs_cost + act_cost).view(-1, 1)
 
-def lunarlander_continuous(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
-    # next_obs: [x, y, vx, vy, theta, vtheta, leg1_contact, leg2_contact]
-    # assert len(next_obs.shape) == len(act.shape) == 2
-
-    pos = next_obs[:, :2]
-    vel = next_obs[:, 2:4]
-    angle = next_obs[:, 4]
-    ang_vel = next_obs[:, 5]
-    legs = next_obs[:, 6:8]
-
-    reward = (
-        -100 * torch.norm(pos, dim=1)  # distance to center
-        - 10 * torch.norm(vel, dim=1)  # penalize velocity
-        - 100 * torch.abs(angle)       # penalize angle
-        - 10 * torch.abs(ang_vel)      # penalize angular velocity
-        + 10 * legs.sum(dim=1)         # bonus for contact with legs
-    )
-    return reward.view(-1, 1)
-
-
-def mountaincar_continuous(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
-    # next_obs: [position, velocity]
-    # assert len(next_obs.shape) == len(act.shape) == 2
-
-    pos = next_obs[:, 0]
-    reward = -0.1 * (act**2).sum(dim=1)  # control cost
-    reward += (pos >= 0.45).float() * 100.0  # bonus for reaching goal
-    return reward.view(-1, 1)
-
-
-def reacher(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
-    # next_obs: [cos(theta1), sin(theta1), cos(theta2), sin(theta2), vel1, vel2, fingertip_x-target_x, fingertip_y-target_y]
-    assert len(next_obs.shape) == len(act.shape) == 2
-
-    dist = next_obs[:, 6:8].pow(2).sum(dim=1).sqrt()
-    # target = next_obs[:, 8:10]
-
-    # dist = (fingertip - target).pow(2).sum(dim=1).sqrt()
-    reward_dist = -dist
-    reward_ctrl = -0.1 * (act**2).sum(dim=1)
-
-    return (reward_dist + reward_ctrl).view(-1, 1)
-
-
-def pendulum(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
-    # next_obs: [cos(theta), sin(theta), theta_dot]
-    assert len(next_obs.shape) == len(act.shape) == 2
-
-    cos_theta = next_obs[:, 0]
-    sin_theta = next_obs[:, 1]
-    theta_dot = next_obs[:, 2]
-
-    theta = torch.atan2(sin_theta, cos_theta)
-    reward = - (theta**2 + 0.1 * theta_dot**2 + 0.001 * (act**2).sum(dim=1))
-
-    return reward.view(-1, 1)
-
-
 def panda_push(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
     # next_obs: contains positions of end effector and object
     assert len(next_obs.shape) == len(act.shape) == 2
@@ -124,3 +155,6 @@ def panda_push(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
 
     reward = -1.0 * ee_obj_dist - 2.0 * obj_goal_dist - 0.1 * (act**2).sum(dim=1)
     return reward.view(-1, 1)
+
+
+
