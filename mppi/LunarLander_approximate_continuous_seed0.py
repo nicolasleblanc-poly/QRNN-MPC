@@ -334,7 +334,7 @@ if __name__ == "__main__":
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
     save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}.npz")
-    np.savez(save_path, episodic_return)
+    # np.savez(save_path, episodic_return)
     
     # print("max_episodes", max_episodes, "\n")
     # print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")

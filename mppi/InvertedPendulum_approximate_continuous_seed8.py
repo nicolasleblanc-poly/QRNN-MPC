@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
         np.savez(
         save_path,
-        f"{prob}_{method_name}_results.npz",
+        # f"{prob}_{method_name}_results.npz",
         episode_rewards=episodic_rep_returns,
         mean_rewards=mean_episodic_returns,
         std_rewards=std_episodic_returns

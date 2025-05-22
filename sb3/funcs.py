@@ -182,9 +182,17 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         episodic_return_seeds.append(return_logger.episodic_returns)
         print("len(return_logger.episodic_returns): ", len(return_logger.episodic_returns))
         
+        env.close()
+        del env
+        del model
+        
     episodic_return_seeds = np.array(episodic_return_seeds)
 
     mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
     std_episodic_return = np.std(episodic_return_seeds, axis=0)
     
     save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+    
+    
+    
+    

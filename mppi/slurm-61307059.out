@@ -8,3 +8,4 @@ The following modules were not unloaded:
   5) hwloc/2.9.1     10) openmpi/4.1.5
 /home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/classic_control/continuous_mountain_car.py:203: UserWarning: [33mWARN: You are calling render method without specifying any render mode. You can specify the render_mode at initialization, e.g. gym.make("MountainCarContinuous-v0", render_mode="rgb_array")[0m
   gym.logger.warn(
+slurmstepd: error: *** JOB 61307059 ON cdr2289 CANCELLED AT 2025-05-21T19:00:36 DUE TO TIME LIMIT ***
