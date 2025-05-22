@@ -222,10 +222,12 @@ class setup_class:
                 vy = states[:, 3]
                 theta = states[:, 4]
                 omega = states[:, 5]
-                leftcontact = states[:, 6]
-                rightcontact = states[:, 7]
+                # leftcontact = states[:, 6]
+                # rightcontact = states[:, 7]
+                legs = states[:, 6:8]
+                a1, a2 = actions[:, 0], actions[:, 1]
                 
-                cost = x**2 + y**2 + vx**2 + vy**2 + theta**2 + omega**2
+                cost = 10*x**2 + 10*y**2 + vx**2 + vy**2 + theta**2 + omega**2 - 10*legs.sum(dim=1) + 0.1 * (a1 ** 2 + a2 ** 2)
                 # cost = distance_to_goal ** 2
                 
                 return cost
@@ -421,8 +423,8 @@ class setup_class:
                 gamma = 0.99  # Discount factor
 
                 # Extract theta and omega
-                theta = states[:, 0]#.detach().numpy()  # Shape: [num_particles]
-                omega = states[:, 1]# .detach().numpy()  # Shape: [num_particles]
+                # theta = states[:, 0]#.detach().numpy()  # Shape: [num_particles]
+                # omega = states[:, 1]# .detach().numpy()  # Shape: [num_particles]
 
                 x = states[:, 0]
                 y = states[:, 1]
@@ -636,10 +638,12 @@ class setup_class:
                 vy = states[:, 3]
                 theta = states[:, 4]
                 omega = states[:, 5]
-                leftcontact = states[:, 6]
-                rightcontact = states[:, 7]
+                # leftcontact = states[:, 6]
+                # rightcontact = states[:, 7]
+                legs = states[:, 6:8]
+                a1, a2 = actions[:, 0], actions[:, 1]
                 
-                cost = x**2 + y**2 + vx**2 + vy**2 + theta**2 + omega**2
+                cost = 10*x**2 + 10*y**2 + vx**2 + vy**2 + theta**2 + omega**2 - 10*legs.sum(dim=1) + 0.1 * (a1 ** 2 + a2 ** 2)
                 # cost = distance_to_goal ** 2
                 
                 return cost

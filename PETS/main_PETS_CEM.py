@@ -43,11 +43,12 @@ class DoneWrapper(gym.Wrapper):
         done = terminated or truncated
         return obs, reward, done, info
 
-prob = "CartPoleContinuous"
+# prob = "CartPoleContinuous"
 # prob = "MountainCarContinuous"
 # prob = "LunarLanderContinuous"
 # prob = "Pendulum"
-# prob = "PandaReach"
+prob = "PandaReach"
+# prob = "PandaReachDense"
 # prob = "Reacher"
 
 # seeds =  [0, 8 ,15]
@@ -96,6 +97,15 @@ if prob == "PandaReach":
     term_fn = termination_fns.panda_reach
     trial_length = 50
     num_trials = 300 # 10
+    
+if prob == "PandaReachDense":
+    import panda_gym
+    env = gym.make('PandaReachDense-3', render_mode='rgb_array')
+    reward_fn = reward_fns.panda_reach
+    term_fn = termination_fns.panda_reach
+    trial_length = 50
+    num_trials = 300 # 10
+
     
 # env = gym.make('LunarLanderContinuous-v3', render_mode='rgb_array')
 
@@ -205,8 +215,9 @@ for seed in seeds:
     # fig, axs = plt.subplots(1, 2, figsize=(14, 3.75), gridspec_kw={"width_ratios": [1, 1]})
     # ax_text = axs[0].text(300, 50, "")
         
-    import tqdm
-    from tqdm import trange
+    # import tqdm
+    # from tqdm import trange
+    
     # Main PETS loop
     # all_rewards = [0]
     all_rewards = []
