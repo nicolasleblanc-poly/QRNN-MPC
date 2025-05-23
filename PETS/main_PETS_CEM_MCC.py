@@ -51,12 +51,29 @@ device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
 class DoneWrapper(gym.Wrapper):
     def reset(self, **kwargs):
-        obs, info = self.env.reset(**kwargs) # Discard info
+        # print("self.env.reset(**kwargs) ", self.env.reset(**kwargs), "\n")
+        # obs, info = self.env.reset(**kwargs) # Discard info
+        
+        result = self.env.reset(**kwargs) # Discard info
+        
+        if isinstance(result, tuple) and len(result) == 2:
+            obs = result[0]  # drop the infos
+        else:
+            obs = result  # keep as is
+        
         return obs
     
     def step(self, action):
-        obs, reward, terminated, truncated, info = self.env.step(action)
-        done = terminated or truncated
+        result = self.env.step(action)
+        
+        if len(result) == 5:
+            obs, reward, terminated, truncated, info = result
+            done = terminated or truncated
+        else:
+            obs, reward, done, info = result
+        
+        # obs, reward, terminated, truncated, info = self.env.step(action)
+        
         return obs, reward, done, info
 
 
@@ -65,8 +82,8 @@ prob = "MountainCarContinuous"
 # prob = "Pendulum"
 # prob = "InvertedPendulum"
 # prob = "Reacher"
-# prob = "PandaReach"
-# prob = "PandaReachDense"
+# prob = "PandaReacher"
+# prob = "PandaReacherDense"
 # prob = "CartPoleContinuous" # Not used for my tests but implemented by the authors
 
 seeds =  [0, 8 ,15]
@@ -91,45 +108,45 @@ if prob == "LunarLanderContinuous":
     env = gym.make('LunarLanderContinuous-v3', render_mode='rgb_array')
     reward_fn = reward_fns.lunarlander_continuous
     term_fn = termination_fns.lunarlander_continuous
-    trial_length = 3 #1000
-    num_trials = 3 #300 # 10
+    trial_length = 1000
+    num_trials = 300 # 10
         
 if prob == "Pendulum":
     env = gym.make('Pendulum-v1', render_mode='rgb_array')
     reward_fn = reward_fns.pendulum
     term_fn = termination_fns.pendulum
-    trial_length = 3 #200
-    num_trials = 3 #300 # 10
+    trial_length = 200
+    num_trials = 300 # 10
     
 if prob == "InvertedPendulum":
     env = gym.make('InvertedPendulum-v5', render_mode='rgb_array')
     reward_fn = reward_fns.inverted_pendulum
     term_fn = termination_fns.inverted_pendulum
-    trial_length = 3 #1000
-    num_trials = 3 #300 # 10
+    trial_length = 1000
+    num_trials = 300 # 10
     
 if prob == "Reacher":
     env = gym.make('Reacher-v5', render_mode='rgb_array')
     reward_fn = reward_fns.reacher
     term_fn = termination_fns.reacher
-    trial_length = 3 #50
-    num_trials = 3 #300 # 10
+    trial_length = 50
+    num_trials = 300 # 10
     
-if prob == "PandaReach":
+if prob == "PandaReacher":
     import panda_gym
     env = gym.make('PandaReach-v3', render_mode='rgb_array')
     reward_fn = reward_fns.panda_reach
     term_fn = termination_fns.panda_reach
-    trial_length = 3 #50
-    num_trials = 3 #300 # 10
+    trial_length = 50
+    num_trials = 300 # 10
     
-if prob == "PandaReachDense":
+if prob == "PandaReacherDense":
     import panda_gym
     env = gym.make('PandaReachDense-3', render_mode='rgb_array')
     reward_fn = reward_fns.panda_reach
     term_fn = termination_fns.panda_reach
-    trial_length = 3 #50
-    num_trials = 3 #300 # 10
+    trial_length = 50
+    num_trials = 300 # 10
 
 method_name = "PETS_CEM"
 

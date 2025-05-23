@@ -21,10 +21,11 @@ import reward_fns
 import termination_fns
 
 import mbrl.models as models
-# from model_env import ModelEnv
+from model_env import ModelEnv
 
 import mbrl.planning as planning
-import mbrl.util.common as common_util
+# import mbrl.util.common as common_util
+import common as common_util
 import mbrl.util as util
 
 import os
@@ -78,16 +79,16 @@ class DoneWrapper(gym.Wrapper):
 
 
 # prob = "MountainCarContinuous"
-prob = "LunarLanderContinuous"
+# prob = "LunarLanderContinuous"
 # prob = "Pendulum"
 # prob = "InvertedPendulum"
 # prob = "Reacher"
-# prob = "PandaReach"
-# prob = "PandaReachDense"
+prob = "PandaReacher"
+# prob = "PandaReacherDense"
 # prob = "CartPoleContinuous" # Not used for my tests but implemented by the authors
 
-seeds =  [0, 8 ,15]
-# seeds = [0]
+# seeds =  [0, 8 ,15]
+seeds = [0]
 
 # if prob == "CartPoleContinuous":
 #     import mbrl.env.cartpole_continuous as cartpole_env
@@ -136,7 +137,7 @@ if prob == "PandaReacher":
     import panda_gym
     env = gym.make('PandaReach-v3', render_mode='rgb_array')
     reward_fn = reward_fns.panda_reach
-    term_fn = termination_fns.panda_reach
+    # term_fn = termination_fns.panda_reach
     trial_length = 50
     num_trials = 300 # 10
     
@@ -159,8 +160,14 @@ for seed in seeds:
     rng = np.random.default_rng(seed=0)
     generator = torch.Generator(device=device)
     generator.manual_seed(seed)
-    obs_shape = env.observation_space.shape
+    if prob == "PandaReach" or prob == "PandaReachDense":
+        obs_shape = env.observation_space['observation'].shape # len(.low) #env.observation_space.shape
+    else:
+        obs_shape = env.observation_space.shape
     act_shape = env.action_space.shape
+    
+    print("obs_shape", obs_shape, "\n")
+    print("act_shape", act_shape, "\n")
 
     ensemble_size = 5
 
@@ -203,8 +210,13 @@ for seed in seeds:
     dynamics_model = common_util.create_one_dim_tr_model(cfg, obs_shape, act_shape)
 
     # Create a gym-like environment to encapsulate the model
-    # model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator) # term_fn
-    model_env = models.ModelEnv(env, dynamics_model, term_fn, reward_fn, generator=generator)
+    if prob == "PandaReach" or prob == "PandaReachDense":
+        obs = env.reset(seed=seed) # Added a wrapper to discard info
+        goal_state = obs['desired_goal']
+        model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator, prob=prob, goal_state=goal_state)
+    else:
+        model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator) # term_fn
+    # model_env = models.ModelEnv(env, dynamics_model, term_fn, reward_fn, generator=generator)
 
     replay_buffer = common_util.create_replay_buffer(cfg, obs_shape, act_shape, rng=rng)
 
@@ -269,7 +281,8 @@ for seed in seeds:
     episodic_return = []
     for trial in range(num_trials):
     # for trial in trange(num_trials):
-        obs = env.reset(seed=seed)    
+        obs = env.reset(seed=seed) # Added a wrapper to discard info
+        obs = obs['observation']
         agent.reset()
         
         done = False
@@ -303,7 +316,9 @@ for seed in seeds:
             # --- Doing env step using the agent and adding to model dataset ---
             next_obs, reward, done, _ = common_util.step_env_and_add_to_buffer(
                 env, obs, agent, {}, replay_buffer)
-                
+            
+            print("next_obs ", next_obs, "\n")    
+            
             # update_axes(
             #     axs, env.render(), ax_text, trial, steps_trial, all_rewards)
                 # axs, env.render(mode="rgb_array"), ax_text, trial, steps_trial, all_rewards)
