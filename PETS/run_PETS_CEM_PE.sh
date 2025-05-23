@@ -12,7 +12,8 @@ module purge
 module load mujoco
 # module load python/3.10.0 scipy-stack/2023a
 # source ~/py310new/bin/activate
-module load python/3.10.13 scipy-stack/2023a
+module load python/3.10.13 scipy-stack
+#/2023a
 source ~/sp_py310/bin/activate
 # module load python/3.11.9 scipy-stack
 # source ~/myenv/bin/activate
