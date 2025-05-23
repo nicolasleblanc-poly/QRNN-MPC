@@ -1,0 +1,1899 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+Lmod has detected the following error: The following module(s) are unknown:
+"python/3.10.0"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "python/3.10.0"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+/home/nileb3/py310new/lib/python3.11/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.11/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+/project/6086407/nileb3/QRNN-MPC/GP_MPC/examples/inverted_pendulum/../../rl_gp_mpc/run_env_function.py:193: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+episode  0 return_iter  4 
+
+episode  1 return_iter  5 
+
+episode  2 return_iter  2 
+
+episode  3 return_iter  6 
+
+episode  4 return_iter  14 
+
+episode  5 return_iter  3 
+
+episode  6 return_iter  2 
+
+episode  7 return_iter  21 
+
+episode  8 return_iter  5 
+
+episode  9 return_iter  3 
+
+episode  10 return_iter  8 
+
+episode  11 return_iter  4 
+
+episode  12 return_iter  4 
+
+episode  13 return_iter  3 
+
+episode  14 return_iter  7 
+
+episode  15 return_iter  4 
+
+episode  16 return_iter  3 
+
+episode  17 return_iter  3 
+
+episode  18 return_iter  7 
+
+episode  19 return_iter  18 
+
+episode  20 return_iter  5 
+
+episode  21 return_iter  3 
+
+episode  22 return_iter  2 
+
+episode  23 return_iter  7 
+
+episode  24 return_iter  3 
+
+episode  25 return_iter  14 
+
+episode  26 return_iter  5 
+
+episode  27 return_iter  3 
+
+episode  28 return_iter  3 
+
+episode  29 return_iter  6 
+
+episode  30 return_iter  3 
+
+episode  31 return_iter  3 
+
+episode  32 return_iter  3 
+
+episode  33 return_iter  11 
+
+episode  34 return_iter  6 
+
+episode  35 return_iter  5 
+
+episode  36 return_iter  3 
+
+episode  37 return_iter  8 
+
+episode  38 return_iter  2 
+
+episode  39 return_iter  5 
+
+episode  40 return_iter  7 
+
+episode  41 return_iter  3 
+
+episode  42 return_iter  7 
+
+episode  43 return_iter  2 
+
+episode  44 return_iter  4 
+
+episode  45 return_iter  5 
+
+episode  46 return_iter  4 
+
+episode  47 return_iter  3 
+
+episode  48 return_iter  22 
+
+episode  49 return_iter  9 
+
+episode  50 return_iter  6 
+
+episode  51 return_iter  6 
+
+episode  52 return_iter  6 
+
+episode  53 return_iter  8 
+
+episode  54 return_iter  8 
+
+episode  55 return_iter  9 
+
+episode  56 return_iter  2 
+
+episode  57 return_iter  7 
+
+episode  58 return_iter  21 
+
+episode  59 return_iter  7 
+
+episode  60 return_iter  5 
+
+episode  61 return_iter  2 
+
+episode  62 return_iter  2 
+
+episode  63 return_iter  3 
+
+episode  64 return_iter  4 
+
+episode  65 return_iter  10 
+
+episode  66 return_iter  3 
+
+episode  67 return_iter  5 
+
+episode  68 return_iter  4 
+
+episode  69 return_iter  2 
+
+episode  70 return_iter  2 
+
+episode  71 return_iter  6 
+
+episode  72 return_iter  6 
+
+episode  73 return_iter  6 
+
+episode  74 return_iter  3 
+
+episode  75 return_iter  12 
+
+episode  76 return_iter  6 
+
+episode  77 return_iter  4 
+
+episode  78 return_iter  4 
+
+episode  79 return_iter  6 
+
+episode  80 return_iter  6 
+
+episode  81 return_iter  6 
+
+episode  82 return_iter  2 
+
+episode  83 return_iter  2 
+
+episode  84 return_iter  4 
+
+episode  85 return_iter  4 
+
+episode  86 return_iter  3 
+
+episode  87 return_iter  9 
+
+episode  88 return_iter  4 
+
+episode  89 return_iter  3 
+
+episode  90 return_iter  2 
+
+episode  91 return_iter  2 
+
+episode  92 return_iter  3 
+
+episode  93 return_iter  8 
+
+episode  94 return_iter  6 
+
+episode  95 return_iter  4 
+
+episode  96 return_iter  3 
+
+episode  97 return_iter  4 
+
+episode  98 return_iter  14 
+
+episode  99 return_iter  3 
+
+episode  100 return_iter  5 
+
+episode  101 return_iter  10 
+
+episode  102 return_iter  3 
+
+episode  103 return_iter  2 
+
+episode  104 return_iter  6 
+
+episode  105 return_iter  2 
+
+episode  106 return_iter  3 
+
+episode  107 return_iter  2 
+
+episode  108 return_iter  10 
+
+episode  109 return_iter  3 
+
+episode  110 return_iter  2 
+
+episode  111 return_iter  3 
+
+episode  112 return_iter  5 
+
+episode  113 return_iter  2 
+
+episode  114 return_iter  11 
+
+episode  115 return_iter  5 
+
+episode  116 return_iter  12 
+
+episode  117 return_iter  3 
+
+episode  118 return_iter  2 
+
+episode  119 return_iter  10 
+
+episode  120 return_iter  5 
+
+episode  121 return_iter  2 
+
+episode  122 return_iter  4 
+
+episode  123 return_iter  2 
+
+episode  124 return_iter  5 
+
+episode  125 return_iter  2 
+
+episode  126 return_iter  2 
+
+episode  127 return_iter  5 
+
+episode  128 return_iter  2 
+
+episode  129 return_iter  8 
+
+episode  130 return_iter  3 
+
+episode  131 return_iter  3 
+
+episode  132 return_iter  10 
+
+episode  133 return_iter  2 
+
+episode  134 return_iter  3 
+
+episode  135 return_iter  3 
+
+episode  136 return_iter  3 
+
+episode  137 return_iter  2 
+
+episode  138 return_iter  2 
+
+episode  139 return_iter  3 
+
+episode  140 return_iter  2 
+
+episode  141 return_iter  5 
+
+episode  142 return_iter  6 
+
+episode  143 return_iter  6 
+
+episode  144 return_iter  4 
+
+episode  145 return_iter  5 
+
+episode  146 return_iter  8 
+
+episode  147 return_iter  3 
+
+episode  148 return_iter  2 
+
+episode  149 return_iter  2 
+
+episode  150 return_iter  3 
+
+episode  151 return_iter  2 
+
+episode  152 return_iter  14 
+
+episode  153 return_iter  4 
+
+episode  154 return_iter  3 
+
+episode  155 return_iter  7 
+
+episode  156 return_iter  6 
+
+episode  157 return_iter  5 
+
+episode  158 return_iter  5 
+
+episode  159 return_iter  5 
+
+episode  160 return_iter  3 
+
+episode  161 return_iter  4 
+
+episode  162 return_iter  3 
+
+episode  163 return_iter  15 
+
+episode  164 return_iter  3 
+
+episode  165 return_iter  3 
+
+episode  166 return_iter  4 
+
+episode  167 return_iter  5 
+
+episode  168 return_iter  7 
+
+episode  169 return_iter  7 
+
+episode  170 return_iter  3 
+
+episode  171 return_iter  10 
+
+episode  172 return_iter  4 
+
+episode  173 return_iter  21 
+
+episode  174 return_iter  6 
+
+episode  175 return_iter  2 
+
+episode  176 return_iter  6 
+
+episode  177 return_iter  2 
+
+episode  178 return_iter  2 
+
+episode  179 return_iter  7 
+
+episode  180 return_iter  5 
+
+episode  181 return_iter  4 
+
+episode  182 return_iter  6 
+
+episode  183 return_iter  4 
+
+episode  184 return_iter  5 
+
+episode  185 return_iter  5 
+
+episode  186 return_iter  3 
+
+episode  187 return_iter  2 
+
+episode  188 return_iter  3 
+
+episode  189 return_iter  2 
+
+episode  190 return_iter  6 
+
+episode  191 return_iter  6 
+
+episode  192 return_iter  4 
+
+episode  193 return_iter  2 
+
+episode  194 return_iter  12 
+
+episode  195 return_iter  5 
+
+episode  196 return_iter  4 
+
+episode  197 return_iter  2 
+
+episode  198 return_iter  3 
+
+episode  199 return_iter  3 
+
+episode  200 return_iter  3 
+
+episode  201 return_iter  6 
+
+episode  202 return_iter  3 
+
+episode  203 return_iter  4 
+
+episode  204 return_iter  3 
+
+episode  205 return_iter  2 
+
+episode  206 return_iter  2 
+
+episode  207 return_iter  3 
+
+episode  208 return_iter  5 
+
+episode  209 return_iter  4 
+
+episode  210 return_iter  7 
+
+episode  211 return_iter  5 
+
+episode  212 return_iter  2 
+
+episode  213 return_iter  3 
+
+episode  214 return_iter  4 
+
+episode  215 return_iter  3 
+
+episode  216 return_iter  7 
+
+episode  217 return_iter  2 
+
+episode  218 return_iter  5 
+
+episode  219 return_iter  7 
+
+episode  220 return_iter  3 
+
+episode  221 return_iter  5 
+
+episode  222 return_iter  2 
+
+episode  223 return_iter  3 
+
+episode  224 return_iter  2 
+
+episode  225 return_iter  12 
+
+episode  226 return_iter  3 
+
+episode  227 return_iter  3 
+
+episode  228 return_iter  9 
+
+episode  229 return_iter  2 
+
+episode  230 return_iter  5 
+
+episode  231 return_iter  2 
+
+episode  232 return_iter  2 
+
+episode  233 return_iter  6 
+
+episode  234 return_iter  8 
+
+episode  235 return_iter  3 
+
+episode  236 return_iter  2 
+
+episode  237 return_iter  18 
+
+episode  238 return_iter  4 
+
+episode  239 return_iter  4 
+
+episode  240 return_iter  8 
+
+episode  241 return_iter  6 
+
+episode  242 return_iter  2 
+
+episode  243 return_iter  8 
+
+episode  244 return_iter  13 
+
+episode  245 return_iter  2 
+
+episode  246 return_iter  4 
+
+episode  247 return_iter  6 
+
+episode  248 return_iter  2 
+
+episode  249 return_iter  2 
+
+episode  250 return_iter  2 
+
+episode  251 return_iter  8 
+
+episode  252 return_iter  2 
+
+episode  253 return_iter  9 
+
+episode  254 return_iter  2 
+
+episode  255 return_iter  3 
+
+episode  256 return_iter  2 
+
+episode  257 return_iter  6 
+
+episode  258 return_iter  3 
+
+episode  259 return_iter  9 
+
+episode  260 return_iter  4 
+
+episode  261 return_iter  7 
+
+episode  262 return_iter  2 
+
+episode  263 return_iter  2 
+
+episode  264 return_iter  3 
+
+episode  265 return_iter  2 
+
+episode  266 return_iter  3 
+
+episode  267 return_iter  3 
+
+episode  268 return_iter  8 
+
+episode  269 return_iter  4 
+
+episode  270 return_iter  9 
+
+episode  271 return_iter  5 
+
+episode  272 return_iter  6 
+
+episode  273 return_iter  2 
+
+episode  274 return_iter  3 
+
+episode  275 return_iter  7 
+
+episode  276 return_iter  5 
+
+episode  277 return_iter  13 
+
+episode  278 return_iter  3 
+
+episode  279 return_iter  7 
+
+episode  280 return_iter  6 
+
+episode  281 return_iter  2 
+
+episode  282 return_iter  4 
+
+episode  283 return_iter  12 
+
+episode  284 return_iter  5 
+
+episode  285 return_iter  5 
+
+episode  286 return_iter  2 
+
+episode  287 return_iter  9 
+
+episode  288 return_iter  5 
+
+episode  289 return_iter  18 
+
+episode  290 return_iter  3 
+
+episode  291 return_iter  11 
+
+episode  292 return_iter  5 
+
+episode  293 return_iter  2 
+
+episode  294 return_iter  7 
+
+episode  295 return_iter  12 
+
+episode  296 return_iter  2 
+
+episode  297 return_iter  6 
+
+episode  298 return_iter  4 
+
+episode  299 return_iter  6 
+
+episode  0 return_iter  2 
+
+episode  1 return_iter  4 
+
+episode  2 return_iter  5 
+
+episode  3 return_iter  2 
+
+episode  4 return_iter  5 
+
+episode  5 return_iter  2 
+
+episode  6 return_iter  2 
+
+episode  7 return_iter  5 
+
+episode  8 return_iter  11 
+
+episode  9 return_iter  3 
+
+episode  10 return_iter  2 
+
+episode  11 return_iter  2 
+
+episode  12 return_iter  3 
+
+episode  13 return_iter  6 
+
+episode  14 return_iter  2 
+
+episode  15 return_iter  3 
+
+episode  16 return_iter  2 
+
+episode  17 return_iter  4 
+
+episode  18 return_iter  2 
+
+episode  19 return_iter  6 
+
+episode  20 return_iter  2 
+
+episode  21 return_iter  3 
+
+episode  22 return_iter  3 
+
+episode  23 return_iter  3 
+
+episode  24 return_iter  4 
+
+episode  25 return_iter  4 
+
+episode  26 return_iter  8 
+
+episode  27 return_iter  3 
+
+episode  28 return_iter  11 
+
+episode  29 return_iter  12 
+
+episode  30 return_iter  3 
+
+episode  31 return_iter  4 
+
+episode  32 return_iter  7 
+
+episode  33 return_iter  3 
+
+episode  34 return_iter  4 
+
+episode  35 return_iter  2 
+
+episode  36 return_iter  7 
+
+episode  37 return_iter  4 
+
+episode  38 return_iter  7 
+
+episode  39 return_iter  4 
+
+episode  40 return_iter  3 
+
+episode  41 return_iter  6 
+
+episode  42 return_iter  5 
+
+episode  43 return_iter  5 
+
+episode  44 return_iter  2 
+
+episode  45 return_iter  3 
+
+episode  46 return_iter  7 
+
+episode  47 return_iter  3 
+
+episode  48 return_iter  2 
+
+episode  49 return_iter  6 
+
+episode  50 return_iter  3 
+
+episode  51 return_iter  3 
+
+episode  52 return_iter  7 
+
+episode  53 return_iter  3 
+
+episode  54 return_iter  7 
+
+episode  55 return_iter  20 
+
+episode  56 return_iter  3 
+
+episode  57 return_iter  3 
+
+episode  58 return_iter  3 
+
+episode  59 return_iter  4 
+
+episode  60 return_iter  3 
+
+episode  61 return_iter  5 
+
+episode  62 return_iter  7 
+
+episode  63 return_iter  6 
+
+episode  64 return_iter  4 
+
+episode  65 return_iter  6 
+
+episode  66 return_iter  5 
+
+episode  67 return_iter  7 
+
+episode  68 return_iter  8 
+
+episode  69 return_iter  7 
+
+episode  70 return_iter  4 
+
+episode  71 return_iter  7 
+
+episode  72 return_iter  3 
+
+episode  73 return_iter  4 
+
+episode  74 return_iter  10 
+
+episode  75 return_iter  2 
+
+episode  76 return_iter  5 
+
+episode  77 return_iter  5 
+
+episode  78 return_iter  2 
+
+episode  79 return_iter  4 
+
+episode  80 return_iter  7 
+
+episode  81 return_iter  5 
+
+episode  82 return_iter  8 
+
+episode  83 return_iter  4 
+
+episode  84 return_iter  5 
+
+episode  85 return_iter  4 
+
+episode  86 return_iter  4 
+
+episode  87 return_iter  5 
+
+episode  88 return_iter  7 
+
+episode  89 return_iter  9 
+
+episode  90 return_iter  6 
+
+episode  91 return_iter  8 
+
+episode  92 return_iter  4 
+
+episode  93 return_iter  4 
+
+episode  94 return_iter  4 
+
+episode  95 return_iter  3 
+
+episode  96 return_iter  7 
+
+episode  97 return_iter  10 
+
+episode  98 return_iter  2 
+
+episode  99 return_iter  4 
+
+episode  100 return_iter  4 
+
+episode  101 return_iter  14 
+
+episode  102 return_iter  15 
+
+episode  103 return_iter  3 
+
+episode  104 return_iter  2 
+
+episode  105 return_iter  3 
+
+episode  106 return_iter  9 
+
+episode  107 return_iter  4 
+
+episode  108 return_iter  4 
+
+episode  109 return_iter  2 
+
+episode  110 return_iter  3 
+
+episode  111 return_iter  3 
+
+episode  112 return_iter  5 
+
+episode  113 return_iter  3 
+
+episode  114 return_iter  2 
+
+episode  115 return_iter  2 
+
+episode  116 return_iter  7 
+
+episode  117 return_iter  8 
+
+episode  118 return_iter  4 
+
+episode  119 return_iter  2 
+
+episode  120 return_iter  2 
+
+episode  121 return_iter  17 
+
+episode  122 return_iter  7 
+
+episode  123 return_iter  3 
+
+episode  124 return_iter  11 
+
+episode  125 return_iter  11 
+
+episode  126 return_iter  8 
+
+episode  127 return_iter  2 
+
+episode  128 return_iter  3 
+
+episode  129 return_iter  3 
+
+episode  130 return_iter  12 
+
+episode  131 return_iter  13 
+
+episode  132 return_iter  2 
+
+episode  133 return_iter  10 
+
+episode  134 return_iter  17 
+
+episode  135 return_iter  2 
+
+episode  136 return_iter  11 
+
+episode  137 return_iter  11 
+
+episode  138 return_iter  2 
+
+episode  139 return_iter  3 
+
+episode  140 return_iter  2 
+
+episode  141 return_iter  8 
+
+episode  142 return_iter  3 
+
+episode  143 return_iter  5 
+
+episode  144 return_iter  7 
+
+episode  145 return_iter  3 
+
+episode  146 return_iter  2 
+
+episode  147 return_iter  2 
+
+episode  148 return_iter  2 
+
+episode  149 return_iter  3 
+
+episode  150 return_iter  2 
+
+episode  151 return_iter  9 
+
+episode  152 return_iter  2 
+
+episode  153 return_iter  3 
+
+episode  154 return_iter  5 
+
+episode  155 return_iter  4 
+
+episode  156 return_iter  3 
+
+episode  157 return_iter  7 
+
+episode  158 return_iter  5 
+
+episode  159 return_iter  2 
+
+episode  160 return_iter  2 
+
+episode  161 return_iter  8 
+
+episode  162 return_iter  4 
+
+episode  163 return_iter  5 
+
+episode  164 return_iter  7 
+
+episode  165 return_iter  12 
+
+episode  166 return_iter  3 
+
+episode  167 return_iter  14 
+
+episode  168 return_iter  12 
+
+episode  169 return_iter  9 
+
+episode  170 return_iter  2 
+
+episode  171 return_iter  6 
+
+episode  172 return_iter  3 
+
+episode  173 return_iter  7 
+
+episode  174 return_iter  2 
+
+episode  175 return_iter  6 
+
+episode  176 return_iter  8 
+
+episode  177 return_iter  10 
+
+episode  178 return_iter  5 
+
+episode  179 return_iter  2 
+
+episode  180 return_iter  2 
+
+episode  181 return_iter  3 
+
+episode  182 return_iter  5 
+
+episode  183 return_iter  3 
+
+episode  184 return_iter  9 
+
+episode  185 return_iter  2 
+
+episode  186 return_iter  8 
+
+episode  187 return_iter  10 
+
+episode  188 return_iter  8 
+
+episode  189 return_iter  5 
+
+episode  190 return_iter  2 
+
+episode  191 return_iter  3 
+
+episode  192 return_iter  3 
+
+episode  193 return_iter  9 
+
+episode  194 return_iter  9 
+
+episode  195 return_iter  5 
+
+episode  196 return_iter  5 
+
+episode  197 return_iter  6 
+
+episode  198 return_iter  10 
+
+episode  199 return_iter  4 
+
+episode  200 return_iter  6 
+
+episode  201 return_iter  2 
+
+episode  202 return_iter  6 
+
+episode  203 return_iter  9 
+
+episode  204 return_iter  3 
+
+episode  205 return_iter  6 
+
+episode  206 return_iter  2 
+
+episode  207 return_iter  3 
+
+episode  208 return_iter  3 
+
+episode  209 return_iter  4 
+
+episode  210 return_iter  5 
+
+episode  211 return_iter  2 
+
+episode  212 return_iter  20 
+
+episode  213 return_iter  9 
+
+episode  214 return_iter  3 
+
+episode  215 return_iter  4 
+
+episode  216 return_iter  2 
+
+episode  217 return_iter  2 
+
+episode  218 return_iter  7 
+
+episode  219 return_iter  4 
+
+episode  220 return_iter  2 
+
+episode  221 return_iter  2 
+
+episode  222 return_iter  11 
+
+episode  223 return_iter  3 
+
+episode  224 return_iter  5 
+
+episode  225 return_iter  7 
+
+episode  226 return_iter  4 
+
+episode  227 return_iter  11 
+
+episode  228 return_iter  5 
+
+episode  229 return_iter  3 
+
+episode  230 return_iter  5 
+
+episode  231 return_iter  5 
+
+episode  232 return_iter  3 
+
+episode  233 return_iter  5 
+
+episode  234 return_iter  3 
+
+episode  235 return_iter  10 
+
+episode  236 return_iter  5 
+
+episode  237 return_iter  2 
+
+episode  238 return_iter  2 
+
+episode  239 return_iter  4 
+
+episode  240 return_iter  3 
+
+episode  241 return_iter  2 
+
+episode  242 return_iter  2 
+
+episode  243 return_iter  2 
+
+episode  244 return_iter  11 
+
+episode  245 return_iter  5 
+
+episode  246 return_iter  6 
+
+episode  247 return_iter  2 
+
+episode  248 return_iter  7 
+
+episode  249 return_iter  4 
+
+episode  250 return_iter  2 
+
+episode  251 return_iter  2 
+
+episode  252 return_iter  5 
+
+episode  253 return_iter  9 
+
+episode  254 return_iter  5 
+
+episode  255 return_iter  5 
+
+episode  256 return_iter  3 
+
+episode  257 return_iter  3 
+
+episode  258 return_iter  2 
+
+episode  259 return_iter  3 
+
+episode  260 return_iter  12 
+
+episode  261 return_iter  10 
+
+episode  262 return_iter  3 
+
+episode  263 return_iter  11 
+
+episode  264 return_iter  4 
+
+episode  265 return_iter  6 
+
+episode  266 return_iter  3 
+
+episode  267 return_iter  3 
+
+episode  268 return_iter  3 
+
+episode  269 return_iter  2 
+
+episode  270 return_iter  7 
+
+episode  271 return_iter  2 
+
+episode  272 return_iter  2 
+
+episode  273 return_iter  2 
+
+episode  274 return_iter  5 
+
+episode  275 return_iter  2 
+
+episode  276 return_iter  3 
+
+episode  277 return_iter  3 
+
+episode  278 return_iter  15 
+
+episode  279 return_iter  2 
+
+episode  280 return_iter  2 
+
+episode  281 return_iter  8 
+
+episode  282 return_iter  6 
+
+episode  283 return_iter  3 
+
+episode  284 return_iter  2 
+
+episode  285 return_iter  3 
+
+episode  286 return_iter  5 
+
+episode  287 return_iter  7 
+
+episode  288 return_iter  5 
+
+episode  289 return_iter  4 
+
+episode  290 return_iter  6 
+
+episode  291 return_iter  4 
+
+episode  292 return_iter  6 
+
+episode  293 return_iter  5 
+
+episode  294 return_iter  7 
+
+episode  295 return_iter  3 
+
+episode  296 return_iter  17 
+
+episode  297 return_iter  9 
+
+episode  298 return_iter  7 
+
+episode  299 return_iter  3 
+
+episode  0 return_iter  3 
+
+episode  1 return_iter  2 
+
+episode  2 return_iter  3 
+
+episode  3 return_iter  2 
+
+episode  4 return_iter  5 
+
+episode  5 return_iter  5 
+
+episode  6 return_iter  3 
+
+episode  7 return_iter  2 
+
+episode  8 return_iter  5 
+
+episode  9 return_iter  4 
+
+episode  10 return_iter  18 
+
+episode  11 return_iter  6 
+
+episode  12 return_iter  5 
+
+episode  13 return_iter  9 
+
+episode  14 return_iter  5 
+
+episode  15 return_iter  12 
+
+episode  16 return_iter  3 
+
+episode  17 return_iter  3 
+
+episode  18 return_iter  3 
+
+episode  19 return_iter  5 
+
+episode  20 return_iter  8 
+
+episode  21 return_iter  5 
+
+episode  22 return_iter  4 
+
+episode  23 return_iter  4 
+
+episode  24 return_iter  3 
+
+episode  25 return_iter  3 
+
+episode  26 return_iter  4 
+
+episode  27 return_iter  2 
+
+episode  28 return_iter  9 
+
+episode  29 return_iter  2 
+
+episode  30 return_iter  3 
+
+episode  31 return_iter  3 
+
+episode  32 return_iter  3 
+
+episode  33 return_iter  2 
+
+episode  34 return_iter  2 
+
+episode  35 return_iter  2 
+
+episode  36 return_iter  7 
+
+episode  37 return_iter  3 
+
+episode  38 return_iter  2 
+
+episode  39 return_iter  8 
+
+episode  40 return_iter  6 
+
+episode  41 return_iter  5 
+
+episode  42 return_iter  3 
+
+episode  43 return_iter  12 
+
+episode  44 return_iter  8 
+
+episode  45 return_iter  2 
+
+episode  46 return_iter  4 
+
+episode  47 return_iter  4 
+
+episode  48 return_iter  3 
+
+episode  49 return_iter  4 
+
+episode  50 return_iter  11 
+
+episode  51 return_iter  2 
+
+episode  52 return_iter  2 
+
+episode  53 return_iter  8 
+
+episode  54 return_iter  5 
+
+episode  55 return_iter  2 
+
+episode  56 return_iter  2 
+
+episode  57 return_iter  2 
+
+episode  58 return_iter  4 
+
+episode  59 return_iter  2 
+
+episode  60 return_iter  6 
+
+episode  61 return_iter  11 
+
+episode  62 return_iter  2 
+
+episode  63 return_iter  5 
+
+episode  64 return_iter  2 
+
+episode  65 return_iter  8 
+
+episode  66 return_iter  3 
+
+episode  67 return_iter  2 
+
+episode  68 return_iter  3 
+
+episode  69 return_iter  2 
+
+episode  70 return_iter  4 
+
+episode  71 return_iter  7 
+
+episode  72 return_iter  3 
+
+episode  73 return_iter  4 
+
+episode  74 return_iter  2 
+
+episode  75 return_iter  7 
+
+episode  76 return_iter  8 
+
+episode  77 return_iter  3 
+
+episode  78 return_iter  2 
+
+episode  79 return_iter  4 
+
+episode  80 return_iter  6 
+
+episode  81 return_iter  3 
+
+episode  82 return_iter  9 
+
+episode  83 return_iter  3 
+
+episode  84 return_iter  10 
+
+episode  85 return_iter  3 
+
+episode  86 return_iter  4 
+
+episode  87 return_iter  7 
+
+episode  88 return_iter  3 
+
+episode  89 return_iter  9 
+
+episode  90 return_iter  7 
+
+episode  91 return_iter  4 
+
+episode  92 return_iter  3 
+
+episode  93 return_iter  3 
+
+episode  94 return_iter  6 
+
+episode  95 return_iter  2 
+
+episode  96 return_iter  2 
+
+episode  97 return_iter  5 
+
+episode  98 return_iter  3 
+
+episode  99 return_iter  3 
+
+episode  100 return_iter  3 
+
+episode  101 return_iter  6 
+
+episode  102 return_iter  6 
+
+episode  103 return_iter  2 
+
+episode  104 return_iter  5 
+
+episode  105 return_iter  12 
+
+episode  106 return_iter  9 
+
+episode  107 return_iter  3 
+
+episode  108 return_iter  2 
+
+episode  109 return_iter  6 
+
+episode  110 return_iter  7 
+
+episode  111 return_iter  3 
+
+episode  112 return_iter  3 
+
+episode  113 return_iter  3 
+
+episode  114 return_iter  2 
+
+episode  115 return_iter  3 
+
+episode  116 return_iter  3 
+
+episode  117 return_iter  7 
+
+episode  118 return_iter  5 
+
+episode  119 return_iter  2 
+
+episode  120 return_iter  2 
+
+episode  121 return_iter  3 
+
+episode  122 return_iter  8 
+
+episode  123 return_iter  6 
+
+episode  124 return_iter  4 
+
+episode  125 return_iter  6 
+
+episode  126 return_iter  6 
+
+episode  127 return_iter  5 
+
+episode  128 return_iter  7 
+
+episode  129 return_iter  3 
+
+episode  130 return_iter  4 
+
+episode  131 return_iter  2 
+
+episode  132 return_iter  8 
+
+episode  133 return_iter  3 
+
+episode  134 return_iter  2 
+
+episode  135 return_iter  5 
+
+episode  136 return_iter  9 
+
+episode  137 return_iter  3 
+
+episode  138 return_iter  11 
+
+episode  139 return_iter  3 
+
+episode  140 return_iter  4 
+
+episode  141 return_iter  3 
+
+episode  142 return_iter  2 
+
+episode  143 return_iter  4 
+
+episode  144 return_iter  9 
+
+episode  145 return_iter  2 
+
+episode  146 return_iter  9 
+
+episode  147 return_iter  11 
+
+episode  148 return_iter  2 
+
+episode  149 return_iter  12 
+
+episode  150 return_iter  4 
+
+episode  151 return_iter  2 
+
+episode  152 return_iter  2 
+
+episode  153 return_iter  6 
+
+episode  154 return_iter  9 
+
+episode  155 return_iter  2 
+
+episode  156 return_iter  6 
+
+episode  157 return_iter  4 
+
+episode  158 return_iter  2 
+
+episode  159 return_iter  11 
+
+episode  160 return_iter  3 
+
+episode  161 return_iter  3 
+
+episode  162 return_iter  5 
+
+episode  163 return_iter  4 
+
+episode  164 return_iter  4 
+
+episode  165 return_iter  3 
+
+episode  166 return_iter  2 
+
+episode  167 return_iter  3 
+
+episode  168 return_iter  3 
+
+episode  169 return_iter  9 
+
+episode  170 return_iter  2 
+
+episode  171 return_iter  5 
+
+episode  172 return_iter  5 
+
+episode  173 return_iter  16 
+
+episode  174 return_iter  2 
+
+episode  175 return_iter  8 
+
+episode  176 return_iter  6 
+
+episode  177 return_iter  3 
+
+episode  178 return_iter  2 
+
+episode  179 return_iter  6 
+
+episode  180 return_iter  16 
+
+episode  181 return_iter  3 
+
+episode  182 return_iter  2 
+
+episode  183 return_iter  6 
+
+episode  184 return_iter  6 
+
+episode  185 return_iter  7 
+
+episode  186 return_iter  2 
+
+episode  187 return_iter  6 
+
+episode  188 return_iter  11 
+
+episode  189 return_iter  9 
+
+episode  190 return_iter  4 
+
+episode  191 return_iter  9 
+
+episode  192 return_iter  2 
+
+episode  193 return_iter  4 
+
+episode  194 return_iter  2 
+
+episode  195 return_iter  2 
+
+episode  196 return_iter  3 
+
+episode  197 return_iter  5 
+
+episode  198 return_iter  6 
+
+episode  199 return_iter  2 
+
+episode  200 return_iter  2 
+
+episode  201 return_iter  3 
+
+episode  202 return_iter  6 
+
+episode  203 return_iter  4 
+
+episode  204 return_iter  2 
+
+episode  205 return_iter  8 
+
+episode  206 return_iter  10 
+
+episode  207 return_iter  5 
+
+episode  208 return_iter  2 
+
+episode  209 return_iter  7 
+
+episode  210 return_iter  2 
+
+episode  211 return_iter  4 
+
+episode  212 return_iter  8 
+
+episode  213 return_iter  4 
+
+episode  214 return_iter  5 
+
+episode  215 return_iter  3 
+
+episode  216 return_iter  16 
+
+episode  217 return_iter  5 
+
+episode  218 return_iter  8 
+
+episode  219 return_iter  8 
+
+episode  220 return_iter  2 
+
+episode  221 return_iter  4 
+
+episode  222 return_iter  3 
+
+episode  223 return_iter  10 
+
+episode  224 return_iter  2 
+
+episode  225 return_iter  5 
+
+episode  226 return_iter  7 
+
+episode  227 return_iter  17 
+
+episode  228 return_iter  5 
+
+episode  229 return_iter  12 
+
+episode  230 return_iter  3 
+
+episode  231 return_iter  5 
+
+episode  232 return_iter  8 
+
+episode  233 return_iter  3 
+
+episode  234 return_iter  2 
+
+episode  235 return_iter  4 
+
+episode  236 return_iter  3 
+
+episode  237 return_iter  2 
+
+episode  238 return_iter  8 
+
+episode  239 return_iter  4 
+
+episode  240 return_iter  2 
+
+episode  241 return_iter  12 
+
+episode  242 return_iter  3 
+
+episode  243 return_iter  6 
+
+episode  244 return_iter  3 
+
+episode  245 return_iter  9 
+
+episode  246 return_iter  4 
+
+episode  247 return_iter  7 
+
+episode  248 return_iter  2 
+
+episode  249 return_iter  3 
+
+episode  250 return_iter  3 
+
+episode  251 return_iter  6 
+
+episode  252 return_iter  2 
+
+episode  253 return_iter  4 
+
+episode  254 return_iter  2 
+
+episode  255 return_iter  3 
+
+episode  256 return_iter  4 
+
+episode  257 return_iter  4 
+
+episode  258 return_iter  3 
+
+episode  259 return_iter  4 
+
+episode  260 return_iter  5 
+
+episode  261 return_iter  3 
+
+episode  262 return_iter  5 
+
+episode  263 return_iter  14 
+
+episode  264 return_iter  4 
+
+episode  265 return_iter  6 
+
+episode  266 return_iter  3 
+
+episode  267 return_iter  18 
+
+episode  268 return_iter  3 
+
+episode  269 return_iter  4 
+
+episode  270 return_iter  3 
+
+episode  271 return_iter  3 
+
+episode  272 return_iter  2 
+
+episode  273 return_iter  4 
+
+episode  274 return_iter  2 
+
+episode  275 return_iter  4 
+
+episode  276 return_iter  2 
+
+episode  277 return_iter  3 
+
+episode  278 return_iter  8 
+
+episode  279 return_iter  2 
+
+episode  280 return_iter  2 
+
+episode  281 return_iter  5 
+
+episode  282 return_iter  12 
+
+episode  283 return_iter  2 
+
+episode  284 return_iter  5 
+
+episode  285 return_iter  5 
+
+episode  286 return_iter  3 
+
+episode  287 return_iter  5 
+
+episode  288 return_iter  2 
+
+episode  289 return_iter  4 
+
+episode  290 return_iter  4 
+
+episode  291 return_iter  3 
+
+episode  292 return_iter  4 
+
+episode  293 return_iter  7 
+
+episode  294 return_iter  3 
+
+episode  295 return_iter  6 
+
+episode  296 return_iter  2 
+
+episode  297 return_iter  3 
+
+episode  298 return_iter  7 
+
+episode  299 return_iter  6 
+
+return_reps  [array([ 4.,  5.,  2.,  6., 14.,  3.,  2., 21.,  5.,  3.,  8.,  4.,  4.,
+        3.,  7.,  4.,  3.,  3.,  7., 18.,  5.,  3.,  2.,  7.,  3., 14.,
+        5.,  3.,  3.,  6.,  3.,  3.,  3., 11.,  6.,  5.,  3.,  8.,  2.,
+        5.,  7.,  3.,  7.,  2.,  4.,  5.,  4.,  3., 22.,  9.,  6.,  6.,
+        6.,  8.,  8.,  9.,  2.,  7., 21.,  7.,  5.,  2.,  2.,  3.,  4.,
+       10.,  3.,  5.,  4.,  2.,  2.,  6.,  6.,  6.,  3., 12.,  6.,  4.,
+        4.,  6.,  6.,  6.,  2.,  2.,  4.,  4.,  3.,  9.,  4.,  3.,  2.,
+        2.,  3.,  8.,  6.,  4.,  3.,  4., 14.,  3.,  5., 10.,  3.,  2.,
+        6.,  2.,  3.,  2., 10.,  3.,  2.,  3.,  5.,  2., 11.,  5., 12.,
+        3.,  2., 10.,  5.,  2.,  4.,  2.,  5.,  2.,  2.,  5.,  2.,  8.,
+        3.,  3., 10.,  2.,  3.,  3.,  3.,  2.,  2.,  3.,  2.,  5.,  6.,
+        6.,  4.,  5.,  8.,  3.,  2.,  2.,  3.,  2., 14.,  4.,  3.,  7.,
+        6.,  5.,  5.,  5.,  3.,  4.,  3., 15.,  3.,  3.,  4.,  5.,  7.,
+        7.,  3., 10.,  4., 21.,  6.,  2.,  6.,  2.,  2.,  7.,  5.,  4.,
+        6.,  4.,  5.,  5.,  3.,  2.,  3.,  2.,  6.,  6.,  4.,  2., 12.,
+        5.,  4.,  2.,  3.,  3.,  3.,  6.,  3.,  4.,  3.,  2.,  2.,  3.,
+        5.,  4.,  7.,  5.,  2.,  3.,  4.,  3.,  7.,  2.,  5.,  7.,  3.,
+        5.,  2.,  3.,  2., 12.,  3.,  3.,  9.,  2.,  5.,  2.,  2.,  6.,
+        8.,  3.,  2., 18.,  4.,  4.,  8.,  6.,  2.,  8., 13.,  2.,  4.,
+        6.,  2.,  2.,  2.,  8.,  2.,  9.,  2.,  3.,  2.,  6.,  3.,  9.,
+        4.,  7.,  2.,  2.,  3.,  2.,  3.,  3.,  8.,  4.,  9.,  5.,  6.,
+        2.,  3.,  7.,  5., 13.,  3.,  7.,  6.,  2.,  4., 12.,  5.,  5.,
+        2.,  9.,  5., 18.,  3., 11.,  5.,  2.,  7., 12.,  2.,  6.,  4.,
+        6.]), array([ 2.,  4.,  5.,  2.,  5.,  2.,  2.,  5., 11.,  3.,  2.,  2.,  3.,
+        6.,  2.,  3.,  2.,  4.,  2.,  6.,  2.,  3.,  3.,  3.,  4.,  4.,
+        8.,  3., 11., 12.,  3.,  4.,  7.,  3.,  4.,  2.,  7.,  4.,  7.,
+        4.,  3.,  6.,  5.,  5.,  2.,  3.,  7.,  3.,  2.,  6.,  3.,  3.,
+        7.,  3.,  7., 20.,  3.,  3.,  3.,  4.,  3.,  5.,  7.,  6.,  4.,
+        6.,  5.,  7.,  8.,  7.,  4.,  7.,  3.,  4., 10.,  2.,  5.,  5.,
+        2.,  4.,  7.,  5.,  8.,  4.,  5.,  4.,  4.,  5.,  7.,  9.,  6.,
+        8.,  4.,  4.,  4.,  3.,  7., 10.,  2.,  4.,  4., 14., 15.,  3.,
+        2.,  3.,  9.,  4.,  4.,  2.,  3.,  3.,  5.,  3.,  2.,  2.,  7.,
+        8.,  4.,  2.,  2., 17.,  7.,  3., 11., 11.,  8.,  2.,  3.,  3.,
+       12., 13.,  2., 10., 17.,  2., 11., 11.,  2.,  3.,  2.,  8.,  3.,
+        5.,  7.,  3.,  2.,  2.,  2.,  3.,  2.,  9.,  2.,  3.,  5.,  4.,
+        3.,  7.,  5.,  2.,  2.,  8.,  4.,  5.,  7., 12.,  3., 14., 12.,
+        9.,  2.,  6.,  3.,  7.,  2.,  6.,  8., 10.,  5.,  2.,  2.,  3.,
+        5.,  3.,  9.,  2.,  8., 10.,  8.,  5.,  2.,  3.,  3.,  9.,  9.,
+        5.,  5.,  6., 10.,  4.,  6.,  2.,  6.,  9.,  3.,  6.,  2.,  3.,
+        3.,  4.,  5.,  2., 20.,  9.,  3.,  4.,  2.,  2.,  7.,  4.,  2.,
+        2., 11.,  3.,  5.,  7.,  4., 11.,  5.,  3.,  5.,  5.,  3.,  5.,
+        3., 10.,  5.,  2.,  2.,  4.,  3.,  2.,  2.,  2., 11.,  5.,  6.,
+        2.,  7.,  4.,  2.,  2.,  5.,  9.,  5.,  5.,  3.,  3.,  2.,  3.,
+       12., 10.,  3., 11.,  4.,  6.,  3.,  3.,  3.,  2.,  7.,  2.,  2.,
+        2.,  5.,  2.,  3.,  3., 15.,  2.,  2.,  8.,  6.,  3.,  2.,  3.,
+        5.,  7.,  5.,  4.,  6.,  4.,  6.,  5.,  7.,  3., 17.,  9.,  7.,
+        3.]), array([ 3.,  2.,  3.,  2.,  5.,  5.,  3.,  2.,  5.,  4., 18.,  6.,  5.,
+        9.,  5., 12.,  3.,  3.,  3.,  5.,  8.,  5.,  4.,  4.,  3.,  3.,
+        4.,  2.,  9.,  2.,  3.,  3.,  3.,  2.,  2.,  2.,  7.,  3.,  2.,
+        8.,  6.,  5.,  3., 12.,  8.,  2.,  4.,  4.,  3.,  4., 11.,  2.,
+        2.,  8.,  5.,  2.,  2.,  2.,  4.,  2.,  6., 11.,  2.,  5.,  2.,
+        8.,  3.,  2.,  3.,  2.,  4.,  7.,  3.,  4.,  2.,  7.,  8.,  3.,
+        2.,  4.,  6.,  3.,  9.,  3., 10.,  3.,  4.,  7.,  3.,  9.,  7.,
+        4.,  3.,  3.,  6.,  2.,  2.,  5.,  3.,  3.,  3.,  6.,  6.,  2.,
+        5., 12.,  9.,  3.,  2.,  6.,  7.,  3.,  3.,  3.,  2.,  3.,  3.,
+        7.,  5.,  2.,  2.,  3.,  8.,  6.,  4.,  6.,  6.,  5.,  7.,  3.,
+        4.,  2.,  8.,  3.,  2.,  5.,  9.,  3., 11.,  3.,  4.,  3.,  2.,
+        4.,  9.,  2.,  9., 11.,  2., 12.,  4.,  2.,  2.,  6.,  9.,  2.,
+        6.,  4.,  2., 11.,  3.,  3.,  5.,  4.,  4.,  3.,  2.,  3.,  3.,
+        9.,  2.,  5.,  5., 16.,  2.,  8.,  6.,  3.,  2.,  6., 16.,  3.,
+        2.,  6.,  6.,  7.,  2.,  6., 11.,  9.,  4.,  9.,  2.,  4.,  2.,
+        2.,  3.,  5.,  6.,  2.,  2.,  3.,  6.,  4.,  2.,  8., 10.,  5.,
+        2.,  7.,  2.,  4.,  8.,  4.,  5.,  3., 16.,  5.,  8.,  8.,  2.,
+        4.,  3., 10.,  2.,  5.,  7., 17.,  5., 12.,  3.,  5.,  8.,  3.,
+        2.,  4.,  3.,  2.,  8.,  4.,  2., 12.,  3.,  6.,  3.,  9.,  4.,
+        7.,  2.,  3.,  3.,  6.,  2.,  4.,  2.,  3.,  4.,  4.,  3.,  4.,
+        5.,  3.,  5., 14.,  4.,  6.,  3., 18.,  3.,  4.,  3.,  3.,  2.,
+        4.,  2.,  4.,  2.,  3.,  8.,  2.,  2.,  5., 12.,  2.,  5.,  5.,
+        3.,  5.,  2.,  4.,  4.,  3.,  4.,  7.,  3.,  6.,  2.,  3.,  7.,
+        6.])] 
+
+return_reps_mean  [np.float64(3.0), np.float64(3.6666666666666665), np.float64(3.3333333333333335), np.float64(3.3333333333333335), np.float64(8.0), np.float64(3.3333333333333335), np.float64(2.3333333333333335), np.float64(9.333333333333334), np.float64(7.0), np.float64(3.3333333333333335), np.float64(9.333333333333334), np.float64(4.0), np.float64(4.0), np.float64(6.0), np.float64(4.666666666666667), np.float64(6.333333333333333), np.float64(2.6666666666666665), np.float64(3.3333333333333335), np.float64(4.0), np.float64(9.666666666666666), np.float64(5.0), np.float64(3.6666666666666665), np.float64(3.0), np.float64(4.666666666666667), np.float64(3.3333333333333335), np.float64(7.0), np.float64(5.666666666666667), np.float64(2.6666666666666665), np.float64(7.666666666666667), np.float64(6.666666666666667), np.float64(3.0), np.float64(3.3333333333333335), np.float64(4.333333333333333), np.float64(5.333333333333333), np.float64(4.0), np.float64(3.0), np.float64(5.666666666666667), np.float64(5.0), np.float64(3.6666666666666665), np.float64(5.666666666666667), np.float64(5.333333333333333), np.float64(4.666666666666667), np.float64(5.0), np.float64(6.333333333333333), np.float64(4.666666666666667), np.float64(3.3333333333333335), np.float64(5.0), np.float64(3.3333333333333335), np.float64(9.0), np.float64(6.333333333333333), np.float64(6.666666666666667), np.float64(3.6666666666666665), np.float64(5.0), np.float64(6.333333333333333), np.float64(6.666666666666667), np.float64(10.333333333333334), np.float64(2.3333333333333335), np.float64(4.0), np.float64(9.333333333333334), np.float64(4.333333333333333), np.float64(4.666666666666667), np.float64(6.0), np.float64(3.6666666666666665), np.float64(4.666666666666667), np.float64(3.3333333333333335), np.float64(8.0), np.float64(3.6666666666666665), np.float64(4.666666666666667), np.float64(5.0), np.float64(3.6666666666666665), np.float64(3.3333333333333335), np.float64(6.666666666666667), np.float64(4.0), np.float64(4.666666666666667), np.float64(5.0), np.float64(7.0), np.float64(6.333333333333333), np.float64(4.0), np.float64(2.6666666666666665), np.float64(4.666666666666667), np.float64(6.333333333333333), np.float64(4.666666666666667), np.float64(6.333333333333333), np.float64(3.0), np.float64(6.333333333333333), np.float64(3.6666666666666665), np.float64(3.6666666666666665), np.float64(7.0), np.float64(4.666666666666667), np.float64(7.0), np.float64(5.0), np.float64(4.666666666666667), np.float64(3.3333333333333335), np.float64(5.0), np.float64(5.333333333333333), np.float64(3.0), np.float64(4.0), np.float64(6.333333333333333), np.float64(6.333333333333333), np.float64(3.3333333333333335), np.float64(4.0), np.float64(10.0), np.float64(8.0), np.float64(2.3333333333333335), np.float64(4.333333333333333), np.float64(5.666666666666667), np.float64(7.0), np.float64(3.0), np.float64(5.333333333333333), np.float64(3.6666666666666665), np.float64(4.0), np.float64(3.0), np.float64(4.333333333333333), np.float64(2.6666666666666665), np.float64(5.0), np.float64(3.3333333333333335), np.float64(7.333333333333333), np.float64(6.0), np.float64(3.6666666666666665), np.float64(4.666666666666667), np.float64(3.0), np.float64(7.333333333333333), np.float64(6.333333333333333), np.float64(3.6666666666666665), np.float64(6.666666666666667), np.float64(6.333333333333333), np.float64(5.333333333333333), np.float64(4.0), np.float64(4.0), np.float64(4.666666666666667), np.float64(6.333333333333333), np.float64(6.0), np.float64(6.666666666666667), np.float64(5.0), np.float64(7.333333333333333), np.float64(3.3333333333333335), np.float64(7.666666666666667), np.float64(5.333333333333333), np.float64(5.0), np.float64(3.0), np.float64(2.6666666666666665), np.float64(5.333333333333333), np.float64(3.6666666666666665), np.float64(5.0), np.float64(6.666666666666667), np.float64(3.3333333333333335), np.float64(6.333333333333333), np.float64(5.333333333333333), np.float64(2.0), np.float64(5.666666666666667), np.float64(3.0), np.float64(4.333333333333333), np.float64(6.0), np.float64(4.333333333333333), np.float64(5.666666666666667), np.float64(4.333333333333333), np.float64(5.0), np.float64(5.333333333333333), np.float64(4.0), np.float64(6.0), np.float64(2.6666666666666665), np.float64(5.0), np.float64(4.0), np.float64(8.0), np.float64(4.666666666666667), np.float64(6.0), np.float64(3.0), np.float64(7.333333333333333), np.float64(7.333333333333333), np.float64(8.333333333333334), np.float64(2.3333333333333335), np.float64(7.0), np.float64(4.0), np.float64(14.666666666666666), np.float64(3.3333333333333335), np.float64(5.333333333333333), np.float64(6.666666666666667), np.float64(5.0), np.float64(3.0), np.float64(5.0), np.float64(7.666666666666667), np.float64(3.3333333333333335), np.float64(4.333333333333333), np.float64(4.333333333333333), np.float64(6.666666666666667), np.float64(4.666666666666667), np.float64(4.333333333333333), np.float64(6.0), np.float64(7.333333333333333), np.float64(5.333333333333333), np.float64(4.0), np.float64(6.0), np.float64(3.0), np.float64(5.0), np.float64(7.666666666666667), np.float64(4.0), np.float64(4.0), np.float64(4.333333333333333), np.float64(6.333333333333333), np.float64(3.0), np.float64(3.6666666666666665), np.float64(3.6666666666666665), np.float64(5.0), np.float64(5.666666666666667), np.float64(2.6666666666666665), np.float64(5.333333333333333), np.float64(4.666666666666667), np.float64(3.6666666666666665), np.float64(3.3333333333333335), np.float64(5.0), np.float64(4.666666666666667), np.float64(3.6666666666666665), np.float64(10.0), np.float64(5.333333333333333), np.float64(4.0), np.float64(3.3333333333333335), np.float64(8.333333333333334), np.float64(3.0), np.float64(6.666666666666667), np.float64(6.333333333333333), np.float64(2.3333333333333335), np.float64(3.6666666666666665), np.float64(5.333333333333333), np.float64(5.333333333333333), np.float64(3.0), np.float64(8.0), np.float64(4.666666666666667), np.float64(10.333333333333334), np.float64(6.333333333333333), np.float64(5.666666666666667), np.float64(4.333333333333333), np.float64(4.0), np.float64(4.333333333333333), np.float64(4.666666666666667), np.float64(4.333333333333333), np.float64(5.666666666666667), np.float64(3.3333333333333335), np.float64(7.333333333333333), np.float64(4.666666666666667), np.float64(4.0), np.float64(4.333333333333333), np.float64(6.666666666666667), np.float64(2.3333333333333335), np.float64(5.333333333333333), np.float64(9.0), np.float64(5.333333333333333), np.float64(4.666666666666667), np.float64(5.0), np.float64(3.6666666666666665), np.float64(3.0), np.float64(2.3333333333333335), np.float64(5.333333333333333), np.float64(3.0), np.float64(7.333333333333333), np.float64(3.0), np.float64(3.6666666666666665), np.float64(3.0), np.float64(4.333333333333333), np.float64(2.6666666666666665), np.float64(5.333333333333333), np.float64(7.0), np.float64(6.666666666666667), np.float64(3.3333333333333335), np.float64(9.0), np.float64(3.6666666666666665), np.float64(4.666666666666667), np.float64(3.0), np.float64(8.0), np.float64(4.666666666666667), np.float64(3.3333333333333335), np.float64(6.333333333333333), np.float64(3.3333333333333335), np.float64(3.3333333333333335), np.float64(2.6666666666666665), np.float64(3.3333333333333335), np.float64(4.333333333333333), np.float64(3.3333333333333335), np.float64(6.333333333333333), np.float64(8.666666666666666), np.float64(3.6666666666666665), np.float64(3.3333333333333335), np.float64(5.0), np.float64(7.333333333333333), np.float64(5.666666666666667), np.float64(4.0), np.float64(4.333333333333333), np.float64(3.3333333333333335), np.float64(7.0), np.float64(4.0), np.float64(8.666666666666666), np.float64(4.333333333333333), np.float64(6.0), np.float64(5.0), np.float64(4.666666666666667), np.float64(5.666666666666667), np.float64(7.0), np.float64(7.0), np.float64(6.0), np.float64(6.0), np.float64(5.0)] 
+
+return_reps_std  [np.float64(0.816496580927726), np.float64(1.247219128924647), np.float64(1.247219128924647), np.float64(1.8856180831641267), np.float64(4.242640687119285), np.float64(1.247219128924647), np.float64(0.4714045207910317), np.float64(8.339997335464535), np.float64(2.8284271247461903), np.float64(0.4714045207910317), np.float64(6.599663291074443), np.float64(1.632993161855452), np.float64(0.816496580927726), np.float64(2.449489742783178), np.float64(2.0548046676563256), np.float64(4.0276819911981905), np.float64(0.4714045207910317), np.float64(0.4714045207910317), np.float64(2.160246899469287), np.float64(5.90668171555645), np.float64(2.449489742783178), np.float64(0.9428090415820634), np.float64(0.816496580927726), np.float64(1.699673171197595), np.float64(0.4714045207910317), np.float64(4.96655480858378), np.float64(1.699673171197595), np.float64(0.4714045207910317), np.float64(3.39934634239519), np.float64(4.109609335312651), np.float64(0.0), np.float64(0.4714045207910317), np.float64(1.8856180831641267), np.float64(4.0276819911981905), np.float64(1.632993161855452), np.float64(1.4142135623730951), np.float64(1.8856180831641267), np.float64(2.160246899469287), np.float64(2.3570226039551585), np.float64(1.699673171197595), np.float64(1.699673171197595), np.float64(1.247219128924647), np.float64(1.632993161855452), np.float64(4.189935029992179), np.float64(2.494438257849294), np.float64(1.247219128924647), np.float64(1.4142135623730951), np.float64(0.4714045207910317), np.float64(9.201449161228174), np.float64(2.0548046676563256), np.float64(3.2998316455372216), np.float64(1.699673171197595), np.float64(2.160246899469287), np.float64(2.357022603955158), np.float64(1.247219128924647), np.float64(7.408703590297623), np.float64(0.4714045207910317), np.float64(2.160246899469287), np.float64(8.259674462242577), np.float64(2.0548046676563256), np.float64(1.247219128924647), np.float64(3.7416573867739413), np.float64(2.3570226039551585), np.float64(1.247219128924647), np.float64(0.9428090415820634), np.float64(1.632993161855452), np.float64(0.9428090415820634), np.float64(2.0548046676563256), np.float64(2.160246899469287), np.float64(2.3570226039551585), np.float64(0.9428090415820634), np.float64(0.4714045207910317), np.float64(1.4142135623730951), np.float64(0.9428090415820634), np.float64(3.559026084010437), np.float64(4.08248290463863), np.float64(1.247219128924647), np.float64(0.816496580927726), np.float64(0.9428090415820634), np.float64(0.9428090415820634), np.float64(0.4714045207910317), np.float64(1.247219128924647), np.float64(3.0912061651652345), np.float64(0.816496580927726), np.float64(2.6246692913372702), np.float64(0.4714045207910317), np.float64(0.4714045207910317), np.float64(1.632993161855452), np.float64(1.699673171197595), np.float64(2.8284271247461903), np.float64(2.160246899469287), np.float64(2.494438257849294), np.float64(0.4714045207910317), np.float64(2.160246899469287), np.float64(0.9428090415820634), np.float64(0.816496580927726), np.float64(2.160246899469287), np.float64(2.6246692913372702), np.float64(5.436502143433364), np.float64(0.4714045207910317), np.float64(0.816496580927726), np.float64(3.265986323710904), np.float64(5.0990195135927845), np.float64(0.4714045207910317), np.float64(1.699673171197595), np.float64(4.496912521077347), np.float64(2.8284271247461903), np.float64(0.816496580927726), np.float64(3.39934634239519), np.float64(1.699673171197595), np.float64(2.160246899469287), np.float64(0.0), np.float64(0.9428090415820634), np.float64(0.4714045207910317), np.float64(4.242640687119285), np.float64(1.247219128924647), np.float64(3.6817870057290873), np.float64(2.160246899469287), np.float64(1.247219128924647), np.float64(3.7712361663282534), np.float64(1.4142135623730951), np.float64(6.847546194724712), np.float64(1.699673171197595), np.float64(1.699673171197595), np.float64(3.0912061651652345), np.float64(3.6817870057290873), np.float64(2.494438257849294), np.float64(1.4142135623730951), np.float64(2.160246899469287), np.float64(2.357022603955158), np.float64(4.0276819911981905), np.float64(4.96655480858378), np.float64(3.39934634239519), np.float64(3.559026084010437), np.float64(6.847546194724712), np.float64(1.247219128924647), np.float64(3.39934634239519), np.float64(4.0276819911981905), np.float64(4.242640687119285), np.float64(0.0), np.float64(0.9428090415820634), np.float64(2.0548046676563256), np.float64(1.699673171197595), np.float64(0.816496580927726), np.float64(2.0548046676563256), np.float64(1.247219128924647), np.float64(3.0912061651652345), np.float64(4.0276819911981905), np.float64(0.0), np.float64(4.496912521077347), np.float64(0.816496580927726), np.float64(3.299831645537222), np.float64(5.656854249492381), np.float64(1.247219128924647), np.float64(2.494438257849294), np.float64(2.0548046676563256), np.float64(1.4142135623730951), np.float64(1.247219128924647), np.float64(1.4142135623730951), np.float64(3.7416573867739413), np.float64(0.4714045207910317), np.float64(2.160246899469287), np.float64(0.816496580927726), np.float64(4.96655480858378), np.float64(1.699673171197595), np.float64(4.242640687119285), np.float64(0.816496580927726), np.float64(4.784233364802441), np.float64(3.6817870057290873), np.float64(0.9428090415820634), np.float64(0.4714045207910317), np.float64(2.160246899469287), np.float64(0.816496580927726), np.float64(5.792715732327589), np.float64(1.8856180831641267), np.float64(2.494438257849294), np.float64(0.9428090415820634), np.float64(3.559026084010437), np.float64(1.4142135623730951), np.float64(2.160246899469287), np.float64(6.018490028422596), np.float64(0.4714045207910317), np.float64(1.699673171197595), np.float64(1.247219128924647), np.float64(1.699673171197595), np.float64(2.0548046676563256), np.float64(2.6246692913372702), np.float64(3.265986323710904), np.float64(3.299831645537222), np.float64(2.8674417556808756), np.float64(1.632993161855452), np.float64(2.449489742783178), np.float64(0.816496580927726), np.float64(2.943920288775949), np.float64(4.189935029992179), np.float64(1.4142135623730951), np.float64(0.816496580927726), np.float64(1.699673171197595), np.float64(2.8674417556808756), np.float64(0.816496580927726), np.float64(1.699673171197595), np.float64(1.699673171197595), np.float64(1.4142135623730951), np.float64(2.357022603955158), np.float64(0.4714045207910317), np.float64(2.494438257849294), np.float64(3.7712361663282534), np.float64(0.9428090415820634), np.float64(1.247219128924647), np.float64(1.4142135623730951), np.float64(2.0548046676563256), np.float64(1.247219128924647), np.float64(7.483314773547883), np.float64(2.6246692913372702), np.float64(0.816496580927726), np.float64(0.4714045207910317), np.float64(5.792715732327589), np.float64(1.4142135623730951), np.float64(1.247219128924647), np.float64(1.699673171197595), np.float64(0.4714045207910317), np.float64(1.247219128924647), np.float64(4.0276819911981905), np.float64(3.299831645537222), np.float64(1.4142135623730951), np.float64(2.943920288775949), np.float64(1.699673171197595), np.float64(5.734883511361751), np.float64(1.8856180831641267), np.float64(4.496912521077347), np.float64(0.9428090415820634), np.float64(1.4142135623730951), np.float64(2.6246692913372702), np.float64(1.247219128924647), np.float64(2.6246692913372702), np.float64(3.0912061651652345), np.float64(1.247219128924647), np.float64(7.542472332656507), np.float64(2.494438257849294), np.float64(0.0), np.float64(2.6246692913372702), np.float64(4.109609335312651), np.float64(0.4714045207910317), np.float64(2.494438257849294), np.float64(4.320493798938574), np.float64(2.8674417556808756), np.float64(0.9428090415820634), np.float64(2.160246899469287), np.float64(2.3570226039551585), np.float64(0.816496580927726), np.float64(0.4714045207910317), np.float64(2.494438257849294), np.float64(1.4142135623730951), np.float64(2.357022603955158), np.float64(1.4142135623730951), np.float64(0.9428090415820634), np.float64(0.816496580927726), np.float64(1.247219128924647), np.float64(0.4714045207910317), np.float64(2.6246692913372702), np.float64(3.559026084010437), np.float64(2.8674417556808756), np.float64(1.247219128924647), np.float64(5.0990195135927845), np.float64(0.4714045207910317), np.float64(1.8856180831641267), np.float64(0.0), np.float64(7.0710678118654755), np.float64(2.357022603955158), np.float64(0.9428090415820634), np.float64(2.494438257849294), np.float64(1.247219128924647), np.float64(1.8856180831641267), np.float64(0.9428090415820634), np.float64(1.247219128924647), np.float64(2.0548046676563256), np.float64(1.247219128924647), np.float64(4.714045207910317), np.float64(4.921607686744467), np.float64(2.3570226039551585), np.float64(1.8856180831641267), np.float64(2.449489742783178), np.float64(3.39934634239519), np.float64(4.4969125210773475), np.float64(1.4142135623730951), np.float64(0.9428090415820634), np.float64(1.247219128924647), np.float64(1.632993161855452), np.float64(1.4142135623730951), np.float64(6.599663291074444), np.float64(1.247219128924647), np.float64(3.559026084010437), np.float64(0.816496580927726), np.float64(2.0548046676563256), np.float64(1.8856180831641267), np.float64(3.7416573867739413), np.float64(7.0710678118654755), np.float64(2.449489742783178), np.float64(1.4142135623730951), np.float64(1.4142135623730951)] 
+
