@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import gymnasium as gym
-import panda_gym
+# import panda_gym
 
 class setup_class:
     def __init__(self, prob, use_CEM=False):
