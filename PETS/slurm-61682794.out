@@ -1,0 +1,55 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+Lmod has detected the following error: The following module(s) are unknown:
+"python/3.10.0"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "python/3.10.0"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+Python Version: 3.11.5 (main, Sep 18 2023, 12:23:42) [GCC 12.3.1 20230526]
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/PETS/main_PETS_CEM_PE.py", line 23, in <module>
+    import mbrl.models as models
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/mbrl/models/__init__.py", line 5, in <module>
+    from .basic_ensemble import BasicEnsemble
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/mbrl/models/basic_ensemble.py", line 8, in <module>
+    import hydra
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/hydra/__init__.py", line 5, in <module>
+    from hydra import utils
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/hydra/utils.py", line 10, in <module>
+    from hydra._internal.utils import (
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/hydra/_internal/utils.py", line 21, in <module>
+    from hydra.core.utils import get_valid_filename, split_config_path
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/hydra/core/utils.py", line 17, in <module>
+    from hydra.core.hydra_config import HydraConfig
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/hydra/core/hydra_config.py", line 6, in <module>
+    from hydra.conf import HydraConf
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/hydra/conf/__init__.py", line 62, in <module>
+    class JobConf:
+  File "/home/nileb3/py310new/lib/python3.11/site-packages/hydra/conf/__init__.py", line 87, in JobConf
+    @dataclass
+     ^^^^^^^^^
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.11.5/lib/python3.11/dataclasses.py", line 1230, in dataclass
+    return wrap(cls)
+           ^^^^^^^^^
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.11.5/lib/python3.11/dataclasses.py", line 1220, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.11.5/lib/python3.11/dataclasses.py", line 958, in _process_class
+    cls_fields.append(_get_field(cls, name, type, kw_only))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.11.5/lib/python3.11/dataclasses.py", line 815, in _get_field
+    raise ValueError(f'mutable default {type(f.default)} for field '
+ValueError: mutable default <class 'hydra.conf.JobConf.JobConfig.OverrideDirname'> for field override_dirname is not allowed: use default_factory
