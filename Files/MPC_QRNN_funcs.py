@@ -1015,8 +1015,8 @@ def start_QRNN_MPC_LBFGSB(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                         method='L-BFGS-B',
                         bounds= [(prob_vars.action_low, prob_vars.action_high)],
                         options= {
-                            "disp": None, "maxcor": 8, "ftol": 1e-18, "gtol": 1e-18, "eps": 1e-2, "maxfun": 8,
-                            "maxiter": 8, "iprint": -1, "maxls": 8, "finite_diff_rel_step": None
+                            "disp": False, "maxcor": 8, "ftol": 1e-18, "gtol": 1e-18, "eps": 1e-2, "maxfun": 8,
+                            "maxiter": 8, "iprint": -1, "maxls": 8, "finite_diff_rel_step": None # "disp": None
                             },
                 )
                 actions_rep = iter_rep.x
@@ -1024,7 +1024,7 @@ def start_QRNN_MPC_LBFGSB(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                 if cost_iter < best_cost:
                     best_cost = cost_iter
                     best_action_sequence = actions_rep
-                print("iter_rep ", iter_rep, "\n")
+                # print("iter_rep ", iter_rep, "\n")
 
                 # actions, grads = choose_action_LBFGSB(actions, prob, state, horizon, do_RS, use_sampling, use_mid, use_ASGNN, model_QRNN, model_ASN, action_dim, action_low, action_high, states_low, states_high, nb_reps, std, change_prob, nb_top_particles, nb_random)
             

@@ -281,7 +281,7 @@ def choose_action_func_LBFGSB(actions, prob_vars, state, use_sampling, use_mid, 
             cost += prob_vars.compute_cost(prob_vars.prob, next_state, h, prob_vars.horizon, action_tensor)
 
     grad = torch.autograd.grad(cost, actions_tensor, retain_graph=False)[0]
-    print("grad ", grad, "\n")
+    # print("grad ", grad, "\n")
     
 
     return cost.item(), grad.detach().numpy()
