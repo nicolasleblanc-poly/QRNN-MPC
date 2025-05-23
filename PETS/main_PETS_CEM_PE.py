@@ -57,7 +57,7 @@ class DoneWrapper(gym.Wrapper):
         result = self.env.reset(**kwargs) # Discard info
         
         if isinstance(result, tuple) and len(result) == 2:
-            obs = result[0]  # drop the info
+            obs = result[0]  # drop the infos
         else:
             obs = result  # keep as is
         
