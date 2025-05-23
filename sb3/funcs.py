@@ -148,6 +148,13 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             env = gym.make("LunarLanderContinuous-v3")
         elif prob == "Reacher":
             env = gym.make("Reacher-v5")
+        elif prob == "PandaReach":
+            env = gym.make("PandaReach-v3")
+            env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
+        elif prob == "PandaReacherDense":
+            env = gym.make("PandaReachDense-v3")
+            env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
+        
         
         if method_name == "A2C":
             model = A2C("MlpPolicy", env)

@@ -106,8 +106,11 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             env = gym.make("LunarLanderContinuous-v3")
         elif prob == "Reacher":
             env = gym.make("Reacher-v5")
-        elif prob == "PandaReach":
-            env = gym.make("PandaReach-v3")
+        elif prob == "PandaReacher":
+            env = gym.make("PandaReacher-v3")
+            env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
+        elif prob == "PandaReachDense":
+            env = gym.make("PandaReachDense-v3")
             env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
         
         if method_name == "A2C":
