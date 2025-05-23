@@ -21,7 +21,7 @@ but cannot be loaded as requested: "scipy-stack/2023a"
 /home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/gaussian_mlp.py:99: UserWarning: use_silu is deprecated and will be removed in v0.2.0. Use activation_fn_cfg with _target_=torch.nn.SiLU instead.
   warnings.warn(
 Python Version: 3.10.13 (main, Sep 18 2023, 17:18:13) [GCC 12.3.1 20230526]
-self.env.reset(**kwargs)  (array([ 0.9309738 , -0.36508593,  0.7376987 ], dtype=float32), {}) 
+self.env.reset(**kwargs)  (array([ 0.33958706,  0.94057465, -0.553358  ], dtype=float32), {}) 
 
 self.env.reset(**kwargs)  (array([ 0.6520163 ,  0.758205  , -0.46042657], dtype=float32), {}) 
 
