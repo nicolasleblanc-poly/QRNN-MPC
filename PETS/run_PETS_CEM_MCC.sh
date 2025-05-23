@@ -10,7 +10,8 @@
 # python /home/nileb3/projects/def-bonizzat/nileb3/job-scripts/my_script.py
 module purge
 module load mujoco
-module load python/3.10.0 scipy-stack/2023a
-source ~/py310new/bin/activate
+module load python/3.10.13 scipy-stack
+#/2023a
+source ~/sp_py310/bin/activate
 
 python main_PETS_CEM_MCC.py # my_script.py
