@@ -64,8 +64,16 @@ class DoneWrapper(gym.Wrapper):
         return obs
     
     def step(self, action):
-        obs, reward, terminated, truncated, info = self.env.step(action)
-        done = terminated or truncated
+        result = self.env.step(action)
+        
+        if len(result) == 5:
+            obs, reward, terminated, truncated, info = result
+            done = terminated or truncated
+        else:
+            obs, reward, done, info = result
+        
+        # obs, reward, terminated, truncated, info = self.env.step(action)
+        
         return obs, reward, done, info
 
 
