@@ -51,8 +51,8 @@ device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
 class DoneWrapper(gym.Wrapper):
     def reset(self, **kwargs):
-        print("self.env.reset(**kwargs) ", self.env.reset(**kwargs), "\n")
-        obs, info = self.env.reset(**kwargs) # Discard info
+        # print("self.env.reset(**kwargs) ", self.env.reset(**kwargs), "\n")
+        # obs, info = self.env.reset(**kwargs) # Discard info
         
         result = self.env.reset(**kwargs) # Discard info
         
