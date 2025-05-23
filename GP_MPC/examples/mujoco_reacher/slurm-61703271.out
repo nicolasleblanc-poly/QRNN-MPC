@@ -20,3 +20,2582 @@ Also make sure that all modulefiles written in TCL start with the string
 
 /home/nileb3/py310new/lib/python3.11/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.11/torch/torch/csrc/tensor/python_tensor.cpp:434.)
   _C._set_default_tensor_type(t)
+/project/6086407/nileb3/QRNN-MPC/GP_MPC/examples/mujoco_reacher/../../rl_gp_mpc/run_env_function.py:193: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown
+  plt.show()
+episode  0 return_iter  -40.634181710256456 
+
+episode  1 return_iter  -43.24422050741742 
+
+episode  2 return_iter  -34.21412190085734 
+
+episode  3 return_iter  -36.410915911511715 
+
+episode  4 return_iter  -47.92360903660385 
+
+episode  5 return_iter  -49.69010220368766 
+
+episode  6 return_iter  -38.65269464298526 
+
+episode  7 return_iter  -31.598488493761792 
+
+episode  8 return_iter  -39.377915146143 
+
+episode  9 return_iter  -33.03877899416011 
+
+episode  10 return_iter  -34.73624475271324 
+
+episode  11 return_iter  -59.50296000477957 
+
+episode  12 return_iter  -32.88741703106059 
+
+episode  13 return_iter  -31.44498326748705 
+
+episode  14 return_iter  -52.85013658830634 
+
+episode  15 return_iter  -46.084048295112 
+
+episode  16 return_iter  -51.33876805319466 
+
+episode  17 return_iter  -26.997824530281378 
+
+episode  18 return_iter  -37.56592634033594 
+
+episode  19 return_iter  -55.866787982799444 
+
+episode  20 return_iter  -40.155238095362044 
+
+episode  21 return_iter  -50.924343553533475 
+
+episode  22 return_iter  -52.75690614317637 
+
+episode  23 return_iter  -38.59151261075349 
+
+episode  24 return_iter  -47.247195232353704 
+
+episode  25 return_iter  -45.456642731057244 
+
+episode  26 return_iter  -44.11528774989556 
+
+episode  27 return_iter  -47.294455171429675 
+
+episode  28 return_iter  -41.80929235066632 
+
+episode  29 return_iter  -28.808471039845163 
+
+episode  30 return_iter  -36.32473162595181 
+
+episode  31 return_iter  -48.04265073801675 
+
+episode  32 return_iter  -38.13200400956639 
+
+episode  33 return_iter  -29.940232067047486 
+
+episode  34 return_iter  -31.233653425528654 
+
+episode  35 return_iter  -27.448398900249902 
+
+episode  36 return_iter  -37.24596378647994 
+
+episode  37 return_iter  -42.11277969082261 
+
+episode  38 return_iter  -37.85707345159541 
+
+episode  39 return_iter  -48.66029472043782 
+
+episode  40 return_iter  -42.65262636156239 
+
+episode  41 return_iter  -41.10760493865538 
+
+episode  42 return_iter  -49.22768621682145 
+
+episode  43 return_iter  -41.67593435279718 
+
+episode  44 return_iter  -43.553760833793575 
+
+episode  45 return_iter  -59.83604667588473 
+
+episode  46 return_iter  -41.50405884105848 
+
+episode  47 return_iter  -44.18718966722421 
+
+episode  48 return_iter  -47.85626467705379 
+
+episode  49 return_iter  -48.710363023217745 
+
+episode  50 return_iter  -39.908475065384245 
+
+episode  51 return_iter  -33.90143336919019 
+
+episode  52 return_iter  -48.05185245108508 
+
+episode  53 return_iter  -44.56511810972868 
+
+episode  54 return_iter  -49.72914066337255 
+
+episode  55 return_iter  -45.12583111120086 
+
+episode  56 return_iter  -45.49578059296867 
+
+episode  57 return_iter  -43.099542705878804 
+
+episode  58 return_iter  -34.76915104672475 
+
+episode  59 return_iter  -44.86518588539313 
+
+episode  60 return_iter  -36.29232386545903 
+
+episode  61 return_iter  -40.27302588169756 
+
+episode  62 return_iter  -36.902156825282766 
+
+episode  63 return_iter  -48.65885564864954 
+
+episode  64 return_iter  -43.228944256022366 
+
+episode  65 return_iter  -39.75297976235208 
+
+episode  66 return_iter  -28.472832399796378 
+
+episode  67 return_iter  -49.771630766338134 
+
+episode  68 return_iter  -37.061710880259426 
+
+episode  69 return_iter  -44.16146394865939 
+
+episode  70 return_iter  -41.36893063657747 
+
+episode  71 return_iter  -32.11015148225442 
+
+episode  72 return_iter  -49.46133237801792 
+
+episode  73 return_iter  -38.528985961152586 
+
+episode  74 return_iter  -50.74402385566922 
+
+episode  75 return_iter  -51.71350210482019 
+
+episode  76 return_iter  -42.98455332598375 
+
+episode  77 return_iter  -28.620482561815827 
+
+episode  78 return_iter  -37.198241553469444 
+
+episode  79 return_iter  -56.168251063191434 
+
+episode  80 return_iter  -36.49651458833859 
+
+episode  81 return_iter  -29.752463854238215 
+
+episode  82 return_iter  -35.340627889697814 
+
+episode  83 return_iter  -40.87748865835856 
+
+episode  84 return_iter  -38.554474859033 
+
+episode  85 return_iter  -41.91425755825005 
+
+episode  86 return_iter  -42.56310271030513 
+
+episode  87 return_iter  -37.70209286602878 
+
+episode  88 return_iter  -33.12410675984066 
+
+episode  89 return_iter  -39.73108720482647 
+
+episode  90 return_iter  -32.72564942375463 
+
+episode  91 return_iter  -28.401640727233385 
+
+episode  92 return_iter  -36.60979339667401 
+
+episode  93 return_iter  -43.73816875715558 
+
+episode  94 return_iter  -38.67009951236589 
+
+episode  95 return_iter  -37.3493215044356 
+
+episode  96 return_iter  -46.61135581204636 
+
+episode  97 return_iter  -47.61235523941221 
+
+episode  98 return_iter  -39.47156977026734 
+
+episode  99 return_iter  -31.414727278313762 
+
+episode  100 return_iter  -40.27788118026078 
+
+episode  101 return_iter  -52.9372493204636 
+
+episode  102 return_iter  -46.40318673776443 
+
+episode  103 return_iter  -39.92847481974751 
+
+episode  104 return_iter  -56.32311090897284 
+
+episode  105 return_iter  -30.11996846513602 
+
+episode  106 return_iter  -29.570141930792705 
+
+episode  107 return_iter  -31.790164111426236 
+
+episode  108 return_iter  -38.084942036409814 
+
+episode  109 return_iter  -37.288068347550976 
+
+episode  110 return_iter  -49.52268824478807 
+
+episode  111 return_iter  -38.94420408485094 
+
+episode  112 return_iter  -40.69731074612395 
+
+episode  113 return_iter  -42.530983000152816 
+
+episode  114 return_iter  -51.93707761277897 
+
+episode  115 return_iter  -36.6750926938413 
+
+episode  116 return_iter  -33.74596119625395 
+
+episode  117 return_iter  -30.26301008412245 
+
+episode  118 return_iter  -35.20338540306564 
+
+episode  119 return_iter  -48.53559404433968 
+
+episode  120 return_iter  -50.016828129024574 
+
+episode  121 return_iter  -30.125083707622906 
+
+episode  122 return_iter  -44.43997080025812 
+
+episode  123 return_iter  -49.45746762347965 
+
+episode  124 return_iter  -44.110550622399 
+
+episode  125 return_iter  -39.73563966309918 
+
+episode  126 return_iter  -47.20377804265706 
+
+episode  127 return_iter  -39.58796366664517 
+
+episode  128 return_iter  -43.47870032756172 
+
+episode  129 return_iter  -42.96053252318732 
+
+episode  130 return_iter  -37.86210224782937 
+
+episode  131 return_iter  -46.07830551166952 
+
+episode  132 return_iter  -42.24878572701232 
+
+episode  133 return_iter  -40.20168326864755 
+
+episode  134 return_iter  -35.65609151983173 
+
+episode  135 return_iter  -35.26603125587053 
+
+episode  136 return_iter  -38.40204756849882 
+
+episode  137 return_iter  -36.19238201586004 
+
+episode  138 return_iter  -44.921133120611245 
+
+episode  139 return_iter  -27.426558747484457 
+
+episode  140 return_iter  -44.77593615564173 
+
+episode  141 return_iter  -31.09274407920428 
+
+episode  142 return_iter  -45.75729694668894 
+
+episode  143 return_iter  -29.79539887533004 
+
+episode  144 return_iter  -45.950390830309004 
+
+episode  145 return_iter  -47.27379854922022 
+
+episode  146 return_iter  -34.33319042068479 
+
+episode  147 return_iter  -42.165558388282655 
+
+episode  148 return_iter  -44.996243608553826 
+
+episode  149 return_iter  -29.303215886773863 
+
+episode  150 return_iter  -41.64385464238902 
+
+episode  151 return_iter  -33.41121910416029 
+
+episode  152 return_iter  -38.090837386501086 
+
+episode  153 return_iter  -41.32349424058855 
+
+episode  154 return_iter  -29.17954522905539 
+
+episode  155 return_iter  -46.82800117071971 
+
+episode  156 return_iter  -43.33406147709774 
+
+episode  157 return_iter  -35.81597763956762 
+
+episode  158 return_iter  -41.72874633730136 
+
+episode  159 return_iter  -46.606981249047315 
+
+episode  160 return_iter  -41.52234288529603 
+
+episode  161 return_iter  -37.178863748487416 
+
+episode  162 return_iter  -40.72802066891834 
+
+episode  163 return_iter  -37.49740895069072 
+
+episode  164 return_iter  -40.38007593290498 
+
+episode  165 return_iter  -55.078805234844175 
+
+episode  166 return_iter  -45.37200358468141 
+
+episode  167 return_iter  -35.08288673722986 
+
+episode  168 return_iter  -40.22796855249318 
+
+episode  169 return_iter  -39.68595436535255 
+
+episode  170 return_iter  -30.903379628086633 
+
+episode  171 return_iter  -48.642378842667334 
+
+episode  172 return_iter  -26.206207328214592 
+
+episode  173 return_iter  -38.84726936572134 
+
+episode  174 return_iter  -39.39471052626912 
+
+episode  175 return_iter  -37.25970641952884 
+
+episode  176 return_iter  -36.02762946860412 
+
+episode  177 return_iter  -35.036816195500926 
+
+episode  178 return_iter  -38.39102319444202 
+
+episode  179 return_iter  -38.7853618444791 
+
+episode  180 return_iter  -31.430735146359794 
+
+episode  181 return_iter  -40.774603684645065 
+
+episode  182 return_iter  -40.10645397127227 
+
+episode  183 return_iter  -39.19400834774755 
+
+episode  184 return_iter  -58.92542562146346 
+
+episode  185 return_iter  -45.436309704091315 
+
+episode  186 return_iter  -46.22756120072943 
+
+episode  187 return_iter  -40.81582613848667 
+
+episode  188 return_iter  -42.26709081278998 
+
+episode  189 return_iter  -43.36934046787887 
+
+episode  190 return_iter  -43.732725532114635 
+
+episode  191 return_iter  -45.29177376626388 
+
+episode  192 return_iter  -52.45773671136525 
+
+episode  193 return_iter  -40.92313436833444 
+
+episode  194 return_iter  -33.50707069473228 
+
+episode  195 return_iter  -52.057280839345964 
+
+episode  196 return_iter  -46.731259648908626 
+
+episode  197 return_iter  -46.55163745692858 
+
+episode  198 return_iter  -37.841637618920615 
+
+episode  199 return_iter  -40.79598027911941 
+
+episode  200 return_iter  -30.26272587808365 
+
+episode  201 return_iter  -55.07545439189448 
+
+episode  202 return_iter  -41.22982702623148 
+
+episode  203 return_iter  -40.637886747092324 
+
+episode  204 return_iter  -32.40191284810711 
+
+episode  205 return_iter  -35.266825292133596 
+
+episode  206 return_iter  -28.19033255853436 
+
+episode  207 return_iter  -53.060863666761584 
+
+episode  208 return_iter  -35.69784135843168 
+
+episode  209 return_iter  -32.213821597655134 
+
+episode  210 return_iter  -39.26974307609629 
+
+episode  211 return_iter  -26.75814803244805 
+
+episode  212 return_iter  -35.17043057000559 
+
+episode  213 return_iter  -42.588648016402125 
+
+episode  214 return_iter  -39.431478295252354 
+
+episode  215 return_iter  -47.58938057410693 
+
+episode  216 return_iter  -34.62262313881932 
+
+episode  217 return_iter  -38.65584768019587 
+
+episode  218 return_iter  -44.31538642962851 
+
+episode  219 return_iter  -43.16265844552251 
+
+episode  220 return_iter  -30.248718567608726 
+
+episode  221 return_iter  -50.34136387366874 
+
+episode  222 return_iter  -43.988645623537515 
+
+episode  223 return_iter  -33.037364689261366 
+
+episode  224 return_iter  -46.17828585308739 
+
+episode  225 return_iter  -39.761524677543 
+
+episode  226 return_iter  -50.19095584688002 
+
+episode  227 return_iter  -47.49336311186781 
+
+episode  228 return_iter  -36.54114461258514 
+
+episode  229 return_iter  -50.47144075000195 
+
+episode  230 return_iter  -36.0755186866012 
+
+episode  231 return_iter  -47.67508979573978 
+
+episode  232 return_iter  -39.575244509742106 
+
+episode  233 return_iter  -45.031732418081255 
+
+episode  234 return_iter  -54.872431811721235 
+
+episode  235 return_iter  -39.15825673708894 
+
+episode  236 return_iter  -41.96948028995534 
+
+episode  237 return_iter  -50.86660191342063 
+
+episode  238 return_iter  -27.226776911473724 
+
+episode  239 return_iter  -46.21560558724363 
+
+episode  240 return_iter  -47.532318931328724 
+
+episode  241 return_iter  -35.01530751330065 
+
+episode  242 return_iter  -32.07856419340839 
+
+episode  243 return_iter  -44.314569324133345 
+
+episode  244 return_iter  -60.47685661450624 
+
+episode  245 return_iter  -45.876380400674954 
+
+episode  246 return_iter  -44.92014968736702 
+
+episode  247 return_iter  -42.87551742357978 
+
+episode  248 return_iter  -43.355196188362385 
+
+episode  249 return_iter  -43.60741847771223 
+
+episode  250 return_iter  -36.102446282020715 
+
+episode  251 return_iter  -50.951636219090226 
+
+episode  252 return_iter  -45.96040948131747 
+
+episode  253 return_iter  -48.06347052344304 
+
+episode  254 return_iter  -50.8483906573937 
+
+episode  255 return_iter  -36.94918120844947 
+
+episode  256 return_iter  -37.13869352924162 
+
+episode  257 return_iter  -31.124147454301564 
+
+episode  258 return_iter  -37.664552563645934 
+
+episode  259 return_iter  -51.89814420735154 
+
+episode  260 return_iter  -39.55135280447085 
+
+episode  261 return_iter  -36.99187213811722 
+
+episode  262 return_iter  -49.449855610485734 
+
+episode  263 return_iter  -35.565312001141905 
+
+episode  264 return_iter  -39.7386095876395 
+
+episode  265 return_iter  -40.54349902073103 
+
+episode  266 return_iter  -41.04528226852165 
+
+episode  267 return_iter  -47.53654796910028 
+
+episode  268 return_iter  -43.188983685038316 
+
+episode  269 return_iter  -48.65320187159366 
+
+episode  270 return_iter  -44.12902629190902 
+
+episode  271 return_iter  -43.49355647487393 
+
+episode  272 return_iter  -45.22297029537225 
+
+episode  273 return_iter  -41.53130537292191 
+
+episode  274 return_iter  -38.99590720296795 
+
+episode  275 return_iter  -41.4886806769733 
+
+episode  276 return_iter  -36.45440597742038 
+
+episode  277 return_iter  -49.3280708373125 
+
+episode  278 return_iter  -38.447454158399275 
+
+episode  279 return_iter  -46.74068608788933 
+
+episode  280 return_iter  -43.60769860263876 
+
+episode  281 return_iter  -41.79645947036507 
+
+episode  282 return_iter  -35.5122129804272 
+
+episode  283 return_iter  -36.289457020542244 
+
+episode  284 return_iter  -36.37635968794575 
+
+episode  285 return_iter  -45.11013939557255 
+
+episode  286 return_iter  -47.14170647036812 
+
+episode  287 return_iter  -34.23340918629795 
+
+episode  288 return_iter  -37.93422845914052 
+
+episode  289 return_iter  -41.251019094577124 
+
+episode  290 return_iter  -47.35424692636779 
+
+episode  291 return_iter  -42.46502244843059 
+
+episode  292 return_iter  -34.53793722029381 
+
+episode  293 return_iter  -57.34116142313907 
+
+episode  294 return_iter  -42.6040787968654 
+
+episode  295 return_iter  -39.16293238356137 
+
+episode  296 return_iter  -47.46512855754151 
+
+episode  297 return_iter  -44.826738761326055 
+
+episode  298 return_iter  -38.72970839710484 
+
+episode  299 return_iter  -40.508614739764774 
+
+episode  300 return_iter  -35.95303070138844 
+
+episode  301 return_iter  -53.17564343629282 
+
+episode  302 return_iter  -43.937866347963805 
+
+episode  303 return_iter  -36.150382044435716 
+
+episode  304 return_iter  -48.59076897848302 
+
+episode  305 return_iter  -43.37031837727277 
+
+episode  306 return_iter  -32.81913495704646 
+
+episode  307 return_iter  -32.98210588804094 
+
+episode  308 return_iter  -42.225368689242536 
+
+episode  309 return_iter  -41.50295627060993 
+
+episode  310 return_iter  -48.89956067277465 
+
+episode  311 return_iter  -36.17975864086534 
+
+episode  312 return_iter  -40.38030656524034 
+
+episode  313 return_iter  -44.422705690968094 
+
+episode  314 return_iter  -35.81539282788242 
+
+episode  315 return_iter  -35.661965427373985 
+
+episode  316 return_iter  -28.419245276184373 
+
+episode  317 return_iter  -44.205868545999664 
+
+episode  318 return_iter  -60.79751487250901 
+
+episode  319 return_iter  -31.704689451777472 
+
+episode  320 return_iter  -36.476828687556434 
+
+episode  321 return_iter  -29.6936714534273 
+
+episode  322 return_iter  -34.511184671211275 
+
+episode  323 return_iter  -32.741971908694765 
+
+episode  324 return_iter  -48.53973971474484 
+
+episode  325 return_iter  -46.51075419947387 
+
+episode  326 return_iter  -52.17243135267002 
+
+episode  327 return_iter  -58.15691727598001 
+
+episode  328 return_iter  -44.2549698475709 
+
+episode  329 return_iter  -40.6903333459632 
+
+episode  330 return_iter  -38.66340110298803 
+
+episode  331 return_iter  -37.2794420262215 
+
+episode  332 return_iter  -44.78674862864558 
+
+episode  333 return_iter  -40.68783271312929 
+
+episode  334 return_iter  -45.43538914486331 
+
+episode  335 return_iter  -36.53423401562937 
+
+episode  336 return_iter  -38.928754288737046 
+
+episode  337 return_iter  -47.27988984511798 
+
+episode  338 return_iter  -43.31350072606592 
+
+episode  339 return_iter  -48.65152885985849 
+
+episode  340 return_iter  -40.71761934197117 
+
+episode  341 return_iter  -45.401327222147415 
+
+episode  342 return_iter  -29.610442486060872 
+
+episode  343 return_iter  -40.8103456272511 
+
+episode  344 return_iter  -45.90122861508368 
+
+episode  345 return_iter  -39.72629375785151 
+
+episode  346 return_iter  -42.77715736477311 
+
+episode  347 return_iter  -47.982389575203435 
+
+episode  348 return_iter  -37.73258078053988 
+
+episode  349 return_iter  -47.607990893713705 
+
+episode  350 return_iter  -39.68147870963592 
+
+episode  351 return_iter  -34.61464085655628 
+
+episode  352 return_iter  -41.42192471241488 
+
+episode  353 return_iter  -29.678889349279892 
+
+episode  354 return_iter  -31.618706755130315 
+
+episode  355 return_iter  -44.03667690917939 
+
+episode  356 return_iter  -43.58193277518902 
+
+episode  357 return_iter  -39.72897051874414 
+
+episode  358 return_iter  -35.86281700188097 
+
+episode  359 return_iter  -45.91685301050542 
+
+episode  360 return_iter  -41.376171495761646 
+
+episode  361 return_iter  -52.515694930041974 
+
+episode  362 return_iter  -38.77765686851968 
+
+episode  363 return_iter  -50.14857714807781 
+
+episode  364 return_iter  -36.01386992450202 
+
+episode  365 return_iter  -39.554893475034184 
+
+episode  366 return_iter  -42.09880798289767 
+
+episode  367 return_iter  -29.572982307722743 
+
+episode  368 return_iter  -43.81061724824154 
+
+episode  369 return_iter  -32.30414758485279 
+
+episode  370 return_iter  -52.62454076175198 
+
+episode  371 return_iter  -36.42570645698591 
+
+episode  372 return_iter  -41.035363738834846 
+
+episode  373 return_iter  -36.50330756757058 
+
+episode  374 return_iter  -41.051966655010894 
+
+episode  375 return_iter  -22.321840807058894 
+
+episode  376 return_iter  -38.677834509720086 
+
+episode  377 return_iter  -37.095957553362226 
+
+episode  378 return_iter  -35.12747095174637 
+
+episode  379 return_iter  -41.24758320103765 
+
+episode  380 return_iter  -35.685996692470994 
+
+episode  381 return_iter  -44.35404178988854 
+
+episode  382 return_iter  -52.38338678075125 
+
+episode  383 return_iter  -38.632462882115654 
+
+episode  384 return_iter  -45.32099006864676 
+
+episode  385 return_iter  -57.09245389216852 
+
+episode  386 return_iter  -44.29105650154477 
+
+episode  387 return_iter  -41.63314836295716 
+
+episode  388 return_iter  -37.28575821627748 
+
+episode  389 return_iter  -39.43717233729073 
+
+episode  390 return_iter  -34.963349525288905 
+
+episode  391 return_iter  -36.51210754989222 
+
+episode  392 return_iter  -31.044036454399 
+
+episode  393 return_iter  -40.732720996567785 
+
+episode  394 return_iter  -48.260465545108396 
+
+episode  395 return_iter  -37.942973365702876 
+
+episode  396 return_iter  -50.88832506556956 
+
+episode  397 return_iter  -44.04452279328003 
+
+episode  398 return_iter  -32.97624394697766 
+
+episode  399 return_iter  -51.633581579695544 
+
+episode  0 return_iter  -35.33687731954501 
+
+episode  1 return_iter  -31.746245821583337 
+
+episode  2 return_iter  -46.63321104622254 
+
+episode  3 return_iter  -45.5938453362405 
+
+episode  4 return_iter  -36.105065373095556 
+
+episode  5 return_iter  -45.76243530094805 
+
+episode  6 return_iter  -31.919054862545195 
+
+episode  7 return_iter  -46.06207885147699 
+
+episode  8 return_iter  -36.852407296808934 
+
+episode  9 return_iter  -45.28660711867619 
+
+episode  10 return_iter  -34.67091437397064 
+
+episode  11 return_iter  -27.59813885619652 
+
+episode  12 return_iter  -37.21875481343032 
+
+episode  13 return_iter  -54.24953858902143 
+
+episode  14 return_iter  -40.02674501536731 
+
+episode  15 return_iter  -37.52510537366879 
+
+episode  16 return_iter  -43.159640672143475 
+
+episode  17 return_iter  -49.22195304870362 
+
+episode  18 return_iter  -35.397318885835894 
+
+episode  19 return_iter  -42.12622290141191 
+
+episode  20 return_iter  -37.19099472108675 
+
+episode  21 return_iter  -50.25045903334852 
+
+episode  22 return_iter  -48.663186318637756 
+
+episode  23 return_iter  -41.82737618929206 
+
+episode  24 return_iter  -34.977636882368536 
+
+episode  25 return_iter  -35.84900766923602 
+
+episode  26 return_iter  -34.989759585194236 
+
+episode  27 return_iter  -52.52648120018971 
+
+episode  28 return_iter  -42.2634095966871 
+
+episode  29 return_iter  -27.41565183101413 
+
+episode  30 return_iter  -33.40511884293917 
+
+episode  31 return_iter  -44.456499241921996 
+
+episode  32 return_iter  -45.155262743548704 
+
+episode  33 return_iter  -46.48127244064053 
+
+episode  34 return_iter  -45.50982201670876 
+
+episode  35 return_iter  -43.27474813589815 
+
+episode  36 return_iter  -51.50536482958392 
+
+episode  37 return_iter  -34.48577312413749 
+
+episode  38 return_iter  -46.648006875078785 
+
+episode  39 return_iter  -44.288736624811726 
+
+episode  40 return_iter  -40.35784640543665 
+
+episode  41 return_iter  -40.5333147640741 
+
+episode  42 return_iter  -49.188625377816244 
+
+episode  43 return_iter  -47.78291031527399 
+
+episode  44 return_iter  -44.118364693609365 
+
+episode  45 return_iter  -42.657756774442085 
+
+episode  46 return_iter  -47.575415525879585 
+
+episode  47 return_iter  -43.557967149666815 
+
+episode  48 return_iter  -48.72260192955783 
+
+episode  49 return_iter  -44.910271566510026 
+
+episode  50 return_iter  -39.07192837550534 
+
+episode  51 return_iter  -43.89819948532935 
+
+episode  52 return_iter  -50.68438709078121 
+
+episode  53 return_iter  -29.948738277717396 
+
+episode  54 return_iter  -56.91219343381944 
+
+episode  55 return_iter  -38.95151854055217 
+
+episode  56 return_iter  -41.95166595420884 
+
+episode  57 return_iter  -45.34131596790977 
+
+episode  58 return_iter  -46.37930507558078 
+
+episode  59 return_iter  -35.10138095645476 
+
+episode  60 return_iter  -49.06818551628827 
+
+episode  61 return_iter  -39.33233253375056 
+
+episode  62 return_iter  -29.62066639326645 
+
+episode  63 return_iter  -30.43162437755629 
+
+episode  64 return_iter  -45.38585811908188 
+
+episode  65 return_iter  -33.68306160526403 
+
+episode  66 return_iter  -47.23154259798964 
+
+episode  67 return_iter  -48.26064408681568 
+
+episode  68 return_iter  -47.071897854360074 
+
+episode  69 return_iter  -51.878998794798235 
+
+episode  70 return_iter  -32.823407148339044 
+
+episode  71 return_iter  -45.06421510644186 
+
+episode  72 return_iter  -39.91433312104148 
+
+episode  73 return_iter  -32.283313489019704 
+
+episode  74 return_iter  -47.62139856734196 
+
+episode  75 return_iter  -48.26748805565757 
+
+episode  76 return_iter  -45.575381997757404 
+
+episode  77 return_iter  -46.11475089997189 
+
+episode  78 return_iter  -39.43705618572965 
+
+episode  79 return_iter  -40.122444538173056 
+
+episode  80 return_iter  -48.77066224697368 
+
+episode  81 return_iter  -48.09041139034332 
+
+episode  82 return_iter  -42.96737081577548 
+
+episode  83 return_iter  -37.47653451382997 
+
+episode  84 return_iter  -36.634184035383875 
+
+episode  85 return_iter  -45.44051960868004 
+
+episode  86 return_iter  -48.16306317565939 
+
+episode  87 return_iter  -36.06508898592676 
+
+episode  88 return_iter  -45.027542162366544 
+
+episode  89 return_iter  -51.03590723378871 
+
+episode  90 return_iter  -38.953405998089245 
+
+episode  91 return_iter  -41.14380828031405 
+
+episode  92 return_iter  -32.84210579090816 
+
+episode  93 return_iter  -39.13356657740046 
+
+episode  94 return_iter  -35.18465078682387 
+
+episode  95 return_iter  -52.669558685349315 
+
+episode  96 return_iter  -46.31064514628632 
+
+episode  97 return_iter  -36.674268735529786 
+
+episode  98 return_iter  -47.25101598620369 
+
+episode  99 return_iter  -35.51533373758028 
+
+episode  100 return_iter  -41.78978015282628 
+
+episode  101 return_iter  -39.25209355046631 
+
+episode  102 return_iter  -51.35445269493959 
+
+episode  103 return_iter  -34.02934711050049 
+
+episode  104 return_iter  -39.608333061501945 
+
+episode  105 return_iter  -39.28252942376263 
+
+episode  106 return_iter  -26.38479629889204 
+
+episode  107 return_iter  -32.60448521641056 
+
+episode  108 return_iter  -38.537621144468915 
+
+episode  109 return_iter  -36.402985966005005 
+
+episode  110 return_iter  -30.622755997132625 
+
+episode  111 return_iter  -51.722673195316794 
+
+episode  112 return_iter  -38.2551601969656 
+
+episode  113 return_iter  -50.53602813983566 
+
+episode  114 return_iter  -46.44318356115501 
+
+episode  115 return_iter  -37.50219582429688 
+
+episode  116 return_iter  -46.48336851465446 
+
+episode  117 return_iter  -39.9090280952821 
+
+episode  118 return_iter  -50.386104727663444 
+
+episode  119 return_iter  -32.430137581435986 
+
+episode  120 return_iter  -31.830137976300104 
+
+episode  121 return_iter  -41.49227047413438 
+
+episode  122 return_iter  -36.142731349378124 
+
+episode  123 return_iter  -45.43559851390986 
+
+episode  124 return_iter  -44.26851366888074 
+
+episode  125 return_iter  -44.913419695778316 
+
+episode  126 return_iter  -40.65027894066586 
+
+episode  127 return_iter  -39.630206029422446 
+
+episode  128 return_iter  -44.44101773128113 
+
+episode  129 return_iter  -48.79451293003586 
+
+episode  130 return_iter  -42.04146889211095 
+
+episode  131 return_iter  -52.93375933831148 
+
+episode  132 return_iter  -53.05890856567687 
+
+episode  133 return_iter  -47.50078900603218 
+
+episode  134 return_iter  -33.51388160825303 
+
+episode  135 return_iter  -55.18527784092965 
+
+episode  136 return_iter  -52.73822392584326 
+
+episode  137 return_iter  -48.92905795054426 
+
+episode  138 return_iter  -44.11635735780006 
+
+episode  139 return_iter  -34.661114491486536 
+
+episode  140 return_iter  -38.392103790193985 
+
+episode  141 return_iter  -49.045561508490195 
+
+episode  142 return_iter  -38.94192228550442 
+
+episode  143 return_iter  -44.039025357464816 
+
+episode  144 return_iter  -50.2494263068519 
+
+episode  145 return_iter  -30.976530631527243 
+
+episode  146 return_iter  -45.99664974675652 
+
+episode  147 return_iter  -45.94488833777365 
+
+episode  148 return_iter  -34.560631183070086 
+
+episode  149 return_iter  -40.43091930665117 
+
+episode  150 return_iter  -49.754227311524815 
+
+episode  151 return_iter  -41.604108951325195 
+
+episode  152 return_iter  -41.4232554400774 
+
+episode  153 return_iter  -34.15828869122063 
+
+episode  154 return_iter  -25.978600701514157 
+
+episode  155 return_iter  -32.89141173103957 
+
+episode  156 return_iter  -39.85245711701057 
+
+episode  157 return_iter  -54.93220877710005 
+
+episode  158 return_iter  -42.81086900828927 
+
+episode  159 return_iter  -37.523129251015526 
+
+episode  160 return_iter  -42.527946911861434 
+
+episode  161 return_iter  -42.605346304104565 
+
+episode  162 return_iter  -43.04443530178897 
+
+episode  163 return_iter  -42.68922478478379 
+
+episode  164 return_iter  -48.24634820046093 
+
+episode  165 return_iter  -40.89188288889636 
+
+episode  166 return_iter  -39.91538004626878 
+
+episode  167 return_iter  -39.412947697110205 
+
+episode  168 return_iter  -47.79937215484558 
+
+episode  169 return_iter  -47.764193119703386 
+
+episode  170 return_iter  -68.96096727315694 
+
+episode  171 return_iter  -51.58685652609183 
+
+episode  172 return_iter  -38.701680756917135 
+
+episode  173 return_iter  -43.46152098632746 
+
+episode  174 return_iter  -40.70180237109165 
+
+episode  175 return_iter  -47.88294751555616 
+
+episode  176 return_iter  -54.501041789666765 
+
+episode  177 return_iter  -47.51798071017752 
+
+episode  178 return_iter  -42.05382249562098 
+
+episode  179 return_iter  -54.22876173040653 
+
+episode  180 return_iter  -42.913972797480014 
+
+episode  181 return_iter  -45.36989676236196 
+
+episode  182 return_iter  -28.678020166239257 
+
+episode  183 return_iter  -40.1718042725038 
+
+episode  184 return_iter  -41.90751880085533 
+
+episode  185 return_iter  -51.94433397016735 
+
+episode  186 return_iter  -40.907835963321915 
+
+episode  187 return_iter  -34.612294534886495 
+
+episode  188 return_iter  -31.92250274374805 
+
+episode  189 return_iter  -43.752771197568364 
+
+episode  190 return_iter  -40.900944044126234 
+
+episode  191 return_iter  -46.78975177298657 
+
+episode  192 return_iter  -40.405870983793186 
+
+episode  193 return_iter  -44.52181476445614 
+
+episode  194 return_iter  -41.56741586233153 
+
+episode  195 return_iter  -40.68168470466131 
+
+episode  196 return_iter  -32.89544420458905 
+
+episode  197 return_iter  -47.38595862730625 
+
+episode  198 return_iter  -43.14872745597637 
+
+episode  199 return_iter  -42.02434365498177 
+
+episode  200 return_iter  -38.75498589338024 
+
+episode  201 return_iter  -44.47444526516619 
+
+episode  202 return_iter  -48.23858319529834 
+
+episode  203 return_iter  -39.81983717340845 
+
+episode  204 return_iter  -39.357072118823325 
+
+episode  205 return_iter  -48.28874354909459 
+
+episode  206 return_iter  -42.86528458541594 
+
+episode  207 return_iter  -31.750103527352195 
+
+episode  208 return_iter  -48.83972195995017 
+
+episode  209 return_iter  -37.307692258009276 
+
+episode  210 return_iter  -52.810597579691716 
+
+episode  211 return_iter  -45.04594830526912 
+
+episode  212 return_iter  -37.91147583528101 
+
+episode  213 return_iter  -38.65523746537454 
+
+episode  214 return_iter  -46.1520651614946 
+
+episode  215 return_iter  -33.529336366658306 
+
+episode  216 return_iter  -40.70910021221615 
+
+episode  217 return_iter  -39.87788660324303 
+
+episode  218 return_iter  -44.49800338746711 
+
+episode  219 return_iter  -35.13369503806258 
+
+episode  220 return_iter  -33.99885454675771 
+
+episode  221 return_iter  -37.27130293425299 
+
+episode  222 return_iter  -32.876940593255576 
+
+episode  223 return_iter  -35.62208461044558 
+
+episode  224 return_iter  -28.535087073096914 
+
+episode  225 return_iter  -42.0090497656469 
+
+episode  226 return_iter  -36.74047129238514 
+
+episode  227 return_iter  -52.4770137889997 
+
+episode  228 return_iter  -39.58250486940516 
+
+episode  229 return_iter  -41.948728989558475 
+
+episode  230 return_iter  -38.41042822253237 
+
+episode  231 return_iter  -49.80857551058334 
+
+episode  232 return_iter  -37.22123344220812 
+
+episode  233 return_iter  -39.960799100044795 
+
+episode  234 return_iter  -45.38558517313326 
+
+episode  235 return_iter  -40.19337570391398 
+
+episode  236 return_iter  -37.97213083770984 
+
+episode  237 return_iter  -39.05963130440676 
+
+episode  238 return_iter  -41.939066211929955 
+
+episode  239 return_iter  -44.127749223373144 
+
+episode  240 return_iter  -25.423400051695506 
+
+episode  241 return_iter  -44.377601245571746 
+
+episode  242 return_iter  -36.96823505208537 
+
+episode  243 return_iter  -47.00270300922643 
+
+episode  244 return_iter  -47.1690318348917 
+
+episode  245 return_iter  -36.855511129085286 
+
+episode  246 return_iter  -31.842748556735266 
+
+episode  247 return_iter  -45.87667664926343 
+
+episode  248 return_iter  -36.532669383663496 
+
+episode  249 return_iter  -51.01248460404217 
+
+episode  250 return_iter  -36.84963604233865 
+
+episode  251 return_iter  -45.38069459317517 
+
+episode  252 return_iter  -46.86569955778566 
+
+episode  253 return_iter  -49.16751922126233 
+
+episode  254 return_iter  -50.658181768573655 
+
+episode  255 return_iter  -42.15201998552732 
+
+episode  256 return_iter  -42.52708847094462 
+
+episode  257 return_iter  -49.02095034164023 
+
+episode  258 return_iter  -47.532038449345414 
+
+episode  259 return_iter  -38.898175797437055 
+
+episode  260 return_iter  -37.327354476131845 
+
+episode  261 return_iter  -40.76537465415085 
+
+episode  262 return_iter  -44.41158090064083 
+
+episode  263 return_iter  -47.33011401349217 
+
+episode  264 return_iter  -49.54018855128782 
+
+episode  265 return_iter  -39.55606592025295 
+
+episode  266 return_iter  -42.79713551784149 
+
+episode  267 return_iter  -47.19001828967722 
+
+episode  268 return_iter  -53.00266740991368 
+
+episode  269 return_iter  -33.63912110592934 
+
+episode  270 return_iter  -27.59862432019341 
+
+episode  271 return_iter  -41.68460073363945 
+
+episode  272 return_iter  -43.80579906025357 
+
+episode  273 return_iter  -33.2366887517836 
+
+episode  274 return_iter  -42.580520127369574 
+
+episode  275 return_iter  -43.80125428931682 
+
+episode  276 return_iter  -44.449251565836306 
+
+episode  277 return_iter  -36.41076670197212 
+
+episode  278 return_iter  -44.39536060073753 
+
+episode  279 return_iter  -39.26880498916687 
+
+episode  280 return_iter  -46.49354497199403 
+
+episode  281 return_iter  -50.54931751969962 
+
+episode  282 return_iter  -39.492584509486164 
+
+episode  283 return_iter  -57.05256131316442 
+
+episode  284 return_iter  -40.40659148567683 
+
+episode  285 return_iter  -44.85994058274146 
+
+episode  286 return_iter  -38.97930201357954 
+
+episode  287 return_iter  -38.651240084506654 
+
+episode  288 return_iter  -32.9773629245585 
+
+episode  289 return_iter  -41.154132140001934 
+
+episode  290 return_iter  -49.60743854451317 
+
+episode  291 return_iter  -44.22167449098157 
+
+episode  292 return_iter  -38.09886344755628 
+
+episode  293 return_iter  -35.743177091483965 
+
+episode  294 return_iter  -49.359496092301114 
+
+episode  295 return_iter  -49.96552068553072 
+
+episode  296 return_iter  -39.3673293646498 
+
+episode  297 return_iter  -51.35846433623443 
+
+episode  298 return_iter  -41.69130830288591 
+
+episode  299 return_iter  -35.89627669643569 
+
+episode  300 return_iter  -42.4985722851986 
+
+episode  301 return_iter  -52.62971014197233 
+
+episode  302 return_iter  -42.264401401376496 
+
+episode  303 return_iter  -44.686081735604866 
+
+episode  304 return_iter  -28.57818134601116 
+
+episode  305 return_iter  -38.247711164756254 
+
+episode  306 return_iter  -44.43223356584484 
+
+episode  307 return_iter  -48.18703841434057 
+
+episode  308 return_iter  -56.7805239140839 
+
+episode  309 return_iter  -44.05605044967244 
+
+episode  310 return_iter  -46.612830548320446 
+
+episode  311 return_iter  -34.63232064012775 
+
+episode  312 return_iter  -44.098510301817704 
+
+episode  313 return_iter  -44.062857037030795 
+
+episode  314 return_iter  -43.09948986254152 
+
+episode  315 return_iter  -50.49389749792927 
+
+episode  316 return_iter  -27.110945676387033 
+
+episode  317 return_iter  -40.39405940786464 
+
+episode  318 return_iter  -36.47599210618665 
+
+episode  319 return_iter  -30.80651890819341 
+
+episode  320 return_iter  -34.40816775968286 
+
+episode  321 return_iter  -50.62545381036616 
+
+episode  322 return_iter  -32.897027316611094 
+
+episode  323 return_iter  -34.68131504581981 
+
+episode  324 return_iter  -35.567571654059314 
+
+episode  325 return_iter  -44.65264755923779 
+
+episode  326 return_iter  -51.99538550825148 
+
+episode  327 return_iter  -47.85591365876739 
+
+episode  328 return_iter  -35.32117372209876 
+
+episode  329 return_iter  -45.13497714219319 
+
+episode  330 return_iter  -35.69948324217595 
+
+episode  331 return_iter  -47.19487266244536 
+
+episode  332 return_iter  -44.80104294937549 
+
+episode  333 return_iter  -45.2960881036523 
+
+episode  334 return_iter  -38.2408206331489 
+
+episode  335 return_iter  -26.414456718118767 
+
+episode  336 return_iter  -41.907576309846704 
+
+episode  337 return_iter  -50.837753906792244 
+
+episode  338 return_iter  -44.309213498965946 
+
+episode  339 return_iter  -55.569513614275124 
+
+episode  340 return_iter  -43.80606676787242 
+
+episode  341 return_iter  -40.54443633903167 
+
+episode  342 return_iter  -41.39416398328791 
+
+episode  343 return_iter  -42.914258354255125 
+
+episode  344 return_iter  -41.42472921710212 
+
+episode  345 return_iter  -48.37025806586219 
+
+episode  346 return_iter  -47.25094540966523 
+
+episode  347 return_iter  -41.21699957033385 
+
+episode  348 return_iter  -41.21780499399789 
+
+episode  349 return_iter  -29.528021010203975 
+
+episode  350 return_iter  -32.68839128285709 
+
+episode  351 return_iter  -36.095916734973095 
+
+episode  352 return_iter  -31.31477241773883 
+
+episode  353 return_iter  -40.692107913826064 
+
+episode  354 return_iter  -54.11948246270371 
+
+episode  355 return_iter  -45.034865261936545 
+
+episode  356 return_iter  -31.424535889542355 
+
+episode  357 return_iter  -39.90816016565213 
+
+episode  358 return_iter  -41.76666408556 
+
+episode  359 return_iter  -44.17360227073355 
+
+episode  360 return_iter  -44.28750619422332 
+
+episode  361 return_iter  -40.3453720187333 
+
+episode  362 return_iter  -50.166541822343596 
+
+episode  363 return_iter  -49.20236718901987 
+
+episode  364 return_iter  -45.03950001549191 
+
+episode  365 return_iter  -44.5865647519361 
+
+episode  366 return_iter  -23.75075360842108 
+
+episode  367 return_iter  -30.21018926035685 
+
+episode  368 return_iter  -38.04458382032279 
+
+episode  369 return_iter  -36.32659713323162 
+
+episode  370 return_iter  -32.20178404078524 
+
+episode  371 return_iter  -53.98199752158033 
+
+episode  372 return_iter  -54.220221125042904 
+
+episode  373 return_iter  -41.294484196029146 
+
+episode  374 return_iter  -42.63371318689476 
+
+episode  375 return_iter  -37.944545536590276 
+
+episode  376 return_iter  -49.58745185814399 
+
+episode  377 return_iter  -44.76201531436321 
+
+episode  378 return_iter  -50.23266112887002 
+
+episode  379 return_iter  -42.802059956787176 
+
+episode  380 return_iter  -37.17693768030275 
+
+episode  381 return_iter  -34.88177335608728 
+
+episode  382 return_iter  -47.16341791351867 
+
+episode  383 return_iter  -51.68795503477439 
+
+episode  384 return_iter  -42.253031277612926 
+
+episode  385 return_iter  -40.67364918862405 
+
+episode  386 return_iter  -49.46604808491267 
+
+episode  387 return_iter  -40.9708356873033 
+
+episode  388 return_iter  -30.07599433592422 
+
+episode  389 return_iter  -37.27495941770022 
+
+episode  390 return_iter  -37.6606240115508 
+
+episode  391 return_iter  -40.076434455539584 
+
+episode  392 return_iter  -36.70972654042864 
+
+episode  393 return_iter  -35.781774027624415 
+
+episode  394 return_iter  -47.42492355623568 
+
+episode  395 return_iter  -37.93866841430312 
+
+episode  396 return_iter  -36.17439481675167 
+
+episode  397 return_iter  -48.4829186805774 
+
+episode  398 return_iter  -47.80243719786543 
+
+episode  399 return_iter  -29.717347062274264 
+
+episode  0 return_iter  -44.05681237626411 
+
+episode  1 return_iter  -47.938986530032224 
+
+episode  2 return_iter  -31.827557202803572 
+
+episode  3 return_iter  -39.053416694238926 
+
+episode  4 return_iter  -57.940572482079574 
+
+episode  5 return_iter  -39.304263582704266 
+
+episode  6 return_iter  -42.628783966156504 
+
+episode  7 return_iter  -46.24561860891275 
+
+episode  8 return_iter  -55.772899207448106 
+
+episode  9 return_iter  -38.0237218198539 
+
+episode  10 return_iter  -42.6143825957344 
+
+episode  11 return_iter  -35.017886487480816 
+
+episode  12 return_iter  -54.11840325673152 
+
+episode  13 return_iter  -37.82834206950796 
+
+episode  14 return_iter  -36.56873531901809 
+
+episode  15 return_iter  -41.293596833671245 
+
+episode  16 return_iter  -46.83928932180524 
+
+episode  17 return_iter  -40.49683904679431 
+
+episode  18 return_iter  -46.23487137254431 
+
+episode  19 return_iter  -44.9844332366543 
+
+episode  20 return_iter  -49.85172386298952 
+
+episode  21 return_iter  -48.2433982110196 
+
+episode  22 return_iter  -36.221030210376696 
+
+episode  23 return_iter  -41.150297707003546 
+
+episode  24 return_iter  -33.054974601075045 
+
+episode  25 return_iter  -44.30898824804119 
+
+episode  26 return_iter  -41.655596428753775 
+
+episode  27 return_iter  -36.202243285702394 
+
+episode  28 return_iter  -55.07747697597606 
+
+episode  29 return_iter  -54.43781361684846 
+
+episode  30 return_iter  -45.87634780247064 
+
+episode  31 return_iter  -40.630253124704126 
+
+episode  32 return_iter  -48.001793095465764 
+
+episode  33 return_iter  -40.98419135037515 
+
+episode  34 return_iter  -53.02171487234778 
+
+episode  35 return_iter  -42.85390539297262 
+
+episode  36 return_iter  -34.258394665626874 
+
+episode  37 return_iter  -41.78684843307188 
+
+episode  38 return_iter  -46.066625738298875 
+
+episode  39 return_iter  -42.757605535116724 
+
+episode  40 return_iter  -43.232895247607864 
+
+episode  41 return_iter  -40.44292885186079 
+
+episode  42 return_iter  -28.865372113626385 
+
+episode  43 return_iter  -36.39132129559524 
+
+episode  44 return_iter  -47.434202764513074 
+
+episode  45 return_iter  -41.86732224301076 
+
+episode  46 return_iter  -32.92500617234497 
+
+episode  47 return_iter  -38.12801274582004 
+
+episode  48 return_iter  -38.36363637294505 
+
+episode  49 return_iter  -42.489342226847675 
+
+episode  50 return_iter  -44.665684292926976 
+
+episode  51 return_iter  -49.864706016478074 
+
+episode  52 return_iter  -50.34818975989349 
+
+episode  53 return_iter  -38.33741616263159 
+
+episode  54 return_iter  -43.62145011258958 
+
+episode  55 return_iter  -44.567431461196676 
+
+episode  56 return_iter  -46.92599893332295 
+
+episode  57 return_iter  -41.81203427584584 
+
+episode  58 return_iter  -37.115418418810435 
+
+episode  59 return_iter  -42.82777520472634 
+
+episode  60 return_iter  -33.95137772518682 
+
+episode  61 return_iter  -35.3587341651509 
+
+episode  62 return_iter  -49.56655598500888 
+
+episode  63 return_iter  -38.3599825447457 
+
+episode  64 return_iter  -41.42471119845276 
+
+episode  65 return_iter  -42.44619545095928 
+
+episode  66 return_iter  -36.688910643344755 
+
+episode  67 return_iter  -44.46791410177505 
+
+episode  68 return_iter  -42.91731466498976 
+
+episode  69 return_iter  -44.6262008511638 
+
+episode  70 return_iter  -45.447268721755904 
+
+episode  71 return_iter  -45.95836524217705 
+
+episode  72 return_iter  -41.81073089248626 
+
+episode  73 return_iter  -50.45452741275867 
+
+episode  74 return_iter  -37.61201834634794 
+
+episode  75 return_iter  -39.16416960660201 
+
+episode  76 return_iter  -46.00727868472173 
+
+episode  77 return_iter  -32.05250511607447 
+
+episode  78 return_iter  -39.16290094680123 
+
+episode  79 return_iter  -31.984318647963864 
+
+episode  80 return_iter  -44.360765139486304 
+
+episode  81 return_iter  -43.567641178118855 
+
+episode  82 return_iter  -41.655707286642496 
+
+episode  83 return_iter  -40.06182178787778 
+
+episode  84 return_iter  -43.05048173862919 
+
+episode  85 return_iter  -58.72137632909485 
+
+episode  86 return_iter  -43.80538618608639 
+
+episode  87 return_iter  -41.78612279221775 
+
+episode  88 return_iter  -42.408835083192756 
+
+episode  89 return_iter  -46.4838939589518 
+
+episode  90 return_iter  -41.26168401710522 
+
+episode  91 return_iter  -48.214555808486324 
+
+episode  92 return_iter  -44.179006979446896 
+
+episode  93 return_iter  -43.99055212193397 
+
+episode  94 return_iter  -48.68266808374362 
+
+episode  95 return_iter  -38.79047148997847 
+
+episode  96 return_iter  -39.86255278630087 
+
+episode  97 return_iter  -44.98255894705346 
+
+episode  98 return_iter  -41.29398306076555 
+
+episode  99 return_iter  -40.47444171871766 
+
+episode  100 return_iter  -43.505784169936554 
+
+episode  101 return_iter  -47.66153773704621 
+
+episode  102 return_iter  -25.606742035612847 
+
+episode  103 return_iter  -47.91327190721065 
+
+episode  104 return_iter  -60.06636943326626 
+
+episode  105 return_iter  -63.12327125529567 
+
+episode  106 return_iter  -43.875460780713865 
+
+episode  107 return_iter  -36.41910618945019 
+
+episode  108 return_iter  -53.18546860064055 
+
+episode  109 return_iter  -40.07818531516757 
+
+episode  110 return_iter  -44.69368687900024 
+
+episode  111 return_iter  -38.4439181227354 
+
+episode  112 return_iter  -42.73255009027234 
+
+episode  113 return_iter  -40.31787800260171 
+
+episode  114 return_iter  -43.809637316095525 
+
+episode  115 return_iter  -45.879421327859255 
+
+episode  116 return_iter  -57.55132942646775 
+
+episode  117 return_iter  -50.678939896381266 
+
+episode  118 return_iter  -40.33465345240153 
+
+episode  119 return_iter  -44.473058540949324 
+
+episode  120 return_iter  -33.722232159089316 
+
+episode  121 return_iter  -37.822743697330765 
+
+episode  122 return_iter  -47.321629863790186 
+
+episode  123 return_iter  -51.74529852676975 
+
+episode  124 return_iter  -43.609390812000136 
+
+episode  125 return_iter  -45.97539129261495 
+
+episode  126 return_iter  -33.21814232371584 
+
+episode  127 return_iter  -49.90408402328395 
+
+episode  128 return_iter  -35.96915125245441 
+
+episode  129 return_iter  -37.87467713687333 
+
+episode  130 return_iter  -40.061883939121444 
+
+episode  131 return_iter  -35.90013975634353 
+
+episode  132 return_iter  -51.93775917490718 
+
+episode  133 return_iter  -31.64063735551732 
+
+episode  134 return_iter  -43.3757298290677 
+
+episode  135 return_iter  -43.352101736205285 
+
+episode  136 return_iter  -47.883329033729936 
+
+episode  137 return_iter  -43.87968187994895 
+
+episode  138 return_iter  -44.43831376354918 
+
+episode  139 return_iter  -42.899409290216305 
+
+episode  140 return_iter  -54.68799402859618 
+
+episode  141 return_iter  -36.67111733538449 
+
+episode  142 return_iter  -33.72609995305699 
+
+episode  143 return_iter  -36.59026697978026 
+
+episode  144 return_iter  -36.27433901122221 
+
+episode  145 return_iter  -56.884755007187366 
+
+episode  146 return_iter  -45.72454553820716 
+
+episode  147 return_iter  -44.5899490950278 
+
+episode  148 return_iter  -39.112729474425976 
+
+episode  149 return_iter  -39.2985508931227 
+
+episode  150 return_iter  -35.38564027027912 
+
+episode  151 return_iter  -43.55779313801936 
+
+episode  152 return_iter  -35.968134837025424 
+
+episode  153 return_iter  -43.58122700153167 
+
+episode  154 return_iter  -42.64710639756129 
+
+episode  155 return_iter  -42.57674238306449 
+
+episode  156 return_iter  -51.466612022523684 
+
+episode  157 return_iter  -42.54979008867956 
+
+episode  158 return_iter  -51.34624520156891 
+
+episode  159 return_iter  -44.33859316408559 
+
+episode  160 return_iter  -38.51026832418682 
+
+episode  161 return_iter  -36.07274484633902 
+
+episode  162 return_iter  -53.282646268322054 
+
+episode  163 return_iter  -41.44196359713318 
+
+episode  164 return_iter  -45.870919284183245 
+
+episode  165 return_iter  -42.05770321693193 
+
+episode  166 return_iter  -36.56503799774808 
+
+episode  167 return_iter  -45.27293992905768 
+
+episode  168 return_iter  -39.90497797815165 
+
+episode  169 return_iter  -51.91104698932977 
+
+episode  170 return_iter  -32.97220321529231 
+
+episode  171 return_iter  -45.05085079137716 
+
+episode  172 return_iter  -49.040353980913146 
+
+episode  173 return_iter  -31.385531673496285 
+
+episode  174 return_iter  -47.690750610557984 
+
+episode  175 return_iter  -45.208959072262395 
+
+episode  176 return_iter  -49.88119912994231 
+
+episode  177 return_iter  -36.923687135572834 
+
+episode  178 return_iter  -41.78033151732066 
+
+episode  179 return_iter  -45.47231704501206 
+
+episode  180 return_iter  -44.23063824111302 
+
+episode  181 return_iter  -43.085010032921794 
+
+episode  182 return_iter  -33.06450474900313 
+
+episode  183 return_iter  -31.795694092005558 
+
+episode  184 return_iter  -56.74449808603595 
+
+episode  185 return_iter  -44.890853951007 
+
+episode  186 return_iter  -32.577957726193866 
+
+episode  187 return_iter  -46.19009612999663 
+
+episode  188 return_iter  -32.816402221778574 
+
+episode  189 return_iter  -46.24934982021359 
+
+episode  190 return_iter  -39.99986728277427 
+
+episode  191 return_iter  -51.464358829857915 
+
+episode  192 return_iter  -52.694639742234344 
+
+episode  193 return_iter  -35.403310327323666 
+
+episode  194 return_iter  -44.22392275071063 
+
+episode  195 return_iter  -37.894899523746474 
+
+episode  196 return_iter  -48.01888038427896 
+
+episode  197 return_iter  -41.76638667594361 
+
+episode  198 return_iter  -36.28861717377146 
+
+episode  199 return_iter  -40.524586933094284 
+
+episode  200 return_iter  -32.81066646845277 
+
+episode  201 return_iter  -49.6182361627012 
+
+episode  202 return_iter  -39.20660130697097 
+
+episode  203 return_iter  -46.6819171373082 
+
+episode  204 return_iter  -29.482879459280444 
+
+episode  205 return_iter  -41.93981286179098 
+
+episode  206 return_iter  -52.20579687964369 
+
+episode  207 return_iter  -47.00755880629839 
+
+episode  208 return_iter  -39.818350089957484 
+
+episode  209 return_iter  -42.38340993684676 
+
+episode  210 return_iter  -55.513661542923565 
+
+episode  211 return_iter  -30.37820614322926 
+
+episode  212 return_iter  -41.99840639700143 
+
+episode  213 return_iter  -45.561885081911136 
+
+episode  214 return_iter  -42.764272545565035 
+
+episode  215 return_iter  -48.525432718300905 
+
+episode  216 return_iter  -37.17380502114478 
+
+episode  217 return_iter  -41.5771428159471 
+
+episode  218 return_iter  -37.73876165492049 
+
+episode  219 return_iter  -54.076444442451034 
+
+episode  220 return_iter  -48.91555292195034 
+
+episode  221 return_iter  -43.678870328253716 
+
+episode  222 return_iter  -43.756773004687055 
+
+episode  223 return_iter  -38.5382623551151 
+
+episode  224 return_iter  -46.22521148943874 
+
+episode  225 return_iter  -33.44499072720739 
+
+episode  226 return_iter  -40.85073987649923 
+
+episode  227 return_iter  -33.223744083043776 
+
+episode  228 return_iter  -32.37457688254654 
+
+episode  229 return_iter  -37.119616769921215 
+
+episode  230 return_iter  -42.42683771078899 
+
+episode  231 return_iter  -38.64751038747651 
+
+episode  232 return_iter  -44.06764231133751 
+
+episode  233 return_iter  -36.686122070564565 
+
+episode  234 return_iter  -53.761025929288785 
+
+episode  235 return_iter  -43.63467677368412 
+
+episode  236 return_iter  -37.21668681418275 
+
+episode  237 return_iter  -39.60780670591118 
+
+episode  238 return_iter  -35.91397036037822 
+
+episode  239 return_iter  -43.175862802611405 
+
+episode  240 return_iter  -37.05575163963565 
+
+episode  241 return_iter  -39.803334309704596 
+
+episode  242 return_iter  -39.56172099112414 
+
+episode  243 return_iter  -31.614130868622144 
+
+episode  244 return_iter  -38.85652164888875 
+
+episode  245 return_iter  -37.05266392962597 
+
+episode  246 return_iter  -36.46420588374052 
+
+episode  247 return_iter  -41.24622572133321 
+
+episode  248 return_iter  -41.79994147715216 
+
+episode  249 return_iter  -39.06677139928583 
+
+episode  250 return_iter  -48.24783903280457 
+
+episode  251 return_iter  -35.70229295414441 
+
+episode  252 return_iter  -41.5294201287762 
+
+episode  253 return_iter  -45.44045340938941 
+
+episode  254 return_iter  -53.09825507099198 
+
+episode  255 return_iter  -45.69388214778041 
+
+episode  256 return_iter  -42.27941725311425 
+
+episode  257 return_iter  -42.501863347358096 
+
+episode  258 return_iter  -50.63768997148534 
+
+episode  259 return_iter  -31.974588107097784 
+
+episode  260 return_iter  -41.57274212100498 
+
+episode  261 return_iter  -32.17897101366051 
+
+episode  262 return_iter  -41.13042184600579 
+
+episode  263 return_iter  -30.85441153841233 
+
+episode  264 return_iter  -46.11233891309404 
+
+episode  265 return_iter  -49.82643817751459 
+
+episode  266 return_iter  -33.01515199779566 
+
+episode  267 return_iter  -44.03110006900908 
+
+episode  268 return_iter  -38.20221504891029 
+
+episode  269 return_iter  -47.415117293293996 
+
+episode  270 return_iter  -43.690715089915365 
+
+episode  271 return_iter  -35.76025308810328 
+
+episode  272 return_iter  -47.274839054104106 
+
+episode  273 return_iter  -41.02020734286288 
+
+episode  274 return_iter  -47.98974411876994 
+
+episode  275 return_iter  -48.558400315062485 
+
+episode  276 return_iter  -36.713280760263 
+
+episode  277 return_iter  -26.043159285227098 
+
+episode  278 return_iter  -44.023167392812276 
+
+episode  279 return_iter  -38.78068013609834 
+
+episode  280 return_iter  -35.14379967578085 
+
+episode  281 return_iter  -43.59245120918684 
+
+episode  282 return_iter  -42.5699431007272 
+
+episode  283 return_iter  -45.660567524945364 
+
+episode  284 return_iter  -54.31442441769277 
+
+episode  285 return_iter  -50.93500339188963 
+
+episode  286 return_iter  -56.13015054319725 
+
+episode  287 return_iter  -34.446811311853104 
+
+episode  288 return_iter  -45.527767431288396 
+
+episode  289 return_iter  -32.688247461208306 
+
+episode  290 return_iter  -40.64776398409115 
+
+episode  291 return_iter  -54.27829669159912 
+
+episode  292 return_iter  -32.914055042870444 
+
+episode  293 return_iter  -31.313660897196982 
+
+episode  294 return_iter  -43.04210526903783 
+
+episode  295 return_iter  -48.70869542404943 
+
+episode  296 return_iter  -47.17902744124987 
+
+episode  297 return_iter  -44.54446884182696 
+
+episode  298 return_iter  -50.297442161622506 
+
+episode  299 return_iter  -56.2821971123934 
+
+episode  300 return_iter  -40.69962884460745 
+
+episode  301 return_iter  -41.930175799047696 
+
+episode  302 return_iter  -41.86187001115801 
+
+episode  303 return_iter  -38.79805190910444 
+
+episode  304 return_iter  -42.58798118332972 
+
+episode  305 return_iter  -31.549496926107267 
+
+episode  306 return_iter  -45.27771044720574 
+
+episode  307 return_iter  -47.082756758968266 
+
+episode  308 return_iter  -39.5837624068272 
+
+episode  309 return_iter  -37.592996423152655 
+
+episode  310 return_iter  -54.126989275698456 
+
+episode  311 return_iter  -35.12780664707939 
+
+episode  312 return_iter  -42.01417771535019 
+
+episode  313 return_iter  -47.37593123465479 
+
+episode  314 return_iter  -48.90659615779549 
+
+episode  315 return_iter  -44.365664331514495 
+
+episode  316 return_iter  -32.24517646765401 
+
+episode  317 return_iter  -55.45176899293876 
+
+episode  318 return_iter  -40.00027996154853 
+
+episode  319 return_iter  -48.09224726091345 
+
+episode  320 return_iter  -45.62118629851897 
+
+episode  321 return_iter  -51.96609892497497 
+
+episode  322 return_iter  -33.8444752812164 
+
+episode  323 return_iter  -42.110511129113675 
+
+episode  324 return_iter  -43.004043693178836 
+
+episode  325 return_iter  -37.52885612314136 
+
+episode  326 return_iter  -41.60481274131872 
+
+episode  327 return_iter  -34.92635026276942 
+
+episode  328 return_iter  -34.747125676996866 
+
+episode  329 return_iter  -41.70081734784561 
+
+episode  330 return_iter  -44.52029443783305 
+
+episode  331 return_iter  -34.64671769984647 
+
+episode  332 return_iter  -43.73102101047985 
+
+episode  333 return_iter  -41.87094956686764 
+
+episode  334 return_iter  -44.8089182057316 
+
+episode  335 return_iter  -48.05640149205089 
+
+episode  336 return_iter  -51.560512399397936 
+
+episode  337 return_iter  -47.76197603237526 
+
+episode  338 return_iter  -39.4416607358035 
+
+episode  339 return_iter  -52.334889130492286 
+
+episode  340 return_iter  -47.80953471961891 
+
+episode  341 return_iter  -29.84819527339046 
+
+episode  342 return_iter  -45.69154607875961 
+
+episode  343 return_iter  -56.751773142940195 
+
+episode  344 return_iter  -48.92979718515509 
+
+episode  345 return_iter  -35.50287128588003 
+
+episode  346 return_iter  -41.922953015686986 
+
+episode  347 return_iter  -37.43426279648205 
+
+episode  348 return_iter  -58.007591766231876 
+
+episode  349 return_iter  -49.60546599707669 
+
+episode  350 return_iter  -36.19259329440684 
+
+episode  351 return_iter  -43.5276670462334 
+
+episode  352 return_iter  -49.69990810012947 
+
+episode  353 return_iter  -38.85461969475136 
+
+episode  354 return_iter  -31.01322309010581 
+
+episode  355 return_iter  -36.87655409703359 
+
+episode  356 return_iter  -48.6318227941356 
+
+episode  357 return_iter  -47.204467996946065 
+
+episode  358 return_iter  -38.961316717868606 
+
+episode  359 return_iter  -34.9676248880302 
+
+episode  360 return_iter  -38.311972145716474 
+
+episode  361 return_iter  -50.75588845283355 
+
+episode  362 return_iter  -48.395928355930735 
+
+episode  363 return_iter  -35.80584019639139 
+
+episode  364 return_iter  -46.58051142452619 
+
+episode  365 return_iter  -38.30466420213645 
+
+episode  366 return_iter  -49.22177624730276 
+
+episode  367 return_iter  -47.73530984396866 
+
+episode  368 return_iter  -48.141127204460695 
+
+episode  369 return_iter  -45.10220258776613 
+
+episode  370 return_iter  -43.86987999009367 
+
+episode  371 return_iter  -43.6911320455161 
+
+episode  372 return_iter  -37.73569267629145 
+
+episode  373 return_iter  -40.65592284238927 
+
+episode  374 return_iter  -39.1323337475276 
+
+episode  375 return_iter  -46.83853082335005 
+
+episode  376 return_iter  -55.54846767336321 
+
+episode  377 return_iter  -46.72951673638402 
+
+episode  378 return_iter  -36.0145773739064 
+
+episode  379 return_iter  -55.9864677645385 
+
+episode  380 return_iter  -31.18842535330258 
+
+episode  381 return_iter  -36.94866503945702 
+
+episode  382 return_iter  -37.29623718015957 
+
+episode  383 return_iter  -41.0224526952705 
+
+episode  384 return_iter  -44.22715577225458 
+
+episode  385 return_iter  -46.929970202168235 
+
+episode  386 return_iter  -44.33774889638747 
+
+episode  387 return_iter  -47.74237518595981 
+
+episode  388 return_iter  -29.83841832258149 
+
+episode  389 return_iter  -42.40651200680026 
+
+episode  390 return_iter  -45.177240355579045 
+
+episode  391 return_iter  -27.323966959577472 
+
+episode  392 return_iter  -38.03396606144789 
+
+episode  393 return_iter  -43.46153282786219 
+
+episode  394 return_iter  -41.595793568483074 
+
+episode  395 return_iter  -36.11573468341698 
+
+episode  396 return_iter  -43.431031090048954 
+
+episode  397 return_iter  -38.9342354172917 
+
+episode  398 return_iter  -37.950900513084875 
+
+episode  399 return_iter  -28.595551429449586 
+
+return_reps  [array([-40.634, -43.244, -34.214, -36.411, -47.924, -49.69 , -38.653,
+       -31.598, -39.378, -33.039, -34.736, -59.503, -32.887, -31.445,
+       -52.85 , -46.084, -51.339, -26.998, -37.566, -55.867, -40.155,
+       -50.924, -52.757, -38.592, -47.247, -45.457, -44.115, -47.294,
+       -41.809, -28.808, -36.325, -48.043, -38.132, -29.94 , -31.234,
+       -27.448, -37.246, -42.113, -37.857, -48.66 , -42.653, -41.108,
+       -49.228, -41.676, -43.554, -59.836, -41.504, -44.187, -47.856,
+       -48.71 , -39.908, -33.901, -48.052, -44.565, -49.729, -45.126,
+       -45.496, -43.1  , -34.769, -44.865, -36.292, -40.273, -36.902,
+       -48.659, -43.229, -39.753, -28.473, -49.772, -37.062, -44.161,
+       -41.369, -32.11 , -49.461, -38.529, -50.744, -51.714, -42.985,
+       -28.62 , -37.198, -56.168, -36.497, -29.752, -35.341, -40.877,
+       -38.554, -41.914, -42.563, -37.702, -33.124, -39.731, -32.726,
+       -28.402, -36.61 , -43.738, -38.67 , -37.349, -46.611, -47.612,
+       -39.472, -31.415, -40.278, -52.937, -46.403, -39.928, -56.323,
+       -30.12 , -29.57 , -31.79 , -38.085, -37.288, -49.523, -38.944,
+       -40.697, -42.531, -51.937, -36.675, -33.746, -30.263, -35.203,
+       -48.536, -50.017, -30.125, -44.44 , -49.457, -44.111, -39.736,
+       -47.204, -39.588, -43.479, -42.961, -37.862, -46.078, -42.249,
+       -40.202, -35.656, -35.266, -38.402, -36.192, -44.921, -27.427,
+       -44.776, -31.093, -45.757, -29.795, -45.95 , -47.274, -34.333,
+       -42.166, -44.996, -29.303, -41.644, -33.411, -38.091, -41.323,
+       -29.18 , -46.828, -43.334, -35.816, -41.729, -46.607, -41.522,
+       -37.179, -40.728, -37.497, -40.38 , -55.079, -45.372, -35.083,
+       -40.228, -39.686, -30.903, -48.642, -26.206, -38.847, -39.395,
+       -37.26 , -36.028, -35.037, -38.391, -38.785, -31.431, -40.775,
+       -40.106, -39.194, -58.925, -45.436, -46.228, -40.816, -42.267,
+       -43.369, -43.733, -45.292, -52.458, -40.923, -33.507, -52.057,
+       -46.731, -46.552, -37.842, -40.796, -30.263, -55.075, -41.23 ,
+       -40.638, -32.402, -35.267, -28.19 , -53.061, -35.698, -32.214,
+       -39.27 , -26.758, -35.17 , -42.589, -39.431, -47.589, -34.623,
+       -38.656, -44.315, -43.163, -30.249, -50.341, -43.989, -33.037,
+       -46.178, -39.762, -50.191, -47.493, -36.541, -50.471, -36.076,
+       -47.675, -39.575, -45.032, -54.872, -39.158, -41.969, -50.867,
+       -27.227, -46.216, -47.532, -35.015, -32.079, -44.315, -60.477,
+       -45.876, -44.92 , -42.876, -43.355, -43.607, -36.102, -50.952,
+       -45.96 , -48.063, -50.848, -36.949, -37.139, -31.124, -37.665,
+       -51.898, -39.551, -36.992, -49.45 , -35.565, -39.739, -40.543,
+       -41.045, -47.537, -43.189, -48.653, -44.129, -43.494, -45.223,
+       -41.531, -38.996, -41.489, -36.454, -49.328, -38.447, -46.741,
+       -43.608, -41.796, -35.512, -36.289, -36.376, -45.11 , -47.142,
+       -34.233, -37.934, -41.251, -47.354, -42.465, -34.538, -57.341,
+       -42.604, -39.163, -47.465, -44.827, -38.73 , -40.509, -35.953,
+       -53.176, -43.938, -36.15 , -48.591, -43.37 , -32.819, -32.982,
+       -42.225, -41.503, -48.9  , -36.18 , -40.38 , -44.423, -35.815,
+       -35.662, -28.419, -44.206, -60.798, -31.705, -36.477, -29.694,
+       -34.511, -32.742, -48.54 , -46.511, -52.172, -58.157, -44.255,
+       -40.69 , -38.663, -37.279, -44.787, -40.688, -45.435, -36.534,
+       -38.929, -47.28 , -43.314, -48.652, -40.718, -45.401, -29.61 ,
+       -40.81 , -45.901, -39.726, -42.777, -47.982, -37.733, -47.608,
+       -39.681, -34.615, -41.422, -29.679, -31.619, -44.037, -43.582,
+       -39.729, -35.863, -45.917, -41.376, -52.516, -38.778, -50.149,
+       -36.014, -39.555, -42.099, -29.573, -43.811, -32.304, -52.625,
+       -36.426, -41.035, -36.503, -41.052, -22.322, -38.678, -37.096,
+       -35.127, -41.248, -35.686, -44.354, -52.383, -38.632, -45.321,
+       -57.092, -44.291, -41.633, -37.286, -39.437, -34.963, -36.512,
+       -31.044, -40.733, -48.26 , -37.943, -50.888, -44.045, -32.976,
+       -51.634]), array([-35.337, -31.746, -46.633, -45.594, -36.105, -45.762, -31.919,
+       -46.062, -36.852, -45.287, -34.671, -27.598, -37.219, -54.25 ,
+       -40.027, -37.525, -43.16 , -49.222, -35.397, -42.126, -37.191,
+       -50.25 , -48.663, -41.827, -34.978, -35.849, -34.99 , -52.526,
+       -42.263, -27.416, -33.405, -44.456, -45.155, -46.481, -45.51 ,
+       -43.275, -51.505, -34.486, -46.648, -44.289, -40.358, -40.533,
+       -49.189, -47.783, -44.118, -42.658, -47.575, -43.558, -48.723,
+       -44.91 , -39.072, -43.898, -50.684, -29.949, -56.912, -38.952,
+       -41.952, -45.341, -46.379, -35.101, -49.068, -39.332, -29.621,
+       -30.432, -45.386, -33.683, -47.232, -48.261, -47.072, -51.879,
+       -32.823, -45.064, -39.914, -32.283, -47.621, -48.267, -45.575,
+       -46.115, -39.437, -40.122, -48.771, -48.09 , -42.967, -37.477,
+       -36.634, -45.441, -48.163, -36.065, -45.028, -51.036, -38.953,
+       -41.144, -32.842, -39.134, -35.185, -52.67 , -46.311, -36.674,
+       -47.251, -35.515, -41.79 , -39.252, -51.354, -34.029, -39.608,
+       -39.283, -26.385, -32.604, -38.538, -36.403, -30.623, -51.723,
+       -38.255, -50.536, -46.443, -37.502, -46.483, -39.909, -50.386,
+       -32.43 , -31.83 , -41.492, -36.143, -45.436, -44.269, -44.913,
+       -40.65 , -39.63 , -44.441, -48.795, -42.041, -52.934, -53.059,
+       -47.501, -33.514, -55.185, -52.738, -48.929, -44.116, -34.661,
+       -38.392, -49.046, -38.942, -44.039, -50.249, -30.977, -45.997,
+       -45.945, -34.561, -40.431, -49.754, -41.604, -41.423, -34.158,
+       -25.979, -32.891, -39.852, -54.932, -42.811, -37.523, -42.528,
+       -42.605, -43.044, -42.689, -48.246, -40.892, -39.915, -39.413,
+       -47.799, -47.764, -68.961, -51.587, -38.702, -43.462, -40.702,
+       -47.883, -54.501, -47.518, -42.054, -54.229, -42.914, -45.37 ,
+       -28.678, -40.172, -41.908, -51.944, -40.908, -34.612, -31.923,
+       -43.753, -40.901, -46.79 , -40.406, -44.522, -41.567, -40.682,
+       -32.895, -47.386, -43.149, -42.024, -38.755, -44.474, -48.239,
+       -39.82 , -39.357, -48.289, -42.865, -31.75 , -48.84 , -37.308,
+       -52.811, -45.046, -37.911, -38.655, -46.152, -33.529, -40.709,
+       -39.878, -44.498, -35.134, -33.999, -37.271, -32.877, -35.622,
+       -28.535, -42.009, -36.74 , -52.477, -39.583, -41.949, -38.41 ,
+       -49.809, -37.221, -39.961, -45.386, -40.193, -37.972, -39.06 ,
+       -41.939, -44.128, -25.423, -44.378, -36.968, -47.003, -47.169,
+       -36.856, -31.843, -45.877, -36.533, -51.012, -36.85 , -45.381,
+       -46.866, -49.168, -50.658, -42.152, -42.527, -49.021, -47.532,
+       -38.898, -37.327, -40.765, -44.412, -47.33 , -49.54 , -39.556,
+       -42.797, -47.19 , -53.003, -33.639, -27.599, -41.685, -43.806,
+       -33.237, -42.581, -43.801, -44.449, -36.411, -44.395, -39.269,
+       -46.494, -50.549, -39.493, -57.053, -40.407, -44.86 , -38.979,
+       -38.651, -32.977, -41.154, -49.607, -44.222, -38.099, -35.743,
+       -49.359, -49.966, -39.367, -51.358, -41.691, -35.896, -42.499,
+       -52.63 , -42.264, -44.686, -28.578, -38.248, -44.432, -48.187,
+       -56.781, -44.056, -46.613, -34.632, -44.099, -44.063, -43.099,
+       -50.494, -27.111, -40.394, -36.476, -30.807, -34.408, -50.625,
+       -32.897, -34.681, -35.568, -44.653, -51.995, -47.856, -35.321,
+       -45.135, -35.699, -47.195, -44.801, -45.296, -38.241, -26.414,
+       -41.908, -50.838, -44.309, -55.57 , -43.806, -40.544, -41.394,
+       -42.914, -41.425, -48.37 , -47.251, -41.217, -41.218, -29.528,
+       -32.688, -36.096, -31.315, -40.692, -54.119, -45.035, -31.425,
+       -39.908, -41.767, -44.174, -44.288, -40.345, -50.167, -49.202,
+       -45.04 , -44.587, -23.751, -30.21 , -38.045, -36.327, -32.202,
+       -53.982, -54.22 , -41.294, -42.634, -37.945, -49.587, -44.762,
+       -50.233, -42.802, -37.177, -34.882, -47.163, -51.688, -42.253,
+       -40.674, -49.466, -40.971, -30.076, -37.275, -37.661, -40.076,
+       -36.71 , -35.782, -47.425, -37.939, -36.174, -48.483, -47.802,
+       -29.717]), array([-44.057, -47.939, -31.828, -39.053, -57.941, -39.304, -42.629,
+       -46.246, -55.773, -38.024, -42.614, -35.018, -54.118, -37.828,
+       -36.569, -41.294, -46.839, -40.497, -46.235, -44.984, -49.852,
+       -48.243, -36.221, -41.15 , -33.055, -44.309, -41.656, -36.202,
+       -55.077, -54.438, -45.876, -40.63 , -48.002, -40.984, -53.022,
+       -42.854, -34.258, -41.787, -46.067, -42.758, -43.233, -40.443,
+       -28.865, -36.391, -47.434, -41.867, -32.925, -38.128, -38.364,
+       -42.489, -44.666, -49.865, -50.348, -38.337, -43.621, -44.567,
+       -46.926, -41.812, -37.115, -42.828, -33.951, -35.359, -49.567,
+       -38.36 , -41.425, -42.446, -36.689, -44.468, -42.917, -44.626,
+       -45.447, -45.958, -41.811, -50.455, -37.612, -39.164, -46.007,
+       -32.053, -39.163, -31.984, -44.361, -43.568, -41.656, -40.062,
+       -43.05 , -58.721, -43.805, -41.786, -42.409, -46.484, -41.262,
+       -48.215, -44.179, -43.991, -48.683, -38.79 , -39.863, -44.983,
+       -41.294, -40.474, -43.506, -47.662, -25.607, -47.913, -60.066,
+       -63.123, -43.875, -36.419, -53.185, -40.078, -44.694, -38.444,
+       -42.733, -40.318, -43.81 , -45.879, -57.551, -50.679, -40.335,
+       -44.473, -33.722, -37.823, -47.322, -51.745, -43.609, -45.975,
+       -33.218, -49.904, -35.969, -37.875, -40.062, -35.9  , -51.938,
+       -31.641, -43.376, -43.352, -47.883, -43.88 , -44.438, -42.899,
+       -54.688, -36.671, -33.726, -36.59 , -36.274, -56.885, -45.725,
+       -44.59 , -39.113, -39.299, -35.386, -43.558, -35.968, -43.581,
+       -42.647, -42.577, -51.467, -42.55 , -51.346, -44.339, -38.51 ,
+       -36.073, -53.283, -41.442, -45.871, -42.058, -36.565, -45.273,
+       -39.905, -51.911, -32.972, -45.051, -49.04 , -31.386, -47.691,
+       -45.209, -49.881, -36.924, -41.78 , -45.472, -44.231, -43.085,
+       -33.065, -31.796, -56.744, -44.891, -32.578, -46.19 , -32.816,
+       -46.249, -40.   , -51.464, -52.695, -35.403, -44.224, -37.895,
+       -48.019, -41.766, -36.289, -40.525, -32.811, -49.618, -39.207,
+       -46.682, -29.483, -41.94 , -52.206, -47.008, -39.818, -42.383,
+       -55.514, -30.378, -41.998, -45.562, -42.764, -48.525, -37.174,
+       -41.577, -37.739, -54.076, -48.916, -43.679, -43.757, -38.538,
+       -46.225, -33.445, -40.851, -33.224, -32.375, -37.12 , -42.427,
+       -38.648, -44.068, -36.686, -53.761, -43.635, -37.217, -39.608,
+       -35.914, -43.176, -37.056, -39.803, -39.562, -31.614, -38.857,
+       -37.053, -36.464, -41.246, -41.8  , -39.067, -48.248, -35.702,
+       -41.529, -45.44 , -53.098, -45.694, -42.279, -42.502, -50.638,
+       -31.975, -41.573, -32.179, -41.13 , -30.854, -46.112, -49.826,
+       -33.015, -44.031, -38.202, -47.415, -43.691, -35.76 , -47.275,
+       -41.02 , -47.99 , -48.558, -36.713, -26.043, -44.023, -38.781,
+       -35.144, -43.592, -42.57 , -45.661, -54.314, -50.935, -56.13 ,
+       -34.447, -45.528, -32.688, -40.648, -54.278, -32.914, -31.314,
+       -43.042, -48.709, -47.179, -44.544, -50.297, -56.282, -40.7  ,
+       -41.93 , -41.862, -38.798, -42.588, -31.549, -45.278, -47.083,
+       -39.584, -37.593, -54.127, -35.128, -42.014, -47.376, -48.907,
+       -44.366, -32.245, -55.452, -40.   , -48.092, -45.621, -51.966,
+       -33.844, -42.111, -43.004, -37.529, -41.605, -34.926, -34.747,
+       -41.701, -44.52 , -34.647, -43.731, -41.871, -44.809, -48.056,
+       -51.561, -47.762, -39.442, -52.335, -47.81 , -29.848, -45.692,
+       -56.752, -48.93 , -35.503, -41.923, -37.434, -58.008, -49.605,
+       -36.193, -43.528, -49.7  , -38.855, -31.013, -36.877, -48.632,
+       -47.204, -38.961, -34.968, -38.312, -50.756, -48.396, -35.806,
+       -46.581, -38.305, -49.222, -47.735, -48.141, -45.102, -43.87 ,
+       -43.691, -37.736, -40.656, -39.132, -46.839, -55.548, -46.73 ,
+       -36.015, -55.986, -31.188, -36.949, -37.296, -41.022, -44.227,
+       -46.93 , -44.338, -47.742, -29.838, -42.407, -45.177, -27.324,
+       -38.034, -43.462, -41.596, -36.116, -43.431, -38.934, -37.951,
+       -28.596])] 
+
+return_reps_mean  [np.float64(-40.009290468688526), np.float64(-40.97648428634432), np.float64(-37.558296716627815), np.float64(-40.35272598066371), np.float64(-47.32308229725967), np.float64(-44.91893369577999), np.float64(-37.73351115722898), np.float64(-41.30206198471718), np.float64(-44.00107388346669), np.float64(-38.7830359775634), np.float64(-37.34051390747276), np.float64(-40.70632844948563), np.float64(-41.40819170040748), np.float64(-41.174287975338814), np.float64(-43.148538974230576), np.float64(-41.634250167484005), np.float64(-47.11256601571446), np.float64(-38.90553887525977), np.float64(-39.732705532905385), np.float64(-47.65914804028855), np.float64(-42.39931889314611), np.float64(-49.80606693263386), np.float64(-45.88037422406361), np.float64(-40.52306216901636), np.float64(-38.426602238599095), np.float64(-41.87154621611149), np.float64(-40.25354792128119), np.float64(-45.34105988577392), np.float64(-46.383392974443154), np.float64(-36.88731216256925), np.float64(-38.535399423787204), np.float64(-44.376467701547625), np.float64(-43.76301994952695), np.float64(-39.13523195268772), np.float64(-43.255063438195066), np.float64(-37.85901747637356), np.float64(-41.00324109389691), np.float64(-39.46180041601066), np.float64(-43.5239020216577), np.float64(-45.235545626788756), np.float64(-42.08112267153564), np.float64(-40.69461618486343), np.float64(-42.4272279027547), np.float64(-41.95005532122213), np.float64(-45.03544276397201), np.float64(-48.120375231112526), np.float64(-40.66816017976101), np.float64(-41.95772318757036), np.float64(-44.980834326518895), np.float64(-45.369992272191816), np.float64(-41.215362577938855), np.float64(-42.554779623665866), np.float64(-49.69480976725327), np.float64(-37.617090850025896), np.float64(-50.08759473659385), np.float64(-42.88159370431657), np.float64(-44.79114849350015), np.float64(-43.41763098321147), np.float64(-39.42129151370532), np.float64(-40.93144734885808), np.float64(-39.77062903564471), np.float64(-38.32136419353301), np.float64(-38.69645973451937), np.float64(-39.150154190317174), np.float64(-43.346504524519), np.float64(-38.627412272858464), np.float64(-37.46442854704359), np.float64(-47.50006298497629), np.float64(-42.35030779986975), np.float64(-46.8888878648738), np.float64(-39.87986883555747), np.float64(-41.044243943624444), np.float64(-43.72879879718189), np.float64(-40.42227562097699), np.float64(-45.32581358978638), np.float64(-46.38171992235993), np.float64(-44.855738002820964), np.float64(-35.595912859287395), np.float64(-38.59939956200011), np.float64(-42.75833808310946), np.float64(-43.20931399159952), np.float64(-40.47017214090013), np.float64(-39.98790199737193), np.float64(-39.47194832002211), np.float64(-39.41304687768202), np.float64(-48.692051165341645), np.float64(-44.84385069068364), np.float64(-38.517768214724434), np.float64(-40.18682800179999), np.float64(-45.75029613252233), np.float64(-37.646913146316365), np.float64(-39.25333493867792), np.float64(-37.87696872234302), np.float64(-42.287429152163334), np.float64(-40.84580612764446), np.float64(-42.93645055992113), np.float64(-44.26151791487786), np.float64(-43.08972764066515), np.float64(-42.67218960574553), np.float64(-35.80150091153723), np.float64(-41.85781516767454), np.float64(-46.61696020265871), np.float64(-41.12146048943896), np.float64(-40.62369794581955), np.float64(-51.99927113458035), np.float64(-44.17525638139811), np.float64(-33.27679967013287), np.float64(-33.60458517242899), np.float64(-43.26934392717309), np.float64(-37.92307987624118), np.float64(-41.61304370697365), np.float64(-43.036931800967714), np.float64(-40.56167367778729), np.float64(-44.461629714196725), np.float64(-47.39663283000983), np.float64(-40.018903281999144), np.float64(-45.92688637912539), np.float64(-40.28365935859527), np.float64(-41.974714527710205), np.float64(-41.812930055575), np.float64(-38.523066088138), np.float64(-36.480032626362686), np.float64(-42.634777337808806), np.float64(-48.87945488805309), np.float64(-43.99615170109329), np.float64(-43.54148355049748), np.float64(-40.35739976901292), np.float64(-43.04075123978385), np.float64(-41.296289770432416), np.float64(-43.20990753003216), np.float64(-39.98848502635392), np.float64(-44.97073486877485), np.float64(-49.08181782253212), np.float64(-39.78103654339902), np.float64(-37.51523431905082), np.float64(-44.601136944335146), np.float64(-46.341200176023996), np.float64(-43.000373948784414), np.float64(-44.491934747320165), np.float64(-34.995694176395766), np.float64(-45.952011324810634), np.float64(-38.93647430769298), np.float64(-39.47510639508345), np.float64(-36.808230404191704), np.float64(-44.15805204946104), np.float64(-45.04502806264494), np.float64(-42.018128568549486), np.float64(-44.2334652736947), np.float64(-39.556534755349965), np.float64(-36.34422869551591), np.float64(-42.26124074139765), np.float64(-39.52437373116828), np.float64(-38.49407588786797), np.float64(-39.68766997778029), np.float64(-32.60175077604361), np.float64(-40.76538509494126), np.float64(-44.88437687221067), np.float64(-44.43265883511574), np.float64(-45.295286849053184), np.float64(-42.82290122138281), np.float64(-40.85351937378143), np.float64(-38.618984966310336), np.float64(-45.685034079676456), np.float64(-40.5428657775359), np.float64(-44.83244780584971), np.float64(-46.009463780224145), np.float64(-40.61747387623276), np.float64(-39.922924787799246), np.float64(-42.6441062284968), np.float64(-46.4537314914619), np.float64(-44.27885003884529), np.float64(-48.426695386712105), np.float64(-37.982747355348295), np.float64(-37.89810734184836), np.float64(-42.595754502639586), np.float64(-43.450537669115796), np.float64(-46.803290129404395), np.float64(-39.82616134708376), np.float64(-40.74172573579455), np.float64(-46.16214687329923), np.float64(-39.525115394984276), np.float64(-43.07650349330961), np.float64(-33.94965962883822), np.float64(-37.053835570752305), np.float64(-52.525814169451586), np.float64(-47.423832541755225), np.float64(-39.90445163008173), np.float64(-40.53940560112327), np.float64(-35.66866525943887), np.float64(-44.45715382855361), np.float64(-41.544512286338374), np.float64(-47.84862812303612), np.float64(-48.51941581246425), np.float64(-40.28275315337142), np.float64(-39.766136435924814), np.float64(-43.544621689251244), np.float64(-42.54852807925888), np.float64(-45.234660920059476), np.float64(-39.09299408288948), np.float64(-41.114970289065155), np.float64(-33.942792746638894), np.float64(-49.72271193992063), np.float64(-42.891670509500265), np.float64(-42.37988035260299), np.float64(-33.74728814207029), np.float64(-41.83179390100639), np.float64(-41.08713800786467), np.float64(-43.93950866680405), np.float64(-41.45197113611311), np.float64(-37.30164126417039), np.float64(-49.19800073290386), np.float64(-34.06076749364881), np.float64(-38.36010426742934), np.float64(-42.26859018789593), np.float64(-42.782605334104), np.float64(-43.21471655302205), np.float64(-37.50184279072675), np.float64(-40.03695903312866), np.float64(-42.184050490672035), np.float64(-44.124265975345374), np.float64(-37.72104201210559), np.float64(-43.763845712058476), np.float64(-40.20745307382671), np.float64(-35.73257055160735), np.float64(-40.31286147187435), np.float64(-38.40518839013243), np.float64(-42.59405567192147), np.float64(-44.39804032797043), np.float64(-36.16607545484561), np.float64(-43.17992883649388), np.float64(-38.97092820664085), np.float64(-45.37705856459988), np.float64(-40.288040087762575), np.float64(-40.5595511962302), np.float64(-51.33968097138109), np.float64(-40.99543640489568), np.float64(-39.05276598061598), np.float64(-43.178013307912856), np.float64(-35.02660449459396), np.float64(-44.50640587107606), np.float64(-36.67049020755329), np.float64(-39.732081022859), np.float64(-36.20284007887263), np.float64(-40.97713440066064), np.float64(-48.8341366994289), np.float64(-39.92818515312874), np.float64(-37.74236804261427), np.float64(-43.3328065980588), np.float64(-40.56260234972601), np.float64(-44.56222482701341), np.float64(-40.39997378572131), np.float64(-44.01154125546994), np.float64(-44.785176389293106), np.float64(-47.557147718031594), np.float64(-51.534942498986446), np.float64(-41.59836111391906), np.float64(-40.648399751100165), np.float64(-40.882320381099966), np.float64(-45.27809366149223), np.float64(-40.92363603729546), np.float64(-39.48381646720256), np.float64(-36.645405935309526), np.float64(-44.99728611904411), np.float64(-37.91661251768213), np.float64(-45.13037901734046), np.float64(-43.30866770616618), np.float64(-38.95252326138627), np.float64(-46.25255544259553), np.float64(-44.79795538128743), np.float64(-43.23581342360566), np.float64(-38.47278856733926), np.float64(-40.31280343220555), np.float64(-45.43453613657664), np.float64(-38.59606715585613), np.float64(-43.188723816369155), np.float64(-44.61611176045087), np.float64(-39.20564610117322), np.float64(-37.26066560817057), np.float64(-42.28866071731636), np.float64(-41.59672373771818), np.float64(-41.748347750137874), np.float64(-45.312742733083844), np.float64(-39.19158019688019), np.float64(-46.334195286217344), np.float64(-43.69912519710511), np.float64(-46.968361123401216), np.float64(-47.41705300904831), np.float64(-35.77715352755257), np.float64(-38.813119604995805), np.float64(-38.36446623192912), np.float64(-45.86981648499071), np.float64(-46.988331210337094), np.float64(-35.18361857024018), np.float64(-41.46599980394), np.float64(-45.001893386068126), np.float64(-45.94571616438051), np.float64(-44.67049512114706), np.float64(-46.90989064646248), np.float64(-43.57281962053775), np.float64(-44.229029516197954), np.float64(-39.717077277064824), np.float64(-49.24517645910428), np.float64(-42.688045920166104), np.float64(-39.87817189638167), np.float64(-39.91897716927463), np.float64(-37.72250882271209), np.float64(-40.84302632336568), np.float64(-42.75063368711659), np.float64(-46.19655167005121), np.float64(-41.050667714478344), np.float64(-49.879793498931186), np.float64(-35.31329530935749), np.float64(-42.164331527469415), np.float64(-45.28716465421789), np.float64(-42.60715961607314), np.float64(-43.50717575227259), np.float64(-29.258455806741807), np.float64(-46.683898982267685), np.float64(-45.757928980081395), np.float64(-36.86781854029478), np.float64(-38.83539424858609), np.float64(-44.09507472958948), np.float64(-33.75089575634626), np.float64(-36.51126602787608), np.float64(-42.37045168732766), np.float64(-42.89741929395101), np.float64(-48.590876534080074), np.float64(-46.97972706583894), np.float64(-38.10775641555551), np.float64(-42.50870927866733), np.float64(-39.62772626099902), np.float64(-39.70701079617111), np.float64(-44.439604196166975), np.float64(-42.61829012788308), np.float64(-42.82837599458127), np.float64(-37.001697408599675), np.float64(-44.13228099932723), np.float64(-48.626539928095156), np.float64(-42.35479165361179), np.float64(-52.1853105348753), np.float64(-44.111073609820835), np.float64(-38.59798627818985), np.float64(-38.89871751603613), np.float64(-46.825459041482134), np.float64(-45.418585005780294), np.float64(-41.19980770319791), np.float64(-43.983685263375115), np.float64(-42.21121731400644), np.float64(-45.65265918025654), np.float64(-42.247159300331454), np.float64(-36.18748776229995), np.float64(-38.079408212587595), np.float64(-40.81220174342773), np.float64(-36.40853898595244), np.float64(-38.917137435979946), np.float64(-41.98269875604984), np.float64(-41.212763819622324), np.float64(-42.28053289378078), np.float64(-38.86359926843653), np.float64(-41.686026723089725), np.float64(-41.32521661190048), np.float64(-47.872318467202945), np.float64(-45.78004234893134), np.float64(-45.05226151116302), np.float64(-42.54462712150671), np.float64(-40.81537414303558), np.float64(-38.357112612873834), np.float64(-35.83949380401609), np.float64(-43.332109424341674), np.float64(-37.910982435283515), np.float64(-42.89873493087696), np.float64(-44.69961200802745), np.float64(-44.33042584672307), np.float64(-39.484571535329664), np.float64(-40.939337863144424), np.float64(-35.70163905566641), np.float64(-47.93791801374243), np.float64(-42.862496534703155), np.float64(-40.45823648484093), np.float64(-46.678703640787774), np.float64(-34.68378657535877), np.float64(-38.72816006181095), np.float64(-45.6143472914765), np.float64(-43.78095687072018), np.float64(-43.93372570617142), np.float64(-48.232024427653606), np.float64(-46.03161782761497), np.float64(-43.448786412073424), np.float64(-32.40005695826106), np.float64(-39.70621458726374), np.float64(-39.26707129747292), np.float64(-34.63750298833643), np.float64(-35.26257635209185), np.float64(-39.99200928401813), np.float64(-45.76039422327572), np.float64(-37.33245882114099), np.float64(-43.49791699079006), np.float64(-43.82055896371637), np.float64(-39.57652721930932), np.float64(-36.64882669047313)] 
+
+return_reps_std  [np.float64(3.587216529677843), np.float64(6.802361530578411), np.float64(6.49047894132176), np.float64(3.859853336698144), np.float64(8.924416580375564), np.float64(4.28174669838672), np.float64(4.420275110484268), np.float64(6.861871735973062), np.float64(8.387548353283764), np.float64(5.028899278801497), np.float64(3.729283686390419), np.float64(13.632025579423647), np.float64(9.15977547399974), np.float64(9.605847224713017), np.float64(7.003818242648871), np.float64(3.502466702531139), np.float64(3.3447014109324997), np.float64(9.14247046400412), np.float64(4.682188592781077), np.float64(5.919817376099074), np.float64(5.406812959676824), np.float64(1.1387069382329806), np.float64(7.031682140214484), np.float64(1.393501965029989), np.float64(6.286297433470242), np.float64(4.284274004196224), np.float64(3.8551369265927806), np.float64(6.805977800370928), np.float64(6.150440530973704), np.float64(12.42309844093157), np.float64(5.325922582023006), np.float64(3.0266277581990684), np.float64(4.147845958901539), np.float64(6.87825037350494), np.float64(9.036697685479554), np.float64(7.363423637897274), np.float64(7.525616011673241), np.float64(3.521097698473658), np.float64(4.0140761110876175), np.float64(2.5010358346486767), np.float64(1.241353780355182), np.float64(0.2943492102369019), np.float64(9.589693452560434), np.float64(4.654634380723082), np.float64(1.711769364288808), np.float64(8.290513242596742), np.float64(6.010139681432969), np.float64(2.72017055775171), np.float64(4.692413496013568), np.float64(2.5604403635106268), np.float64(2.463533037972873), np.float64(6.585848520195726), np.float64(1.1698258327309283), np.float64(5.988811304724386), np.float64(5.4318401731310635), np.float64(2.7883173703758466), np.float64(2.0909928970828857), np.float64(1.458273506494755), np.float64(5.012431691355709), np.float64(4.205553168157292), np.float64(6.643464186250104), np.float64(2.1298057043654577), np.float64(8.241127354072619), np.float64(7.4621832540072255), np.float64(1.6192666126468362), np.float64(3.6649970740730597), np.float64(7.677819703065362), np.float64(2.2310259708405393), np.float64(4.1062621610521886), np.float64(3.533638390936531), np.float64(5.26012984894482), np.float64(6.327894973714419), np.float64(4.126785437314358), np.float64(7.538198863900657), np.float64(5.601468555423378), np.float64(5.293929078175581), np.float64(1.334824022902266), np.float64(7.568758594725575), np.float64(0.9970700735689506), np.float64(10.047440730562574), np.float64(5.076616655212513), np.float64(7.800248533930713), np.float64(3.329462697123776), np.float64(1.4497322291505224), np.float64(2.6888756618796466), np.float64(7.236442654707059), np.float64(2.401207432225709), np.float64(2.405764141810725), np.float64(5.107245193372931), np.float64(4.644233937548293), np.float64(3.6051966496082386), np.float64(8.198305438557112), np.float64(4.714207753812656), np.float64(2.232496539164419), np.float64(5.7212698004208455), np.float64(6.907448812992376), np.float64(3.1129597254009664), np.float64(4.661726565514574), np.float64(3.3221013246769826), np.float64(3.704144091330105), np.float64(1.3186637175877467), np.float64(5.635555505377313), np.float64(11.155226732218093), np.float64(5.689366885482945), np.float64(8.89398695160844), np.float64(13.910633380648529), np.float64(7.606371000741139), np.float64(2.0177423244716257), np.float64(7.014193990213978), np.float64(1.5661422445398223), np.float64(8.017465580697644), np.float64(6.145141668456708), np.float64(1.830401253805945), np.float64(4.389244096470367), np.float64(3.3858155664722127), np.float64(4.157746081832589), np.float64(9.726463674580136), np.float64(8.338977114025369), np.float64(6.3058751319932265), np.float64(6.838793491966573), np.float64(8.163942245775223), np.float64(4.73676320647082), np.float64(4.738915879997123), np.float64(2.608147823623437), np.float64(0.28098169574137244), np.float64(2.7258370811620676), np.float64(5.713366507446798), np.float64(4.853139793103265), np.float64(3.787287269156207), np.float64(4.461490360700672), np.float64(1.7070084821366995), np.float64(6.997908428597415), np.float64(4.853314311059927), np.float64(6.481708125945867), np.float64(4.2352742172939655), np.float64(8.179819184735825), np.float64(5.953436497662362), np.float64(5.236768424301873), np.float64(0.33072890663654425), np.float64(6.321193645380319), np.float64(6.704544442300049), np.float64(7.502212787851687), np.float64(4.926164109184435), np.float64(5.816978303863536), np.float64(5.844377637759575), np.float64(10.693754750203786), np.float64(5.435207197979802), np.float64(1.5633605369916188), np.float64(4.271863295195643), np.float64(5.00016403635197), np.float64(5.882173497775589), np.float64(4.395620175858134), np.float64(2.245222507933826), np.float64(4.017037246867067), np.float64(7.222344431884826), np.float64(5.831974663952675), np.float64(4.866535859695729), np.float64(7.916921508731398), np.float64(4.301419928866623), np.float64(3.8602317140656317), np.float64(1.7070303601343897), np.float64(2.8547250063731124), np.float64(5.454919945311536), np.float64(2.2128444109619525), np.float64(3.2942755506397376), np.float64(6.430629833055864), np.float64(3.6295419841362997), np.float64(4.175671881094171), np.float64(3.6477075729200927), np.float64(5.0761668396225605), np.float64(17.473316631080138), np.float64(2.672668112072698), np.float64(9.335852479059948), np.float64(4.975477255605748), np.float64(3.6420105507332172), np.float64(4.511640294420938), np.float64(7.849496100926544), np.float64(5.49321607815616), np.float64(1.6659434078511106), np.float64(6.323582787374148), np.float64(5.748776430952121), np.float64(1.8760301860471817), np.float64(4.707433779316657), np.float64(3.7394349016489308), np.float64(7.560875550259194), np.float64(3.204224333371001), np.float64(5.61741363043867), np.float64(4.7306573665147855), np.float64(4.680041232478157), np.float64(1.2769050174828014), np.float64(1.5904281895567476), np.float64(2.6288293890813503), np.float64(5.737957710233963), np.float64(3.750053054545521), np.float64(4.556766776010445), np.float64(6.125932161198549), np.float64(6.845972685119182), np.float64(2.4759802945006433), np.float64(2.937084497813081), np.float64(0.6524995663066573), np.float64(3.558173920629415), np.float64(4.328474328387417), np.float64(3.8700100800842545), np.float64(3.0602768555550246), np.float64(4.141855154448509), np.float64(5.31672454584965), np.float64(9.884566609216673), np.float64(8.966486609358148), np.float64(5.488095888859446), np.float64(4.151719258977772), np.float64(7.106539888126487), np.float64(7.907037088541299), np.float64(2.805502221957034), np.float64(2.828694997691071), np.float64(2.7436987231386083), np.float64(6.85925119431016), np.float64(2.495597106232032), np.float64(1.1979063252200315), np.float64(3.1441778854750537), np.float64(7.763180427738099), np.float64(8.062410137938564), np.float64(5.336168341416272), np.float64(5.184319379867208), np.float64(2.2470905841323754), np.float64(8.328166178505711), np.float64(3.625420701737421), np.float64(5.627802777852286), np.float64(8.159161147444658), np.float64(2.954551756273758), np.float64(5.519945090070196), np.float64(2.6230305006349224), np.float64(4.837565112397538), np.float64(2.8401158137016815), np.float64(3.433286187960375), np.float64(4.234560058999499), np.float64(1.9134715592437634), np.float64(2.0853601910940074), np.float64(5.441257215402928), np.float64(6.038952875562617), np.float64(1.269526077405298), np.float64(9.03003851172438), np.float64(3.822472476944331), np.float64(3.102556044464451), np.float64(6.710980655262291), np.float64(8.90464866100116), np.float64(4.206779237840497), np.float64(5.414787097147021), np.float64(1.9178293269239297), np.float64(2.919471880027103), np.float64(4.923329318396371), np.float64(5.5576562708131965), np.float64(6.3003467179539205), np.float64(2.3316445057168314), np.float64(1.5631222982581519), np.float64(1.108152968889964), np.float64(3.591411258281508), np.float64(2.4837959632854725), np.float64(7.395542709935967), np.float64(5.530869363893794), np.float64(8.258889707760366), np.float64(1.7338300438526408), np.float64(3.5139352101428414), np.float64(3.4215525221299634), np.float64(6.928619564345642), np.float64(4.061274141022708), np.float64(4.626356015257637), np.float64(4.258836350700486), np.float64(1.5771638442274252), np.float64(6.148438282039906), np.float64(6.804684216815487), np.float64(7.691277103874544), np.float64(3.3027631053534114), np.float64(1.4241090076739267), np.float64(3.7953926417532275), np.float64(3.696819300650691), np.float64(2.943153463434891), np.float64(3.709294878192829), np.float64(9.525002978483457), np.float64(2.720390023165448), np.float64(3.642785377796275), np.float64(4.816434972518582), np.float64(3.774712633949244), np.float64(2.8891568908481484), np.float64(8.489874586319226), np.float64(7.684361836128285), np.float64(2.806698894443402), np.float64(7.004511075430599), np.float64(2.0341526113586803), np.float64(5.1612337385121165), np.float64(4.013887676580251), np.float64(3.8053990030511144), np.float64(5.204431069652316), np.float64(2.165369537758186), np.float64(11.370157452900727), np.float64(3.0864750991606176), np.float64(4.823520104479836), np.float64(3.751723047956296), np.float64(3.147726691001184), np.float64(4.906334663169612), np.float64(8.728403916064956), np.float64(2.761048634547792), np.float64(5.177286083328029), np.float64(0.8989053366301065), np.float64(3.567402107476635), np.float64(8.385249062376264), np.float64(4.840098695285053), np.float64(5.684237403152572), np.float64(6.922088365735844), np.float64(7.561299371786343), np.float64(2.657842551260213), np.float64(3.144973517658922), np.float64(0.6452108825322019), np.float64(1.521659046818071), np.float64(1.48426909826524), np.float64(5.355787708014105), np.float64(6.085463784950066), np.float64(2.1784225470811602), np.float64(6.392137390023845), np.float64(10.731480453433676), np.float64(7.945335220934254), np.float64(4.872033785961595), np.float64(10.198027409678213), np.float64(0.6622908912548194), np.float64(4.037649665228389), np.float64(5.314782226399391), np.float64(3.8711964525068705), np.float64(4.940421830515747), np.float64(9.50405485913031), np.float64(4.353049316175512), np.float64(1.902319925381741), np.float64(3.6650711493900623), np.float64(5.402707089412048), np.float64(0.5010779581263901), np.float64(1.9541226286452709), np.float64(3.253958062119558), np.float64(8.84146801224425), np.float64(5.391494008040769), np.float64(1.5759023272768962), np.float64(2.099620567268759), np.float64(2.8262352559291446), np.float64(2.903284095773339), np.float64(6.4969982419254935), np.float64(6.7980837002284), np.float64(7.071322173460733), np.float64(3.0828795999276104), np.float64(5.355423615162647), np.float64(2.3364728281680223), np.float64(4.363263024111646), np.float64(8.851363976153234), np.float64(9.030682359957785), np.float64(2.8549182696400264), np.float64(3.8996741569687208), np.float64(7.518072673638338), np.float64(4.817345667002717), np.float64(10.752522908626839), np.float64(3.6335134471559942), np.float64(7.22183733820613), np.float64(3.4825163227688547), np.float64(2.411225707921041), np.float64(4.803639120391064), np.float64(2.439767624366185), np.float64(5.370625155287076), np.float64(5.003919785133161), np.float64(6.549608571986193), np.float64(4.660598760915087), np.float64(2.7150417142525605), np.float64(10.729817076699527), np.float64(8.41563376965419), np.float64(4.135760662006024), np.float64(5.343548169111189), np.float64(8.365787074566615), np.float64(7.2027130472843215), np.float64(7.121703694367643), np.float64(2.1241298272758793), np.float64(1.4316490324502815), np.float64(10.133771737786983), np.float64(6.985474799583465), np.float64(4.155919018212202), np.float64(6.921043865988802), np.float64(6.612107794724123), np.float64(2.5454389027945408), np.float64(4.066605400202463), np.float64(6.255943073681431), np.float64(5.675589708069312), np.float64(1.2695586342325473), np.float64(6.76588480924024), np.float64(2.428583735309601), np.float64(3.048042315926224), np.float64(3.456073704602411), np.float64(2.103567730131795), np.float64(4.3217586030925075), np.float64(5.372272238419971), np.float64(3.031552047887583), np.float64(3.178696188511738), np.float64(2.9645074424167923), np.float64(0.860355683672677), np.float64(6.00712305709136), np.float64(3.9014491208056445), np.float64(6.160952210990339), np.float64(10.605714361544672)] 
+
