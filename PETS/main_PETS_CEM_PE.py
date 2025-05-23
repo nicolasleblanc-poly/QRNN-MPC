@@ -53,6 +53,14 @@ class DoneWrapper(gym.Wrapper):
     def reset(self, **kwargs):
         print("self.env.reset(**kwargs) ", self.env.reset(**kwargs), "\n")
         obs, info = self.env.reset(**kwargs) # Discard info
+        
+        result = self.env.reset(**kwargs) # Discard info
+        
+        if isinstance(result, tuple) and len(result) == 2:
+            obs = result[0]  # drop the info
+        else:
+            obs = result  # keep as is
+        
         return obs
     
     def step(self, action):
