@@ -1,0 +1,47 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+Lmod has detected the following error: These module(s) or extension(s) exist
+but cannot be loaded as requested: "scipy-stack/2023a"
+   Try: "module spider scipy-stack/2023a" to see how to load the module(s).
+
+
+
+/home/nileb3/sp_py310/lib/python3.10/site-packages/hydra/utils.py:32: UserWarning: `OmegaConf.is_none()` is deprecated, see https://github.com/omry/omegaconf/issues/547
+  if OmegaConf.is_none(config):
+/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/gaussian_mlp.py:99: UserWarning: use_silu is deprecated and will be removed in v0.2.0. Use activation_fn_cfg with _target_=torch.nn.SiLU instead.
+  warnings.warn(
+Python Version: 3.10.13 (main, Sep 18 2023, 17:18:13) [GCC 12.3.1 20230526]
+self.env.reset(**kwargs)  (array([ 0.4905577 ,  0.8714087 , -0.10722727], dtype=float32), {}) 
+
+self.env.reset(**kwargs)  (array([ 0.6520163 ,  0.758205  , -0.46042657], dtype=float32), {}) 
+
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/PETS/main_PETS_CEM_PE.py", line 288, in <module>
+    next_obs, reward, done, _ = common_util.step_env_and_add_to_buffer(
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/util/common.py", line 571, in step_env_and_add_to_buffer
+    action = agent.act(obs, **agent_kwargs)
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/planning/trajectory_opt.py", line 649, in act
+    plan = self.optimizer.optimize(
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/planning/trajectory_opt.py", line 523, in optimize
+    best_solution = self.optimizer.optimize(
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/planning/trajectory_opt.py", line 134, in optimize
+    values = obj_fun(population)
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/planning/trajectory_opt.py", line 646, in trajectory_eval_fn
+    return self.trajectory_eval_fn(obs, action_sequences)
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/planning/trajectory_opt.py", line 709, in trajectory_eval_fn
+    return model_env.evaluate_action_sequences(
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/model_env.py", line 179, in evaluate_action_sequences
+    _, rewards, dones, model_state = self.step(
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/model_env.py", line 116, in step
+    ) = self.dynamics_model.sample(
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/one_dim_tr_model.py", line 287, in sample
+    preds, next_model_state = self.model.sample_1d(
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/model.py", line 487, in sample_1d
+    return torch.normal(means, stds, generator=rng), model_state
+RuntimeError: normal expects all elements of std >= 0.0
