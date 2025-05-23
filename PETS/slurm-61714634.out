@@ -1,0 +1,31 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+Lmod has detected the following error: These module(s) or extension(s) exist
+but cannot be loaded as requested: "scipy-stack/2023a"
+   Try: "module spider scipy-stack/2023a" to see how to load the module(s).
+
+
+
+/home/nileb3/sp_py310/lib/python3.10/site-packages/hydra/utils.py:32: UserWarning: `OmegaConf.is_none()` is deprecated, see https://github.com/omry/omegaconf/issues/547
+  if OmegaConf.is_none(config):
+/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/gaussian_mlp.py:99: UserWarning: use_silu is deprecated and will be removed in v0.2.0. Use activation_fn_cfg with _target_=torch.nn.SiLU instead.
+  warnings.warn(
+/home/nileb3/sp_py310/lib/python3.10/site-packages/hydra/utils.py:32: UserWarning: `OmegaConf.is_none()` is deprecated, see https://github.com/omry/omegaconf/issues/547
+  if OmegaConf.is_none(config):
+/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/gaussian_mlp.py:99: UserWarning: use_silu is deprecated and will be removed in v0.2.0. Use activation_fn_cfg with _target_=torch.nn.SiLU instead.
+  warnings.warn(
+Python Version: 3.10.13 (main, Sep 18 2023, 17:18:13) [GCC 12.3.1 20230526]
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/PETS/main_PETS_CEM_PE.py", line 194, in <module>
+    common_util.rollout_agent_trajectories(
+  File "/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/util/common.py", line 510, in rollout_agent_trajectories
+    obs = env.reset()
+  File "/project/6086407/nileb3/QRNN-MPC/PETS/main_PETS_CEM_PE.py", line 54, in reset
+    obs, info = self.env.reset(**kwargs) # Discard info
+ValueError: too many values to unpack (expected 2)
