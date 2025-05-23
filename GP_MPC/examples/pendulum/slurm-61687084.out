@@ -14115,3 +14115,268 @@ training process - model 2 - time train 16.033105 - output_scale: 0.05 - lengths
 training process - previous marginal log likelihood: [-2.882 -2.881 -2.91 ] - new marginal log likelihood: [-2.882 -2.881 -2.91 ]
 /home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
   _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 15.465156 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 15.472869 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 15.479360 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.882 -2.881 -2.91 ] - new marginal log likelihood: [-2.882 -2.881 -2.91 ]
+episode  266 return_iter  -259.8349589795649 
+
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 126, in _main
+    self = reduction.pickle.load(from_parent)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/synchronize.py", line 110, in __setstate__
+    self._semlock = _multiprocessing.SemLock._rebuild(*state)
+FileNotFoundError: [Errno 2] No such file or directory
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 9.666712 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 9.672980 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 9.678221 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-1.683 -1.684 -1.721] - new marginal log likelihood: [-1.683 -1.684 -1.721]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 12.563608 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 12.571632 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 12.578524 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.595 -2.595 -2.627] - new marginal log likelihood: [-2.595 -2.595 -2.627]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 13.975643 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 13.982499 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 13.988372 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.595 -2.595 -2.627] - new marginal log likelihood: [-2.595 -2.595 -2.627]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+episode  267 return_iter  -243.20280533263653 
+
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 20.492929 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 20.499078 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 20.504342 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.595 -2.595 -2.627] - new marginal log likelihood: [-2.595 -2.595 -2.627]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 19.436307 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 19.442618 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 19.447452 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.256 -2.266 -2.294] - new marginal log likelihood: [-2.256 -2.266 -2.294]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 16.228939 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 16.237429 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 16.243468 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-3.011 -3.011 -3.033] - new marginal log likelihood: [-3.011 -3.011 -3.033]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 11.954165 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 11.962146 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 11.969301 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-3.083 -3.084 -3.104] - new marginal log likelihood: [-3.083 -3.084 -3.104]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 19.288926 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 19.296854 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 19.303370 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-3.094 -3.095 -3.115] - new marginal log likelihood: [-3.094 -3.095 -3.115]
+episode  268 return_iter  -617.7335846673484 
+
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 126, in _main
+    self = reduction.pickle.load(from_parent)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/synchronize.py", line 110, in __setstate__
+    self._semlock = _multiprocessing.SemLock._rebuild(*state)
+FileNotFoundError: [Errno 2] No such file or directory
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 14.251060 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 14.257106 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 14.262479 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-1.715 -1.712 -1.752] - new marginal log likelihood: [-1.715 -1.712 -1.752]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 11.995133 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 12.002943 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 12.009659 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.71  -2.709 -2.74 ] - new marginal log likelihood: [-2.71  -2.709 -2.74 ]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 18.523409 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 18.530931 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 18.539022 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.71  -2.709 -2.74 ] - new marginal log likelihood: [-2.71  -2.709 -2.74 ]
+episode  269 return_iter  -256.88652642810206 
+
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 126, in _main
+    self = reduction.pickle.load(from_parent)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/synchronize.py", line 110, in __setstate__
+    self._semlock = _multiprocessing.SemLock._rebuild(*state)
+FileNotFoundError: [Errno 2] No such file or directory
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 17.653752 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 17.661454 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 17.668114 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-1.981 -1.981 -2.01 ] - new marginal log likelihood: [-1.981 -1.981 -2.01 ]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 11.853698 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 11.859562 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 11.865791 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.871 -2.871 -2.896] - new marginal log likelihood: [-2.871 -2.871 -2.896]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 12.964468 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 12.974616 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 12.981343 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-3.046 -3.045 -3.067] - new marginal log likelihood: [-3.046 -3.045 -3.067]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 24.877033 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 24.884668 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 24.891000 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-3.046 -3.045 -3.067] - new marginal log likelihood: [-3.046 -3.045 -3.067]
+episode  270 return_iter  -509.53052534417907 
+
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 126, in _main
+    self = reduction.pickle.load(from_parent)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/synchronize.py", line 110, in __setstate__
+    self._semlock = _multiprocessing.SemLock._rebuild(*state)
+FileNotFoundError: [Errno 2] No such file or directory
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 17.470008 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 17.476330 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 17.481799 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-1.705 -1.72  -1.751] - new marginal log likelihood: [-1.705 -1.72  -1.751]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 13.821562 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 13.830130 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 13.836737 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.693 -2.697 -2.724] - new marginal log likelihood: [-2.693 -2.697 -2.724]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 21.066197 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 21.073530 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 21.080356 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.857 -2.86  -2.885] - new marginal log likelihood: [-2.857 -2.86  -2.885]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 20.748779 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 20.757441 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 20.763292 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.857 -2.86  -2.885] - new marginal log likelihood: [-2.857 -2.86  -2.885]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 16.705214 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 16.713402 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 16.720114 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.857 -2.86  -2.885] - new marginal log likelihood: [-2.857 -2.86  -2.885]
+episode  271 return_iter  -500.17459075832016 
+
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/spawn.py", line 126, in _main
+    self = reduction.pickle.load(from_parent)
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/python/3.10.13/lib/python3.10/multiprocessing/synchronize.py", line 110, in __setstate__
+    self._semlock = _multiprocessing.SemLock._rebuild(*state)
+FileNotFoundError: [Errno 2] No such file or directory
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 0 - time train 16.416624 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 1 - time train 16.422575 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+Expected !nested_tensorlist[0].empty() to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+training process - model 2 - time train 16.427583 - output_scale: 0.05 - lengthscales: [[0.5 0.5 0.5 0.5]] - noise: [0.]
+training process - previous marginal log likelihood: [-2.088 -2.094 -2.124] - new marginal log likelihood: [-2.088 -2.094 -2.124]
+/home/nileb3/sp_py310/lib/python3.10/site-packages/torch/__init__.py:1236: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /shared_tmp/build_wheels_tmp.115664/python-3.10/torch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
