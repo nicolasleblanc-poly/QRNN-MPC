@@ -14,7 +14,3 @@ The following have been reloaded with a version change:
   if OmegaConf.is_none(config):
 /home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/gaussian_mlp.py:99: UserWarning: use_silu is deprecated and will be removed in v0.2.0. Use activation_fn_cfg with _target_=torch.nn.SiLU instead.
   warnings.warn(
-/home/nileb3/sp_py310/lib/python3.10/site-packages/hydra/utils.py:32: UserWarning: `OmegaConf.is_none()` is deprecated, see https://github.com/omry/omegaconf/issues/547
-  if OmegaConf.is_none(config):
-/home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/gaussian_mlp.py:99: UserWarning: use_silu is deprecated and will be removed in v0.2.0. Use activation_fn_cfg with _target_=torch.nn.SiLU instead.
-  warnings.warn(
