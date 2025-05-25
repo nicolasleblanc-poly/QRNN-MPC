@@ -22,11 +22,11 @@ prob = "MountainCarContinuous"
 # run(env_seeds, prob, "PPO", steps_per_episode, max_episodes)
 # # DDPG
 # run(env_seeds, prob, "DDPG", steps_per_episode, max_episodes)
-# SAC
-run(env_seeds, prob, "SAC", steps_per_episode, max_episodes)
+# # SAC
+# run(env_seeds, prob, "SAC", steps_per_episode, max_episodes)
 # TD3
 run(env_seeds, prob, "TD3", steps_per_episode, max_episodes)
-# TQC
-run(env_seeds, prob, "TQC", steps_per_episode, max_episodes)
+# # TQC
+# run(env_seeds, prob, "TQC", steps_per_episode, max_episodes)
 
 
