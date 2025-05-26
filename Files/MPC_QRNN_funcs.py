@@ -551,11 +551,11 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
     #         'optimizer_state_dict': optimizer_ASN.state_dict(),
     #     }, "model_ASN_{prob}_mid_{change_prob}.pth")
     
-    # Save model parameters and optimizer state
-    torch.save({
-        'model_QRNN_state_dict': model_QRNN.state_dict(),
-        'optimizer_QRNN_state_dict': optimizer_QRNN.state_dict(),
-    }, 'saved_model.pth')
+    # # Save model parameters and optimizer state
+    # torch.save({
+    #     'model_QRNN_state_dict': model_QRNN.state_dict(),
+    #     'optimizer_QRNN_state_dict': optimizer_QRNN.state_dict(),
+    # }, 'saved_model.pth')
 
     if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
         return episode_reward_list_withASGNN, episode_success_rate_withASGNN
@@ -918,7 +918,14 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
     #             'model_state_dict': model_QRNN.state_dict(),
     #             'optimizer_state_dict': optimizer_QRNN.state_dict(),
     #         }, f"QRNN_basic_{prob_vars.prob}_mid_{prob_vars.change_prob}.pth")
-
+    
+    
+    # Save model parameters and optimizer state
+    torch.save({
+        'model_QRNN_state_dict': model_QRNN.state_dict(),
+        'optimizer_QRNN_state_dict': optimizer_QRNN.state_dict(),
+    }, 'saved_model.pth')
+    
     # return episode_reward_list
     if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
         return episode_reward_list, episode_success_rate
