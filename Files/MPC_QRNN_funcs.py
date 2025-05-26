@@ -924,7 +924,7 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
     torch.save({
         'model_QRNN_state_dict': model_QRNN.state_dict(),
         'optimizer_QRNN_state_dict': optimizer_QRNN.state_dict(),
-    }, 'saved_model.pth')
+    }, f'saved_model_{prob_vars.prob}.pth')
     
     # return episode_reward_list
     if prob_vars.prob == "PandaReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "PandaReacherDense":
