@@ -236,7 +236,7 @@ if __name__ == "__main__":
     # env_seeds = [0, 8, 15]
     seed = 0
     episodic_return_seeds = []
-    max_episodes = 400
+    max_episodes = 300
     method_name = "MPPI"
     prob = "InvertedPendulum"
     max_steps = 1000
