@@ -21,10 +21,11 @@ import PETS.reward_fns_old as reward_fns_old
 import PETS.termination_fns_old as termination_fns_old
 
 import mbrl.models as models
-# from model_env import ModelEnv
+from model_env import ModelEnv
 
 import mbrl.planning as planning
-import mbrl.util.common as common_util
+# import mbrl.util.common as common_util
+import common as common_util
 import mbrl.util as util
 
 import os
@@ -49,14 +50,50 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
 
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
+from gym import spaces
+
+class DictToBoxWrapper(gym.ObservationWrapper):
+    def __init__(self, env):
+        super().__init__(env)
+        
+        # Original space must be a Dict
+        assert isinstance(env.observation_space, spaces.Dict), "Expected Dict observation space!"
+        
+        # Extract the "observation" subspace
+        self.observation_space = env.observation_space["observation"]
+    
+    def observation(self, obs):
+        # Return only the "observation" key
+        return obs["observation"]
+
 class DoneWrapper(gym.Wrapper):
     def reset(self, **kwargs):
-        obs, info = self.env.reset(**kwargs) # Discard info
+        # print("self.env.reset(**kwargs) ", self.env.reset(**kwargs), "\n")
+        # obs, info = self.env.reset(**kwargs) # Discard info
+        
+        print("kwargs ", kwargs, "\n")
+        print("prob ", prob, "n")
+        
+        result = self.env.reset(**kwargs) # Discard info
+        
+        if isinstance(result, tuple) and len(result) == 2:
+            obs = result[0]  # drop the infos
+        else:
+            obs = result  # keep as is
+        
         return obs
     
     def step(self, action):
-        obs, reward, terminated, truncated, info = self.env.step(action)
-        done = terminated or truncated
+        result = self.env.step(action)
+        
+        if len(result) == 5:
+            obs, reward, terminated, truncated, info = result
+            done = terminated or truncated
+        else:
+            obs, reward, done, info = result
+        
+        # obs, reward, terminated, truncated, info = self.env.step(action)
+        
         return obs, reward, done, info
 
 
@@ -64,9 +101,9 @@ class DoneWrapper(gym.Wrapper):
 # prob = "LunarLanderContinuous"
 # prob = "Pendulum"
 # prob = "InvertedPendulum"
-prob = "Reacher"
-# prob = "PandaReach"
-# prob = "PandaReachDense"
+# prob = "Reacher"
+prob = "PandaReacher"
+# prob = "PandaReacherDense"
 # prob = "CartPoleContinuous" # Not used for my tests but implemented by the authors
 
 # seeds =  [0, 8 ,15]
@@ -91,45 +128,45 @@ if prob == "LunarLanderContinuous":
     env = gym.make('LunarLanderContinuous-v3', render_mode='rgb_array')
     reward_fn = reward_fns_old.lunarlander_continuous
     term_fn = termination_fns_old.lunarlander_continuous
-    trial_length = 3 #1000
-    num_trials = 3 #300 # 10
+    trial_length = 1000
+    num_trials = 300 # 10
         
 if prob == "Pendulum":
     env = gym.make('Pendulum-v1', render_mode='rgb_array')
     reward_fn = reward_fns_old.pendulum
     term_fn = termination_fns_old.pendulum
-    trial_length = 3 #200
-    num_trials = 3 #300 # 10
+    trial_length = 200
+    num_trials = 300 # 10
     
 if prob == "InvertedPendulum":
     env = gym.make('InvertedPendulum-v5', render_mode='rgb_array')
     reward_fn = reward_fns_old.inverted_pendulum
     term_fn = termination_fns_old.inverted_pendulum
-    trial_length = 3 #1000
-    num_trials = 3 #300 # 10
+    trial_length = 1000
+    num_trials = 300 # 10
     
 if prob == "Reacher":
     env = gym.make('Reacher-v5', render_mode='rgb_array')
     reward_fn = reward_fns_old.reacher
     term_fn = termination_fns_old.reacher
-    trial_length = 3 #50
-    num_trials = 3 #300 # 10
+    trial_length = 50
+    num_trials = 300 # 10
     
-if prob == "PandaReach":
+if prob == "PandaReacher":
     import panda_gym
     env = gym.make('PandaReach-v3', render_mode='rgb_array')
     reward_fn = reward_fns_old.panda_reach
-    term_fn = termination_fns_old.panda_reach
-    trial_length = 3 #50
-    num_trials = 3 #300 # 10
+    # term_fn = termination_fns.panda_reach
+    trial_length = 50
+    num_trials = 300 # 10
     
-if prob == "PandaReachDense":
+if prob == "PandaReacherDense":
     import panda_gym
     env = gym.make('PandaReachDense-3', render_mode='rgb_array')
     reward_fn = reward_fns_old.panda_reach
     term_fn = termination_fns_old.panda_reach
-    trial_length = 3 #50
-    num_trials = 3 #300 # 10
+    trial_length = 50
+    num_trials = 300 # 10
 
 method_name = "PETS_CEM"
 
@@ -142,8 +179,15 @@ for seed in seeds:
     rng = np.random.default_rng(seed=0)
     generator = torch.Generator(device=device)
     generator.manual_seed(seed)
-    obs_shape = env.observation_space.shape
+    if prob == "PandaReacher" or prob == "PandaReacherDense":
+        # print("env.observation_space ", env.observation_space, "\n")
+        obs_shape = env.observation_space['observation'].shape # len(.low) #env.observation_space.shape
+    else:
+        obs_shape = env.observation_space.shape
     act_shape = env.action_space.shape
+    
+    print("obs_shape", obs_shape, "\n")
+    print("act_shape", act_shape, "\n")
 
     ensemble_size = 5
 
@@ -186,8 +230,13 @@ for seed in seeds:
     dynamics_model = common_util.create_one_dim_tr_model(cfg, obs_shape, act_shape)
 
     # Create a gym-like environment to encapsulate the model
-    # model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator) # term_fn
-    model_env = models.ModelEnv(env, dynamics_model, term_fn, reward_fn, generator=generator)
+    if prob == "PandaReacher" or prob == "PandaReacherDense":
+        obs = env.reset(seed=seed) # Added a wrapper to discard info
+        goal_state = obs['desired_goal']
+        model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator, prob=prob, goal_state=goal_state)
+    else:
+        model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator) # term_fn
+    # model_env = models.ModelEnv(env, dynamics_model, term_fn, reward_fn, generator=generator)
 
     replay_buffer = common_util.create_replay_buffer(cfg, obs_shape, act_shape, rng=rng)
 
@@ -252,7 +301,8 @@ for seed in seeds:
     episodic_return = []
     for trial in range(num_trials):
     # for trial in trange(num_trials):
-        obs = env.reset(seed=seed)    
+        obs = env.reset(seed=seed, prob=prob) # Added a wrapper to discard info
+        obs = obs['observation']
         agent.reset()
         
         done = False
@@ -286,7 +336,9 @@ for seed in seeds:
             # --- Doing env step using the agent and adding to model dataset ---
             next_obs, reward, done, _ = common_util.step_env_and_add_to_buffer(
                 env, obs, agent, {}, replay_buffer)
-                
+            
+            print("next_obs ", next_obs, "\n")    
+            
             # update_axes(
             #     axs, env.render(), ax_text, trial, steps_trial, all_rewards)
                 # axs, env.render(mode="rgb_array"), ax_text, trial, steps_trial, all_rewards)

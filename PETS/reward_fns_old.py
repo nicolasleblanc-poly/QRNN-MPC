@@ -85,34 +85,11 @@ def reacher(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
 
     return (reward_dist + reward_ctrl).view(-1, 1)
 
-def panda_reach_seed0(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
+def panda_reach(act: torch.Tensor, next_obs: torch.Tensor, goal_obs) -> torch.Tensor:
     # next_obs: contains positions of end effector and object
     assert len(next_obs.shape) == len(act.shape) == 2
     
-    goal_state = torch.tensor([0.04108851, -0.06906398, 0.01229206], dtype=torch.float32, device=next_obs.device).reshape(1, 3)
-    # goal_state = torch.tensor(goal_state, dtype=torch.float32, device=next_obs.device).reshape(1, 3)
-
-    cost = torch.norm(next_obs[:, :3] - goal_state, dim=1)
-    
-    return -cost.view(-1, 1)
-
-def panda_reach_seed8(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
-    # next_obs: contains positions of end effector and object
-    assert len(next_obs.shape) == len(act.shape) == 2
-    
-    goal_state = torch.tensor([-0.05190832, 0.14618306, 0.09561325], dtype=torch.float32, device=next_obs.device).reshape(1, 3)
-    # goal_state = torch.tensor(goal_state, dtype=torch.float32, device=next_obs.device).reshape(1, 3)
-
-    cost = torch.norm(next_obs[:, :3] - goal_state, dim=1)
-    
-    return -cost.view(-1, 1)
-
-def panda_reach_seed15(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
-    # next_obs: contains positions of end effector and object
-    assert len(next_obs.shape) == len(act.shape) == 2
-    
-    goal_state = torch.tensor([0.05782301, 0.09474514, 0.10332203], dtype=torch.float32, device=next_obs.device).reshape(1, 3)
-    # goal_state = torch.tensor(goal_state, dtype=torch.float32, device=next_obs.device).reshape(1, 3)
+    goal_state = torch.tensor(goal_state, dtype=torch.float32, device=next_obs.device).reshape(1, 3)
 
     cost = torch.norm(next_obs[:, :3] - goal_state, dim=1)
     
