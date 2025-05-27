@@ -17,8 +17,8 @@ import gymnasium as gym
 # import mbrl.env.reward_fns as reward_fns
 # import mbrl.env.termination_fns as termination_fns
 
-import PETS.reward_fns_old as reward_fns_old
-import PETS.termination_fns_old as termination_fns_old
+import reward_fns
+import termination_fns
 
 import mbrl.models as models
 # from model_env import ModelEnv
@@ -100,52 +100,52 @@ seeds = [0]
 
 if prob == "MountainCarContinuous":
     env = gym.make('MountainCarContinuous-v0', render_mode='rgb_array')
-    reward_fn = reward_fns_old.mountaincar_continuous
-    term_fn = termination_fns_old.mountaincar_continuous
+    reward_fn = reward_fns.mountaincar_continuous
+    term_fn = termination_fns.mountaincar_continuous
     trial_length = 1000
     num_trials = 300 # 10
 
 if prob == "LunarLanderContinuous":
     env = gym.make('LunarLanderContinuous-v3', render_mode='rgb_array')
-    reward_fn = reward_fns_old.lunarlander_continuous
-    term_fn = termination_fns_old.lunarlander_continuous
+    reward_fn = reward_fns.lunarlander_continuous
+    term_fn = termination_fns.lunarlander_continuous
     trial_length = 1000
     num_trials = 300 # 10
         
 if prob == "Pendulum":
     env = gym.make('Pendulum-v1', render_mode='rgb_array')
-    reward_fn = reward_fns_old.pendulum
-    term_fn = termination_fns_old.pendulum
+    reward_fn = reward_fns.pendulum
+    term_fn = termination_fns.pendulum
     trial_length = 200
     num_trials = 300 # 10
     
 if prob == "InvertedPendulum":
     env = gym.make('InvertedPendulum-v5', render_mode='rgb_array')
-    reward_fn = reward_fns_old.inverted_pendulum
-    term_fn = termination_fns_old.inverted_pendulum
+    reward_fn = reward_fns.inverted_pendulum
+    term_fn = termination_fns.inverted_pendulum
     trial_length = 1000
     num_trials = 300 # 10
     
 if prob == "Reacher":
     env = gym.make('Reacher-v5', render_mode='rgb_array')
-    reward_fn = reward_fns_old.reacher
-    term_fn = termination_fns_old.reacher
+    reward_fn = reward_fns.reacher
+    term_fn = termination_fns.reacher
     trial_length = 50
     num_trials = 300 # 10
     
 if prob == "PandaReacher":
     import panda_gym
     env = gym.make('PandaReach-v3', render_mode='rgb_array')
-    reward_fn = reward_fns_old.panda_reach
-    term_fn = termination_fns_old.panda_reach
+    reward_fn = reward_fns.panda_reach
+    term_fn = termination_fns.panda_reach
     trial_length = 50
     num_trials = 300 # 10
     
 if prob == "PandaReacherDense":
     import panda_gym
     env = gym.make('PandaReachDense-3', render_mode='rgb_array')
-    reward_fn = reward_fns_old.panda_reach
-    term_fn = termination_fns_old.panda_reach
+    reward_fn = reward_fns.panda_reach
+    term_fn = termination_fns.panda_reach
     trial_length = 50
     num_trials = 300 # 10
 

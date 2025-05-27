@@ -80,8 +80,8 @@ class DoneWrapper(gym.Wrapper):
 
 # prob = "MountainCarContinuous"
 # prob = "LunarLanderContinuous"
-prob = "Pendulum"
-# prob = "InvertedPendulum"
+# prob = "Pendulum"
+prob = "InvertedPendulum"
 # prob = "Reacher"
 # prob = "PandaReacher"
 # prob = "PandaReacherDense"
@@ -152,6 +152,8 @@ if prob == "PandaReacherDense":
 method_name = "PETS_CEM"
 
 # env = gym.make('LunarLanderContinuous-v3', render_mode='rgb_array')
+
+
 
 episodic_return_seeds = []
 for seed in seeds:
@@ -332,7 +334,7 @@ print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
 print("mean_episodic_return ", mean_episodic_return.shape, "\n")
 print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
 
-save_data(seed, prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
 print("Saved data \n")
 env.close()
 

@@ -25,15 +25,18 @@ import mbrl.models as models
 
 import mbrl.planning as planning
 import mbrl.util.common as common_util
+# import common as common_util
 import mbrl.util as util
 
+import panda_gym
+
 import os
-def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+def save_data(seed, prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_{seed}.npz")
 
     np.savez(
     f"{prob}_{method_name}_results.npz",
@@ -49,19 +52,71 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
 
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
-class DoneWrapper(gym.Wrapper):
+from gym import spaces
+# import gym
+import numpy as np
+
+import gymnasium as gym
+import numpy as np
+from gymnasium.spaces import Box, Dict
+
+# class DictToBoxWrapper(gym.ObservationWrapper):
+#     def __init__(self, env):
+#         super().__init__(env)
+#         # Get ordered keys to flatten
+#         self.obs_keys = list(env.observation_space.spaces.keys())
+
+#         # Compute new low/high by concatenating the original spaces
+#         lows = []
+#         highs = []
+#         for key in self.obs_keys:
+#             space = env.observation_space.spaces[key]
+#             assert isinstance(space, Box), f"Expected Box for key '{key}', got {type(space)}"
+#             lows.append(space.low.flatten())
+#             highs.append(space.high.flatten())
+        
+#         low = np.concatenate(lows)
+#         high = np.concatenate(highs)
+#         self.observation_space = Box(low=low, high=high, dtype=np.float32)
+
+#     def observation(self, obs):
+#         # Flatten and connate([obs[key].flatten() for key in self.obs_keys]).astype(np.float32)
+
+class DictToBoxWrapper(gym.ObservationWrapper):
+    def __init__(self, env):
+        super().__init__(env)
+        
+        # print("observation_space ", env.observation_space, "\n")
+        # print("spaces.Dict ", spaces.Dict, "\n")
+        
+        # # Original space must be a Dict
+        # assert isinstance(env.observation_space, spaces.Dict), "Expected Dict observation space!"
+        
+        # Extract the "observation" subspace
+        self.observation_space = env.observation_space["observation"]
+        
+        # print("observation_space ", env.observation_space, "\n")
+    
+    def observation(self, obs):
+        # Return only the "observation" key
+        return obs["observation"]
+
+class ResetStepWrapper(gym.Wrapper):
     def reset(self, **kwargs):
         # print("self.env.reset(**kwargs) ", self.env.reset(**kwargs), "\n")
         # obs, info = self.env.reset(**kwargs) # Discard info
         
-        result = self.env.reset(**kwargs) # Discard info
+        # result = self.env.reset(**kwargs) # Discard info
+        # obs, info = self.env.reset(**kwargs) # Discard info
         
-        if isinstance(result, tuple) and len(result) == 2:
-            obs = result[0]  # drop the infos
-        else:
-            obs = result  # keep as is
+        # if isinstance(result, tuple) and len(result) == 2:
+        #     obs = result[0]  # drop the infos
+        # else:
+        #     obs = result  # keep as is
+        # print("result ", result, "\n")
         
-        return obs
+        # print("self.env.reset(**kwargs)[0] ", self.env.reset(**kwargs)[0], "\n")
+        return self.env.reset(**kwargs)[0] # obs
     
     def step(self, action):
         result = self.env.step(action)
@@ -80,14 +135,15 @@ class DoneWrapper(gym.Wrapper):
 # prob = "MountainCarContinuous"
 # prob = "LunarLanderContinuous"
 # prob = "Pendulum"
-prob = "InvertedPendulum"
+# prob = "InvertedPendulum"
 # prob = "Reacher"
 # prob = "PandaReacher"
-# prob = "PandaReacherDense"
+prob = "PandaReacherDense"
 # prob = "CartPoleContinuous" # Not used for my tests but implemented by the authors
 
-seeds =  [0, 8 ,15]
-# seeds = [0]
+# seeds =  [0, 8 ,15]
+seed = 15
+seeds = [seed]
 
 # if prob == "CartPoleContinuous":
 #     import mbrl.env.cartpole_continuous as cartpole_env
@@ -131,22 +187,34 @@ if prob == "Reacher":
     term_fn = termination_fns_old.reacher
     trial_length = 50
     num_trials = 300 # 10
+
+if prob == "PandaReacher" or prob == "PandaReacherDense":
     
-if prob == "PandaReacher":
-    import panda_gym
-    env = gym.make('PandaReach-v3', render_mode='rgb_array')
-    reward_fn = reward_fns_old.panda_reach
-    term_fn = termination_fns_old.panda_reach
+    if prob == "PandaReacher":
+        env = gym.make('PandaReach-v3') # , render_mode='rgb_array'
+    else:
+        env = gym.make('PandaReachDense-v3') # , render_mode='rgb_array'
+    
+    reward_fn = reward_fns_old.panda_reach_seed0
+    term_fn = termination_fns_old.panda_reach_seed0
     trial_length = 50
     num_trials = 300 # 10
+
+# if prob == "PandaReacher":
+#     import panda_gym
+#     env = gym.make('PandaReach-v3', render_mode='rgb_array')
+#     reward_fn = reward_fns.panda_reach
+#     # term_fn = termination_fns.panda_reach
+#     trial_length = 50
+#     num_trials = 300 # 10
     
-if prob == "PandaReacherDense":
-    import panda_gym
-    env = gym.make('PandaReachDense-3', render_mode='rgb_array')
-    reward_fn = reward_fns_old.panda_reach
-    term_fn = termination_fns_old.panda_reach
-    trial_length = 50
-    num_trials = 300 # 10
+# if prob == "PandaReacherDense":
+#     import panda_gym
+#     env = gym.make('PandaReachDense-v3', render_mode='rgb_array')
+#     reward_fn = reward_fns.panda_reach
+#     term_fn = termination_fns.panda_reach
+#     trial_length = 50
+#     num_trials = 300 # 10
 
 method_name = "PETS_CEM"
 
@@ -154,19 +222,64 @@ method_name = "PETS_CEM"
 
 episodic_return_seeds = []
 for seed in seeds:
-    env = DoneWrapper(env)
+    env = DictToBoxWrapper(env)  # Converts Dict → Box
+    # env = DoneWrapper(env)
+    env = ResetStepWrapper(env)
+    
+    print("env.reset(seed=seed) ", env.reset(seed=seed), "\n")
+    print("env.step(env.action_space.sample()) ", env.step(env.action_space.sample()), "\n")
+    
     # env.seed(seed)
     rng = np.random.default_rng(seed=0)
     generator = torch.Generator(device=device)
     generator.manual_seed(seed)
+    # if prob == "PandaReacher" or prob == "PandaReacherDense":
+    #     obs_shape = env.observation_space['observation'].shape # len(.low) #env.observation_space.shape
+    # else:
     obs_shape = env.observation_space.shape
     act_shape = env.action_space.shape
+    
+    print("obs_shape", obs_shape, "\n")
+    print("act_shape", act_shape, "\n")
+    print("Action Space:", env.action_space)
+    print("Observation Space:", env.observation_space)
 
     ensemble_size = 5
 
     # Everything with "???" indicates an option with a missing value.
     # Our utility functions will fill in these details using the 
     # environment information
+    # cfg_dict = {
+    #     # dynamics model configuration
+    #     "dynamics_model": {
+    #         "_target_": "mbrl.models.GaussianMLP",
+    #         # "model": {
+    #             # "_target_": "mbrl.models.GaussianMLP",
+    #             "device": device,
+    #             "num_layers": 3,
+    #             "ensemble_size": ensemble_size,
+    #             "hid_size": 200,
+    #             "use_silu": True,
+    #             "in_size": "???", # 9
+    #             "out_size": "???", # 6
+    #             "deterministic": False,
+    #             "propagation_method": "fixed_model"
+    #         # }
+    #     },
+    #     # options for training the dynamics model
+    #     "algorithm": {
+    #         "learned_rewards": False,
+    #         "target_is_delta": True,
+    #         "normalize": True,
+    #     },
+    #     # these are experiment specific options
+    #     "overrides": {
+    #         "trial_length": trial_length,
+    #         "num_steps": num_trials * trial_length,
+    #         "model_batch_size": 32,
+    #         "validation_ratio": 0.05
+    #     }
+    # }
     cfg_dict = {
         # dynamics model configuration
         "dynamics_model": {
@@ -197,13 +310,23 @@ for seed in seeds:
             "validation_ratio": 0.05
         }
     }
+    
     cfg = omegaconf.OmegaConf.create(cfg_dict)
+
+    print("obs_shape", obs_shape, "\n")
+    print("act_shape", act_shape, "\n")
+    print("cfg ", cfg, "\n")
 
     # Create a 1-D dynamics model for this environment
     dynamics_model = common_util.create_one_dim_tr_model(cfg, obs_shape, act_shape)
 
-    # Create a gym-like environment to encapsulate the model
-    # model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator) # term_fn
+    # # Create a gym-like environment to encapsulate the model
+    # if prob == "PandaReacher" or prob == "PandaReacherDense":
+    #     obs = env.reset(seed=seed) # Added a wrapper to discard info
+    #     goal_state = obs#['desired_goal']
+    #     model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator, prob=prob, goal_state=goal_state)
+    # else:
+    #     model_env = ModelEnv(env, dynamics_model, reward_fn, generator=generator) # term_fn
     model_env = models.ModelEnv(env, dynamics_model, term_fn, reward_fn, generator=generator)
 
     replay_buffer = common_util.create_replay_buffer(cfg, obs_shape, act_shape, rng=rng)
@@ -267,9 +390,11 @@ for seed in seeds:
     # all_rewards = [0]
     # all_rewards = []
     episodic_return = []
-    for trial in range(num_trials):
-    # for trial in trange(num_trials):
-        obs = env.reset(seed=seed)    
+    from tqdm import trange
+    for trial in trange(num_trials):
+    # for trial in range(num_trials):
+        obs = env.reset(seed=seed) # Added a wrapper to discard info
+        obs = obs#['observation']
         agent.reset()
         
         done = False
@@ -303,7 +428,9 @@ for seed in seeds:
             # --- Doing env step using the agent and adding to model dataset ---
             next_obs, reward, done, _ = common_util.step_env_and_add_to_buffer(
                 env, obs, agent, {}, replay_buffer)
-                
+            
+            # print("next_obs ", next_obs, "\n")    
+            
             # update_axes(
             #     axs, env.render(), ax_text, trial, steps_trial, all_rewards)
                 # axs, env.render(mode="rgb_array"), ax_text, trial, steps_trial, all_rewards)
@@ -321,6 +448,9 @@ for seed in seeds:
     # update_axes(axs, env.render(mode="rgb_array"), ax_text, trial, steps_trial, all_rewards, force_update=True)
     # update_axes(axs, env.render(), ax_text, trial, steps_trial, all_rewards, force_update=True)
 
+print("prob ", prob, "\n")
+print("seed ", seed, "\n")
+
 episodic_return_seeds = np.array(episodic_return_seeds)
 
 mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
@@ -331,7 +461,7 @@ print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
 print("mean_episodic_return ", mean_episodic_return.shape, "\n")
 print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
 
-save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+save_data(seed, prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
 print("Saved data \n")
 env.close()
 
