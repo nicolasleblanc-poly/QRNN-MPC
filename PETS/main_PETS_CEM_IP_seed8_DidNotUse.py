@@ -78,17 +78,17 @@ class DoneWrapper(gym.Wrapper):
         return obs, reward, done, info
 
 
-prob = "MountainCarContinuous"
+# prob = "MountainCarContinuous"
 # prob = "LunarLanderContinuous"
 # prob = "Pendulum"
-# prob = "InvertedPendulum"
+prob = "InvertedPendulum"
 # prob = "Reacher"
 # prob = "PandaReacher"
 # prob = "PandaReacherDense"
 # prob = "CartPoleContinuous" # Not used for my tests but implemented by the authors
 
 # seeds =  [0, 8 ,15]
-seeds = [0]
+seeds = [8]
 
 # if prob == "CartPoleContinuous":
 #     import mbrl.env.cartpole_continuous as cartpole_env

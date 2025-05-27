@@ -86,8 +86,8 @@ prob = "InvertedPendulum"
 # prob = "PandaReacherDense"
 # prob = "CartPoleContinuous" # Not used for my tests but implemented by the authors
 
-# seeds =  [0, 8 ,15]
-seeds = [0]
+seeds =  [0, 8 ,15]
+# seeds = [0]
 
 # if prob == "CartPoleContinuous":
 #     import mbrl.env.cartpole_continuous as cartpole_env
@@ -151,8 +151,6 @@ if prob == "PandaReacherDense":
 method_name = "PETS_CEM"
 
 # env = gym.make('LunarLanderContinuous-v3', render_mode='rgb_array')
-
-
 
 episodic_return_seeds = []
 for seed in seeds:

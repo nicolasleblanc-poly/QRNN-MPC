@@ -28,15 +28,16 @@ import mbrl.util.common as common_util
 import mbrl.util as util
 
 import os
-def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+def save_data(seed, prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_{seed}.npz")
 
     np.savez(
-    f"{prob}_{method_name}_results.npz",
+    save_path,
+    # f"{prob}_{method_name}_results.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
@@ -87,7 +88,7 @@ prob = "InvertedPendulum"
 # prob = "CartPoleContinuous" # Not used for my tests but implemented by the authors
 
 # seeds =  [0, 8 ,15]
-seeds = [15]
+seeds = [0]
 
 # if prob == "CartPoleContinuous":
 #     import mbrl.env.cartpole_continuous as cartpole_env
@@ -151,6 +152,8 @@ if prob == "PandaReacherDense":
 method_name = "PETS_CEM"
 
 # env = gym.make('LunarLanderContinuous-v3', render_mode='rgb_array')
+
+
 
 episodic_return_seeds = []
 for seed in seeds:
