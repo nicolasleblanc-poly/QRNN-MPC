@@ -117,12 +117,13 @@ method_name = "iLQR"
 prob = "Pendulum"
 
 # env = gym.wrappers.RecordVideo(env, video_folder="videos", episode_trigger=lambda e: True)
-
+# from tqdm import trange
 for seed in env_seeds:
     episodic_return = []
     # Initial guess for controls
     us_init = np.random.uniform(low=-2, high=2, size=(max_steps, n_u))
     for episode in range(max_episodes):
+    # for episode in trange(max_episodes):
         total_reward = 0
         observation, _ = env.reset(seed=seed)
         if episode > 0:
@@ -159,7 +160,7 @@ print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
 # plt.plot(mean_episodic_return, label='Mean Episodic Return')
 # plt.show()
 
-# save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
 print("Saved data \n")
 # print("Total reward:", total_reward, "\n")
 env.close()
