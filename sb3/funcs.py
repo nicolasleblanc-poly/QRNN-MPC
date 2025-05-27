@@ -5,6 +5,7 @@ from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 from stable_baselines3.common.vec_env import DummyVecEnv, VecMonitor
 from stable_baselines3.common.callbacks import BaseCallback
 import os
+import gc
 
 def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
     
@@ -220,6 +221,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         env.close()
         del env
         del model
+        gc.collect()
         
     episodic_return_seeds = np.array(episodic_return_seeds)
 
