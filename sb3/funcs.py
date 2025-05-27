@@ -125,6 +125,34 @@ class EpisodicReturnLogger(BaseCallback):
 
 #     save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
 
+class ObservationOnlyWrapper(gym.Wrapper):
+    """
+    Wrapper that modifies Panda Gym environments to return only the observation component.
+    This is useful for SB3 algorithms that don't need the full HER-style state dict.
+    """
+    def __init__(self, env: gym.Env):
+        super().__init__(env)
+        # Override observation_space to match the extracted observation
+        self.observation_space = env.observation_space["observation"]
+        
+    def reset(self, **kwargs):
+        """
+        Reset the environment and return only the observation
+        """
+        obs_dict, info = self.env.reset(**kwargs)
+        # print("obs_dict['observation']: ", obs_dict['observation'], "\n")
+        return obs_dict['observation'], info #['observation']
+    
+    def step(self, action):
+        """
+        Take a step in the environment and return (obs, reward, done, info)
+        with obs being just the observation component
+        """
+        obs_dict, reward, terminated, truncated, info = self.env.step(action)
+        obs = obs_dict['observation']
+        # print("obs_dict: ", obs_dict, "\n")
+        return obs, reward, terminated, truncated, info
+
 
 def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
     episodic_return_seeds = []

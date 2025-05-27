@@ -5,7 +5,8 @@
 import torch
 
 # from . import termination_fns
-import PETS.termination_fns_old as termination_fns_old
+# import PETS.termination_fns_old as termination_fns_old
+import termination_fns
 
 ######################## My own cost functions ########################
 
@@ -122,7 +123,7 @@ def panda_reach_seed15(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tenso
 def cartpole(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
     assert len(next_obs.shape) == len(act.shape) == 2
 
-    return (~termination_fns_old.cartpole(act, next_obs)).float().view(-1, 1)
+    return (~termination_fns.cartpole(act, next_obs)).float().view(-1, 1)
 
 
 def cartpole_pets(act: torch.Tensor, next_obs: torch.Tensor) -> torch.Tensor:
