@@ -115,7 +115,6 @@ max_steps = 200
 max_episodes = 300
 method_name = "iLQR"
 prob = "Pendulum"
-horizon = 15
 
 # env = gym.wrappers.RecordVideo(env, video_folder="videos", episode_trigger=lambda e: True)
 # from tqdm import trange
@@ -127,17 +126,14 @@ for seed in env_seeds:
     # for episode in trange(max_episodes):
         total_reward = 0
         observation, _ = env.reset(seed=seed)
-
-        for step in range(max_steps):
-
-            if episode > 0:
-                us_init = us
-            x0 = observation
-            # Get optimal states and actions
-            xs, us, cost_trace = controller.fit(x0, us_init)
-            
-            # for i in range(len(us)):
-            action = us[0]
+        if episode > 0:
+            us_init = us
+        x0 = observation
+        # Get optimal states and actions
+        xs, us, cost_trace = controller.fit(x0, us_init)
+        
+        for i in range(len(us)):
+            action = us[i]
             observation, reward, terminated, truncated, _ = env.step(action)
             states.append(observation)
             actions.append(action)
@@ -146,12 +142,6 @@ for seed in env_seeds:
             
             if terminated or truncated:
                 break
-
-            # Shift the actions for the next step
-            us_init = np.roll(us_init, -1, axis=0)
-            us_init[-1] = env.action_space.sample()  # Sample a random action for the last step
-            # print("us_init", us_init, "\n")
-
         episodic_return.append(total_reward)
         # print("Total reward:", total_reward, "\n")
         
