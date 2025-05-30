@@ -124,11 +124,16 @@ def rollout(f, L, Lf, x0, us, model):
     '''
       Rollout with initial state and control trajectory
     '''
+    
+    def f_wrapped(x, u):
+        return f(x, u, model)  # wrap with only 2 args
+    
     xs = np.empty((us.shape[0] + 1, x0.shape[0]))
     xs[0] = x0
     cost = 0
     for n in range(us.shape[0]):
-      xs[n+1] = f(xs[n], us[n], model)
+    #   xs[n+1] = f(xs[n], us[n], model)
+      xs[n+1] = f_wrapped(xs[n], us[n])
       cost += L(xs[n], us[n])
     cost += Lf(xs[-1])
     return xs, cost
