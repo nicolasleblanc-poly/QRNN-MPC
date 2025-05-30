@@ -18,7 +18,7 @@ class iLQR:
                        'max_regu' : 10000,
                        'min_regu' : 0.001}
 
-    def fit(self, x0, us_init, maxiters = 50, early_stop = True, model = None):
+    def fit(self, x0, us_init, maxiters = 50, early_stop = True):
         '''
         Args:
           x0: initial state
@@ -33,7 +33,7 @@ class iLQR:
         '''
         return run_ilqr(self.dynamics.f, self.dynamics.f_prime, self.cost.L,
                         self.cost.Lf, self.cost.L_prime, self.cost.Lf_prime,
-                        x0, us_init, maxiters, early_stop, model, **self.params)
+                        x0, us_init, maxiters, early_stop, **self.params)
 
     def rollout(self, x0, us):
         '''
@@ -50,14 +50,13 @@ class iLQR:
 
 class MPC:
 
-    def __init__(self, controller, control_horizon = 1, model = None):
+    def __init__(self, controller, control_horizon = 1):
         '''
         Initialize MPC
         '''
         self.ch = control_horizon
         self.controller = controller
         self.us_init = None
-        self.model = model  # Optional model for dynamics, if needed
 
     def set_initial(self, us_init):
         '''
@@ -74,13 +73,13 @@ class MPC:
         '''
         if self.us_init is None:
             raise Exception('initial guess has not been set')
-        xs, us, cost_trace = self.controller.fit(x0, self.us_init, maxiters, early_stop, self.model)
+        xs, us, cost_trace = self.controller.fit(x0, self.us_init, maxiters, early_stop)
         self.us_init[:-self.ch] = self.us_init[self.ch:]
         return us[:self.ch]
 
 
 # @numba.njit
-def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_stop, model,
+def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_stop,
              alphas, regu_init = 20, max_regu = 10000, min_regu = 0.001):
     '''
        iLQR main loop
@@ -88,7 +87,7 @@ def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_
     us = u_init
     regu = regu_init
     # First forward rollout
-    xs, J_old = rollout(f, L, Lf, x0, us, model)
+    xs, J_old = rollout(f, L, Lf, x0, us)
     # cost trace
     cost_trace = [J_old]
 
@@ -120,7 +119,7 @@ def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_
 
 
 # @numba.njit
-def rollout(f, L, Lf, x0, us, model):
+def rollout(f, L, Lf, x0, us):
     '''
       Rollout with initial state and control trajectory
     '''
@@ -128,7 +127,7 @@ def rollout(f, L, Lf, x0, us, model):
     xs[0] = x0
     cost = 0
     for n in range(us.shape[0]):
-      xs[n+1] = f(xs[n], us[n], model)
+      xs[n+1] = f(xs[n], us[n])
       cost += L(xs[n], us[n])
     cost += Lf(xs[-1])
     return xs, cost

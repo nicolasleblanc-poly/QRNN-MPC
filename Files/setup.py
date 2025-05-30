@@ -497,8 +497,8 @@ class setup_class:
             self.goal_state = torch.tensor([0, 0], dtype=torch.float32)
             self.goal_state_dim = len(self.goal_state)
 
-            self.states_low = torch.tensor([-torch.inf, -torch.inf, -8])
-            self.states_high = torch.tensor([torch.inf, torch.inf, 8])
+            self.states_low = torch.tensor([-1, -1, -8])
+            self.states_high = torch.tensor([1, 1, 8])
             
             def angle_normalize(x):
                 return ((x + np.pi) % (2 * np.pi)) - np.pi

@@ -4,11 +4,17 @@ with Numba-compatible dynamics
 '''
 import gymnasium as gym
 import numpy as np
-from numba import jit
+# from numba import jit
 from ilqr import iLQR
 from ilqr.containers import Dynamics, Cost
 from ilqr.utils import GetSyms, Constrain, Bounded
-import os 
+from ilqr.controller import MPC
+
+import os
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import random
 
 # Initialize Gymnasium Pendulum environment
 # env = gym.make('Pendulum-v1', render_mode='human')
@@ -25,36 +31,69 @@ l = 1.0
 max_torque = 2.0
 max_speed = 8.0
 
+class NextStateSinglePredNetwork(nn.Module):
+    def __init__(self, state_dim, action_dim):
+        super(NextStateSinglePredNetwork, self).__init__()
+        self.layer1 = nn.Linear(state_dim + action_dim, 256)
+        self.layer2 = nn.Linear(256, 256)
+        self.layer3 = nn.Linear(256, state_dim)  # Single output per state dim
+
+    def forward(self, state, action):
+        if len(state.shape) == 1:
+            x = torch.cat((action, state))
+        else:
+            x = torch.cat((action, state), dim=1) # .unsqueeze(1)
+        x = torch.relu(self.layer1(x))
+        x = torch.relu(self.layer2(x))
+        return self.layer3(x)
+
+# Use MSE as loss 
+def mse_loss(predicted, target):
+    error = target - predicted
+    return error.pow(2).mean()
+
 # Numba-compatible dynamics function
-@jit(nopython=True)
-def f_numba(x, u):
-    # Convert state to angle and angular velocity
-    theta = np.arctan2(x[1], x[0])
-    thdot = x[2]
+# @jit(nopython=True)
+# def f_numba(x, u, model):
+#     # Convert state to angle and angular velocity
+#     theta = np.arctan2(x[1], x[0])
+#     thdot = x[2]
 
-    # Clip the action
-    u_clipped = min(max(u[0], -max_torque), max_torque)
+#     # Clip the action
+#     u_clipped = min(max(u[0], -max_torque), max_torque)
     
-    # Calculate angular acceleration
-    thdot_dot = 3 * g / (2 * l) * np.sin(theta) + 3.0 / (m * l**2) * u_clipped
-    # (3 * g / (2 * l) * np.sin(theta) + 3.0 / (m * l**2) * u_clipped
+#     # Calculate angular acceleration
+#     thdot_dot = 3 * g / (2 * l) * np.sin(theta) + 3.0 / (m * l**2) * u_clipped
+#     # (3 * g / (2 * l) * np.sin(theta) + 3.0 / (m * l**2) * u_clipped
     
-    # Update angular velocity with manual clipping
-    new_thdot = thdot + thdot_dot * dt
-    if new_thdot > max_speed:
-        new_thdot = max_speed
-    elif new_thdot < -max_speed:
-        new_thdot = -max_speed
+#     # Update angular velocity with manual clipping
+#     new_thdot = thdot + thdot_dot * dt
+#     if new_thdot > max_speed:
+#         new_thdot = max_speed
+#     elif new_thdot < -max_speed:
+#         new_thdot = -max_speed
     
-    # Update angle
-    new_theta = theta + new_thdot * dt
+#     # Update angle
+#     new_theta = theta + new_thdot * dt
     
-    # Return state in Gymnasium format
-    return np.array([np.cos(new_theta), np.sin(new_theta), new_thdot])
+#     # Return state in Gymnasium format
+#     return np.array([np.cos(new_theta), np.sin(new_theta), new_thdot])
 
-# Wrapper function to match expected interface
-def f(x, u):
-    return f_numba(x, u)
+# def f_numba(x, u, model):
+    
+#     next_state = model(x, u)
+    
+#     return next_state.detach().numpy()  # Convert to numpy array
+
+# # Wrapper function to match expected interface
+# def f(x, u, model):
+#     return f_numba(x, u, model)
+
+
+def f(x, u, model):
+    next_state = model(x, u)
+    
+    return next_state.detach().numpy()  # Convert to numpy array
 
 # Create dynamics container
 Pendulum = Dynamics.Discrete(f)
@@ -103,7 +142,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
 
         np.savez(
         save_path,
-        f"{prob}_{method_name}_results.npz",
+        # f"{prob}_{method_name}_results.npz",
         episode_rewards=episodic_rep_returns,
         mean_rewards=mean_episodic_returns,
         std_rewards=std_episodic_returns
@@ -116,33 +155,99 @@ max_episodes = 300
 method_name = "iLQR"
 prob = "Pendulum"
 horizon = 15
+batch_size = 32
+
+action_low = env.action_space.low[0]
+action_high = env.action_space.high[0]
+
+states_low = torch.tensor([-1, -1, -8])
+states_high = torch.tensor([1, 1, 8])
+
+model = NextStateSinglePredNetwork(n_x, n_u)
+optimizer = optim.Adam(model.parameters(), lr=1e-3)
+
+# Experience replay buffer
+replay_buffer = []
+
+mpc = MPC(controller, control_horizon=horizon, model=model)
 
 # env = gym.wrappers.RecordVideo(env, video_folder="videos", episode_trigger=lambda e: True)
 # from tqdm import trange
 for seed in env_seeds:
     episodic_return = []
-    # Initial guess for controls
-    us_init = np.random.uniform(low=-2, high=2, size=(max_steps, n_u))
+    
     for episode in range(max_episodes):
     # for episode in trange(max_episodes):
         total_reward = 0
         observation, _ = env.reset(seed=seed)
 
+        # Initial guess for controls
+        us_init = np.random.uniform(low=-2, high=2, size=(max_steps, n_u))
+        
         for step in range(max_steps):
 
-            if episode > 0:
-                us_init = us
-            x0 = observation
+            state = observation
             # Get optimal states and actions
-            xs, us, cost_trace = controller.fit(x0, us_init)
+            # xs, us, cost_trace = controller.fit(x0, us_init)
+            
+            # Get optimal action using MPC and iLQR
+            mpc.set_initial(us_init)
+            us = mpc.control(state)
             
             # for i in range(len(us)):
             action = us[0]
-            observation, reward, terminated, truncated, _ = env.step(action)
-            states.append(observation)
+            next_state, reward, terminated, truncated, _ = env.step(action)
+            states.append(next_state)
             actions.append(action)
             env.render()
             total_reward += reward
+            
+            if prob == "CartPole" or prob == "Acrobot" or prob == "MountainCar" or prob == "LunarLander":
+                replay_buffer.append((state, np.array([action]), reward, next_state, terminated))
+            else:
+                replay_buffer.append((state, action, reward, next_state, terminated))
+            
+            if len(replay_buffer) < batch_size:
+                pass
+            else:
+                batch = random.sample(replay_buffer, batch_size)
+                states, actions_train, rewards, next_states, dones = zip(*batch)
+                # print("batch states ", states, "\n")
+                states = torch.tensor(states, dtype=torch.float32)
+                actions_tensor = torch.tensor(actions_train, dtype=torch.float32)
+                # print("actions.shape ", actions_tensor, "\n")
+                rewards = torch.tensor(rewards, dtype=torch.float32)
+                next_states = torch.tensor(next_states, dtype=torch.float32)
+                dones = torch.tensor(dones, dtype=torch.float32)
+
+                # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
+                #     # Clip states to ensure they are within the valid range
+                #     # before inputting them to the model (sorta like normalization)
+                states = torch.clip(states, states_low, states_high)
+                # states = 2 * ((states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
+                actions_tensor = torch.clip(actions_tensor, action_low, action_high)
+                
+                # Predict next state quantiles
+                # predicted_quantiles = model_QRNN(states, actions_tensor)  # Shape: (batch_size, num_quantiles, state_dim)
+                predicted_next_states = model(states, actions_tensor)
+                
+                # Use next state as target (can be improved with target policy)
+                # target_quantiles = next_states
+                
+                # Compute the target quantiles (e.g., replicate next state across the quantile dimension)
+                # target_quantiles = next_states.unsqueeze(-1).repeat(1, 1, num_quantiles)
+
+                # Compute Quantile Huber Loss
+                # loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
+                loss = mse_loss(predicted_next_states, next_states)
+                
+                # # Compute Quantile Huber Loss
+                # loss = quantile_loss(predicted_quantiles, target_quantiles, prob_vars.quantiles)
+                
+                # Optimize the model_QRNN
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
             
             if terminated or truncated:
                 break
@@ -151,6 +256,8 @@ for seed in env_seeds:
             us_init = np.roll(us_init, -1, axis=0)
             us_init[-1] = env.action_space.sample()  # Sample a random action for the last step
             # print("us_init", us_init, "\n")
+            
+            state = next_state
 
         episodic_return.append(total_reward)
         # print("Total reward:", total_reward, "\n")
