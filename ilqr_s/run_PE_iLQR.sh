@@ -5,6 +5,7 @@
 #SBATCH --time=96:0:0    
 #SBATCH --mail-user=<nicolas-3.leblanc@polymtl.ca>
 #SBATCH --mail-type=ALL
+#SBATCH --partition=cpubase_bynode_b6
 
 # cd ~/$projects/def-bonizzat/nileb3/job-scripts/
 # python /home/nileb3/projects/def-bonizzat/nileb3/job-scripts/my_script.py

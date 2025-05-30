@@ -1,4 +1,4 @@
-import numba
+# import numba
 import numpy as np
 
 
@@ -18,7 +18,7 @@ class iLQR:
                        'max_regu' : 10000,
                        'min_regu' : 0.001}
 
-    def fit(self, x0, us_init, maxiters = 50, early_stop = True, model = None):
+    def fit(self, x0, us_init, maxiters = 50, early_stop = True):
         '''
         Args:
           x0: initial state
@@ -33,7 +33,7 @@ class iLQR:
         '''
         return run_ilqr(self.dynamics.f, self.dynamics.f_prime, self.cost.L,
                         self.cost.Lf, self.cost.L_prime, self.cost.Lf_prime,
-                        x0, us_init, maxiters, early_stop, model, **self.params)
+                        x0, us_init, maxiters, early_stop, **self.params)
 
     def rollout(self, x0, us):
         '''
@@ -50,14 +50,13 @@ class iLQR:
 
 class MPC:
 
-    def __init__(self, controller, control_horizon = 1, model = None):
+    def __init__(self, controller, control_horizon = 1):
         '''
         Initialize MPC
         '''
         self.ch = control_horizon
         self.controller = controller
         self.us_init = None
-        self.model = model  # Optional model for dynamics, if needed
 
     def set_initial(self, us_init):
         '''
@@ -74,13 +73,13 @@ class MPC:
         '''
         if self.us_init is None:
             raise Exception('initial guess has not been set')
-        xs, us, cost_trace = self.controller.fit(x0, self.us_init, maxiters, early_stop, self.model)
+        xs, us, cost_trace = self.controller.fit(x0, self.us_init, maxiters, early_stop)
         self.us_init[:-self.ch] = self.us_init[self.ch:]
         return us[:self.ch]
 
 
 # @numba.njit
-def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_stop, model,
+def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_stop,
              alphas, regu_init = 20, max_regu = 10000, min_regu = 0.001):
     '''
        iLQR main loop
@@ -88,20 +87,20 @@ def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_
     us = u_init
     regu = regu_init
     # First forward rollout
-    xs, J_old = rollout(f, L, Lf, x0, us, model)
+    xs, J_old = rollout(f, L, Lf, x0, us)
     # cost trace
     cost_trace = [J_old]
 
     # Run main loop
     for it in range(max_iters):
-        ks, Ks, exp_cost_redu = backward_pass(f_prime, L_prime, Lf_prime, xs, us, model, regu)
+        ks, Ks, exp_cost_redu = backward_pass(f_prime, L_prime, Lf_prime, xs, us, regu)
 
         # Early termination if improvement is small
         if it > 3 and early_stop and np.abs(exp_cost_redu) < 1e-5: break
 
         # Backtracking line search
         for alpha in alphas:
-          xs_new, us_new, J_new = forward_pass(f, L, Lf, xs, us, model, ks, Ks, alpha)
+          xs_new, us_new, J_new = forward_pass(f, L, Lf, xs, us, ks, Ks, alpha)
           if J_old - J_new > 0:
               # Accept new trajectories and lower regularization
               J_old = J_new
@@ -120,30 +119,22 @@ def run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_
 
 
 # @numba.njit
-def rollout(f, L, Lf, x0, us, model):
+def rollout(f, L, Lf, x0, us):
     '''
       Rollout with initial state and control trajectory
     '''
-    
-    def f_wrapped(x, u):
-        return f(x, u, model)  # wrap with only 2 args
-    
     xs = np.empty((us.shape[0] + 1, x0.shape[0]))
     xs[0] = x0
     cost = 0
     for n in range(us.shape[0]):
-    #   xs[n+1] = f(xs[n], us[n], model)
-      xs[n+1] = f_wrapped(xs[n], us[n])
+      xs[n+1] = f(xs[n], us[n])
       cost += L(xs[n], us[n])
     cost += Lf(xs[-1])
     return xs, cost
 
 
 # @numba.njit
-def forward_pass(f, L, Lf, xs, us, model, ks, Ks, alpha):
-    
-    def f_wrapped(x, u):
-        return f(x, u, model)  # wrap with only 2 args
+def forward_pass(f, L, Lf, xs, us, ks, Ks, alpha):
     '''
        Forward Pass
     '''
@@ -155,8 +146,7 @@ def forward_pass(f, L, Lf, xs, us, model, ks, Ks, alpha):
 
     for n in range(us.shape[0]):
         us_new[n] += Ks[n].dot(xs_new[n] - xs[n])
-        # xs_new[n + 1] = f(xs_new[n], us_new[n], model)
-        xs_new[n + 1] = f_wrapped(xs_new[n], us_new[n])
+        xs_new[n + 1] = f(xs_new[n], us_new[n])
         cost_new += L(xs_new[n], us_new[n])
 
     cost_new += Lf(xs_new[-1])
@@ -165,7 +155,7 @@ def forward_pass(f, L, Lf, xs, us, model, ks, Ks, alpha):
 
 
 # @numba.njit
-def backward_pass(f_prime, L_prime, Lf_prime, xs, us, model, regu):
+def backward_pass(f_prime, L_prime, Lf_prime, xs, us, regu):
     '''
        Backward Pass
     '''
@@ -177,7 +167,7 @@ def backward_pass(f_prime, L_prime, Lf_prime, xs, us, model, regu):
     regu_I = regu*np.eye(V_xx.shape[0])
     for n in range(us.shape[0] - 1, -1, -1):
 
-        f_x, f_u = f_prime(xs[n], us[n], model)
+        f_x, f_u = f_prime(xs[n], us[n])
         l_x, l_u, l_xx, l_ux, l_uu  = L_prime(xs[n], us[n])
 
         # Q_terms

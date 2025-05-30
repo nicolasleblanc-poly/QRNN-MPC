@@ -17,20 +17,17 @@ class Dynamics:
         self.f = f
         self.f_x = f_x
         self.f_u = f_u
-        self.f_prime = lambda x, u, model: (f_x(x,u,model), f_u(x,u,model))
-        # self.f_prime = njit(lambda x, u: (f_x(x,u), f_u(x,u)))
+        self.f_prime = njit(lambda x, u: (f_x(x,u), f_u(x,u)))
+
 
     @staticmethod
     def Discrete(f, x_eps = 1e-4, u_eps = 1e-4):
         '''
            Construct from a discrete time dynamics function
         '''
-        # f = f, cache = True
-        f_x = lambda x, u, model: FiniteDiff(f, x, u, model, 0, x_eps)
-        f_u = lambda x, u, model: FiniteDiff(f, x, u, model, 1, u_eps)
-        # f = njit(f, cache = True)
-        # f_x = njit(lambda x, u: FiniteDiff(f, x, u, 0, x_eps))
-        # f_u = njit(lambda x, u: FiniteDiff(f, x, u, 1, u_eps))
+        f = njit(f, cache = True)
+        f_x = njit(lambda x, u: FiniteDiff(f, x, u, 0, x_eps))
+        f_u = njit(lambda x, u: FiniteDiff(f, x, u, 1, u_eps))
         return Dynamics(f, f_x, f_u)
 
 
@@ -54,7 +51,7 @@ class Dynamics:
         '''
            Construct from a continuous time dynamics function
         '''
-        # f = njit(f)
+        f = njit(f)
         f_d = lambda x, u: x + f(x, u)*dt
         return Dynamics.Discrete(f_d, x_eps, u_eps)
 
@@ -83,15 +80,13 @@ class Cost:
         self.L_xx = L_xx
         self.L_ux = L_ux
         self.L_uu = L_uu
-        self.L_prime = lambda x, u: (L_x(x, u), L_u(x, u), L_xx(x, u), L_ux(x, u), L_uu(x, u))
-        # self.L_prime = njit(lambda x, u: (L_x(x, u), L_u(x, u), L_xx(x, u), L_ux(x, u), L_uu(x, u)))
+        self.L_prime = njit(lambda x, u: (L_x(x, u), L_u(x, u), L_xx(x, u), L_ux(x, u), L_uu(x, u)))
 
         #Terminal cost and it's partial derivatives
         self.Lf = Lf
         self.Lf_x = Lf_x
         self.Lf_xx = Lf_xx
-        self.Lf_prime = lambda x: (Lf_x(x), Lf_xx(x))
-        # self.Lf_prime = njit(lambda x: (Lf_x(x), Lf_xx(x)))
+        self.Lf_prime = njit(lambda x: (Lf_x(x), Lf_xx(x)))
 
 
     @staticmethod

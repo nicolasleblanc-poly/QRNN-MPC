@@ -62,26 +62,22 @@ def Smooth_abs(x, alpha = 0.25):
     return sp.sqrt(x**2 + alpha**2) - alpha
 
 
-# @njit
-def FiniteDiff(fun, x, u, model, i, eps):
+@njit
+def FiniteDiff(fun, x, u, i, eps):
   '''
      Finite difference approximation
   '''
 
   args = (x, u)
-  fun0 = fun(x, u, model)
+  fun0 = fun(x, u)
 
   m = x.size
   n = args[i].size
-  
-  def f_wrapped(x, u):
-        return fun(x, u, model)  # wrap with only 2 args
 
   Jac = np.zeros((m, n))
   for k in range(n):
     args[i][k] += eps
-    # Jac[:, k] = (fun(args[0], args[1], model) - fun0)/eps
-    Jac[:, k] = (f_wrapped(args[0], args[1]) - fun0)/eps
+    Jac[:, k] = (fun(args[0], args[1]) - fun0)/eps
     args[i][k] -= eps
 
   return Jac
@@ -104,11 +100,8 @@ def sympy_to_numba(f, args, redu = True):
             if n == 1: f = f.T
             f = sp.Array(f)[0, :]
             f = njit(sp.lambdify(args, f, modules = modules))
-            # f = sp.lambdify(args, f, modules = modules)
             f_new = lambda *args: np.asarray(f(*args))
-            # return f_new
             return njit(f_new)
 
     f = sp.lambdify(args, f, modules = modules)
-    # return f
     return njit(f)

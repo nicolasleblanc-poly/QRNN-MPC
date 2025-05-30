@@ -41,7 +41,7 @@ from cem_continuous_50NN_MSENN import start_50NN_MSENN_MPC_CEM
 
 # Only record every 100th episode
 def should_record(episode_id):
-    return episode_id % 50 == 0
+    return episode_id % 100 == 0
 
 def main_50NN_MSENN_MPC(prob_vars, method_name, model_state, replay_buffer_state, optimizer_state, loss_state, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN):
     # std is the std for continuous action spaces or the change prob
@@ -150,10 +150,10 @@ def main_QRNN_MPC(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimi
         Gymnasium integrated recording documentation:
         https://gymnasium.farama.org/main/_modules/gymnasium/wrappers/record_video/
         """
-        # if prob_vars.change_prob is None and prob_vars.std is not None:
-        #     env = RecordVideo(prob_vars.env, video_folder="videos", episode_trigger=should_record, name_prefix=f"{prob_vars.prob}_{prob_vars.std}_{method_name}_seed{seed}", video_length=prob_vars.max_steps)
-        # elif prob_vars.change_prob is not None and prob_vars.std is None:
-        #     env = RecordVideo(prob_vars.env, video_folder="videos", episode_trigger=should_record, name_prefix=f"{prob_vars.prob}_{prob_vars.change_prob}_{method_name}_seed{seed}", video_length=prob_vars.max_steps)
+        if prob_vars.change_prob is None and prob_vars.std is not None:
+            env = RecordVideo(prob_vars.env, video_folder="videos", episode_trigger=should_record, name_prefix=f"{prob_vars.prob}_{prob_vars.std}_{method_name}_seed{seed}") # , video_length=prob_vars.max_steps
+        elif prob_vars.change_prob is not None and prob_vars.std is None:
+            env = RecordVideo(prob_vars.env, video_folder="videos", episode_trigger=should_record, name_prefix=f"{prob_vars.prob}_{prob_vars.change_prob}_{method_name}_seed{seed}") # , video_length=prob_vars.max_steps
 
         # Reset models
         # model_QRNN = NextStateQuantileNetwork(state_dim, action_dim, num_quantiles)
