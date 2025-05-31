@@ -625,7 +625,7 @@ class setup_class:
             self.action_high = 1 # env.action_space.high[0]
             
             # self.goal_state = torch.tensor([0, 0, 0, 0, 0, 0, 1, 1], dtype=torch.float32)
-            # self.goal_state = torch.tensor([0, -0.01, 0, 0, 0, 0, 1, 1], dtype=torch.float32)
+            self.goal_state = torch.tensor([0, -0.01, 0, 0, 0, 0, 1, 1], dtype=torch.float32)
             self.goal_state_dim = len(self.goal_state)
 
             self.states_low = torch.tensor([-2.5, -2.5, -10, -10, -6.2831855, -10, 0, 0])
