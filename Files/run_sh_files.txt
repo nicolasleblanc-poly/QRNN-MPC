@@ -171,6 +171,7 @@ sbatch --job-name=MC_MSE_AS_ba_CEM run-MC-MSE-AS-ba-CEM.sh
 sbatch --job-name=MC_MSE_rnd_RS run-MC-MSE-rnd-RS.sh
 sbatch --job-name=MC_MSE_rnd_RS_CEM run-MC-MSE-rnd-RS-CEM.sh
 
+----------------------------------------------------------
 sbatch --job-name=MCC_Q_AS_ba run-MCC-Q-AS-ba.sh
 sbatch --job-name=MCC_Q_AS_ba_CEM run-MCC-Q-AS-ba-CEM.sh
 sbatch --job-name=MCC_Q_rnd_RS run-MCC-Q-rnd-RS.sh
@@ -184,7 +185,9 @@ sbatch --job-name=MCC_MSE_AS_ba_CEM run-MCC-MSE-AS-ba-CEM.sh
 sbatch --job-name=MCC_MSE_rnd_RS run-MCC-MSE-rnd-RS.sh
 sbatch --job-name=MCC_MSE_rnd_RS_CEM run-MCC-MSE-rnd-RS-CEM.sh
 
-
+sbatch --job-name=MCC_Q_evoCEM run-MCC-Q-EvoCEM.sh
+sbatch --job-name=MCC_50_EvoCEM run-MCC-50-EvoCEM.sh
+sbatch --job-name=MCC_MSE_EvoCEM run-MCC-MSE-EvoCEM.sh
 
 
 
