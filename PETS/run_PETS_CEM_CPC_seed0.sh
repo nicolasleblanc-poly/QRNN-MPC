@@ -14,4 +14,4 @@ module load python/3.10.13 scipy-stack
 #/2023a
 source ~/sp_py310/bin/activate
 
-python main_PETS_CEM_MCC_seed0.py # my_script.py
+python main_PETS_CEM_CPC_seed0.py # my_script.py
