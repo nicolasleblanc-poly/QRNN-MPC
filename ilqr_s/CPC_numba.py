@@ -85,10 +85,10 @@ Pendulum = Dynamics.Discrete(f)
 
 # Construct cost function
 x, u = GetSyms(n_x, n_u)
-x_goal = np.array([1, 0, 0])  # Upright position
-Q = np.diag([1, 1, 0.1])      # State cost weights
+x_goal = np.array([0, 0, 0, 0])  # Upright position
+Q = np.diag([0.1, 0.1, 1, 0])      # State cost weights
 R = np.diag([0.1])             # Control cost weight
-QT = np.diag([10, 10, 1])      # Terminal state cost weights
+QT = np.diag([1, 1, 10, 0])      # Terminal state cost weights
 
 # Add torque constraints
 cons = Bounded(u, high=[max_torque], low=[-max_torque])
