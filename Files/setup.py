@@ -294,7 +294,7 @@ class setup_class:
 
                 reverse_discount_factor = gamma**(horizon-t-1)
                 distance_reward = reverse_discount_factor*distance_reward
-                distance_reward += 0.05*(actions)**2
+                # distance_reward += 0.05*(actions)**2
 
                 # weights = np.array([1, 0])
                 # distance_reward = np.dot(weights, distance_reward)
@@ -657,7 +657,7 @@ class setup_class:
                 
                 reverse_discount_factor = gamma**(horizon-t-1)
                 distance_reward = reverse_discount_factor*distance_reward
-                distance_reward += 0.05*(actions)**2
+                # distance_reward += 0.05*(actions)**2
                 return distance_reward
                 # return reverse_discount_factor*distance_reward
             
