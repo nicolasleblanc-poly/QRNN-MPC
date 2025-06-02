@@ -22,7 +22,7 @@ import cartpole_continuous as cartpole_env
 # env = gym.make('Pendulum-v1', render_mode='human')
 # env = gym.make('Pendulum-v1', render_mode='rgb_array')
 env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
-n_x = 2  # [x, v]
+n_x = 4  # [x, v, theta, theta_dot]
 n_u = 1  # [torque]
 # dt = env.dt  # Use the environment's time step (0.05 by default)
 dt = 0.05
