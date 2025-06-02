@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(file_path), '../../'))
 import gymnasium as gym
 
 from rl_gp_mpc.config_classes.visu_config import VisuConfig
-from config_lunarlander import get_config
+from examples.lunar_lander_continuous.config_lunarlandercontinuous import get_config
 
 from rl_gp_mpc.run_env_function import run_env_multiple
 

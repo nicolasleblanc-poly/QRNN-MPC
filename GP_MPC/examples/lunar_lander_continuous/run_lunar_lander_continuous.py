@@ -7,7 +7,7 @@ import gymnasium as gym
 
 from rl_gp_mpc.config_classes.visu_config import VisuConfig
 from rl_gp_mpc.run_env_function import run_env
-from config_lunarlander import get_config
+from examples.lunar_lander_continuous.config_lunarlandercontinuous import get_config
 # lunar_lander.
 
 def run_lunar_lander(num_steps=1000, random_actions_init=20, num_repeat_actions=5):

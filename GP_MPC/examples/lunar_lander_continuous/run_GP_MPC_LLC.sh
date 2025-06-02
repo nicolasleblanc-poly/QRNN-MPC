@@ -13,4 +13,4 @@ module load mujoco
 module load python/3.10.0 scipy-stack/2023a
 source ~/py310new/bin/activate
 
-python run_lunar_lander_multiple.py # my_script.py
+python run_lunar_lander_continuous_multiple.py # my_script.py
