@@ -146,8 +146,8 @@ batch_size = 32
 action_low = env.action_space.low[0]
 action_high = env.action_space.high[0]
 
-states_low = torch.tensor([-1, -1, -8])
-states_high = torch.tensor([1, 1, 8])
+states_low = torch.tensor([-4.8, -torch.inf, -0.41887903, -torch.inf])
+states_high = torch.tensor([4.8, torch.inf, 0.41887903, torch.inf])
 
 mpc = MPC(controller, control_horizon=horizon)
 
