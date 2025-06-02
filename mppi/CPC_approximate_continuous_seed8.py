@@ -224,7 +224,7 @@ if __name__ == "__main__":
             pre_action_state = state # env.state
             # pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
-            env.step([action])
+            env.step(np.array([action]))
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
