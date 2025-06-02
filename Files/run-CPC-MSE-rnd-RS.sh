@@ -19,7 +19,7 @@ python run_CPC_MSE_rnd_RS.py # my_script.py
 # #SBATCH --mem=32G
 # #SBATCH --nodes=1
 # #SBATCH --ntasks-per-node=8
-# #SBATCH --time=168:0:0    
+# #SBATCH --time=8-00:00:00
 # #SBATCH --mail-user=<nicolas-3.leblanc@polymtl.ca>
 # #SBATCH --mail-type=ALL
 
