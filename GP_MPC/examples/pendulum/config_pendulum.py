@@ -76,12 +76,24 @@ def get_config(len_horizon=15, include_time_model=False, num_repeat_actions=1):
 		step_print_train=5
 	)
 
+	# controller_config = ControllerConfig(
+	# 	len_horizon=len_horizon,
+	# 	actions_optimizer_params = {
+	# 		"disp": None, "maxcor": 4, "ftol": 1e-15, "gtol": 1e-15, "eps": 1e-2, "maxfun": 4,
+	# 		"maxiter": 4, "iprint": -1, "maxls": 4, "finite_diff_rel_step": None
+	# 	},
+	# 	num_repeat_actions=num_repeat_actions
+	# )
+
 	controller_config = ControllerConfig(
 		len_horizon=len_horizon,
 		actions_optimizer_params = {
 			"disp": None, "maxcor": 4, "ftol": 1e-15, "gtol": 1e-15, "eps": 1e-2, "maxfun": 4,
 			"maxiter": 4, "iprint": -1, "maxls": 4, "finite_diff_rel_step": None
 		},
+		init_from_previous_actions=True,
+		restarts_optim=2,
+		optimize=True,
 		num_repeat_actions=num_repeat_actions
 	)
 

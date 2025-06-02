@@ -109,18 +109,27 @@ def run_env_multiple(env, env_name, control_config:Config, visu_config: VisuConf
     
     if env_name == "PandaReach-v3":
         prob = "PandaReach"
+    
     elif env_name == "PandaReachDense-v3":
         prob = "PandaReachDense"
+    
     elif env_name == "Reacher-v5":
         prob = "Reacher"
+    
     elif env_name == "Pendulum-v1":
         prob = "Pendulum"
+    
     elif env_name == "LunarLanderContinuous-v3":
         prob = "LunarLander"
+    
     elif env_name == "MountainCarContinuous-v0":
         prob = "MountainCar"
+    
     elif env_name == "InvertedPendulum-v5":
         prob = "InvertedPendulum"
+        
+    elif env_name == "CartPoleContinuous":
+        prob = "CartPoleContinuous"
     
     for rep in range(num_reps): # repetition over the different seeds
         # costs_runs = []
