@@ -458,6 +458,73 @@ class setup_class:
             self.compute_cost_Pendulum_xy_omega = compute_cost_Pendulum_xy_omega
 
 
+        elif prob == "CartPoleContinuous":
+            self.discrete = False
+            self.horizon = 30
+            # self.max_episodes = 100
+            self.max_episodes = 400
+            self.max_steps = 200
+
+            # For test
+            # self.max_episodes = 2
+            # self.max_steps = 3
+                        
+            # Current test values
+            # self.std = 0
+            self.std = 3e-1
+            # self.std = 1.5
+            
+            self.change_prob = None
+
+            # if self.change_prob == 0.01:
+            #     self.change_prob_std = "001"
+            # elif self.change_prob == 0.05:
+            #     self.change_prob_std = "005"
+            # elif self.change_prob == 0.1:
+            #     self.change_prob_std = "01"
+            # elif self.change_prob == 0.3:
+            #     self.change_prob_std = "03"
+            # elif self.change_prob == 0.5:
+            #     self.change_prob_std = "05"    
+      
+            # self.nb_actions = 2
+            
+            self.nb_top_particles = 5
+            # nb_random = 10
+            
+            from cartpole_continuous import CartPoleContinuousEnv
+            self.env = CartPoleContinuousEnv(render_mode="rgb_array").unwrapped # To save time since 200 instead of 500 steps per episode
+            
+            # self.env = gym.make('CartPole-v0', render_mode="rgb_array").unwrapped # To save time since 200 instead of 500 steps per episode
+            
+            # Hyperparameters
+            self.state_dim = self.env.observation_space.shape[0] # Since we only care about angle and omega which are given using env.state
+            # action_dim = env.action_space.shape[0]  # For Pendulum, it's continuous
+            self.action_dim = 1
+            self.action_low = self.env.action_space.low[0]
+            self.action_high = self.env.action_space.high[0]
+            
+            self.goal_state = torch.tensor([0, 0], dtype=torch.float32)
+            self.goal_state_dim = len(self.goal_state)
+
+            self.states_low = torch.tensor([-4.8, -torch.inf, -0.41887903, -torch.inf])
+            self.states_high = torch.tensor([4.8, torch.inf, 0.41887903, torch.inf])
+            
+            def compute_cost_CartPoleContinuous(states, t, horizon, actions):
+                """
+                Vectorized cost computation for multiple states and actions.
+                
+                :param states: Tensor of shape (batch_size, state_dim)
+                :param actions: Tensor of shape (batch_size,)
+                :return: Cost tensor of shape (batch_size,)
+                """
+                cart_position = states[:, 0]
+                pole_angle = states[:, 2]
+                cart_velocity = states[:, 1]
+                return pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
+
+            self.compute_cost_CartPoleContinuous = compute_cost_CartPoleContinuous
+
         elif prob == "Pendulum":
             self.discrete = False
             self.horizon = 15
@@ -967,6 +1034,8 @@ class setup_class:
             return self.compute_cost_Pendulum(states, t, horizon, actions)
         elif prob == "Pendulum_xyomega":
             return self.compute_cost_Pendulum_xy_omega(states, t, horizon, actions)
+        if prob == "CartPoleContinuous":
+            return self.compute_cost_CartPoleContinuous(states, t, horizon, actions)
         elif prob == "MountainCarContinuous":
             return self.compute_cost_MountainCarContinuous(states, t, horizon, actions)
         elif prob == "LunarLanderContinuous":
