@@ -492,8 +492,9 @@ class setup_class:
             self.nb_top_particles = 5
             # nb_random = 10
             
-            from cartpole_continuous import CartPoleContinuousEnv
-            self.env = CartPoleContinuousEnv(render_mode="rgb_array").unwrapped # To save time since 200 instead of 500 steps per episode
+            import cartpole_continuous as cartpole_env
+            
+            self.env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped # To save time since 200 instead of 500 steps per episode
             
             # self.env = gym.make('CartPole-v0', render_mode="rgb_array").unwrapped # To save time since 200 instead of 500 steps per episode
             
