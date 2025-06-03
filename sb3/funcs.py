@@ -227,7 +227,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         model.learn(total_timesteps=steps_per_episode*max_episodes, callback=return_logger)
         
         episodic_return_seeds.append(return_logger.episodic_returns)
-        print("len(return_logger.episodic_returns): ", len(return_logger.episodic_returns))
+        # print("len(return_logger.episodic_returns): ", len(return_logger.episodic_returns))
         
         env.close()
         del env
