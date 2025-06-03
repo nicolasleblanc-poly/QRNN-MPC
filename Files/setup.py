@@ -237,7 +237,8 @@ class setup_class:
 
         elif prob == "MountainCar": # ToDo
             self.discrete = True
-            self.horizon = 70
+            # self.horizon = 70 # Value before change to 30
+            self.horizon = 30
             # horizon = 100
             # max_episodes = 100
             
@@ -613,7 +614,8 @@ class setup_class:
         elif prob == "MountainCarContinuous":
             self.discrete = False
             # self.horizon = 70
-            self.horizon = 12
+            # self.horizon = 12 # Value before change to 30
+            self.horizon = 30
             # horizon = 100
             # self.max_episodes = 100
             self.max_episodes = 500
