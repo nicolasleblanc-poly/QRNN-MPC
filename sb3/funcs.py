@@ -161,25 +161,36 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
     for seed in env_seeds:
         if prob == "CartPole":
             env = gym.make("CartPole-v0")
+            
         elif prob == "Acrobot":
             env = gym.make("Acrobot-v1")
+            env = gym.wrappers.TimeLimit(env, max_episode_steps=200)
+                    
         elif prob == "MountainCar":
             env = gym.make("MountainCar-v0")
+        
         elif prob == "LunarLander":
             env = gym.make("LunarLander-v3")
+        
         elif prob == "Pendulum":
             env = gym.make("Pendulum-v1")
+        
         elif prob == "InvertedPendulum":
             env = gym.make("InvertedPendulum-v5")
+        
         elif prob == "MountainCarContinuous":
             env = gym.make("MountainCarContinuous-v0")
+        
         elif prob == "LunarLanderContinuous":
             env = gym.make("LunarLanderContinuous-v3")
+        
         elif prob == "Reacher":
             env = gym.make("Reacher-v5")
+        
         elif prob == "PandaReach":
             env = gym.make("PandaReach-v3")
             env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
+        
         elif prob == "PandaReacherDense":
             env = gym.make("PandaReachDense-v3")
             env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
