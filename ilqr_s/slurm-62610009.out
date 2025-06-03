@@ -1,0 +1,119 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+  0%|          | 0/200 [00:00<?, ?it/s]  0%|          | 0/200 [00:14<?, ?it/s]
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr_s/CPC_numba.py", line 182, in <module>
+    us = mpc.control(state)
+         ^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py", line 76, in control
+    xs, us, cost_trace = self.controller.fit(x0, self.us_init, maxiters, early_stop)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py", line 34, in fit
+    return run_ilqr(self.dynamics.f, self.dynamics.f_prime, self.cost.L,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/numba/core/dispatcher.py", line 424, in _compile_for_args
+    error_rewrite(e, 'typing')
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/numba/core/dispatcher.py", line 365, in error_rewrite
+    raise e.with_traceback(None)
+numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
+[1m[1m[1m[1m[1m[1m[1mFailed in nopython mode pipeline (step: nopython frontend)
+[1m[1m[1m[1m[1m[1m[1mFailed in nopython mode pipeline (step: nopython frontend)
+[1m[1m[1m[1m[1mFailed in nopython mode pipeline (step: nopython frontend)
+[1m[1m[1m[1mNo implementation of function Function(<function clip at 0x150203e22e80>) found for signature:
+ 
+ >>> clip(float64, float64, float64)
+ 
+There are 2 candidate implementations:
+[1m  - Of which 2 did not match due to:
+  Overload in function 'np_clip': File: numba/np/arrayobj.py: Line 2367.
+    With argument(s): '(float64, float64, float64)':[0m
+[1m   Rejected as the implementation raised a specific error:
+     TypingError: Failed in nopython mode pipeline (step: nopython frontend)
+   [1m[1m[1mUnknown attribute 'shape' of type float64
+   [1m
+   File "../../../../../home/nileb3/myenv/lib/python3.11/site-packages/numba/np/arrayobj.py", line 2406:[0m
+   [1m        def np_clip_ss(a, a_min, a_max, out=None):
+               <source elided>
+               ret = np.empty_like(a) if out is None else out
+   [1m            for index in np.ndindex(a.shape):
+   [0m            [1m^[0m[0m
+   [0m
+   [0m[1mDuring: typing of get attribute at /home/nileb3/myenv/lib/python3.11/site-packages/numba/np/arrayobj.py (2406)[0m
+   [1m
+   File "../../../../../home/nileb3/myenv/lib/python3.11/site-packages/numba/np/arrayobj.py", line 2406:[0m
+   [1m        def np_clip_ss(a, a_min, a_max, out=None):
+               <source elided>
+               ret = np.empty_like(a) if out is None else out
+   [1m            for index in np.ndindex(a.shape):
+   [0m            [1m^[0m[0m
+   
+   [0m[1mDuring: Pass nopython_type_inference[0m[0m
+  raised from /home/nileb3/myenv/lib/python3.11/site-packages/numba/core/typeinfer.py:1074
+[0m
+[0m[1mDuring: resolving callee type: Function(<function clip at 0x150203e22e80>)[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/CPC_numba.py (54)
+[0m
+[1m
+File "CPC_numba.py", line 54:[0m
+[1mdef f_numba(state, u):
+    <source elided>
+    # Force input
+[1m    force = np.clip(u[0], -10.0, 10.0)  # adjust limits if needed
+[0m    [1m^[0m[0m
+
+[0m[1mDuring: Pass nopython_type_inference[0m
+[0m[1mDuring: resolving callee type: type(CPUDispatcher(<function f_numba at 0x15014eabcf40>))[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/CPC_numba.py (80)
+[0m
+[0m[1mDuring: resolving callee type: type(CPUDispatcher(<function f_numba at 0x15014eabcf40>))[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/CPC_numba.py (80)
+[0m
+[1m
+File "CPC_numba.py", line 80:[0m
+[1mdef f(x, u):
+[1m    return f_numba(x, u)
+[0m    [1m^[0m[0m
+
+[0m[1mDuring: Pass nopython_type_inference[0m
+[0m[1mDuring: resolving callee type: type(CPUDispatcher(<function f at 0x1501f5ba9e40>))[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py (131)
+[0m
+[0m[1mDuring: resolving callee type: type(CPUDispatcher(<function f at 0x1501f5ba9e40>))[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py (131)
+[0m
+[0m[1mDuring: resolving callee type: type(CPUDispatcher(<function f at 0x1501f5ba9e40>))[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py (131)
+[0m
+[1m
+File "ilqr_numba/controller.py", line 131:[0m
+[1mdef rollout(f, L, Lf, x0, us):
+    <source elided>
+    for n in range(us.shape[0]):
+[1m      xs[n+1] = f(xs[n], us[n])
+[0m      [1m^[0m[0m
+
+[0m[1mDuring: Pass nopython_type_inference[0m
+[0m[1mDuring: resolving callee type: type(CPUDispatcher(<function rollout at 0x1501f5baaa20>))[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py (90)
+[0m
+[0m[1mDuring: resolving callee type: type(CPUDispatcher(<function rollout at 0x1501f5baaa20>))[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py (90)
+[0m
+[0m[1mDuring: resolving callee type: type(CPUDispatcher(<function rollout at 0x1501f5baaa20>))[0m
+[0m[1mDuring: typing of call at /project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py (90)
+[0m
+[1m
+File "ilqr_numba/controller.py", line 90:[0m
+[1mdef run_ilqr(f, f_prime, L, Lf, L_prime, Lf_prime, x0, u_init, max_iters, early_stop,
+    <source elided>
+    # First forward rollout
+[1m    xs, J_old = rollout(f, L, Lf, x0, us)
+[0m    [1m^[0m[0m
+
+[0m[1mDuring: Pass nopython_type_inference[0m
