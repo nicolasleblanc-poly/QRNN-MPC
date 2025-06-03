@@ -14,4 +14,4 @@ module load python/3.10.13 scipy-stack/2023a
 # source ~/py310new/bin/activate
 source ~/sp_py310/bin/activate
 
-python run_pendulum_multiple.py # my_script.py
+python run_CPC_multiple.py # my_script.py
