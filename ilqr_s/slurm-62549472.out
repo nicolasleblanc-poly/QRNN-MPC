@@ -1,0 +1,22 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+  0%|          | 0/200 [00:00<?, ?it/s]  0%|          | 0/200 [00:33<?, ?it/s]
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr_s/CPC_numba.py", line 175, in <module>
+    us = mpc.control(state)
+         ^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py", line 76, in control
+    xs, us, cost_trace = self.controller.fit(x0, self.us_init, maxiters, early_stop)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/ilqr_s/ilqr_numba/controller.py", line 34, in fit
+    return run_ilqr(self.dynamics.f, self.dynamics.f_prime, self.cost.L,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/numba/np/arrayobj.py", line 1661, in impl
+    raise ValueError(msg)
+ValueError: cannot assign slice of shape (3,) from input of shape (4,)

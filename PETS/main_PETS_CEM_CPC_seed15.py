@@ -151,8 +151,9 @@ if prob == "PandaReacherDense":
     num_trials = 300 # 10
     
 if prob == "CartPoleContinuous":
-    import mbrl.env.cartpole_continuous as cartpole_env
-    env = cartpole_env.CartPoleEnv()
+    # import mbrl.env.cartpole_continuous as cartpole_env
+    from cartpole_continuous import CartPoleEnv
+    env = CartPoleEnv() # cartpole_env.
     reward_fn = reward_fns.cartpole
     term_fn = termination_fns.cartpole
     trial_length = 200

@@ -99,7 +99,7 @@ use_MSENN = False
 
 
 model_50NN = NextStateSinglePredNetwork(prob_vars.state_dim, prob_vars.action_dim)
-optimizer_QRNN = optim.Adam(model_50NN.parameters(), lr=1e-3)
+optimizer_50NN = optim.Adam(model_50NN.parameters(), lr=1e-3)
 loss_50NN = quantile_loss_median
 
 # Experience replay buffer

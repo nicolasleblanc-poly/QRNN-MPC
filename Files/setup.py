@@ -241,8 +241,8 @@ class setup_class:
             # horizon = 100
             # max_episodes = 100
             
-            self.max_episodes = 10
-            # self.max_episodes = 500
+            # self.max_episodes = 10
+            self.max_episodes = 500
             self.max_steps = 200
             self.std = None
             # change_prob = 0.01

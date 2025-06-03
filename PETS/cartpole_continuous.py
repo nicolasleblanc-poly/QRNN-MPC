@@ -2,12 +2,13 @@ import math
 from typing import Optional
 
 import gymnasium as gym
+from gymnasium.core import Env
 import numpy as np
 from gymnasium import logger, spaces
 from gymnasium.error import DependencyNotInstalled
 
 
-class CartPoleEnv(gym.Env):
+class CartPoleEnv(Env):
     # This is a continuous version of gym's cartpole environment, with the only difference
     # being valid actions are any numbers in the range [-1, 1], and the are applied as
     # a multiplicative factor to the total force.
@@ -116,7 +117,7 @@ class CartPoleEnv(gym.Env):
 
         return np.array(self.state), reward, terminated, False, {}
 
-    def reset(self, seed: Optional[int] = None):
+    def reset(self, seed: Optional[int] = None, options = None):
         super().reset(seed=seed)
         self.state = self.np_random.uniform(low=-0.05, high=0.05, size=(4,))
         self.steps_beyond_terminated = None

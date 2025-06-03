@@ -9,9 +9,10 @@ from rl_gp_mpc.config_classes.visu_config import VisuConfig
 from rl_gp_mpc.run_env_function import run_env
 from config_CPC import get_config
 
-import cartpole_continuous as cartpole_env
+# import cartpole_continuous as cartpole_env
+from cartpole_continuous import CartPoleEnv
 
-def run_pendulum():
+def run_CPC():
     num_steps = 200 # 150
     random_actions_init = 10
     num_repeat_actions = 1
@@ -22,7 +23,8 @@ def run_pendulum():
     env_name = 'CartPoleContinuous'
     # env = gym.make(env_name, render_mode='human')
     # env = gym.make(env_name)
-    env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
+    env = CartPoleEnv() # cartpole_env.
+    # env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
     control_config = get_config(len_horizon=len_horizon, num_repeat_actions=num_repeat_actions)
     seed = 0
     visu_config = VisuConfig()
@@ -32,6 +34,6 @@ def run_pendulum():
 
 
 if __name__ == '__main__':
-    episodic_return = run_pendulum()
+    episodic_return = run_CPC()
     print("episodic_return ", episodic_return, "\n")
     
