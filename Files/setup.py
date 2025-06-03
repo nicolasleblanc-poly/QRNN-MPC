@@ -301,7 +301,7 @@ class setup_class:
 
                 return distance_reward
                 
-                return reverse_discount_factor*distance_reward
+                # return reverse_discount_factor*distance_reward
             
             self.compute_cost_MountainCar = compute_cost_MountainCar
 

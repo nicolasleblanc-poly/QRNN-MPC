@@ -37,30 +37,37 @@ max_speed = 8.0
 
 # Numba-compatible dynamics function
 @jit(nopython=True)
-def f_numba(x, u):
-    # Convert state to angle and angular velocity
-    theta = np.arctan2(x[1], x[0])
-    thdot = x[2]
+def f_numba(state, u):
+    # Constants
+    g = 9.8  # gravity
+    m_cart = 1.0  # mass of the cart
+    m_pole = 0.1  # mass of the pole
+    total_mass = m_cart + m_pole
+    l = 0.5  # half the pole length
+    mu = 0.0  # friction (can be 0)
+    dt = 0.02  # time step (default Gym)
 
-    # Clip the action
-    u_clipped = min(max(u[0], -max_torque), max_torque)
-    
-    # Calculate angular acceleration
-    thdot_dot = 3 * g / (2 * l) * np.sin(theta) + 3.0 / (m * l**2) * u_clipped
-    # (3 * g / (2 * l) * np.sin(theta) + 3.0 / (m * l**2) * u_clipped
-    
-    # Update angular velocity with manual clipping
-    new_thdot = thdot + thdot_dot * dt
-    if new_thdot > max_speed:
-        new_thdot = max_speed
-    elif new_thdot < -max_speed:
-        new_thdot = -max_speed
-    
-    # Update angle
-    new_theta = theta + new_thdot * dt
-    
-    # Return state in Gymnasium format
-    return np.array([np.cos(new_theta), np.sin(new_theta), new_thdot])
+    # Unpack state
+    x, x_dot, theta, theta_dot = state
+
+    # Force input
+    force = np.clip(u[0], -10.0, 10.0)  # adjust limits if needed
+
+    # Equations of motion from OpenAI Gym CartPole
+    cos_theta = np.cos(theta)
+    sin_theta = np.sin(theta)
+
+    temp = (force + m_pole * l * theta_dot ** 2 * sin_theta) / total_mass
+    theta_acc = (g * sin_theta - cos_theta * temp) / (l * (4.0/3.0 - m_pole * cos_theta**2 / total_mass))
+    x_acc = temp - m_pole * l * theta_acc * cos_theta / total_mass
+
+    # Integrate using Euler method
+    x = x + dt * x_dot
+    x_dot = x_dot + dt * x_acc
+    theta = theta + dt * theta_dot
+    theta_dot = theta_dot + dt * theta_acc
+
+    return np.array([x, x_dot, theta, theta_dot])
 
 # def f_numba(x, u, model):
     

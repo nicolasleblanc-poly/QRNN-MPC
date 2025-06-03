@@ -3,6 +3,7 @@ import numpy as np
 from numba import njit
 from .utils import *
 
+
 class Dynamics:
 
     def __init__(self, f, f_x, f_u):
