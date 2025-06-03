@@ -7,7 +7,7 @@ from gymnasium import logger, spaces
 from gymnasium.error import DependencyNotInstalled
 
 
-class CartPoleContinuousEnv(gym.Env):
+class CartPoleEnv(gym.Env):
     # This is a continuous version of gym's cartpole environment, with the only difference
     # being valid actions are any numbers in the range [-1, 1], and the are applied as
     # a multiplicative factor to the total force.

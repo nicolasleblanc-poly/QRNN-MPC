@@ -9,7 +9,9 @@ from rl_gp_mpc.config_classes.visu_config import VisuConfig
 from rl_gp_mpc.run_env_function import run_env_multiple
 from config_CPC import get_config
 
-import cartpole_continuous as cartpole_env
+# import mbrl.env.cartpole_continuous as cartpole_env
+from cartpole_continuous import CartPoleEnv
+
 
 if __name__ == '__main__':
     num_episodes = 300 # 20
@@ -26,8 +28,9 @@ if __name__ == '__main__':
     # prob = "Pendulum"
     env_name = 'CartPoleContinuous'
     # env = gym.make(env_name, render_mode='human')
-    # env = gym.make(env_name)        
-    env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
+    # env = gym.make(env_name)
+    env = CartPoleEnv() # cartpole_env.
+    # env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
     control_config = get_config(len_horizon=len_horizon, num_repeat_actions=num_repeat_actions)
     
     visu_config = VisuConfig(render_live_plot_2d=False, render_env=False, save_render_env=False)
