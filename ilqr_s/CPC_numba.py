@@ -51,7 +51,7 @@ def f_numba(state, u):
     x, x_dot, theta, theta_dot = state
 
     # Force input
-    force = np.clip(u[0], -10.0, 10.0)  # adjust limits if needed
+    force = np.clip(u, -10.0, 10.0)[0]  # adjust limits if needed
 
     # Equations of motion from OpenAI Gym CartPole
     cos_theta = np.cos(theta)
