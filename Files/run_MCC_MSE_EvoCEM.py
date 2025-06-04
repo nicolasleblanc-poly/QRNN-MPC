@@ -58,7 +58,7 @@ if not prob_vars.discrete:
     use_MSENN = True
 
     # method_name = "MPC_MSENN_EvoCEM_mid"
-    method_name = "MPC_MSENN_EvoCEM_mid_ChangeHorizonTo30From12"
+    method_name = "MPC_MSENN_EvoCEM_mid_ChangeHorizonTo30From12_AddedVelocity"
 
     # Experience replay buffer
     replay_buffer_MSENN_pretrained = None

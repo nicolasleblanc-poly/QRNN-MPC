@@ -58,7 +58,7 @@ if not prob_vars.discrete:
     use_MSENN = False
 
     # method_name = "MPC_QRNN_EvoCEM_mid"
-    method_name = "MPC_QRNN_EvoCEM_mid_ChangeHorizonTo30From12"
+    method_name = "MPC_QRNN_EvoCEM_mid_ChangeHorizonTo30From12_AddedVelocity"
 
     model_QRNN = NextStateQuantileNetwork(prob_vars.state_dim, prob_vars.action_dim, prob_vars.num_quantiles)
     optimizer_QRNN = optim.Adam(model_QRNN.parameters(), lr=1e-3)
