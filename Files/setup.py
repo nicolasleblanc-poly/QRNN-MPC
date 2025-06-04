@@ -294,7 +294,7 @@ class setup_class:
                 distance_reward = (states[:, 0]-goal_position)**2 # -abs(goal_position - state[0])
 
                 reverse_discount_factor = gamma**(horizon-t-1)
-                distance_reward = reverse_discount_factor*distance_reward
+                distance_reward = reverse_discount_factor*distance_reward-0.1*states[:, 1]**2
                 # distance_reward += 0.05*(actions)**2
 
                 # weights = np.array([1, 0])
@@ -658,7 +658,7 @@ class setup_class:
                 distance_reward = (states[:, 0]-goal_position)**2 # -abs(goal_position - state[0])
                 
                 reverse_discount_factor = gamma**(horizon-t-1)
-                distance_reward = reverse_discount_factor*distance_reward
+                distance_reward = reverse_discount_factor*distance_reward-0.1*states[:, 1]**2
                 # distance_reward += 0.05*(actions)**2
                 return distance_reward
                 # return reverse_discount_factor*distance_reward
