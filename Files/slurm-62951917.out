@@ -7,7 +7,7 @@ The following modules were not unloaded:
   4) gcc/12.3        9)  ucc/1.2.0
   5) hwloc/2.9.1     10) openmpi/4.1.5
 Traceback (most recent call last):
-  File "/project/6086407/nileb3/QRNN-MPC/Files/run_MC_Q_ba.py", line 22, in <module>
+  File "/project/6086407/nileb3/QRNN-MPC/Files/run_CPC_Q_AS_ba.py", line 22, in <module>
     from setup import setup_class
   File "/project/6086407/nileb3/QRNN-MPC/Files/setup.py", line 4, in <module>
     import panda_gym
