@@ -369,7 +369,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
             costs.append(best_cost)
             
             # print("best_particle ", best_particle, "\n")
-            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "InvertedPendulum":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "InvertedPendulum" or prob_vars.prob == "CartPoleContinuous":
                 action = [best_particle[0]]
                 actions_list.append(list(action))
             
@@ -687,7 +687,7 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
             
             costs.append(best_cost)
             
-            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "InvertedPendulum":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "InvertedPendulum" or prob_vars.prob == "CartPoleContinuous":
                 action = [best_particle[0]]
                 # print("action ", action, "\n")
             
@@ -979,7 +979,7 @@ def start_QRNN_MPC_LBFGSB(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                 actions = np.random.randint(0, 4, (prob_vars.horizon))
             elif prob_vars.prob == "PandaReacher" or prob_vars.prob == "MuJoCoReacher" or prob_vars.prob == "PandaPusher" or prob_vars.prob == "MuJoCoPusher" or prob_vars.prob == "LunarLanderContinuous" or prob_vars.prob == "PandaReacherDense":
                 actions = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.action_dim*prob_vars.horizon))
-            else: # Pendulum, MountainCarContinuous, Pendulum_xyomega
+            else: # Pendulum, MountainCarContinuous, Pendulum_xyomega, CartPoleContinuous
                 actions = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.horizon))
 
             # if prob == "CartPole":
@@ -1047,7 +1047,7 @@ def start_QRNN_MPC_LBFGSB(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
             # costs.append(best_cost)
             
             # print("best_particle ", best_particle, "\n")
-            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega":
+            if prob_vars.prob == "Pendulum" or prob_vars.prob == "MountainCarContinuous" or prob_vars.prob == "Pendulum_xyomega" or prob_vars.prob == "CartPoleContinuous":
                 # action = [best_particle[0]]
                 action = [action]
                 actions_list.append(list(action))
