@@ -2,7 +2,7 @@
 #SBATCH --mem=32G
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
-#SBATCH --time=14-00:00:00 
+#SBATCH --time=6-00:00:00 
 #SBATCH --mail-user=<nicolas-3.leblanc@polymtl.ca>
 #SBATCH --mail-type=ALL
 
@@ -14,4 +14,4 @@ module load python/3.10.13 scipy-stack
 #/2023a
 source ~/sp_py310/bin/activate
 
-python main_PETS_CEM_PE_seed15.py # my_script.py
+python main_PETS_CEM_Reacher_seed15.py # my_script.py
