@@ -303,6 +303,8 @@ class setup_class:
 
                 goal_position = 0.5  # Position goal in Mountain Car
                 gamma = 0.90 # 0.0  # Discount factor for delayed rewards
+                # gamma = 0.5 # Try this value
+                # Or only compare the last position
                 
                 # Distance reward: Encourage progress towards the goal
                 distance_reward = (states[:, 0]-goal_position)**2 # -abs(goal_position - state[0])
@@ -667,6 +669,8 @@ class setup_class:
 
                 goal_position = 0.45  # Position goal in Mountain Car
                 gamma = 0.90 # 0.0  # Discount factor for delayed rewards
+                # gamma = 0.5 # Try this value
+                # Or only compare the last position
                 
                 # Distance reward: Encourage progress towards the goal
                 distance_reward = (states[:, 0]-goal_position)**2 # -abs(goal_position - state[0])
