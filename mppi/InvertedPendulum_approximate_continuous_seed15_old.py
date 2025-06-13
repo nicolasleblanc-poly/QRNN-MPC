@@ -13,8 +13,6 @@ from pytorch_mppi_folder import mppi_modified as mppi
 # from gym import logger as gym_log
 import os
 
-import cartpole_continuous as cartpole_env
-
 # gym_log.set_level(gym_log.INFO)
 # logger = logging.getLogger(__name__)
 # logging.basicConfig(level=logging.INFO,
@@ -22,7 +20,7 @@ import cartpole_continuous as cartpole_env
 #                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
-    ENV_NAME = "CartPoleContinuous"
+    ENV_NAME = "InvertedPendulum-v5"
     TIMESTEPS = 30  # T 
     N_SAMPLES = 200  # K # Number of trajectories to sample
     ACTION_LOW = -3.0
@@ -104,20 +102,20 @@ if __name__ == "__main__":
         # cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         return cost
 
-    # def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+    def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
-    #     # Get the folder where this script is located
-    #     origin_folder = os.path.dirname(os.path.abspath(__file__))
-    #     # Construct full path to save
-    #     save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+        # Get the folder where this script is located
+        origin_folder = os.path.dirname(os.path.abspath(__file__))
+        # Construct full path to save
+        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
 
-    #     np.savez(
-    #     save_path,
-    #     f"{prob}_{method_name}_results.npz",
-    #     episode_rewards=episodic_rep_returns,
-    #     mean_rewards=mean_episodic_returns,
-    #     std_rewards=std_episodic_returns
-    #     )
+        np.savez(
+        save_path,
+        f"{prob}_{method_name}_results.npz",
+        episode_rewards=episodic_rep_returns,
+        mean_rewards=mean_episodic_returns,
+        std_rewards=std_episodic_returns
+        )
 
     dataset = None
     # create some true dynamics validation set to compare model against
@@ -205,8 +203,7 @@ if __name__ == "__main__":
         # logger.debug("Start next collection sequence")
         
     # downward_start = True
-    # env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
-    env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
+    env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
     # env = env.unwrapped
     state, info = env.reset()
     # state, info = env.reset()
@@ -224,7 +221,7 @@ if __name__ == "__main__":
             pre_action_state = state # env.state
             # pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
-            env.step(np.array([action]))
+            env.step([action])
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
@@ -237,11 +234,11 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    seed = 0
+    seed = 15
     episodic_return_seeds = []
     max_episodes = 300
     method_name = "MPPI"
-    prob = "CPC"
+    prob = "InvertedPendulum"
     max_steps = 1000
     
     # for seed in env_seeds:
@@ -249,12 +246,16 @@ if __name__ == "__main__":
     # Reset network to initial pretrained weights
     network.load_state_dict(initial_state_dict)
     
+    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+                            lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+                            u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    
     for episode in range(max_episodes):
         env.reset(seed=seed)
 
-        mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                            lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                            u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+        # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+        #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+        #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
         total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         episodic_return.append(total_reward)
         
