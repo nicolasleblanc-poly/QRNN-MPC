@@ -14,3 +14,4 @@ The following have been reloaded with a version change:
   if OmegaConf.is_none(config):
 /home/nileb3/sp_py310/lib/python3.10/site-packages/mbrl/models/gaussian_mlp.py:99: UserWarning: use_silu is deprecated and will be removed in v0.2.0. Use activation_fn_cfg with _target_=torch.nn.SiLU instead.
   warnings.warn(
+slurmstepd: error: *** JOB 62698048 ON cdr2156 CANCELLED AT 2025-06-12T06:21:03 DUE TO TIME LIMIT ***
