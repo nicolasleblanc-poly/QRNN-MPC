@@ -10,7 +10,7 @@ class setup_class:
         self.nb_actions = None
 
         # Generate random seeds
-        self.random_seeds = [0, 8, 15]
+        self.random_seeds = [8]
         # print("random_seeds ", type(random_seeds[0]), "\n")
         self.nb_rep_episodes = len(self.random_seeds)
 
@@ -310,7 +310,7 @@ class setup_class:
                 distance_reward = (states[:, 0]-goal_position)**2 # -abs(goal_position - state[0])
 
                 reverse_discount_factor = gamma**(horizon-t-1)
-                distance_reward = reverse_discount_factor*distance_reward #-0.1*states[:, 1]**2
+                distance_reward = reverse_discount_factor*distance_reward # -0.1*states[:, 1]**2
                 # distance_reward += 0.05*(actions)**2
 
                 # weights = np.array([1, 0])

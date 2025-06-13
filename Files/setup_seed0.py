@@ -10,7 +10,7 @@ class setup_class:
         self.nb_actions = None
 
         # Generate random seeds
-        self.random_seeds = [0, 8, 15]
+        self.random_seeds = [0]
         # print("random_seeds ", type(random_seeds[0]), "\n")
         self.nb_rep_episodes = len(self.random_seeds)
 
