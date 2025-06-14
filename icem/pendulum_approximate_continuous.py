@@ -140,11 +140,27 @@ if __name__ == "__main__":
 
 
     def running_cost(state, action):
-        theta = state[:, 0]
-        theta_dt = state[:, 1]
-        action = action[:, 0]
-        cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2
-        return cost
+        # theta = state[:, 0]
+        # theta_dt = state[:, 1]
+        # action = action[:, 0]
+        horizon = 15
+        gamma = 0.99  # discount factor
+        # cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2
+        batch_size = state.shape[0]
+        costs = torch.zeros(batch_size, horizon)  # Initialize cost accumulator
+        
+        for t in range(horizon):
+            theta = state[:, t, 0]
+            theta_dt = state[:, t, 1]
+            # print("state.shape ", state.shape, "\n")
+            # print("action.shape ", action.shape, "\n")
+            a = action[:, t,  0]
+            cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2 + 0.01*a**2
+
+            reverse_discount_factor = gamma ** (horizon - t - 1)
+            costs[:, t] = cost*reverse_discount_factor
+
+        return costs
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
@@ -247,7 +263,7 @@ if __name__ == "__main__":
 
         train(new_data)
         # logger.info("bootstrapping finished")
-        # print("bootstrapping finished \n")
+        print("bootstrapping finished \n")
         
         # Save the initial weights after bootstrapping
         initial_state_dict = network.state_dict()

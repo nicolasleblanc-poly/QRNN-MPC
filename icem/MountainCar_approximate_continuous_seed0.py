@@ -118,12 +118,26 @@ if __name__ == "__main__":
         return torch.cat((position, velocity), dim=1)
 
     def running_cost(state, action):
+        gamma = 0.5
+        horizon = 30
         goal = 0.45
-        position = state[:, 0]
-        velocity = state[:, 1]
-        force = action[:, 0]
-        cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
-        return cost
+        # position = state[:, 0]
+        # velocity = state[:, 1]
+        # force = action[:, 0]
+        # cost = (goal - position) ** 2 
+        #+ 0.1 * velocity ** 2 + 0.001 * (force ** 2)
+
+        positions = state[:, :, 0]  # Assuming states is of shape (batch_size, time_steps, state_dim)
+        costs = torch.zeros(positions.shape[0], horizon)  # Initialize cost accumulator
+        
+        for t in range(horizon):
+            position_t = positions[:, t]
+            cost_t = (goal - position_t) ** 2
+            reverse_discount_factor = gamma ** (horizon - t - 1)
+            distance_reward_t = reverse_discount_factor * cost_t
+            costs[:, t] = distance_reward_t
+        
+        return costs
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 

@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
     #     return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action):
+    def running_cost(state, action, horion, t):
         # Assuming the last two elements of the state vector represent the vector from fingertip to target
         distance = torch.norm(state[:, -2:], dim=1)
         control_cost = torch.sum(action ** 2, dim=1)

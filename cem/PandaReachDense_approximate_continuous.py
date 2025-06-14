@@ -8,10 +8,11 @@ import numpy as np
 import torch
 import logging
 import math
-from pytorch_mppi_folder import mppi_modified as mppi
+# from pytorch_mppi_folder import mppi_modified as mppi
+from pytorch_cem import cem
 import os
 # from gym import logger as gym_log
-
+import panda_gym
 # gym_log.set_level(gym_log.INFO)
 # logger = logging.getLogger(__name__)
 # logging.basicConfig(level=logging.INFO,
@@ -24,6 +25,8 @@ if __name__ == "__main__":
     N_SAMPLES = 50  # K
     # ACTION_LOW = -1.0
     # ACTION_HIGH = 1.0
+    N_ELITES = 10
+    SAMPLE_ITER = 3
     ACTION_LOW = [-1.0, -1.0, -1.0]
     ACTION_HIGH = [1.0, 1.0, 1.0]
 
@@ -31,7 +34,8 @@ if __name__ == "__main__":
     dtype = torch.double
 
     # noise_sigma = torch.tensor(1, device=d, dtype=dtype)
-    noise_sigma = torch.eye(3, device=d, dtype=dtype)
+    # noise_sigma = torch.eye(3, device=d, dtype=dtype)
+    noise_sigma = torch.tensor([1.0, 1.0, 1.0], device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
     lambda_ = 1.
 
@@ -96,7 +100,7 @@ if __name__ == "__main__":
 
     #     return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action): # goal_state
+    def running_cost(state, action, horizon, t): # goal_state
         # print("goal_state ", goal_state, "\n")
         # goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
         # goal_state = np.array([-0.05190832,  0.14618306,  0.09561325]) # seed = 8
@@ -239,6 +243,10 @@ if __name__ == "__main__":
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
 
+            if terminated:
+                state, info = env.reset()
+                env.reset()
+
         train(new_data)
         # logger.info("bootstrapping finished")
         print("bootstrapping finished \n")
@@ -253,7 +261,7 @@ if __name__ == "__main__":
     print("seed ", seed, "\n")
     episodic_return_seeds = []
     max_episodes = 400
-    method_name = "MPPI"
+    method_name = "CEM"
     prob = "PandaReachDense"
     max_steps = 50
     
@@ -262,10 +270,15 @@ if __name__ == "__main__":
     # Reset network to initial pretrained weights
     network.load_state_dict(initial_state_dict)
     
-    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-        lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+    #     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+    #     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
     
+    ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+
+
     for episode in range(max_episodes):
         state, info = env.reset(seed=seed)
         
@@ -276,7 +289,9 @@ if __name__ == "__main__":
         # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
         #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
         #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-        total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob=prob) #  # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob=prob) #  # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        
         episodic_return.append(total_reward)
         
         # logger.info("Total reward %f", total_reward)

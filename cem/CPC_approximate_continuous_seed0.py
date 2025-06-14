@@ -97,7 +97,7 @@ if __name__ == "__main__":
 
     #     return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action):
+    def running_cost(state, action, horizon, t):
         # goal = 0.45
         cart_position = state[:, 0]
         pole_angle = state[:, 1]

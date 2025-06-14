@@ -110,7 +110,7 @@ if __name__ == "__main__":
     #         + 0.001 * (a1 ** 2 + a2 ** 2)
     #     return cost
 
-    def running_cost(state, action):
+    def running_cost(state, action, horizon, t):
         # LunarLander cost function
         x = state[..., 0]  # horizontal position
         y = state[..., 1]  # vertical position

@@ -117,12 +117,18 @@ if __name__ == "__main__":
         return (((x + math.pi) % (2 * math.pi)) - math.pi)
 
 
-    def running_cost(state, action):
+    def running_cost(state, action, horizon, t):
+        gamma = 0.99
         theta = state[:, 0]
         theta_dt = state[:, 1]
         action = action[:, 0]
-        cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2
-        return cost
+        cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2 + 0.01*action**2
+
+        reverse_discount_factor = gamma ** (horizon - t - 1)
+                
+                # print("cost ", cost, "\n")
+
+        return cost * reverse_discount_factor  # Shape: [num_particles]
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
@@ -218,14 +224,18 @@ if __name__ == "__main__":
             # pre_action_state = state # env.state
             pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
-            env.step([action])
+            state, reward, terminated, truncated, info = env.step([action])
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
 
+            done = terminated or truncated
+            if done:
+                state, info = env.reset()  # reset environment if done
+
         train(new_data)
         # logger.info("bootstrapping finished")
-        # print("bootstrapping finished \n")
+        print("bootstrapping finished \n")
         
         # Save the initial weights after bootstrapping
         initial_state_dict = network.state_dict()

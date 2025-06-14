@@ -45,7 +45,7 @@ class iCEM:
 
         # if self.nu == 1:
         #     sigma = sigma.view(-1, 1)
-        print(f"Sigma shape: {sigma.shape}, nu: {self.nu}")
+        # print(f"Sigma shape: {sigma.shape}, nu: {self.nu}")
 
         if isinstance(sigma, torch.Tensor):
             if sigma.shape != (self.nu,):
@@ -112,6 +112,7 @@ class iCEM:
 
     @handle_batch_input(n=3)
     def _cost(self, x, u):
+        # print("x.shape = ", x.shape, "u.shape = ", u.shape, "\n")
         return self.trajectory_cost(x, u)
         # xu = torch.cat((x, u), dim=-1)
         # return self.problem.objective(xu)

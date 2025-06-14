@@ -137,7 +137,7 @@ class CEM():
         for t in range(self.T):
             u = samples[:, self._slice_control(t)]
             state = self.F(state, u)
-            cost_total += self.running_cost(state, u)
+            cost_total += self.running_cost(state, u, self.T, t)
         if self.terminal_state_cost:
             cost_total += self.terminal_state_cost(state)
         return cost_total

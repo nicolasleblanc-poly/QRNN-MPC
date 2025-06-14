@@ -239,6 +239,10 @@ if __name__ == "__main__":
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
 
+            done = terminated or truncated
+            if done:
+                state, info = env.reset()  # reset environment if done
+
         train(new_data)
         # logger.info("bootstrapping finished")
         print("bootstrapping finished \n")

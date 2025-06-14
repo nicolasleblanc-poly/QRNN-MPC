@@ -95,12 +95,16 @@ if __name__ == "__main__":
 
         return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action):
+    def running_cost(state, action, horizon, t):
+        gamma = 0.5
         goal = 0.45
         position = state[:, 0]
         velocity = state[:, 1]
         force = action[:, 0]
-        cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
+        cost = (goal - position) ** 2
+        reverse_discount_factor = gamma**(horizon-t-1)
+        distance_reward = reverse_discount_factor*cost
+        #+ 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         return cost
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):

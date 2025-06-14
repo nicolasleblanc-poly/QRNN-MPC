@@ -12,7 +12,7 @@ import math
 from pytorch_cem import cem
 import os
 # from gym import logger as gym_log
-
+import panda_gym
 # gym_log.set_level(gym_log.INFO)
 # logger = logging.getLogger(__name__)
 # logging.basicConfig(level=logging.INFO,
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     #     return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action): # goal_state
+    def running_cost(state, action, horizon, t): # goal_state
         # print("goal_state ", goal_state, "\n")
         # goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
         # goal_state = np.array([-0.05190832,  0.14618306,  0.09561325]) # seed = 8
@@ -261,7 +261,7 @@ if __name__ == "__main__":
     print("seed ", seed, "\n")
     episodic_return_seeds = []
     max_episodes = 400
-    method_name = "MPPI"
+    method_name = "CEM"
     prob = "PandaReach"
     max_steps = 50
     
