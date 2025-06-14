@@ -42,6 +42,11 @@ class iCEM:
             sigma = torch.ones(self.nu, device=self.device).float()
         elif isinstance(sigma, float):
             sigma = torch.ones(self.nu, device=self.device).float() * sigma
+
+        # if self.nu == 1:
+        #     sigma = sigma.view(-1, 1)
+        print(f"Sigma shape: {sigma.shape}, nu: {self.nu}")
+
         if len(sigma.shape) != nu:
             raise ValueError(f"Sigma must be either a scalar or a vector of length nu {nu}")
         self.sigma = sigma
@@ -82,6 +87,8 @@ class iCEM:
         else:
             samples = torch.randn(N, self.H, self.nu, device=self.device, dtype=self.dtype)
 
+        # print("self.mean shape: ", self.mean.shape, "self.std shape: ", self.std.shape, "\n")
+        # print("samples shape: ", samples.shape, "\n")
         U = self.mean + self.std * samples
         return U
 
@@ -186,3 +193,50 @@ class iCEM:
         if self.kept_elites is not None:
             self.kept_elites = torch.roll(self.kept_elites, -1, dims=1)
             self.kept_elites[:, -1] = self.sigma * torch.randn(len(self.kept_elites), self.nu, device=self.device)
+
+
+def run_icem(ctrl: iCEM, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True, prob = None):
+    dataset = torch.zeros((retrain_after_iter, ctrl.nx + ctrl.nu), device=ctrl.device)
+    total_reward = 0
+    state, info = env.reset(seed=seed)
+    if prob == "PandaReach" or prob == "PandaReachDense":
+        # # global goal_state
+        # goal_state = state['desired_goal']
+        state  = state['observation']
+
+    for i in range(iter):
+        # state = env.unwrapped.state.copy()
+        if prob == "Pendulum" or prob == "MountainCarContinuous":
+            state = env.unwrapped.state.copy()
+        # command_start = time.perf_counter()
+        # print("state: ", state, "\n")
+        action = ctrl.command(state)
+        # elapsed = time.perf_counter() - command_start
+        # res = env.step(action.cpu().numpy())
+        # s, r = res[0], res[1]
+        state, r, terminated, truncated, info = env.step(action.cpu().numpy())
+
+        if prob == "Pendulum" or prob == "MountainCarContinuous":
+            state = env.unwrapped.state.copy()
+        elif prob == "PandaReach" or prob == "PandaReachDense":
+            state  = state['observation']
+
+        total_reward += r
+        # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
+        if render:
+            env.render()
+
+        done = terminated or truncated
+        # print("truncated ", truncated, "\n")
+        # print("terminated ", terminated, "\n")
+        if done:
+            break
+
+        di = i % retrain_after_iter
+        if di == 0 and i > 0:
+            retrain_dynamics(dataset)
+            # don't have to clear dataset since it'll be overridden, but useful for debugging
+            dataset.zero_()
+        dataset[di, :ctrl.nx] = torch.tensor(state, device=ctrl.device)
+        dataset[di, ctrl.nx:] = action
+    return total_reward, dataset

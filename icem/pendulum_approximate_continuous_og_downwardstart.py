@@ -3,38 +3,57 @@ Same as approximate dynamics, but now the input is sine and cosine of theta (out
 This is a continuous representation of theta, which some papers show is easier for a NN to learn.
 """
 import gymnasium as gym
-# import gym
 import numpy as np
 import torch
 import logging
 import math
-# from pytorch_mppi import mppi
-# from pytorch_mppi_folder import mppi_modified as mppi
-from pytorch_cem import cem
-# from gymnasium import logger as gym_log
+from pytorch_icem import icem
 # from gym import logger as gym_log
-import logging
-import os 
+# import time
 
 # gym_log.set_level(gym_log.INFO)
-# # gym_log.min_level(gym_log.INFO)
-# gym_log.min_level(logging.INFO)
 # logger = logging.getLogger(__name__)
-# logging.basicConfig(level=logging.INFO,
+# logging.basicConfig(level=logging.DEBUG,
 #                     format='[%(levelname)s %(asctime)s %(pathname)s:%(lineno)d] %(message)s',
 #                     datefmt='%m-%d %H:%M:%S')
+
+
+def run(ctrl: icem.iCEM, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True):
+    dataset = torch.zeros((retrain_after_iter, ctrl.nx + ctrl.nu), device=ctrl.device)
+    total_reward = 0
+    for i in range(iter):
+        state = env.unwrapped.state.copy()
+        # command_start = time.perf_counter()
+        action = ctrl.command(state)
+        # elapsed = time.perf_counter() - command_start
+        res = env.step(action.cpu().numpy())
+        s, r = res[0], res[1]
+        total_reward += r
+        # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
+        if render:
+            env.render()
+
+        di = i % retrain_after_iter
+        if di == 0 and i > 0:
+            retrain_dynamics(dataset)
+            # don't have to clear dataset since it'll be overridden, but useful for debugging
+            dataset.zero_()
+        dataset[di, :ctrl.nx] = torch.tensor(state, device=ctrl.device)
+        dataset[di, ctrl.nx:] = action
+    return total_reward, dataset
+
 
 if __name__ == "__main__":
     ENV_NAME = "Pendulum-v1"
     TIMESTEPS = 15  # T
-    N_SAMPLES = 200  # K
+    N_SAMPLES = 100  # K
     ACTION_LOW = -2.0
     ACTION_HIGH = 2.0
 
     d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     dtype = torch.double
 
-    noise_sigma = torch.tensor(1, device=d, dtype=dtype)
+    sigma = torch.tensor([1], device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
     lambda_ = 1.
 
@@ -95,7 +114,7 @@ if __name__ == "__main__":
         u = perturbed_action
         u = torch.clamp(u, -2, 2)
 
-        newthdot = thdot + (3 * g / (2 * l) * torch.sin(th) + 3.0 / (m * l**2) * u) * dt
+        newthdot = thdot + (3 * g / (2 * l) * torch.sin(th) + 3.0 / (m * l ** 2) * u) * dt
         newthdot = torch.clip(newthdot, -8, 8)
         newth = th + newthdot * dt
 
@@ -116,26 +135,12 @@ if __name__ == "__main__":
 
 
     def running_cost(state, action):
-        theta = state[:, 0]
-        theta_dt = state[:, 1]
-        action = action[:, 0]
+        theta = state[..., 0]
+        theta_dt = state[..., 1]
+        action = action[..., 0]
         cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2
         return cost
 
-    def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
-
-        # Get the folder where this script is located
-        origin_folder = os.path.dirname(os.path.abspath(__file__))
-        # Construct full path to save
-        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
-
-        np.savez(
-        save_path,
-        f"{prob}_{method_name}_results.npz",
-        episode_rewards=episodic_rep_returns,
-        mean_rewards=mean_episodic_returns,
-        std_rewards=std_episodic_returns
-        )
 
     dataset = None
     # create some true dynamics validation set to compare model against
@@ -192,28 +197,22 @@ if __name__ == "__main__":
         dtheta = angular_diff_batch(yp[:, 0], yt[:, 0])
         dtheta_dt = yp[:, 1] - yt[:, 1]
         E = torch.cat((dtheta.view(-1, 1), dtheta_dt.view(-1, 1)), dim=1).norm(dim=1)
-        # # Printing logging info
         # logger.info("Error with true dynamics theta %f theta_dt %f norm %f", dtheta.abs().mean(),
         #             dtheta_dt.abs().mean(), E.mean())
         # logger.debug("Start next collection sequence")
 
 
-    # downward_start = True
-    env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
-    env = env.unwrapped
-    # state = unwrapped_env.state
-    state, info = env.reset()
-    # print("state ", state, "\n")
-    # print("env.state ", env.state, "\n")
-    # if downward_start:
-    #     env.state = env.unwrapped.state = [np.pi, 1]
+    downward_start = True
+    env = gym.make(ENV_NAME, render_mode="human")  # bypass the default TimeLimit wrapper
+    env.reset()
+    if downward_start:
+        env.state = env.unwrapped.state = [np.pi, 1]
 
     # bootstrap network with random actions
     if BOOT_STRAP_ITER:
         # logger.info("bootstrapping with random action for %d actions", BOOT_STRAP_ITER)
         new_data = np.zeros((BOOT_STRAP_ITER, nx + nu))
         for i in range(BOOT_STRAP_ITER):
-            # pre_action_state = state # env.state
             pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
             env.step([action])
@@ -223,55 +222,13 @@ if __name__ == "__main__":
 
         train(new_data)
         # logger.info("bootstrapping finished")
-        # print("bootstrapping finished \n")
-        
-        # Save the initial weights after bootstrapping
-        initial_state_dict = network.state_dict()
 
-    env_seeds = [0, 8, 15]
-    episodic_return_seeds = []
-    max_episodes = 300
-    method_name = "CEM"
-    prob = "Pendulum"
-    max_steps = 200
-    
-    # N_SAMPLES = 200 is the number of steps per episode
-    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-    #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-    #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-    
-    ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
-                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
-                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+    env.reset()
+    if downward_start:
+        env.state = env.unwrapped.state = [np.pi, 1]
 
-    for seed in env_seeds:
-        episodic_return = []
-        # Reset network to initial pretrained weights
-        network.load_state_dict(initial_state_dict)
-        
-        for episode in range(max_episodes):
-            env.reset(seed=seed)
-
-            # # N_SAMPLES = 200 is the number of steps per episode
-            # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-            #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-            #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob = prob) # mppi.run_mppi(mppi_gym, env, train, iter=max_steps, render=False)
-            episodic_return.append(total_reward)
-            
-            # logger.info("Total reward %f", total_reward)
-
-        episodic_return_seeds.append(episodic_return)
-        
-    episodic_return_seeds = np.array(episodic_return_seeds)
-
-    mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
-    std_episodic_return = np.std(episodic_return_seeds, axis=0)
-    
-    print("max_episodes", max_episodes, "\n")
-    print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
-    print("mean_episodic_return ", mean_episodic_return.shape, "\n")
-    print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
-    
-    save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
-    print("Saved data \n")
+    ctrl = icem.iCEM(dynamics, icem.accumulate_running_cost(running_cost), nx, nu, sigma=sigma,
+                     warmup_iters=5, online_iters=5,
+                     num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
+    total_reward, data = run(ctrl, env, train)
+    # logger.info("Total reward %f", total_reward)

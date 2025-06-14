@@ -37,12 +37,12 @@ if __name__ == "__main__":
 
     import random
 
-    # randseed = 24
-    # if randseed is None:
-    #     randseed = random.randint(0, 1000000)
-    # random.seed(randseed)
-    # np.random.seed(randseed)
-    # torch.manual_seed(randseed)
+    randseed = 24
+    if randseed is None:
+        randseed = random.randint(0, 1000000)
+    random.seed(randseed)
+    np.random.seed(randseed)
+    torch.manual_seed(randseed)
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
@@ -246,16 +246,14 @@ if __name__ == "__main__":
         episodic_return = []
         # Reset network to initial pretrained weights
         network.load_state_dict(initial_state_dict)
-
-        mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
         
         for episode in range(max_episodes):
             env.reset(seed=seed)
 
             # N_SAMPLES = 200 is the number of steps per episode
-            
+            mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
             total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # , prob=prob # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
             episodic_return.append(total_reward)
             

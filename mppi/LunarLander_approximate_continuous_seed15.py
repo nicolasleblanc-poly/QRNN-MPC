@@ -19,13 +19,11 @@ import os
 #                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
-    ENV_NAME = "Reacher-v5"
+    ENV_NAME = "LunarLanderContinuous-v3"
     TIMESTEPS = 15  # T
-    N_SAMPLES = 50  # K
-    # ACTION_LOW = -1.0
-    # ACTION_HIGH = 1.0
-    ACTION_LOW = [-1.0, -1.0]
-    ACTION_HIGH = [1.0, 1.0]
+    N_SAMPLES = 1000  # K
+    ACTION_LOW = -1.0
+    ACTION_HIGH = 1.0
 
     d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     dtype = torch.double
@@ -50,7 +48,7 @@ if __name__ == "__main__":
     TRAIN_EPOCH = 150
     BOOT_STRAP_ITER = 100
 
-    nx = 10
+    nx = 8
     nu = 2
     # network output is state residual
     network = torch.nn.Sequential(
@@ -62,14 +60,14 @@ if __name__ == "__main__":
     ).double().to(device=d)
 
     def dynamics(state, perturbed_action):
-        u = torch.clamp(perturbed_action, ACTION_LOW[0], ACTION_HIGH[0])
+        u = torch.clamp(perturbed_action, ACTION_LOW, ACTION_HIGH)
         if state.dim() == 1 or u.dim() == 1:
             state = state.view(1, -1)
             u = u.view(1, -1)
         # if u.shape[1] > 1:
         #     u = u[:, 0].view(-1, 1)
         xu = torch.cat((state, u), dim=1)
-        # print("xu.shape ", xu.shape, "\n")
+        
         state_residual = network(xu)
         next_state = state + state_residual
 
@@ -95,10 +93,17 @@ if __name__ == "__main__":
     #     return torch.cat((position, velocity), dim=1)
 
     def running_cost(state, action):
-        # Assuming the last two elements of the state vector represent the vector from fingertip to target
-        distance = torch.norm(state[:, -2:], dim=1)
-        control_cost = torch.sum(action ** 2, dim=1)
-        cost = distance + 0.001 * control_cost
+        x, y = state[:, 0], state[:, 1]
+        vx, vy = state[:, 2], state[:, 3]
+        theta, dtheta = state[:, 4], state[:, 5]
+        leg1, leg2 = state[:, 6], state[:, 7]
+        a1, a2 = action[:, 0], action[:, 1]
+
+        # Penalize distance from origin, velocity, tilt, rotation speed, and engine usage
+        cost = (x ** 2 + y ** 2) \
+            + 0.1 * (vx ** 2 + vy ** 2) \
+            + 0.3 * (theta ** 2 + dtheta ** 2) \
+            + 0.001 * (a1 ** 2 + a2 ** 2)
         return cost
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
@@ -134,7 +139,7 @@ if __name__ == "__main__":
         if not torch.is_tensor(new_data):
             new_data = torch.from_numpy(new_data)
         # clamp actions
-        new_data[:, -nu:] = torch.clamp(new_data[:, -nu:], ACTION_LOW[0], ACTION_HIGH[0])
+        new_data[:, -1] = torch.clamp(new_data[:, -1], ACTION_LOW, ACTION_HIGH)
         new_data = new_data.to(device=d)
         # append data to whole dataset
         if dataset is None:
@@ -161,14 +166,13 @@ if __name__ == "__main__":
         # xu = XU[:-1]  # make same size as Y
         # xu = torch.cat(dx.view(-1, 1), dv.view(-1, 1), xu[:, 1:], dim=1)
         
-        Y = XU[1:, :nx] - XU[:-1, :nx]
-        xu = XU[:-1, :]  # make same size as Y
-        
-        # dx = XU[1:, :nx] - XU[:-1, 0]
+        # dx = XU[1:, 0] - XU[:-1, 0]
         # dv = XU[1:, 1] - XU[:-1, 1]
         # Y = torch.cat((dx.view(-1, 1), dv.view(-1, 1)), dim=1)  # x' - x residual
-        # xu = XU[:-1]  # make same size as Y
-        # xu = torch.cat((xu, ), dim=1)
+        dx = XU[1:, :nx] - XU[:-1, :nx]
+        Y = dx
+        xu = XU[:-1]  # make same size as Y
+        xu = torch.cat((xu, ), dim=1)
 
 
         # thaw network
@@ -194,7 +198,7 @@ if __name__ == "__main__":
         # yp = dynamics(statev, actionv)
         # # print("yt.shape ", yt.shape, "\n")
         # # print("yp.shape ", yp.shape, "\n")
-        # print(yp[:, 0].shape, yt[:, 0].shape, "\n")
+        # # print(yp[:, 0].shape, yt[:, 0].shape, "\n")
         # dx = yp[:, 0] - yt[:, 0]
         # dv = yp[:, 1] - yt[:, 1]
         # # print("dx.shape ", type(dx[0]), "\n")
@@ -204,12 +208,62 @@ if __name__ == "__main__":
         #             dv.abs().mean(), E.mean())
         # logger.debug("Start next collection sequence")
         
+    # from gym import Wrapper
+    # class LunarLanderStateWrapper(Wrapper):
+    #     """Wrapper that adds state access and continuous angle representation"""
+    #     def __init__(self, env):
+    #         super().__init__(env)
+    #         self.original_observation_space = env.observation_space
+    #         # Modify observation space to include sin/cos of angle
+    #         low = env.observation_space.low
+    #         high = env.observation_space.high
+    #         # low = np.append(env.observation_space.low[:4], [-1.0, -1.0, env.observation_space.low[5:]])
+    #         # high = np.append(env.observation_space.high[:4], [1.0, 1.0, env.observation_space.high[5:]])
+    #         self.observation_space = gym.spaces.Box(low=low, high=high, dtype=np.float32)
+            
+    #     @property
+    #     def state(self):
+    #         """Returns the full physics state as a numpy array"""
+    #         return np.array([
+    #             self.env.lander.position.x,          # x position
+    #             self.env.lander.position.y,          # y position
+    #             self.env.lander.linearVelocity.x,    # x velocity
+    #             self.env.lander.linearVelocity.y,    # y velocity
+    #             self.env.lander.angle,               # angle (radians)
+    #             self.env.lander.angularVelocity,    # angular velocity
+    #             float(self.env.legs[0].ground_contact),  # left leg contact
+    #             float(self.env.legs[1].ground_contact)   # right leg contact
+    #         ])
         
+    #     @state.setter
+    #     def state(self, state_array):
+    #         """Sets the physics state from a numpy array"""
+    #         self.env.lander.position = (state_array[0], state_array[1])
+    #         self.env.lander.linearVelocity = (state_array[2], state_array[3])
+    #         self.env.lander.angle = state_array[4]
+    #         self.env.lander.angularVelocity = state_array[5]
+        
+    #     def reset(self, **kwargs):
+    #         obs, info = self.env.reset(**kwargs)
+    #         return obs, info
+        
+    #     def step(self, action):
+    #         obs, reward, terminated, truncated, info = self.env.step(action)
+    #         info['true_state'] = self.state  # Store full state in info
+    #         return obs, reward, terminated, truncated, info
+
+    # def make_lunar_lander_with_state():
+    #     """Creates a LunarLander environment with state access"""
+    #     env = gym.make('LunarLander-v3', continuous=True)
+    #     wrapped_env = LunarLanderStateWrapper(env)
+    #     return wrapped_env
 
 
     # downward_start = True
     env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
+    # env = make_lunar_lander_with_state()
     state, info = env.reset()
+    # print("env.state", env.state)
     # state, info = env.reset()
     # print("state", state)
     # print("env.state", env.state)
@@ -222,12 +276,19 @@ if __name__ == "__main__":
         # logger.info("bootstrapping with random action for %d actions", BOOT_STRAP_ITER)
         new_data = np.zeros((BOOT_STRAP_ITER, nx + nu))
         for i in range(BOOT_STRAP_ITER):
-            pre_action_state = state # env.state
-            action = np.random.uniform(low=ACTION_LOW[0], high=ACTION_HIGH[0], size=nu)
-            state, reward, terminated, truncated, info = env.step(action)
+            # pre_action_state = env.state
+            pre_action_state = state
+            action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH, size=nu)
+            state, _, terminated, truncated, _ = env.step(action) # env.step([action])
+            # env.step(action)
+            # truncated
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
+            
+            if terminated:
+                state, info = env.reset()
+                env.reset()
 
         train(new_data)
         # logger.info("bootstrapping finished")
@@ -236,56 +297,67 @@ if __name__ == "__main__":
         # Save the initial weights after bootstrapping
         initial_state_dict = network.state_dict()
 
-    env_seeds = [0, 8, 15]
+    # env_seeds = [0, 8, 15]
+    seed = 15
     episodic_return_seeds = []
-    max_episodes = 400
+    max_episodes = 300
     method_name = "MPPI"
-    prob = "MuJoCoReacher"
-    max_steps = 50
-    for seed in env_seeds:
-        episodic_return = []
-        # Reset network to initial pretrained weights
-        network.load_state_dict(initial_state_dict)
-
-        mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-        
-        for episode in range(max_episodes):
-            env.reset(seed=seed)
-
-            # N_SAMPLES = 200 is the number of steps per episode
-            
-            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # , prob=prob # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
-            episodic_return.append(total_reward)
-            
-            # logger.info("Total reward %f", total_reward)
-
-        episodic_return_seeds.append(episodic_return)
-        
-    episodic_return_seeds = np.array(episodic_return_seeds)
-
-    mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
-    std_episodic_return = np.std(episodic_return_seeds, axis=0)
+    prob = "LunarLanderContinuous"
+    max_steps = 1000
     
-    print("max_episodes", max_episodes, "\n")
-    print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
-    print("mean_episodic_return ", mean_episodic_return.shape, "\n")
-    print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
+    # for seed in env_seeds:
+    episodic_return = []
+    # Reset network to initial pretrained weights
+    network.load_state_dict(initial_state_dict)
     
-    save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+            lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+            u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    
+    for episode in range(max_episodes):
+        env.reset(seed=seed)
+
+        # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+        #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+        #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+        total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        episodic_return.append(total_reward)
+        
+        # logger.info("Total reward %f", total_reward)
+
+    # episodic_return_seeds.append(episodic_return)
+        
+    # episodic_return_seeds = np.array(episodic_return_seeds)
+
+    # mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
+    # std_episodic_return = np.std(episodic_return_seeds, axis=0)
+    
+    episodic_return = np.array(episodic_return)
+    
+    # Get the folder where this script is located
+    origin_folder = os.path.dirname(os.path.abspath(__file__))
+    # Construct full path to save
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}.npz")
+    np.savez(save_path, episodic_return)
+    
+    # print("max_episodes", max_episodes, "\n")
+    # print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
+    # print("mean_episodic_return ", mean_episodic_return.shape, "\n")
+    # print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
+    
+    # save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
     print("Saved data \n")
     env.close()
-    # # state, info = env.reset()
+
+    # # env.reset()
     # # if downward_start:
     # #     env.state = env.unwrapped.state = [np.pi, 1]
     # seed = 0
-    # max_steps = 50
+    # max_steps = 1000
     # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-    #                      lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-    #                      u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-    # # Changed source code to reset env in the function below
-    # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True)
+    #                      lambda_=lambda_, device=d, u_min=torch.tensor([ACTION_LOW, ACTION_LOW], dtype=torch.double, device=d),
+    #                      u_max=torch.tensor([ACTION_HIGH, ACTION_HIGH], dtype=torch.double, device=d))
+    # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=True) # mppi.run_mppi(mppi_gym, seed, env, train)
     # # logger.info("Total reward %f", total_reward)
-    # print("Total reward %f" % total_reward, "\n")
+    # print("Total reward %f", total_reward)
     # env.close()

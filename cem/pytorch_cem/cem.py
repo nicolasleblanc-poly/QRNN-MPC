@@ -168,7 +168,9 @@ class CEM():
             # fit the gaussian to those samples
             self.mean = torch.mean(top_samples, dim=0)
             self.cov = pytorch_cov(top_samples, rowvar=False)
-            if torch.matrix_rank(self.cov) < self.cov.shape[0]:
+            # if torch.matrix_rank(self.cov) < self.cov.shape[0]:
+            if torch.linalg.matrix_rank(self.cov, hermitian=False) < self.cov.shape[0]:
+
                 self.cov += self.cov_reg
 
         if choose_best and self.choose_best:
@@ -185,12 +187,13 @@ class CEM():
 def run_cem(cem, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True, choose_best=False):
     dataset = torch.zeros((retrain_after_iter, cem.nx + cem.nu), dtype=cem.dtype, device=cem.d)
     total_reward = 0
+    state, info = env.reset()
     for i in range(iter):
-        state = env.state.copy()
+        # state = env.state.copy()
         command_start = time.perf_counter()
         action = cem.command(state, choose_best=choose_best)
         elapsed = time.perf_counter() - command_start
-        s, r, _, _ = env.step(action.cpu().numpy())
+        s, r, _, _, _ = env.step(action.cpu().numpy())
         total_reward += r
         logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
         if render:
@@ -203,4 +206,5 @@ def run_cem(cem, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render
             dataset.zero_()
         dataset[di, :cem.nx] = torch.tensor(state, dtype=cem.dtype)
         dataset[di, cem.nx:] = action
+        # state = s
     return total_reward, dataset

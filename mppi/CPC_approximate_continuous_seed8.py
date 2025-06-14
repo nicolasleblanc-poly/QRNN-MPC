@@ -13,6 +13,8 @@ from pytorch_mppi_folder import mppi_modified as mppi
 # from gym import logger as gym_log
 import os
 
+import cartpole_continuous as cartpole_env
+
 # gym_log.set_level(gym_log.INFO)
 # logger = logging.getLogger(__name__)
 # logging.basicConfig(level=logging.INFO,
@@ -20,7 +22,7 @@ import os
 #                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
-    ENV_NAME = "InvertedPendulum-v5"
+    ENV_NAME = "CartPoleContinuous"
     TIMESTEPS = 30  # T 
     N_SAMPLES = 200  # K # Number of trajectories to sample
     ACTION_LOW = -3.0
@@ -35,12 +37,12 @@ if __name__ == "__main__":
 
     import random
 
-    randseed = 24
-    if randseed is None:
-        randseed = random.randint(0, 1000000)
-    random.seed(randseed)
-    np.random.seed(randseed)
-    torch.manual_seed(randseed)
+    # randseed = 24
+    # if randseed is None:
+    #     randseed = random.randint(0, 1000000)
+    # random.seed(randseed)
+    # np.random.seed(randseed)
+    # torch.manual_seed(randseed)
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
@@ -203,7 +205,8 @@ if __name__ == "__main__":
         # logger.debug("Start next collection sequence")
         
     # downward_start = True
-    env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
+    # env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
+    env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
     # env = env.unwrapped
     state, info = env.reset()
     # state, info = env.reset()
@@ -221,7 +224,7 @@ if __name__ == "__main__":
             pre_action_state = state # env.state
             # pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
-            env.step([action])
+            env.step(np.array([action]))
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
@@ -238,8 +241,8 @@ if __name__ == "__main__":
     episodic_return_seeds = []
     max_episodes = 300
     method_name = "MPPI"
-    prob = "InvertedPendulum"
-    max_steps = 1000
+    prob = "CPC"
+    max_steps = 200
     
     # for seed in env_seeds:
     episodic_return = []

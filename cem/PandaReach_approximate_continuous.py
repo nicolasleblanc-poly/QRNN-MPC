@@ -19,30 +19,30 @@ import os
 #                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
-    ENV_NAME = "Reacher-v5"
+    ENV_NAME = "PandaReach-v3"
     TIMESTEPS = 15  # T
     N_SAMPLES = 50  # K
     # ACTION_LOW = -1.0
     # ACTION_HIGH = 1.0
-    ACTION_LOW = [-1.0, -1.0]
-    ACTION_HIGH = [1.0, 1.0]
+    ACTION_LOW = [-1.0, -1.0, -1.0]
+    ACTION_HIGH = [1.0, 1.0, 1.0]
 
     d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     dtype = torch.double
 
     # noise_sigma = torch.tensor(1, device=d, dtype=dtype)
-    noise_sigma = torch.eye(2, device=d, dtype=dtype)
+    noise_sigma = torch.eye(3, device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
     lambda_ = 1.
 
     import random
 
-    # randseed = 24
-    # if randseed is None:
-    #     randseed = random.randint(0, 1000000)
-    # random.seed(randseed)
-    # np.random.seed(randseed)
-    # torch.manual_seed(randseed)
+    randseed = 24
+    if randseed is None:
+        randseed = random.randint(0, 1000000)
+    random.seed(randseed)
+    np.random.seed(randseed)
+    torch.manual_seed(randseed)
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
@@ -50,8 +50,10 @@ if __name__ == "__main__":
     TRAIN_EPOCH = 150
     BOOT_STRAP_ITER = 100
 
-    nx = 10
-    nu = 2
+    global goal_state 
+
+    nx = 6
+    nu = 3
     # network output is state residual
     network = torch.nn.Sequential(
         torch.nn.Linear(nx + nu, H_UNITS),
@@ -94,11 +96,14 @@ if __name__ == "__main__":
 
     #     return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action):
-        # Assuming the last two elements of the state vector represent the vector from fingertip to target
-        distance = torch.norm(state[:, -2:], dim=1)
-        control_cost = torch.sum(action ** 2, dim=1)
-        cost = distance + 0.001 * control_cost
+    def running_cost(state, action): # goal_state
+        # print("goal_state ", goal_state, "\n")
+        # goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
+        # goal_state = np.array([-0.05190832,  0.14618306,  0.09561325]) # seed = 8
+        goal_state = np.array([0.05782301, 0.09474514, 0.10332203]) # seed = 15
+        goal_state = torch.tensor(goal_state, dtype=torch.float32, device=state.device).reshape(1, 3)
+        cost = torch.norm(state[:, :3] - goal_state, dim=1)
+
         return cost
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
@@ -209,7 +214,11 @@ if __name__ == "__main__":
 
     # downward_start = True
     env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
-    state, info = env.reset()
+    observation, info = env.reset()
+    # print("state ", observation, "\n")
+    state  = observation['observation']
+    goal_state_boostrap = observation['desired_goal']
+    
     # state, info = env.reset()
     # print("state", state)
     # print("env.state", env.state)
@@ -225,6 +234,7 @@ if __name__ == "__main__":
             pre_action_state = state # env.state
             action = np.random.uniform(low=ACTION_LOW[0], high=ACTION_HIGH[0], size=nu)
             state, reward, terminated, truncated, info = env.step(action)
+            state = state['observation']
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
@@ -236,26 +246,80 @@ if __name__ == "__main__":
         # Save the initial weights after bootstrapping
         initial_state_dict = network.state_dict()
 
-    env_seeds = [0, 8, 15]
+    # env_seeds = [0, 8, 15]
+    # seed = 0
+    # seed = 8
+    seed = 15
+    print("seed ", seed, "\n")
     episodic_return_seeds = []
     max_episodes = 400
     method_name = "MPPI"
-    prob = "MuJoCoReacher"
+    prob = "PandaReach"
     max_steps = 50
+    
+    # for seed in env_seeds:
+    episodic_return = []
+    # Reset network to initial pretrained weights
+    network.load_state_dict(initial_state_dict)
+    
+    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+        lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    
+    for episode in range(max_episodes):
+        state, info = env.reset(seed=seed)
+        
+        goal_state = state['desired_goal']
+        # print("goal_state ", goal_state, "\n")
+
+        # N_SAMPLES = 200 is the number of steps per episode
+        # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+        #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+        #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+        total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob=prob) #  # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        episodic_return.append(total_reward)
+        
+        # logger.info("Total reward %f", total_reward)
+
+    # episodic_return_seeds.append(episodic_return)
+    
+    episodic_return = np.array(episodic_return)
+    
+    # Get the folder where this script is located
+    origin_folder = os.path.dirname(os.path.abspath(__file__))
+    # Construct full path to save
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}.npz")
+    np.savez(save_path, episodic_return)
+    # episodic_return_seeds = np.array(episodic_return_seeds)
+
+    # mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
+    # std_episodic_return = np.std(episodic_return_seeds, axis=0)
+    
+    # print("max_episodes", max_episodes, "\n")
+    # print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
+    # print("mean_episodic_return ", mean_episodic_return.shape, "\n")
+    # print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
+    
+    # save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+    print("Saved data \n")
+    env.close()
+    
+    """
     for seed in env_seeds:
         episodic_return = []
         # Reset network to initial pretrained weights
         network.load_state_dict(initial_state_dict)
-
-        mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
         
         for episode in range(max_episodes):
-            env.reset(seed=seed)
+            state, info = env.reset(seed=seed)
+            
+            goal_state = state['desired_goal']
+            # print("goal_state ", goal_state, "\n")
 
             # N_SAMPLES = 200 is the number of steps per episode
-            
+            mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
             total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # , prob=prob # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
             episodic_return.append(total_reward)
             
@@ -276,6 +340,8 @@ if __name__ == "__main__":
     save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
     print("Saved data \n")
     env.close()
+    """
+    
     # # state, info = env.reset()
     # # if downward_start:
     # #     env.state = env.unwrapped.state = [np.pi, 1]

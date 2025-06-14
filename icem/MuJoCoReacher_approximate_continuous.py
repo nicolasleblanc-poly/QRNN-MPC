@@ -8,7 +8,8 @@ import numpy as np
 import torch
 import logging
 import math
-from pytorch_mppi_folder import mppi_modified as mppi
+# from pytorch_mppi_folder import mppi_modified as mppi
+from pytorch_icem import icem
 import os
 # from gym import logger as gym_log
 
@@ -17,6 +18,31 @@ import os
 # logging.basicConfig(level=logging.INFO,
 #                     format='[%(levelname)s %(asctime)s %(pathname)s:%(lineno)d] %(message)s',
 #                     datefmt='%m-%d %H:%M:%S')
+
+# def run(ctrl: icem.iCEM, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True):
+#     dataset = torch.zeros((retrain_after_iter, ctrl.nx + ctrl.nu), device=ctrl.device)
+#     total_reward = 0
+#     for i in range(iter):
+#         state = env.unwrapped.state.copy()
+#         # command_start = time.perf_counter()
+#         action = ctrl.command(state)
+#         # elapsed = time.perf_counter() - command_start
+#         res = env.step(action.cpu().numpy())
+#         s, r = res[0], res[1]
+#         total_reward += r
+#         # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
+#         if render:
+#             env.render()
+
+#         di = i % retrain_after_iter
+#         if di == 0 and i > 0:
+#             retrain_dynamics(dataset)
+#             # don't have to clear dataset since it'll be overridden, but useful for debugging
+#             dataset.zero_()
+#         dataset[di, :ctrl.nx] = torch.tensor(state, device=ctrl.device)
+#         dataset[di, ctrl.nx:] = action
+#     return total_reward, dataset
+
 
 if __name__ == "__main__":
     ENV_NAME = "Reacher-v5"
@@ -239,24 +265,28 @@ if __name__ == "__main__":
     env_seeds = [0, 8, 15]
     episodic_return_seeds = []
     max_episodes = 400
-    method_name = "MPPI"
+    method_name = "iCEM"
     prob = "MuJoCoReacher"
     max_steps = 50
     for seed in env_seeds:
         episodic_return = []
         # Reset network to initial pretrained weights
         network.load_state_dict(initial_state_dict)
-
-        mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+        
+        icem_gym = icem.iCEM(dynamics, icem.accumulate_running_cost(running_cost), nx, nu, sigma=noise_sigma,
+                     warmup_iters=5, online_iters=5,
+                     num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
         
         for episode in range(max_episodes):
             env.reset(seed=seed)
 
             # N_SAMPLES = 200 is the number of steps per episode
+            # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+            #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+            #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+            total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+            # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # , prob=prob # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
             
-            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # , prob=prob # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
             episodic_return.append(total_reward)
             
             # logger.info("Total reward %f", total_reward)

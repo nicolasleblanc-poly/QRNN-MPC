@@ -9,9 +9,12 @@ import torch
 import logging
 import math
 # from pytorch_mppi import mppi
-from pytorch_mppi_folder import mppi_modified as mppi
+# from pytorch_icem import icem
+from pytorch_icem import icem
 # from gym import logger as gym_log
 import os
+
+import cartpole_continuous as cartpole_env
 
 # gym_log.set_level(gym_log.INFO)
 # logger = logging.getLogger(__name__)
@@ -19,28 +22,73 @@ import os
 #                     format='[%(levelname)s %(asctime)s %(pathname)s:%(lineno)d] %(message)s',
 #                     datefmt='%m-%d %H:%M:%S')
 
+# def run_icem(ctrl: icem.iCEM, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True):
+#     dataset = torch.zeros((retrain_after_iter, ctrl.nx + ctrl.nu), device=ctrl.device)
+#     total_reward = 0
+#     state, info = env.reset(seed=seed)
+#     if prob == "PandaReach" or prob == "PandaReachDense":
+#         # # global goal_state
+#         # goal_state = state['desired_goal']
+#         state  = state['observation']
+
+#     for i in range(iter):
+#         # state = env.unwrapped.state.copy()
+#         if prob == "Pendulum" or prob == "MountainCarContinuous":
+#             state = env.unwrapped.state.copy()
+#         # command_start = time.perf_counter()
+#         action = ctrl.command(state)
+#         # elapsed = time.perf_counter() - command_start
+#         res = env.step(action.cpu().numpy())
+#         # s, r = res[0], res[1]
+#         state, r, terminated, truncated, info = env.step(action.cpu().numpy())
+
+#         if prob == "Pendulum" or prob == "MountainCarContinuous":
+#             state = env.unwrapped.state.copy()
+#         elif prob == "PandaReach" or prob == "PandaReachDense":
+#             state  = state['observation']
+
+#         total_reward += r
+#         # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
+#         if render:
+#             env.render()
+
+#         done = terminated or truncated
+#         if done:
+#             break
+
+#         di = i % retrain_after_iter
+#         if di == 0 and i > 0:
+#             retrain_dynamics(dataset)
+#             # don't have to clear dataset since it'll be overridden, but useful for debugging
+#             dataset.zero_()
+#         dataset[di, :ctrl.nx] = torch.tensor(state, device=ctrl.device)
+#         dataset[di, ctrl.nx:] = action
+#     return total_reward, dataset
+
 if __name__ == "__main__":
-    ENV_NAME = "InvertedPendulum-v5"
+    ENV_NAME = "CartPoleContinuous"
     TIMESTEPS = 30  # T 
-    N_SAMPLES = 200  # K # Number of trajectories to sample
+    N_SAMPLES = 100  # K # Number of trajectories to sample
     ACTION_LOW = -3.0
     ACTION_HIGH = 3.0
 
     d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     dtype = torch.double
 
-    noise_sigma = torch.tensor(1, device=d, dtype=dtype)
+    noise_sigma = torch.tensor([1], device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
     lambda_ = 1.
 
     import random
 
-    randseed = 24
-    if randseed is None:
-        randseed = random.randint(0, 1000000)
-    random.seed(randseed)
-    np.random.seed(randseed)
-    torch.manual_seed(randseed)
+    # randseed = 24
+    # if randseed is None:
+    #     randseed = random.randint(0, 1000000)
+    # random.seed(randseed)
+    # np.random.seed(randseed)
+    # torch.manual_seed(randseed)
+
+
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
@@ -102,20 +150,20 @@ if __name__ == "__main__":
         # cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         return cost
 
-    def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+    # def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
-        # Get the folder where this script is located
-        origin_folder = os.path.dirname(os.path.abspath(__file__))
-        # Construct full path to save
-        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+    #     # Get the folder where this script is located
+    #     origin_folder = os.path.dirname(os.path.abspath(__file__))
+    #     # Construct full path to save
+    #     save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
 
-        np.savez(
-        save_path,
-        f"{prob}_{method_name}_results.npz",
-        episode_rewards=episodic_rep_returns,
-        mean_rewards=mean_episodic_returns,
-        std_rewards=std_episodic_returns
-        )
+    #     np.savez(
+    #     save_path,
+    #     f"{prob}_{method_name}_results.npz",
+    #     episode_rewards=episodic_rep_returns,
+    #     mean_rewards=mean_episodic_returns,
+    #     std_rewards=std_episodic_returns
+    #     )
 
     dataset = None
     # create some true dynamics validation set to compare model against
@@ -203,7 +251,9 @@ if __name__ == "__main__":
         # logger.debug("Start next collection sequence")
         
     # downward_start = True
-    env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
+    # env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
+    env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
+    # env = cartpole_env.CartPoleContinuousEnv(render_mode="human").unwrapped
     # env = env.unwrapped
     state, info = env.reset()
     # state, info = env.reset()
@@ -221,7 +271,7 @@ if __name__ == "__main__":
             pre_action_state = state # env.state
             # pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
-            env.step([action])
+            env.step(np.array([action]))
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
@@ -234,29 +284,36 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    seed = 15
+    seed = 0
     episodic_return_seeds = []
     max_episodes = 300
-    method_name = "MPPI"
-    prob = "InvertedPendulum"
-    max_steps = 1000
+    method_name = "iCEM"
+    prob = "CPC"
+    max_steps = 200
+
+    env.reset(seed=seed)
     
     # for seed in env_seeds:
     episodic_return = []
     # Reset network to initial pretrained weights
     network.load_state_dict(initial_state_dict)
     
-    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                            lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                            u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+    #                         lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+    #                         u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    
+    icem_gym = icem.iCEM(dynamics, icem.accumulate_running_cost(running_cost), nx, nu, sigma=noise_sigma,
+                     warmup_iters=5, online_iters=5,
+                     num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
     
     for episode in range(max_episodes):
+        # print(f"Episode {episode + 1}/{max_episodes}")
         env.reset(seed=seed)
 
         # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
         #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
         #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-        total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         episodic_return.append(total_reward)
         
         # logger.info("Total reward %f", total_reward)
@@ -269,6 +326,8 @@ if __name__ == "__main__":
     # std_episodic_return = np.std(episodic_return_seeds, axis=0)
     
     episodic_return = np.array(episodic_return)
+
+    # print("episodic_return ", episodic_return, "\n")
     
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
