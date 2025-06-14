@@ -8,7 +8,8 @@ import numpy as np
 import torch
 import logging
 import math
-from pytorch_mppi_folder import mppi_modified as mppi
+# from pytorch_mppi_folder import mppi_modified as mppi
+from pytorch_cem import cem
 import os
 # from gym import logger as gym_log
 
@@ -22,6 +23,8 @@ if __name__ == "__main__":
     ENV_NAME = "LunarLanderContinuous-v3"
     TIMESTEPS = 15  # T
     N_SAMPLES = 1000  # K
+    N_ELITES = 10
+    SAMPLE_ITER = 3
     ACTION_LOW = -1.0
     ACTION_HIGH = 1.0
 
@@ -29,18 +32,19 @@ if __name__ == "__main__":
     dtype = torch.double
 
     # noise_sigma = torch.tensor(1, device=d, dtype=dtype)
-    noise_sigma = torch.eye(2, device=d, dtype=dtype)
+    # noise_sigma = torch.eye(2, device=d, dtype=dtype)
+    noise_sigma = torch.tensor([1.0, 1.0], device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
     lambda_ = 1.
 
     import random
 
-    randseed = 24
-    if randseed is None:
-        randseed = random.randint(0, 1000000)
-    random.seed(randseed)
-    np.random.seed(randseed)
-    torch.manual_seed(randseed)
+    # randseed = 24
+    # if randseed is None:
+    #     randseed = random.randint(0, 1000000)
+    # random.seed(randseed)
+    # np.random.seed(randseed)
+    # torch.manual_seed(randseed)
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
@@ -92,18 +96,49 @@ if __name__ == "__main__":
 
     #     return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action):
-        x, y = state[:, 0], state[:, 1]
-        vx, vy = state[:, 2], state[:, 3]
-        theta, dtheta = state[:, 4], state[:, 5]
-        leg1, leg2 = state[:, 6], state[:, 7]
-        a1, a2 = action[:, 0], action[:, 1]
+    # def running_cost(state, action):
+    #     x, y = state[:, 0], state[:, 1]
+    #     vx, vy = state[:, 2], state[:, 3]
+    #     theta, dtheta = state[:, 4], state[:, 5]
+    #     leg1, leg2 = state[:, 6], state[:, 7]
+    #     a1, a2 = action[:, 0], action[:, 1]
 
-        # Penalize distance from origin, velocity, tilt, rotation speed, and engine usage
-        cost = (x ** 2 + y ** 2) \
-            + 0.1 * (vx ** 2 + vy ** 2) \
-            + 0.3 * (theta ** 2 + dtheta ** 2) \
-            + 0.001 * (a1 ** 2 + a2 ** 2)
+    #     # Penalize distance from origin, velocity, tilt, rotation speed, and engine usage
+    #     cost = (x ** 2 + y ** 2) \
+    #         + 0.1 * (vx ** 2 + vy ** 2) \
+    #         + 0.3 * (theta ** 2 + dtheta ** 2) \
+    #         + 0.001 * (a1 ** 2 + a2 ** 2)
+    #     return cost
+
+    def running_cost(state, action):
+        # LunarLander cost function
+        x = state[..., 0]  # horizontal position
+        y = state[..., 1]  # vertical position
+        vx = state[..., 2]  # horizontal velocity
+        vy = state[..., 3]  # vertical velocity
+        angle = state[..., 4]  # angle
+        ang_vel = state[..., 5]  # angular velocity
+        left_leg = state[..., 6]  # left leg contact
+        right_leg = state[..., 7]  # right leg contact
+        
+        # Target is to land at (0,0) with low speed and upright
+        cost = (
+            x.pow(2) +              # Distance from center
+            y.pow(2) +               # Altitude cost (want to be near ground)
+            0.1 * vx.pow(2) +            # Horizontal velocity
+            0.1 * vy.pow(2) +            # Vertical velocity
+            0.3 * angle.pow(2) +         # Angle (want to be upright)
+            0.3 * ang_vel.pow(2) +      # Angular velocity
+            0.001 * action.pow(2).sum(-1) # Action penalty
+        )
+        
+        # Add bonus for landing (both legs touching ground)
+        # landed = (left_leg > 0.50) & (right_leg > 0.5)
+        # # Compute costs for all samples in batch
+        # cost = torch.where(landed, 
+        #                 landing_reward * torch.ones_like(landed),  # if landed
+        #                 flying_cost * torch.ones_like(landed))     # else
+            
         return cost
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
@@ -310,17 +345,26 @@ if __name__ == "__main__":
     # Reset network to initial pretrained weights
     network.load_state_dict(initial_state_dict)
     
-    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+    #             lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+    #             u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
     
+    ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+
+
     for episode in range(max_episodes):
         env.reset(seed=seed)
 
         # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
         #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
         #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-        total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        
+        total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+
+        
         episodic_return.append(total_reward)
         
         # logger.info("Total reward %f", total_reward)

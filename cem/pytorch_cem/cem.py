@@ -184,20 +184,40 @@ class CEM():
         return u
 
 
-def run_cem(cem, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True, choose_best=False):
+def run_cem(cem, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True, choose_best=False, prob=None):
     dataset = torch.zeros((retrain_after_iter, cem.nx + cem.nu), dtype=cem.dtype, device=cem.d)
     total_reward = 0
-    state, info = env.reset()
+    state, info = env.reset(seed=seed)
+    if prob == "PandaReach" or prob == "PandaReachDense":
+        # # global goal_state
+        # goal_state = state['desired_goal']
+        state  = state['observation']
+
     for i in range(iter):
+        if prob == "Pendulum" or prob == "MountainCarContinuous":
+            state = env.unwrapped.state.copy()
         # state = env.state.copy()
-        command_start = time.perf_counter()
+        # command_start = time.perf_counter()
         action = cem.command(state, choose_best=choose_best)
-        elapsed = time.perf_counter() - command_start
-        s, r, _, _, _ = env.step(action.cpu().numpy())
+        # elapsed = time.perf_counter() - command_start
+        # s, r, _, _, _ = env.step(action.cpu().numpy())
+        state, r, terminated, truncated, info = env.step(action.cpu().numpy())
+        
+        if prob == "Pendulum" or prob == "MountainCarContinuous":
+            state = env.unwrapped.state.copy()
+        elif prob == "PandaReach" or prob == "PandaReachDense":
+            state  = state['observation']
+        
         total_reward += r
-        logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
+        # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
         if render:
             env.render()
+
+        done = terminated or truncated
+        # print("truncated ", truncated, "\n")
+        # print("terminated ", terminated, "\n")
+        if done:
+            break
 
         di = i % retrain_after_iter
         if di == 0 and i > 0:

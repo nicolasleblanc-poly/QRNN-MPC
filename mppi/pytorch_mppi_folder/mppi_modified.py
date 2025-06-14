@@ -624,7 +624,7 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
         # print("state", state, "\n")
         action = mppi.command(state)
         elapsed = time.perf_counter() - command_start
-        res = env.step(action.cpu().numpy())
+        # res = env.step(action.cpu().numpy())
         state, r, terminated, truncated, info = env.step(action.cpu().numpy())
         
         # state, r = res[0], res[1]

@@ -244,10 +244,15 @@ if __name__ == "__main__":
             # pre_action_state = state # env.state
             pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
-            env.step([action])
+            state, _, terminated, truncated, info = env.step([action])
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
+
+            done = terminated or truncated
+            if done:
+                # print("done")
+                state, info = env.reset()
 
         train(new_data)
         # logger.info("bootstrapping finished")

@@ -1,7 +1,7 @@
 import torch
 import colorednoise
 from arm_pytorch_utilities import handle_batch_input
-
+import numpy as np
 import logging
 
 logger = logging.getLogger(__name__)
@@ -47,8 +47,14 @@ class iCEM:
         #     sigma = sigma.view(-1, 1)
         print(f"Sigma shape: {sigma.shape}, nu: {self.nu}")
 
-        if len(sigma.shape) != nu:
-            raise ValueError(f"Sigma must be either a scalar or a vector of length nu {nu}")
+        if isinstance(sigma, torch.Tensor):
+            if sigma.shape != (self.nu,):
+                raise ValueError(f"If sigma is a tensor, it must have shape (nu,). Got {sigma.shape} for nu={nu}")
+        elif not np.isscalar(sigma):
+            raise ValueError(f"Sigma must be a scalar or a tensor of shape (nu,). Got {type(sigma)}")
+
+        # if len(sigma.shape) != nu:
+        #     raise ValueError(f"Sigma must be either a scalar or a vector of length nu {nu}")
         self.sigma = sigma
         self.dtype = self.sigma.dtype
 

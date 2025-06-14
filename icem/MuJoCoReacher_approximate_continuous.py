@@ -57,8 +57,10 @@ if __name__ == "__main__":
     dtype = torch.double
 
     # noise_sigma = torch.tensor(1, device=d, dtype=dtype)
-    noise_sigma = torch.eye(2, device=d, dtype=dtype)
+    # noise_sigma = torch.eye(2, device=d, dtype=dtype)
+
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
+    noise_sigma = torch.tensor([1.0, 1.0], device=d, dtype=dtype)
     lambda_ = 1.
 
     import random
@@ -122,8 +124,8 @@ if __name__ == "__main__":
 
     def running_cost(state, action):
         # Assuming the last two elements of the state vector represent the vector from fingertip to target
-        distance = torch.norm(state[:, -2:], dim=1)
-        control_cost = torch.sum(action ** 2, dim=1)
+        distance = torch.norm(state[..., -2:], dim=1)
+        control_cost = torch.sum(action.pow(2), dim=1)
         cost = distance + 0.001 * control_cost
         return cost
 

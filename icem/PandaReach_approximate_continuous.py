@@ -57,7 +57,8 @@ if __name__ == "__main__":
     dtype = torch.double
 
     # noise_sigma = torch.tensor(1, device=d, dtype=dtype)
-    noise_sigma = torch.eye(3, device=d, dtype=dtype)
+    # noise_sigma = torch.eye(3, device=d, dtype=dtype)
+    noise_sigma = torch.tensor([1.0, 1.0, 1.0], device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
     lambda_ = 1.
 
@@ -128,7 +129,9 @@ if __name__ == "__main__":
         # goal_state = np.array([-0.05190832,  0.14618306,  0.09561325]) # seed = 8
         goal_state = np.array([0.05782301, 0.09474514, 0.10332203]) # seed = 15
         goal_state = torch.tensor(goal_state, dtype=torch.float32, device=state.device).reshape(1, 3)
-        cost = torch.norm(state[:, :3] - goal_state, dim=1)
+        # print("state[:, :3] ", state[:, :3].shape, "\n")
+        # print("goal_state ", goal_state.shape, "\n")
+        cost = torch.norm(state[..., :3] - goal_state, dim=1)
 
         return cost
 
@@ -307,7 +310,7 @@ if __name__ == "__main__":
         # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
         #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
         #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-        total_reward, data = run(icem_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob=prob) #  # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         episodic_return.append(total_reward)
         

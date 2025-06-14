@@ -28,6 +28,8 @@ if __name__ == "__main__":
     ENV_NAME = "Pendulum-v1"
     TIMESTEPS = 15  # T
     N_SAMPLES = 200  # K
+    N_ELITES = 10
+    SAMPLE_ITER = 3
     ACTION_LOW = -2.0
     ACTION_HIGH = 2.0
 
@@ -235,6 +237,7 @@ if __name__ == "__main__":
     prob = "Pendulum"
     max_steps = 200
     
+    
     # N_SAMPLES = 200 is the number of steps per episode
     # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
     #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
@@ -256,7 +259,8 @@ if __name__ == "__main__":
             # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
             #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
             #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob = prob) # mppi.run_mppi(mppi_gym, env, train, iter=max_steps, render=False)
+            # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob = prob) # mppi.run_mppi(mppi_gym, env, train, iter=max_steps, render=False)
+            total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False, prob = prob) # cem.run_cem(ctrl, env, train, iter=max_steps, render=False)
             episodic_return.append(total_reward)
             
             # logger.info("Total reward %f", total_reward)

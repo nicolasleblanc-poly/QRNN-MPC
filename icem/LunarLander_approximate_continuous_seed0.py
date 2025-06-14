@@ -442,8 +442,9 @@ from pytorch_icem import icem
 def run(ctrl: icem.iCEM, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True):
     dataset = torch.zeros((retrain_after_iter, ctrl.nx + ctrl.nu), device=ctrl.device)
     total_reward = 0
+    state, info = env.reset()
     for i in range(iter):
-        state = env.unwrapped.state.copy()
+        # state = env.unwrapped.state.copy()
         action = ctrl.command(state)
         res = env.step(action.cpu().numpy())
         s, r = res[0], res[1]
@@ -458,6 +459,7 @@ def run(ctrl: icem.iCEM, env, retrain_dynamics, retrain_after_iter=50, iter=1000
             dataset.zero_()
         dataset[di, :ctrl.nx] = torch.tensor(state, device=ctrl.device)
         dataset[di, ctrl.nx:] = action
+        state = s
     return total_reward, dataset
 
 
@@ -472,7 +474,8 @@ if __name__ == "__main__":
     dtype = torch.double
 
     # Different sigma for lunar lander (one for each action dimension)
-    sigma = torch.tensor([0.5, 0.5], device=d, dtype=dtype)
+    # noise_sigma = torch.tensor([0.5, 0.5], device=d, dtype=dtype)
+    noise_sigma = torch.tensor([1.0, 1.0], device=d, dtype=dtype)
     lambda_ = 1.
 
     # Set random seeds for reproducibility
@@ -506,19 +509,17 @@ if __name__ == "__main__":
         if state.dim() == 1 or u.dim() == 1:
             state = state.view(1, -1)
             u = u.view(1, -1)
-        
+        # if u.shape[1] > 1:
+        #     u = u[:, 0].view(-1, 1)
         xu = torch.cat((state, u), dim=1)
+        
         state_residual = network(xu)
         next_state = state + state_residual
-        
-        # Normalize angle to [-pi, pi]
-        next_state[:, 4] = ((next_state[:, 4] + math.pi) % (2 * math.pi)) - math.pi
-        
-        # Clip velocities to reasonable values
-        next_state[:, 2] = torch.clip(next_state[:, 2], -5, 5)  # vx
-        next_state[:, 3] = torch.clip(next_state[:, 3], -5, 5)  # vy
-        next_state[:, 5] = torch.clip(next_state[:, 5], -5, 5)  # angular velocity
-        
+
+        # # Clip position and velocity
+        # next_state[:, 0] = next_state[:, 0].clamp(-1.2, 0.6)  # position
+        # next_state[:, 1] = next_state[:, 1].clamp(-0.07, 0.07)  # velocity
+
         return next_state
 
     def running_cost(state, action):
@@ -534,19 +535,21 @@ if __name__ == "__main__":
         
         # Target is to land at (0,0) with low speed and upright
         cost = (
-            0.3 * x.abs() +              # Distance from center
-            0.3 * y.abs() +               # Altitude cost (want to be near ground)
+            x.pow(2) +              # Distance from center
+            y.pow(2) +               # Altitude cost (want to be near ground)
             0.1 * vx.pow(2) +            # Horizontal velocity
             0.1 * vy.pow(2) +            # Vertical velocity
-            0.2 * angle.pow(2) +         # Angle (want to be upright)
-            0.05 * ang_vel.pow(2) +      # Angular velocity
-            0.05 * action.pow(2).sum(-1) # Action penalty
+            0.3 * angle.pow(2) +         # Angle (want to be upright)
+            0.3 * ang_vel.pow(2) +      # Angular velocity
+            0.001 * action.pow(2).sum(-1) # Action penalty
         )
         
         # Add bonus for landing (both legs touching ground)
-        landed = left_leg > 0.5 and right_leg > 0.5
-        if landed:
-            cost -= 10  # Large reward for landing
+        # landed = (left_leg > 0.50) & (right_leg > 0.5)
+        # # Compute costs for all samples in batch
+        # cost = torch.where(landed, 
+        #                 landing_reward * torch.ones_like(landed),  # if landed
+        #                 flying_cost * torch.ones_like(landed))     # else
             
         return cost
 
@@ -586,40 +589,122 @@ if __name__ == "__main__":
             param.requires_grad = False
 
     # Create environment
-    env = gym.make(ENV_NAME, continuous=True, render_mode="human")
-    env.reset()
+    # env = gym.make(ENV_NAME, continuous=True, render_mode="human")
+    env = gym.make(ENV_NAME, continuous=True, render_mode="rgb_array")
+    state, info = env.reset()
 
     # Bootstrap network with random actions
     if BOOT_STRAP_ITER:
         new_data = np.zeros((BOOT_STRAP_ITER, nx + nu))
         for i in range(BOOT_STRAP_ITER):
-            pre_action_state = env.unwrapped.state.copy()
+            # pre_action_state = env.unwrapped.state.copy()
+            pre_action_state = state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH, size=(2,))
-            env.step(action)
+            state, _, terminated, truncated, info = env.step(action)
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
+            if terminated or truncated:
+                state, info = env.reset()
+                env.reset()
 
         train(new_data)
 
-    env.reset()
+        # Save the initial weights after bootstrapping
+        initial_state_dict = network.state_dict()
 
-    # Create controller
-    ctrl = icem.iCEM(
-        dynamics, 
-        icem.accumulate_running_cost(running_cost), 
-        nx, 
-        nu, 
-        sigma=sigma,
-        warmup_iters=10, 
-        online_iters=10,
-        num_samples=N_SAMPLES, 
-        num_elites=20, 
-        horizon=TIMESTEPS, 
-        device=d,
-        action_low=ACTION_LOW,
-        action_high=ACTION_HIGH
-    )
 
-    # Run the controller
-    total_reward, data = run(ctrl, env, train, iter=1000)
-    print(f"Total reward: {total_reward}")
+    # env_seeds = [0, 8, 15]
+    seed = 0
+    episodic_return_seeds = []
+    max_episodes = 300
+    method_name = "iCEM"
+    prob = "LLC"
+    max_steps = 1000
+
+    env.reset(seed=seed)
+    
+    # for seed in env_seeds:
+    episodic_return = []
+    # Reset network to initial pretrained weights
+    network.load_state_dict(initial_state_dict)
+    
+    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+    #                         lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+    #                         u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    
+    icem_gym = icem.iCEM(dynamics, icem.accumulate_running_cost(running_cost), nx, nu, sigma=noise_sigma,
+                     warmup_iters=5, online_iters=5,
+                     num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
+    
+    for episode in range(max_episodes):
+        # print(f"Episode {episode + 1}/{max_episodes}")
+        env.reset(seed=seed)
+
+        # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+        #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+        #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+        total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        episodic_return.append(total_reward)
+        
+        # logger.info("Total reward %f", total_reward)
+
+    # episodic_return_seeds.append(episodic_return)
+        
+    # episodic_return_seeds = np.array(episodic_return_seeds)
+
+    # mean_episodic_return = np.mean(episodic_return_seeds, axis=0)
+    # std_episodic_return = np.std(episodic_return_seeds, axis=0)
+    
+    episodic_return = np.array(episodic_return)
+
+    # print("episodic_return ", episodic_return, "\n")
+    
+    # Get the folder where this script is located
+    origin_folder = os.path.dirname(os.path.abspath(__file__))
+    # Construct full path to save
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}.npz")
+    np.savez(save_path, episodic_return)
+    
+    # print("max_episodes", max_episodes, "\n")
+    # print("episodic_return_seeds.shape ", episodic_return_seeds.shape, "\n")
+    # print("mean_episodic_return ", mean_episodic_return.shape, "\n")
+    # print("std_episodic_return.shape ", std_episodic_return.shape, "\n")
+    
+    # save_data(prob, method_name, episodic_return_seeds, mean_episodic_return, std_episodic_return)
+    print("Saved data \n")
+    env.close()
+
+    # env.reset()
+    # # if downward_start:
+    # #     env.state = env.unwrapped.state = [np.pi, 1]
+
+    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+    #                      lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+    #                      u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    # total_reward, data = mppi.run_mppi(mppi_gym, env, train)
+    # logger.info("Total reward %f", total_reward)
+
+
+    # env.reset()
+
+    # # Create controller
+    # ctrl = icem.iCEM(
+    #     dynamics, 
+    #     icem.accumulate_running_cost(running_cost), 
+    #     nx, 
+    #     nu, 
+    #     sigma=sigma,
+    #     warmup_iters=10, 
+    #     online_iters=10,
+    #     num_samples=N_SAMPLES, 
+    #     num_elites=20, 
+    #     horizon=TIMESTEPS, 
+    #     device=d,
+    #     # num_elites=10
+    #     # action_low=ACTION_LOW,
+    #     # action_high=ACTION_HIGH
+    # )
+    # seed = 0
+    # # Run the controller
+    # total_reward, data = icem.run_icem(ctrl, seed, env, train, iter=1000)
+    # print(f"Total reward: {total_reward}")

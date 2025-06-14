@@ -9,7 +9,8 @@ import torch
 import logging
 import math
 # from pytorch_mppi import mppi
-from pytorch_mppi_folder import mppi_modified as mppi
+# from pytorch_mppi_folder import mppi_modified as mppi
+from pytorch_cem import cem
 # from gym import logger as gym_log
 import os
 
@@ -25,6 +26,8 @@ if __name__ == "__main__":
     ENV_NAME = "CartPoleContinuous"
     TIMESTEPS = 30  # T 
     N_SAMPLES = 200  # K # Number of trajectories to sample
+    N_ELITES = 10
+    SAMPLE_ITER = 3
     ACTION_LOW = -3.0
     ACTION_HIGH = 3.0
 
@@ -224,14 +227,20 @@ if __name__ == "__main__":
             pre_action_state = state # env.state
             # pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
-            env.step(np.array([action]))
+            state, _, terminated, truncated, info = env.step(np.array([action]))
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
 
+            done = terminated or truncated
+            if done:
+                # print("done")
+                state, info = env.reset()
+
         train(new_data)
         # logger.info("bootstrapping finished")
         print("bootstrapping finished \n")
+        
         
         # Save the initial weights after bootstrapping
         initial_state_dict = network.state_dict()
@@ -240,7 +249,7 @@ if __name__ == "__main__":
     seed = 0
     episodic_return_seeds = []
     max_episodes = 300
-    method_name = "MPPI"
+    method_name = "CEM"
     prob = "CPC"
     max_steps = 1000
     
@@ -249,9 +258,14 @@ if __name__ == "__main__":
     # Reset network to initial pretrained weights
     network.load_state_dict(initial_state_dict)
     
-    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                            lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                            u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+                            # lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+                            # u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    
+    ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+
     
     for episode in range(max_episodes):
         env.reset(seed=seed)
@@ -259,7 +273,9 @@ if __name__ == "__main__":
         # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
         #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
         #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-        total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False, prob = prob) # cem.run_cem(ctrl, env, train, iter=max_steps, render=False)
+
         episodic_return.append(total_reward)
         
         # logger.info("Total reward %f", total_reward)
