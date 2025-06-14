@@ -115,6 +115,7 @@ if __name__ == "__main__":
 
 
     def running_cost(state, action):
+        gamma = 0.99
         theta = state[:, 0]
         theta_dt = state[:, 1]
         action = action[:, 0]

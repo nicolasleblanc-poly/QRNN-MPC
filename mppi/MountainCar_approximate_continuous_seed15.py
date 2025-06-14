@@ -94,6 +94,7 @@ if __name__ == "__main__":
 
     def running_cost(state, action):
         goal = 0.45
+        gamma = 0.5
         position = state[:, 0]
         velocity = state[:, 1]
         force = action[:, 0]
