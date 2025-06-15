@@ -349,9 +349,9 @@ if __name__ == "__main__":
     #             lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
     #             u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
     
-    ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
-                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
-                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+    # ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+    #                     horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+    #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
 
 
     for episode in range(max_episodes):
@@ -362,6 +362,10 @@ if __name__ == "__main__":
         #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
         # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         
+        ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+
         total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
 
         

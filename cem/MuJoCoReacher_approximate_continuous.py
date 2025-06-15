@@ -247,7 +247,7 @@ if __name__ == "__main__":
     env_seeds = [0, 8, 15]
     episodic_return_seeds = []
     max_episodes = 400
-    method_name = "MPPI"
+    method_name = "CEM"
     prob = "MuJoCoReacher"
     max_steps = 50
     for seed in env_seeds:
@@ -255,9 +255,9 @@ if __name__ == "__main__":
         # Reset network to initial pretrained weights
         network.load_state_dict(initial_state_dict)
         
-        ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
-                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
-                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+        # ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+        #                 horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+        #                 u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
 
 
         for episode in range(max_episodes):
@@ -268,6 +268,9 @@ if __name__ == "__main__":
             #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
             #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
             # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # , prob=prob # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+            ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
             total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
            
             episodic_return.append(total_reward)
