@@ -114,13 +114,15 @@ if __name__ == "__main__":
         return (((x + math.pi) % (2 * math.pi)) - math.pi)
 
 
-    def running_cost(state, action):
+    def running_cost(state, action, t):
+        horizon = 15
         gamma = 0.99
         theta = state[:, 0]
         theta_dt = state[:, 1]
         action = action[:, 0]
-        cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2
-        return cost
+        cost = angle_normalize(theta) ** 2 + 0.1 * theta_dt ** 2 + 0.01*action**2
+        reverse_discount_factor = gamma ** (horizon - t - 1)
+        return cost * reverse_discount_factor
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
@@ -223,7 +225,7 @@ if __name__ == "__main__":
 
         train(new_data)
         # logger.info("bootstrapping finished")
-        # print("bootstrapping finished \n")
+        print("bootstrapping finished \n")
         
         # Save the initial weights after bootstrapping
         initial_state_dict = network.state_dict()
@@ -238,7 +240,7 @@ if __name__ == "__main__":
     # N_SAMPLES = 200 is the number of steps per episode
     mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
                         lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), prob = prob)
     
     for seed in env_seeds:
         episodic_return = []

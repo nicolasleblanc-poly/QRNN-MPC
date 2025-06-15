@@ -60,7 +60,8 @@ class MPPI():
                  rollout_var_discount=0.95,
                  sample_null_action=False,
                  specific_action_sampler: typing.Optional[SpecificActionSampler] = None,
-                 noise_abs_cost=False):
+                 noise_abs_cost=False,
+                 prob = None,):
         """
         :param dynamics: function(state, action) -> next_state (K x nx) taking in batch state (K x nx) and action (K x nu)
         :param running_cost: function(state, action) -> cost (K) taking in batch state and action (same as dynamics)
@@ -146,6 +147,8 @@ class MPPI():
         self.state = None
         self.info = None
 
+        self.prob = prob
+
         # handling dynamics models that output a distribution (take multiple trajectory samples)
         self.M = rollout_samples
         self.rollout_var_cost = rollout_var_cost
@@ -170,7 +173,15 @@ class MPPI():
 
     @handle_batch_input(n=2)
     def _running_cost(self, state, u, t):
-        return self.running_cost(state, u, t) if self.step_dependency else self.running_cost(state, u)
+        # if self.state_dependecy:
+        if self.step_dependency:
+            return self.running_cost(state, u, t)
+        else:
+            if self.prob == "Pendulum" or self.prob == "MountainCarContinuous":
+                return self.running_cost(state, u, t)
+            else:
+                return self.running_cost(state, u)
+        # return self.running_cost(state, u, t) if self.step_dependency else self.running_cost(state, u)
 
     def get_action_sequence(self):
         return self.U
