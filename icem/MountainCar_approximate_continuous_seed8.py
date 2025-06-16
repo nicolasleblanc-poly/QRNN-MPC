@@ -10,7 +10,7 @@ import logging
 import math
 # from pytorch_mppi import mppi
 # from pytorch_mppi_folder import mppi_modified as mppi
-from pytorch_cem import cem
+from pytorch_icem import icem
 # from gym import logger as gym_log
 import os
 
@@ -20,19 +20,41 @@ import os
 #                     format='[%(levelname)s %(asctime)s %(pathname)s:%(lineno)d] %(message)s',
 #                     datefmt='%m-%d %H:%M:%S')
 
+def run(ctrl: icem.iCEM, env, retrain_dynamics, retrain_after_iter=50, iter=1000, render=True):
+    dataset = torch.zeros((retrain_after_iter, ctrl.nx + ctrl.nu), device=ctrl.device)
+    total_reward = 0
+    for i in range(iter):
+        state = env.unwrapped.state.copy()
+        # command_start = time.perf_counter()
+        action = ctrl.command(state)
+        # elapsed = time.perf_counter() - command_start
+        res = env.step(action.cpu().numpy())
+        s, r = res[0], res[1]
+        total_reward += r
+        # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
+        if render:
+            env.render()
+
+        di = i % retrain_after_iter
+        if di == 0 and i > 0:
+            retrain_dynamics(dataset)
+            # don't have to clear dataset since it'll be overridden, but useful for debugging
+            dataset.zero_()
+        dataset[di, :ctrl.nx] = torch.tensor(state, device=ctrl.device)
+        dataset[di, ctrl.nx:] = action
+    return total_reward, dataset
+
 if __name__ == "__main__":
     ENV_NAME = "MountainCarContinuous-v0"
     TIMESTEPS = 30  # T
     N_SAMPLES = 200  # K
-    N_ELITES = 10
-    SAMPLE_ITER = 3
     ACTION_LOW = -1.0
     ACTION_HIGH = 1.0
 
     d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     dtype = torch.double
 
-    noise_sigma = torch.tensor(1, device=d, dtype=dtype)
+    noise_sigma = torch.tensor([1], device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
     lambda_ = 1.
 
@@ -95,17 +117,27 @@ if __name__ == "__main__":
 
         return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action, horizon, t):
+    def running_cost(state, action):
         gamma = 0.5
+        horizon = 30
         goal = 0.45
-        position = state[:, 0]
-        velocity = state[:, 1]
-        force = action[:, 0]
-        cost = (goal - position) ** 2
-        reverse_discount_factor = gamma**(horizon-t-1)
-        distance_reward = reverse_discount_factor*cost
+        # position = state[:, 0]
+        # velocity = state[:, 1]
+        # force = action[:, 0]
+        # cost = (goal - position) ** 2 
         #+ 0.1 * velocity ** 2 + 0.001 * (force ** 2)
-        return cost
+
+        positions = state[:, :, 0]  # Assuming states is of shape (batch_size, time_steps, state_dim)
+        costs = torch.zeros(positions.shape[0], horizon)  # Initialize cost accumulator
+        
+        for t in range(horizon):
+            position_t = positions[:, t]
+            cost_t = (goal - position_t) ** 2
+            reverse_discount_factor = gamma ** (horizon - t - 1)
+            distance_reward_t = reverse_discount_factor * cost_t
+            costs[:, t] = distance_reward_t
+        
+        return costs
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
@@ -244,10 +276,10 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    seed = 0
+    seed = 8
     episodic_return_seeds = []
     max_episodes = 300
-    method_name = "MPPI"
+    method_name = "iCEM"
     prob = "MountainCarContinuous"
     max_steps = 1000
     # for seed in env_seeds:
@@ -260,22 +292,20 @@ if __name__ == "__main__":
     #     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
     #     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
 
-    # ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
-    #                     horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
-    #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
-
+    # icem_gym = icem.iCEM(dynamics, icem.accumulate_running_cost(running_cost), nx, nu, sigma=noise_sigma,
+    #                  warmup_iters=5, online_iters=5,
+    #                  num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
     
     for episode in range(max_episodes):
         env.reset(seed=seed)
 
         # N_SAMPLES = 200 is the number of steps per episode
-        
+        icem_gym = icem.iCEM(dynamics, icem.accumulate_running_cost(running_cost), nx, nu, sigma=noise_sigma,
+                     warmup_iters=5, online_iters=5,
+                     num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
+    
+        total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
-        ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
-                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
-                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
-
-        total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False, prob = prob) # cem.run_cem(ctrl, env, train, iter=max_steps, render=False)
         episodic_return.append(total_reward)
         
         # logger.info("Total reward %f", total_reward)

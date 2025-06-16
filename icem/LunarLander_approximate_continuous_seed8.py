@@ -183,7 +183,7 @@ if __name__ == "__main__":
 
 
     # env_seeds = [0, 8, 15]
-    seed = 0
+    seed = 8
     episodic_return_seeds = []
     max_episodes = 300
     method_name = "iCEM"
