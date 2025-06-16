@@ -324,9 +324,9 @@ sbatch --job-name=MCC_MSE_rnd_CEM run-MCC-MSE-rnd-CEM_seed8.sh
 sbatch --job-name=MCC_MSE_rnd_CEM run-MCC-MSE-rnd-CEM_seed15.sh
 
 ---
-sbatch --job-name=LLC0_Q_ba run-LLC-Q-ba-seed0.sh
-sbatch --job-name=LLC8_Q_ba run-LLC-Q-ba-seed8.sh
-sbatch --job-name=LLC15_Q_ba run-LLC-Q-ba-seed15.sh
+sbatch --job-name=LLC0_Q_ba run-LLC-Q-ba_seed0.sh
+sbatch --job-name=LLC8_Q_ba run-LLC-Q-ba_seed8.sh
+sbatch --job-name=LLC15_Q_ba run-LLC-Q-ba_seed15.sh
 
 sbatch --job-name=LLC0_Q_AS_CEM run-LLC-Q-AS-CEM_seed0.sh
 sbatch --job-name=LLC8_Q_AS_CEM run-LLC-Q-AS-CEM_seed8.sh
