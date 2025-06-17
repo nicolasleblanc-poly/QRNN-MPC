@@ -235,10 +235,25 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         # if prob == "Acrobot":
         #     model.learn(total_timesteps=max_episodes, callback=return_logger)
         # else:
-        model.learn(total_timesteps=steps_per_episode*max_episodes, callback=return_logger)
         
-        episodic_return_seeds.append(return_logger.episodic_returns)
-        print("len(return_logger.episodic_returns): ", len(return_logger.episodic_returns))
+        # model.learn(total_timesteps=steps_per_episode*max_episodes, callback=return_logger)
+        
+        # episodic_return_seeds.append(return_logger.episodic_returns)
+        # print("len(return_logger.episodic_returns): ", len(return_logger.episodic_returns))
+        
+        episodic_returns = []
+        for ep in range(max_episodes):
+            obs = env.reset()
+            done = False
+            episodic_return_value = 0
+            while not done:
+                action, _ = model.predict(obs)
+                obs, reward, done, info = env.step(action)
+                model.train()  # or collect experience
+                episodic_return_value += reward
+            episodic_returns.append(episodic_return_value)
+            
+        episodic_return_seeds.append(episodic_returns)
         
         env.close()
         del env
