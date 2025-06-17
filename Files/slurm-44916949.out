@@ -1,0 +1,38 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) blis/0.9.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+prob  LunarLanderContinuous 
+
+all methods 
+
+Traceback (most recent call last):
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/run_LLC_50_AS_CEM_seed8.py", line 83, in <module>
+    episode_rep_rewards_MPC_PF_50NN_WithASGNN_mid, mean_episode_rep_rewards_MPC_PF_50NN_WithASGNN_mid, std_episode_rep_rewards_MPC_PF_50NN_WithASGNN_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_50NN, replay_buffer_50NN, optimizer_50NN, loss_50NN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/main_funcs.py", line 110, in main_50NN_MSENN_MPC
+    episode_reward_list = start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/MPC_50NN_MSENN_funcs.py", line 365, in start_50NN_MSENN_MPC_wASGNN
+    best_particle, action, best_cost, particles = choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_state, model_ASN, episode=episode, step=step, goal_state=prob_vars.goal_state)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/choose_action_50NN_MSENN.py", line 48, in choose_action_func_50NN_MSENN
+    costs = mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_state, use_sampling, use_mid, model_ASN)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/mpc_50NN_MSENN.py", line 143, in mpc_50NN_MSENN_func
+    costs += prob_vars.compute_cost(prob_vars.prob, next_states, h, horizon, actions) # h, horizon,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/setup_seed8.py", line 1107, in compute_cost
+    return self.compute_cost_LunarLanderContinuous(states, t, horizon, actions)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/setup_seed8.py", line 757, in compute_cost_LunarLanderContinuous
+    position_cost = 100*np.sqrt(x**2 + y**2)  # Penalize distance from the origin
+                        ^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/torch/_tensor.py", line 1225, in __array__
+    return self.numpy()
+           ^^^^^^^^^^^^
+RuntimeError: Can't call numpy() on Tensor that requires grad. Use tensor.detach().numpy() instead.
