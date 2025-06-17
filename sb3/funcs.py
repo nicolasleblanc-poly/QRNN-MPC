@@ -38,18 +38,25 @@ class EpisodicReturnLogger(BaseCallback):
         self.episodic_returns = []  # Stores episodic returns
         self.timesteps = []         # Stores corresponding timesteps
 
+    # def _on_step(self) -> bool:
+    #     # Log at the end of each episode (SB3 updates `ep_info_buffer` after an episode ends)
+    #     for info in self.locals.get('infos', []):
+    #         if 'episode' in info:
+    #             self.episode_count += 1
+    #             episodic_return = info['episode']['r']  # Cumulative reward of the episode
+    #             self.episodic_returns.append(episodic_return)
+    #             self.timesteps.append(self.num_timesteps)  # Current timestep
+                
+    #             if self.episode_count >= self.max_episodes:
+    #                 return False
+                
+    #     return True
     def _on_step(self) -> bool:
-        # Log at the end of each episode (SB3 updates `ep_info_buffer` after an episode ends)
         for info in self.locals.get('infos', []):
             if 'episode' in info:
-                self.episode_count += 1
-                episodic_return = info['episode']['r']  # Cumulative reward of the episode
-                self.episodic_returns.append(episodic_return)
-                self.timesteps.append(self.num_timesteps)  # Current timestep
-                
-                if self.episode_count >= self.max_episodes:
+                self.episodic_returns.append(info['episode']['r'])
+                if len(self.episodic_returns) >= self.max_episodes:
                     return False
-                
         return True
 
 
@@ -201,11 +208,11 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             # env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
         
         if method_name == "A2C":
-            model = A2C("MlpPolicy", env)
+            model = A2C("MlpPolicy", env, device='cpu')
         elif method_name == "DDPG":
             model = DDPG("MlpPolicy", env)
         elif method_name == "PPO":
-            model = PPO("MlpPolicy", env)
+            model = PPO("MlpPolicy", env, device='cpu')
         elif method_name == "SAC":
             model = SAC("MlpPolicy", env)
         elif method_name == "TD3":
@@ -231,7 +238,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         model.learn(total_timesteps=steps_per_episode*max_episodes, callback=return_logger)
         
         episodic_return_seeds.append(return_logger.episodic_returns)
-        # print("len(return_logger.episodic_returns): ", len(return_logger.episodic_returns))
+        print("len(return_logger.episodic_returns): ", len(return_logger.episodic_returns))
         
         env.close()
         del env
