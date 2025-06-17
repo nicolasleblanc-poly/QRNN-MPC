@@ -198,7 +198,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         elif prob == "CartPoleContinuous":
             import cartpole_continuous as cartpole_env
             env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
-            env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
+            # env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
         
         if method_name == "A2C":
             model = A2C("MlpPolicy", env)
