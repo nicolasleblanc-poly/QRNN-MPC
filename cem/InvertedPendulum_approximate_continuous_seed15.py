@@ -263,7 +263,7 @@ if __name__ == "__main__":
     episodic_return_seeds = []
     max_episodes = 300
     method_name = "CEM"
-    prob = "CPC"
+    prob = "InvertedPendulum"
     max_steps = 1000
     
     # for seed in env_seeds:
