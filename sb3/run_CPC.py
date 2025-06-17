@@ -17,16 +17,16 @@ steps_per_episode = 200
 max_episodes = 400
 prob = "CartPoleContinuous"
 # A2C
-run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
+# run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
 # PPO
 run(env_seeds, prob, "PPO", steps_per_episode, max_episodes)
-# DDPG
-run(prob, "DDPG", steps_per_episode, max_episodes)
-# SAC
-run(prob, "SAC", steps_per_episode, max_episodes)
-# TD3
-run(prob, "TD3", steps_per_episode, max_episodes)
-# TQC
-run(prob, "TQC", steps_per_episode, max_episodes)
+# # DDPG
+# run(env_seeds, prob, "DDPG", steps_per_episode, max_episodes)
+# # SAC
+# run(env_seeds, prob, "SAC", steps_per_episode, max_episodes)
+# # TD3
+# run(env_seeds, prob, "TD3", steps_per_episode, max_episodes)
+# # TQC
+# run(env_seeds, prob, "TQC", steps_per_episode, max_episodes)
 
 
