@@ -9,7 +9,8 @@ import torch
 import logging
 import math
 # from pytorch_mppi import mppi
-from pytorch_mppi_folder import mppi_modified as mppi
+# from pytorch_mppi_folder import mppi_modified as mppi
+from pytorch_cem import cem
 # from gym import logger as gym_log
 import os
 
@@ -22,9 +23,11 @@ import cartpole_continuous as cartpole_env
 #                     datefmt='%m-%d %H:%M:%S')
 
 if __name__ == "__main__":
-    ENV_NAME = "CartPoleContinuous"
+    ENV_NAME = "InvertedPendulum-v5"
     TIMESTEPS = 30  # T 
     N_SAMPLES = 200  # K # Number of trajectories to sample
+    N_ELITES = 10
+    SAMPLE_ITER = 3
     ACTION_LOW = -3.0
     ACTION_HIGH = 3.0
 
@@ -94,30 +97,43 @@ if __name__ == "__main__":
 
     #     return torch.cat((position, velocity), dim=1)
 
-    def running_cost(state, action):
+    def running_cost(state, action, horizon, t):
         # goal = 0.45
         cart_position = state[:, 0]
-        pole_angle = state[:, 2]
-        cart_velocity = state[:, 1]
+        pole_angle = state[:, 1]
+        cart_velocity = state[:, 2]
         # force = action[:, 0]
         cost = pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
         # cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         return cost
+    
+    # def compute_cost_InvertedPendulum(states, t, horizon, actions):
+    #             """
+    #             Vectorized cost computation for multiple states and actions.
+                
+    #             :param states: Tensor of shape (batch_size, state_dim)
+    #             :param actions: Tensor of shape (batch_size,)
+    #             :return: Cost tensor of shape (batch_size,)
+    #             """
+    #             cart_position = states[:, 0]
+    #             pole_angle = states[:, 1] # Opposite of cart pole
+    #             cart_velocity = states[:, 2] # Opposite of cart pole
+    #             return pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
 
-    def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+    # def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
-        # Get the folder where this script is located
-        origin_folder = os.path.dirname(os.path.abspath(__file__))
-        # Construct full path to save
-        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+    #     # Get the folder where this script is located
+    #     origin_folder = os.path.dirname(os.path.abspath(__file__))
+    #     # Construct full path to save
+    #     save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
 
-        np.savez(
-        save_path,
-        f"{prob}_{method_name}_results.npz",
-        episode_rewards=episodic_rep_returns,
-        mean_rewards=mean_episodic_returns,
-        std_rewards=std_episodic_returns
-        )
+    #     np.savez(
+    #     save_path,
+    #     f"{prob}_{method_name}_results.npz",
+    #     episode_rewards=episodic_rep_returns,
+    #     mean_rewards=mean_episodic_returns,
+    #     std_rewards=std_episodic_returns
+    #     )
 
     dataset = None
     # create some true dynamics validation set to compare model against
@@ -205,8 +221,8 @@ if __name__ == "__main__":
         # logger.debug("Start next collection sequence")
         
     # downward_start = True
-    # env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
-    env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
+    env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
+    # env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array").unwrapped
     # env = env.unwrapped
     state, info = env.reset()
     # state, info = env.reset()
@@ -224,18 +240,20 @@ if __name__ == "__main__":
             pre_action_state = state # env.state
             # pre_action_state = env.state
             action = np.random.uniform(low=ACTION_LOW, high=ACTION_HIGH)
-            next_state, _, terminated, truncated, info = env.step(np.array([action]))
+            state, _, terminated, truncated, info = env.step(np.array([action]))
             # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
 
             done = terminated or truncated
             if done:
+                # print("done")
                 state, info = env.reset()
 
         train(new_data)
         # logger.info("bootstrapping finished")
         print("bootstrapping finished \n")
+        
         
         # Save the initial weights after bootstrapping
         initial_state_dict = network.state_dict()
@@ -244,18 +262,23 @@ if __name__ == "__main__":
     seed = 15
     episodic_return_seeds = []
     max_episodes = 300
-    method_name = "MPPI"
+    method_name = "CEM"
     prob = "CPC"
-    max_steps = 200
+    max_steps = 1000
     
     # for seed in env_seeds:
     episodic_return = []
     # Reset network to initial pretrained weights
     network.load_state_dict(initial_state_dict)
     
-    mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                            lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                            u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+                            # lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+                            # u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
+    
+    # ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+    #                     horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+    #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+
     
     for episode in range(max_episodes):
         env.reset(seed=seed)
@@ -263,7 +286,12 @@ if __name__ == "__main__":
         # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
         #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
         #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-        total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+        total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False, prob = prob) # cem.run_cem(ctrl, env, train, iter=max_steps, render=False)
+
         episodic_return.append(total_reward)
         
         # logger.info("Total reward %f", total_reward)

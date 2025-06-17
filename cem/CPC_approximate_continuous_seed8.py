@@ -40,12 +40,12 @@ if __name__ == "__main__":
 
     import random
 
-    randseed = 24
-    if randseed is None:
-        randseed = random.randint(0, 1000000)
-    random.seed(randseed)
-    np.random.seed(randseed)
-    torch.manual_seed(randseed)
+    # randseed = 24
+    # if randseed is None:
+    #     randseed = random.randint(0, 1000000)
+    # random.seed(randseed)
+    # np.random.seed(randseed)
+    # torch.manual_seed(randseed)
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
@@ -100,10 +100,10 @@ if __name__ == "__main__":
     def running_cost(state, action, horizon, t):
         # goal = 0.45
         cart_position = state[:, 0]
-        pole_angle = state[:, 1]
-        cart_velocity = state[:, 2]
+        pole_angle = state[:, 2]
+        cart_velocity = state[:, 1]
         # force = action[:, 0]
-        cost = pole_angle**2 + 0.1 * cart_velocity**2 + 0.1 * cart_velocity**2
+        cost = pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
         # cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         return cost
 
@@ -251,8 +251,8 @@ if __name__ == "__main__":
     max_episodes = 300
     method_name = "CEM"
     prob = "CPC"
-    max_steps = 1000
-    
+    max_steps = 200
+        
     # for seed in env_seeds:
     episodic_return = []
     # Reset network to initial pretrained weights

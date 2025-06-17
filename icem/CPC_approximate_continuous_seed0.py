@@ -143,10 +143,10 @@ if __name__ == "__main__":
     def running_cost(state, action):
         # goal = 0.45
         cart_position = state[:, 0]
-        pole_angle = state[:, 1]
-        cart_velocity = state[:, 2]
+        pole_angle = state[:, 2]
+        cart_velocity = state[:, 1]
         # force = action[:, 0]
-        cost = pole_angle**2 + 0.1 * cart_velocity**2 + 0.1 * cart_velocity**2
+        cost = pole_angle**2 + 0.1 * cart_position**2 + 0.1 * cart_velocity**2
         # cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         return cost
 
@@ -289,8 +289,8 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    # seed = 0
-    seed = 8
+    seed = 0
+    # seed = 8
     # seed = 15
     episodic_return_seeds = []
     max_episodes = 300
