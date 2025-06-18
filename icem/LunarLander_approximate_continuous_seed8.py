@@ -187,7 +187,7 @@ if __name__ == "__main__":
     episodic_return_seeds = []
     max_episodes = 300
     method_name = "iCEM"
-    prob = "LLC"
+    prob = "LunarLanderContinuous"
     max_steps = 1000
 
     env.reset(seed=seed)
