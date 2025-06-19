@@ -286,14 +286,17 @@ class MPPI():
         states = torch.stack(states, dim=-2)
 
         # action perturbation cost
+        # if self.terminal_state_cost:
+        #     c = self.terminal_state_cost(states, actions)
+
+        #     if self.prob != "MountainCarContinuous":
+        #         cost_samples = cost_samples + c
+        #     else:
+        #         # Only consider the termianl state cost
+        #         cost_samples = c
         if self.terminal_state_cost:
             c = self.terminal_state_cost(states, actions)
-
-            if self.prob != "MountainCarContinuous":
-                cost_samples = cost_samples + c
-            else:
-                # Only consider the termianl state cost
-                cost_samples = c
+            cost_samples = cost_samples + c
         cost_total = cost_total + cost_samples.mean(dim=0)
         cost_total = cost_total + cost_var * self.rollout_var_cost
         return cost_total, states, actions

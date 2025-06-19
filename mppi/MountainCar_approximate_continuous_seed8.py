@@ -100,7 +100,8 @@ if __name__ == "__main__":
         # cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         # return cost
         horizon = 30
-        gamma = 0.5
+        # gamma = 0.5
+        gamma = 0.1
         goal = 0.45
         position = state[:, 0]
         velocity = state[:, 1]
