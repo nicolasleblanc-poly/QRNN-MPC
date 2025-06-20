@@ -201,6 +201,25 @@ sbatch --job-name=MCC_Q_evoCEM run-MCC-Q-EvoCEM.sh
 sbatch --job-name=MCC_50_EvoCEM run-MCC-50-EvoCEM.sh
 sbatch --job-name=MCC_MSE_EvoCEM run-MCC-MSE-EvoCEM.sh
 
+----------------------------------------------------------
+sbatch --job-name=LLC_Q_AS run-LLC-Q-AS.sh
+sbatch --job-name=LLC_Q_ba run-LLC-Q-ba.sh
+sbatch --job-name=LLC_Q_AS_CEM run-LLC-Q-AS-CEM.sh
+sbatch --job-name=LLC_Q_ba_CEM run-LLC-Q-ba-CEM.sh
+sbatch --job-name=LLC_Q_rnd_RS run-LLC-Q-rnd-RS.sh
+sbatch --job-name=LLC_Q_rnd_CEM run-LLC-Q-rnd-CEM.sh
+sbatch --job-name=LLC_50_AS run-LLC-50-AS.sh
+sbatch --job-name=LLC_50_ba run-LLC-50-ba.sh
+sbatch --job-name=LLC_50_AS_CEM run-LLC-50-AS-CEM.sh
+sbatch --job-name=LLC_50_ba_CEM run-LLC-50-ba-CEM.sh
+sbatch --job-name=LLC_50_rnd_RS run-LLC-50-rnd-RS.sh
+sbatch --job-name=LLC_50_rnd_CEM run-LLC-50-rnd-CEM.sh
+sbatch --job-name=LLC_MSE_AS run-LLC-MSE-AS.sh
+sbatch --job-name=LLC_MSE_ba run-LLC-MSE-ba.sh
+sbatch --job-name=LLC_MSE_AS_CEM run-LLC-MSE-AS-CEM.sh
+sbatch --job-name=LLC_MSE_ba_CEM run-LLC-MSE-ba-CEM.sh
+sbatch --job-name=LLC_MSE_rnd_RS run-LLC-MSE-rnd-RS.sh
+sbatch --job-name=LLC_MSE_rnd_CEM run-LLC-MSE-rnd-CEM.sh
 
 
 ----------------------------------------------------------
