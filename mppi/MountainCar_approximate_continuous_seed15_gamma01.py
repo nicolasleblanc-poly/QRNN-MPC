@@ -100,8 +100,8 @@ if __name__ == "__main__":
         # cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         # return cost
         horizon = 30
-        # gamma = 0.5
-        gamma = 0.1
+        gamma = 0.5
+        # gamma = 0.1
         goal = 0.45
         position = state[:, 0]
         velocity = state[:, 1]
@@ -111,7 +111,6 @@ if __name__ == "__main__":
         distance_reward = reverse_discount_factor*cost
         #+ 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         return cost
-
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
@@ -249,7 +248,7 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    seed = 0
+    seed = 15
     episodic_return_seeds = []
     max_episodes = 300
     method_name = "MPPI"
@@ -262,14 +261,16 @@ if __name__ == "__main__":
     network.load_state_dict(initial_state_dict)
     
     mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-        lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), prob=prob)
+                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), prob=prob)
     
     for episode in range(max_episodes):
         env.reset(seed=seed)
 
         # N_SAMPLES = 200 is the number of steps per episode
-        
+        # mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
+        #                     lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+        #                     u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
         total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         episodic_return.append(total_reward)
         

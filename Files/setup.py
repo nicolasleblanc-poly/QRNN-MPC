@@ -231,7 +231,7 @@ class setup_class:
                 m_power = (actions[:, 0] == 2).float()
                 s_power = ((actions[:, 0] == 1) | (actions[:, 0] == 3)).float()
                 
-                position_cost = 100*np.sqrt(x**2 + y**2)  # Penalize distance from the origin
+                position_cost = 100*torch.sqrt(x**2 + y**2)  # Penalize distance from the origin
                 velocity_cost = 0.1 * (vx**2 + vy**2)  # Penalize high velocities
                 angle_cost = 10 * theta**2  # Penalize deviation from upright position
                 contact_bonus = -10 * (leg1 + leg2)  # Reward for having legs in contact with the ground

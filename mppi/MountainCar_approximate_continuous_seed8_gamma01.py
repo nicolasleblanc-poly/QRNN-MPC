@@ -94,15 +94,14 @@ if __name__ == "__main__":
 
     def running_cost(state, action, t):
         # goal = 0.45
-        # gamma = 0.5
         # position = state[:, 0]
         # velocity = state[:, 1]
         # force = action[:, 0]
         # cost = (goal - position) ** 2 + 0.1 * velocity ** 2 + 0.001 * (force ** 2)
         # return cost
         horizon = 30
-        # gamma = 0.5
-        gamma = 0.1
+        gamma = 0.5
+        # gamma = 0.1
         goal = 0.45
         position = state[:, 0]
         velocity = state[:, 1]
@@ -249,7 +248,7 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    seed = 15
+    seed = 8
     episodic_return_seeds = []
     max_episodes = 300
     method_name = "MPPI"
@@ -262,8 +261,8 @@ if __name__ == "__main__":
     network.load_state_dict(initial_state_dict)
     
     mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), prob=prob)
+            lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
+            u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), prob=prob)
     
     for episode in range(max_episodes):
         env.reset(seed=seed)
