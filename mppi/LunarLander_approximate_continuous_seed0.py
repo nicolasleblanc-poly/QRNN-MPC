@@ -96,14 +96,15 @@ if __name__ == "__main__":
         x, y = state[:, 0], state[:, 1]
         vx, vy = state[:, 2], state[:, 3]
         theta, dtheta = state[:, 4], state[:, 5]
-        leg1, leg2 = state[:, 6], state[:, 7]
+        left_leg, right_leg = state[:, 6], state[:, 7]
         a1, a2 = action[:, 0], action[:, 1]
 
         # Penalize distance from origin, velocity, tilt, rotation speed, and engine usage
         cost = (x ** 2 + y ** 2) \
             + 0.1 * (vx ** 2 + vy ** 2) \
             + 0.3 * (theta ** 2 + dtheta ** 2) \
-            + 0.001 * (a1 ** 2 + a2 ** 2)
+            + 0.001 * (a1 ** 2 + a2 ** 2)\
+                - 10 * (left_leg + right_leg)
         return cost
 
     def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):

@@ -111,6 +111,7 @@ if __name__ == "__main__":
             0.3 * angle.pow(2) +         # Angle (want to be upright)
             0.3 * ang_vel.pow(2) +      # Angular velocity
             0.001 * action.pow(2).sum(-1) # Action penalty
+            - 10 * (left_leg + right_leg)
         )
         
         # Add bonus for landing (both legs touching ground)

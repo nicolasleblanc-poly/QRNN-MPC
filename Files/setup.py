@@ -224,19 +224,29 @@ class setup_class:
                 vy = states[:, 3]
                 theta = states[:, 4]
                 omega = states[:, 5]
-                leg1 = states[:, 6]
-                leg2 = states[:, 7]
+                left_leg = states[:, 6]
+                right_leg = states[:, 7]
                 # legs = states[:, 6:8]
-
-                m_power = (actions[:, 0] == 2).float()
-                s_power = ((actions[:, 0] == 1) | (actions[:, 0] == 3)).float()
                 
-                position_cost = 100*torch.sqrt(x**2 + y**2)  # Penalize distance from the origin
-                velocity_cost = 0.1 * (vx**2 + vy**2)  # Penalize high velocities
-                angle_cost = 10 * theta**2  # Penalize deviation from upright position
-                contact_bonus = -10 * (leg1 + leg2)  # Reward for having legs in contact with the ground
-                fuel_cost = 0.3*m_power + 0.03*s_power  # Penalize fuel consumption
-                return position_cost + velocity_cost + angle_cost + contact_bonus + fuel_cost
+                # legs = states[:, 6:8]
+                # a1, a2 = actions[:, 0], actions[:, 1]
+
+                # Penalize distance from origin, velocity, tilt, rotation speed, and engine usage
+                cost = (x ** 2 + y ** 2) \
+                    + 0.1 * (vx ** 2 + vy ** 2) \
+                    + 0.3 * (theta ** 2 + omega ** 2) \
+                    - 10 * (left_leg + right_leg)
+                    # + 0.001 * (a1 ** 2 + a2 ** 2)
+
+                # m_power = (actions[:, 0] == 2).float()
+                # s_power = ((actions[:, 0] == 1) | (actions[:, 0] == 3)).float()
+                
+                # position_cost = 100*torch.sqrt(x**2 + y**2)  # Penalize distance from the origin
+                # velocity_cost = 0.1 * (vx**2 + vy**2)  # Penalize high velocities
+                # angle_cost = 10 * theta**2  # Penalize deviation from upright position
+                # contact_bonus = -10 * (leg1 + leg2)  # Reward for having legs in contact with the ground
+                # fuel_cost = 0.3*m_power + 0.03*s_power  # Penalize fuel consumption
+                # return position_cost + velocity_cost + angle_cost + contact_bonus + fuel_cost
 
                 # Part of old cost function
                 # legs = states[:, 6:8]
@@ -730,36 +740,44 @@ class setup_class:
                 vy = states[:, 3]
                 theta = states[:, 4]
                 omega = states[:, 5]
-                leg1 = states[:, 6]
-                leg2 = states[:, 7]
+                left_leg = states[:, 6]
+                right_leg = states[:, 7]
                 # legs = states[:, 6:8]
+                a1, a2 = actions[:, 0], actions[:, 1]
 
-                main_thrust = actions[:, 0]  # Main engine thrust
-                side_thrust = actions[:, 1]
+                # Penalize distance from origin, velocity, tilt, rotation speed, and engine usage
+                cost = (x ** 2 + y ** 2) \
+                    + 0.1 * (vx ** 2 + vy ** 2) \
+                    + 0.3 * (theta ** 2 + omega ** 2) \
+                    + 0.001 * (a1 ** 2 + a2 ** 2) \
+                    - 10 * (left_leg + right_leg)
+
+                # main_thrust = actions[:, 0]  # Main engine thrust
+                # side_thrust = actions[:, 1]
                 # a1, a2 = actions[:, 0], actions[:, 1]
-                # m_power calculation
-                clipped_main = torch.clamp(main_thrust, 0.0, 1.0)
-                m_power = torch.where(
-                    main_thrust > 0.0,
-                    (clipped_main + 1.0) * 0.5,
-                    torch.zeros_like(main_thrust)
-                )
+                # # m_power calculation
+                # clipped_main = torch.clamp(main_thrust, 0.0, 1.0)
+                # m_power = torch.where(
+                #     main_thrust > 0.0,
+                #     (clipped_main + 1.0) * 0.5,
+                #     torch.zeros_like(main_thrust)
+                # )
 
-                # s_power calculation
-                abs_side = torch.abs(side_thrust)
-                clipped_side = torch.clamp(abs_side, 0.5, 1.0)
-                s_power = torch.where(
-                    abs_side > 0.5,
-                    clipped_side,
-                    torch.zeros_like(side_thrust)
-                )
+                # # s_power calculation
+                # abs_side = torch.abs(side_thrust)
+                # clipped_side = torch.clamp(abs_side, 0.5, 1.0)
+                # s_power = torch.where(
+                #     abs_side > 0.5,
+                #     clipped_side,
+                #     torch.zeros_like(side_thrust)
+                # )
                 
-                position_cost = 100*torch.sqrt(x**2 + y**2)  # Penalize distance from the origin
-                velocity_cost = 0.1 * (vx**2 + vy**2)  # Penalize high velocities
-                angle_cost = 10 * theta**2  # Penalize deviation from upright position
-                contact_bonus = -10 * (leg1 + leg2)  # Reward for having legs in contact with the ground
-                fuel_cost = 0.3*m_power + 0.03*s_power  # Penalize fuel consumption
-                return position_cost + velocity_cost + angle_cost + contact_bonus + fuel_cost
+                # position_cost = 100*torch.sqrt(x**2 + y**2)  # Penalize distance from the origin
+                # velocity_cost = 0.1 * (vx**2 + vy**2)  # Penalize high velocities
+                # angle_cost = 10 * theta**2  # Penalize deviation from upright position
+                # contact_bonus = -10 * (leg1 + leg2)  # Reward for having legs in contact with the ground
+                # fuel_cost = 0.3*m_power + 0.03*s_power  # Penalize fuel consumption
+                # return position_cost + velocity_cost + angle_cost + contact_bonus + fuel_cost
 
                 # Part of old cost function
                 # legs = states[:, 6:8]
@@ -782,7 +800,7 @@ class setup_class:
                 # cost = 10*x**2 + 10*y**2 + vx**2 + vy**2 + theta**2 + omega**2 - 10*legs.sum(dim=1) + 0.1 * (a1 ** 2 + a2 ** 2)
                 # # cost = distance_to_goal ** 2
                 
-                # return cost
+                return cost
             
             self.compute_cost_LunarLanderContinuous = compute_cost_LunarLanderContinuous
 
