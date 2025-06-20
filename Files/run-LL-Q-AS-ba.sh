@@ -2,7 +2,7 @@
 #SBATCH --mem=32G
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
-#SBATCH --time=5:00:0:0    
+#SBATCH --time=4-00:00:00   
 #SBATCH --mail-user=<nicolas-3.leblanc@polymtl.ca>
 #SBATCH --mail-type=ALL
 
