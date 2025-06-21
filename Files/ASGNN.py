@@ -83,9 +83,9 @@ class ActionSequenceNN(nn.Module):
         if self.discrete:
             logits = self.action_output_layer(x)
             # print("logits ", logits, "\n")
-            # action_probs = torch.softmax(logits, dim=-1) # -1
-            # return action_probs # [0] # , None
-            return logits
+            action_probs = torch.softmax(logits, dim=-1) # -1
+            return action_probs # [0] # , None
+            # return logits
         else:
             mu = self.mu_output_layer(x)
             sigma = self.sigma_output_layer(x)
