@@ -191,7 +191,7 @@ class setup_class:
                 self.std_string = "05"
                 
 
-            self.nb_actions = 3
+            self.nb_actions = 4 # And not 3 dummy...
             
             self.nb_top_particles = 5
             # nb_random = 10

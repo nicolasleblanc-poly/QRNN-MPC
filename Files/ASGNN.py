@@ -116,13 +116,13 @@ def train_ActionSequenceNN(model, replay_buffer, batch_size, optimizer, num_epoc
         states, goal_states, actions = replay_buffer.sample(batch_size)
 
         if model.discrete:
-            # outputs = model(states, goal_states)
-            # print("outputs ", outputs, "\n")
-            logits = model(states, goal_states)
+            outputs = model(states, goal_states)
+            print("outputs ", outputs, "\n")
+            # logits = model(states, goal_states)
             # print("logits ", logits, "\n")
-            # print("actions ", actions, "\n")
-            # loss = categorical_cross_entropy_loss(outputs, actions)
-            loss = categorical_cross_entropy_loss(logits, actions)
+            print("actions ", actions, "\n")
+            loss = categorical_cross_entropy_loss(outputs, actions)
+            # loss = categorical_cross_entropy_loss(logits, actions)
         else:
             outputs, uncertainties = model(states, goal_states)
             
