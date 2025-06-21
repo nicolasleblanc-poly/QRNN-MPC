@@ -83,30 +83,41 @@ class ActionSequenceNN(nn.Module):
         if self.discrete:
             logits = self.action_output_layer(x)
             # print("logits ", logits, "\n")
-            action_probs = torch.softmax(logits, dim=-1) # -1
-            return action_probs # [0] # , None
+            # action_probs = torch.softmax(logits, dim=-1) # -1
+            # return action_probs # [0] # , None
+            return logits
         else:
             mu = self.mu_output_layer(x)
             sigma = self.sigma_output_layer(x)
-            sigma = torch.exp(sigma) 
+            sigma = torch.exp(sigma)
             return mu, sigma
 
 def gaussian_nll_loss(mus, sigmas, a):
     log_likelihood = 0.5 * torch.log(2 * torch.pi * sigmas**2) + 0.5 * ((a - mus)**2) / (sigmas**2)
     return log_likelihood.mean()
 
-def categorical_cross_entropy_loss(action_probs, actions):
-    return -torch.sum(actions * torch.log(action_probs + 1e-10), dim=-1).mean()
+def categorical_cross_entropy_loss(logits, actions):
+    actions = actions.long().squeeze()  # Convert to shape [batch_size]
+    return torch.nn.functional.cross_entropy(logits, actions)
+
+# def categorical_cross_entropy_loss(action_probs, actions):
+#     actions = actions.long().squeeze()  # Convert to shape [batch_size]
+#     return torch.nn.functional.cross_entropy(torch.log(action_probs + 1e-10), actions)
+
+    # return -torch.sum(actions * torch.log(action_probs + 1e-10), dim=-1).mean()
 
 def train_ActionSequenceNN(model, replay_buffer, batch_size, optimizer, num_epochs):
     for _ in range(num_epochs):
         states, goal_states, actions = replay_buffer.sample(batch_size)
 
         if model.discrete:
-            outputs = model(states, goal_states)
+            # outputs = model(states, goal_states)
             # print("outputs ", outputs, "\n")
+            logits = model(states, goal_states)
+            # print("logits ", logits, "\n")
             # print("actions ", actions, "\n")
-            loss = categorical_cross_entropy_loss(outputs, actions)
+            # loss = categorical_cross_entropy_loss(outputs, actions)
+            loss = categorical_cross_entropy_loss(logits, actions)
         else:
             outputs, uncertainties = model(states, goal_states)
             
