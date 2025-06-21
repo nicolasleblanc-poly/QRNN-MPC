@@ -8,6 +8,7 @@ sbatch --job-name=LLC_Q_AS_ba run-LLC-Q-AS-ba.sh
 sbatch --job-name=CP_Q_AS_ba_CEM run-CP-Q-AS-ba-CEM.sh
 sbatch --job-name=AC_Q_AS_ba_CEM run-AC-Q-AS-ba-CEM.sh
 sbatch --job-name=LL_Q_AS_ba_CEM run-LL-Q-AS-ba-CEM.sh
+sbatch --job-name=MC_Q_AS_ba_CEM run-MC-Q-AS-ba-CEM.sh
 sbatch --job-name=MCC_Q_AS_ba_CEM run-MCC-Q-AS-ba-CEM.sh
 sbatch --job-name=LLC_Q_AS_ba_CEM run-LLC-Q-AS-ba-CEM.sh
 
