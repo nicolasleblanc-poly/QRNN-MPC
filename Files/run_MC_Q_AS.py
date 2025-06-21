@@ -40,7 +40,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     np.savez(
-    f"{prob}_{method_name}_May6.npz",
+    f"{prob}_{method_name}_June21.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
@@ -116,5 +116,5 @@ print("episode_rep_rewards_MPC_PF_QRNN_WithASGNN_mid saved \n")
 # print("episode_rep_rewards_MPC_PF_QRNN_basic_mid saved \n")
 # # """
 
-print("all done \n")
+# print("all done \n")
 
