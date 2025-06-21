@@ -96,9 +96,14 @@ def gaussian_nll_loss(mus, sigmas, a):
     log_likelihood = 0.5 * torch.log(2 * torch.pi * sigmas**2) + 0.5 * ((a - mus)**2) / (sigmas**2)
     return log_likelihood.mean()
 
-def categorical_cross_entropy_loss(logits, actions):
+# def categorical_cross_entropy_loss(logits, actions):
+#     actions = actions.long().squeeze()  # Convert to shape [batch_size]
+#     return torch.nn.functional.cross_entropy(logits, actions)
+
+def categorical_cross_entropy_loss(action_probs, actions):
     actions = actions.long().squeeze()  # Convert to shape [batch_size]
-    return torch.nn.functional.cross_entropy(logits, actions)
+    log_probs = torch.log(action_probs + 1e-10)  # Small epsilon to avoid log(0)
+    return torch.nn.functional.nll_loss(log_probs, actions)
 
 # def categorical_cross_entropy_loss(action_probs, actions):
 #     actions = actions.long().squeeze()  # Convert to shape [batch_size]
