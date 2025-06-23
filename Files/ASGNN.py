@@ -117,10 +117,10 @@ def train_ActionSequenceNN(model, replay_buffer, batch_size, optimizer, num_epoc
 
         if model.discrete:
             outputs = model(states, goal_states)
-            print("outputs ", outputs, "\n")
+            # print("outputs ", outputs, "\n")
             # logits = model(states, goal_states)
             # print("logits ", logits, "\n")
-            print("actions ", actions, "\n")
+            # print("actions ",9 actions, "\n")
             loss = categorical_cross_entropy_loss(outputs, actions)
             # loss = categorical_cross_entropy_loss(logits, actions)
         else:

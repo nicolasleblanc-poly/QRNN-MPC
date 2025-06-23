@@ -157,10 +157,10 @@ def continuous_cem_func(prob_vars, particles, costs, best_action_sequence, noisy
         # print("best_cost ", best_cost, "\n")
         # print("best_action_sequence ", best_action_sequence, "\n")
         
-        particles[prob_vars.num_particles-prob_vars.nb_random:] = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.nb_random, prob_vars.horizon*prob_vars.action_dim))
+        # particles[prob_vars.num_particles-prob_vars.nb_random:] = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.nb_random, prob_vars.horizon*prob_vars.action_dim))
         best_first_action = best_action_sequence[:prob_vars.action_dim] # .item()
     else: # Pendulum, MountainCarContinuous
-        particles[prob_vars.num_particles-prob_vars.nb_random:] = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.nb_random, prob_vars.horizon))
+        # particles[prob_vars.num_particles-prob_vars.nb_random:] = np.random.uniform(prob_vars.action_low, prob_vars.action_high, (prob_vars.nb_random, prob_vars.horizon))
         best_first_action = best_action_sequence[0].item()
 
     return best_first_action, new_particles
