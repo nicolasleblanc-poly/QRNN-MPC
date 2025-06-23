@@ -41,7 +41,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     np.savez(
-    f"{prob}_{method_name}_June21.npz",
+    f"{prob}_{method_name}_June23.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
@@ -84,38 +84,38 @@ else:
 save_data(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_WithASGNN_mid, mean_episode_rep_rewards_MPC_PF_MSENN_WithASGNN_mid, std_episode_rep_rewards_MPC_PF_MSENN_WithASGNN_mid)
 print("episode_rep_rewards_MPC_PF_MSENN_WithASGNN_mid saved \n")
 
-# # if method_name == "MPC_MSENN_basic_mid":
-# # Run MPC-QRNN basic mid
-# do_RS = False
-# use_ASGNN = False
-# use_sampling = False
-# use_mid = True
-# do_QRNN_step_rnd = False
-# method_name = "MPC_MSENN_basic_mid_ChangeHorizonTo30From70_AddedVelocity"
-# use_QRNN = False
-# use_50NN = False
-# use_MSENN = True
+# if method_name == "MPC_MSENN_basic_mid":
+# Run MPC-QRNN basic mid
+do_RS = False
+use_ASGNN = False
+use_sampling = False
+use_mid = True
+do_QRNN_step_rnd = False
+method_name = "MPC_MSENN_basic_mid_ChangeHorizonTo30From70_AddedVelocity"
+use_QRNN = False
+use_50NN = False
+use_MSENN = True
 
-# model_MSENN = NextStateSinglePredNetwork(prob_vars.state_dim, prob_vars.action_dim)
-# optimizer_MSENN = optim.Adam(model_MSENN.parameters(), lr=1e-3)
-# loss_MSENN = mse_loss
+model_MSENN = NextStateSinglePredNetwork(prob_vars.state_dim, prob_vars.action_dim)
+optimizer_MSENN = optim.Adam(model_MSENN.parameters(), lr=1e-3)
+loss_MSENN = mse_loss
 
-# # Experience replay buffer
-# replay_buffer_MSENN = []
+# Experience replay buffer
+replay_buffer_MSENN = []
 
-# replay_buffer_ASN = None
-# model_ASN = None
-# optimizer_ASN = None
+replay_buffer_ASN = None
+model_ASN = None
+optimizer_ASN = None
 
-# if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
-#     episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid, episode_rep_SuccessRate_MPC_PF_MSENN_basic_mid, mean_episode_rep_SuccessRate_MPC_PF_MSENN_basic_mid, std_episode_rep_SuccessRate_MPC_PF_MSENN_basic_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
+    episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid, episode_rep_SuccessRate_MPC_PF_MSENN_basic_mid, mean_episode_rep_SuccessRate_MPC_PF_MSENN_basic_mid, std_episode_rep_SuccessRate_MPC_PF_MSENN_basic_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
 
-# else:
-#     episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+else:
+    episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
 
-# save_data(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid)
-# print("episode_rep_rewards_MPC_PF_MSENN_basic_mid saved \n")
+save_data(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid)
+print("episode_rep_rewards_MPC_PF_MSENN_basic_mid saved \n")
 
 
-# print("all done \n")
+print("all done \n")
 
