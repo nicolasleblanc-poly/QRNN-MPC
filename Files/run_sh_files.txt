@@ -24,7 +24,8 @@ sbatch --job-name=LLC_Q_rnd_RS run-LLC-Q-rnd-RS.sh
 sbatch --job-name=CP_Q_rnd_RS_CEM run-CP-Q-rnd-RS-CEM.sh
 sbatch --job-name=AC_Q_rnd_RS_CEM run-AC-Q-rnd-RS-CEM.sh
 sbatch --job-name=LL_Q_rnd_RS_CEM run-LL-Q-rnd-RS-CEM.sh
-sbatch --job-name=MC_Q_rnd_RS_CEM run-MC-Q-rnd-RS-CEM.sh
+# sbatch --job-name=MC_Q_rnd_RS_CEM run-MC-Q-rnd-RS-CEM.sh
+sbatch --job-name=MC_Q_rnd_CEM run-MC-Q-rnd-CEM.sh
 sbatch --job-name=MCC_Q_rnd_RS_CEM run-MCC-Q-rnd-RS-CEM.sh
 sbatch --job-name=LLC_Q_rnd_RS_CEM run-LLC-Q-rnd-RS-CEM.sh
 
@@ -56,6 +57,7 @@ sbatch --job-name=LLC_50_rnd_RS run-LLC-50-rnd-RS.sh
 sbatch --job-name=CP_50_rnd_RS_CEM run-CP-50-rnd-RS-CEM.sh
 sbatch --job-name=AC_50_rnd_RS_CEM run-AC-50-rnd-RS-CEM.sh
 sbatch --job-name=LL_50_rnd_RS_CEM run-LL-50-rnd-RS-CEM.sh
+# sbatch --job-name=MC_50_rnd_RS_CEM run-MC-50-rnd-RS-CEM.sh
 sbatch --job-name=MC_50_rnd_RS_CEM run-MC-50-rnd-RS-CEM.sh
 sbatch --job-name=MCC_50_rnd_RS_CEM run-MCC-50-rnd-RS-CEM.sh
 sbatch --job-name=LLC_50_rnd_RS_CEM run-LLC-50-rnd-RS-CEM.sh
@@ -89,7 +91,8 @@ sbatch --job-name=LLC_MSE_rnd_RS run-LLC-MSE-rnd-RS.sh
 sbatch --job-name=CP_MSE_rnd_RS_CEM run-CP-MSE-rnd-RS-CEM.sh
 sbatch --job-name=AC_MSE_rnd_RS_CEM run-AC-MSE-rnd-RS-CEM.sh
 sbatch --job-name=LL_MSE_rnd_RS_CEM run-LL-MSE-rnd-RS-CEM.sh
-sbatch --job-name=MC_MSE_rnd_RS_CEM run-MC-MSE-rnd-RS-CEM.sh
+# sbatch --job-name=MC_MSE_rnd_RS_CEM run-MC-MSE-rnd-RS-CEM.sh
+sbatch --job-name=MC_MSE_rnd_CEM run-MC-MSE-rnd-CEM.sh
 sbatch --job-name=MCC_MSE_rnd_RS_CEM run-MCC-MSE-rnd-RS-CEM.sh
 sbatch --job-name=LLC_MSE_rnd_RS_CEM run-LLC-MSE-rnd-RS-CEM.sh
 

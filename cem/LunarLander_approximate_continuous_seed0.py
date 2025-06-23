@@ -337,7 +337,7 @@ if __name__ == "__main__":
     seed = 0
     episodic_return_seeds = []
     max_episodes = 300
-    method_name = "MPPI"
+    method_name = "CEM"
     prob = "LunarLanderContinuous"
     max_steps = 1000
     
