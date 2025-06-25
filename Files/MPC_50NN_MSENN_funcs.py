@@ -93,21 +93,23 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 #     particles[loop_iter, 0] = np.random.normal(action_mu.detach().numpy(), action_sigma.detach().numpy())
                 
                 # for j in range(horizon):
-                for j in range(1, prob_vars.horizon):
-                    sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
+                sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
+                for j in range(1, prob_vars.horizon-1):
+                    # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                     actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
                     
                     sim_states = torch.clip(sim_states, prob_vars.states_low, prob_vars.states_high)
                     # sim_states = 2 * ((sim_states - prob_vars.states_low) / (prob_vars.states_high - prob_vars.states_low)) - 1
                     actions = torch.clip(actions, prob_vars.action_low, prob_vars.action_high)
 
+                    """
                     # Predict next states using the quantile model_QRNN
                     # predicted_quantiles = model_QRNN(sim_states, actions)
                     # # mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
                     # # next_states = mid_quantile
 
                     # if use_sampling:
-                    #     # '''
+                        # '''
                     #     ############# Need to add the sorta quantile ponderated sum here #############
                     #     # chosen_quantiles = np.random.uniform(0, 1, (num_particles, state_dim))
                     #     chosen_quantiles = torch.rand(prob_vars.num_particles, prob_vars.state_dim)
@@ -146,7 +148,8 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                     # if use_mid:
                     #     mid_quantile = predicted_quantiles[:, predicted_quantiles.size(1) // 2, :]
                     #     next_states = mid_quantile
-                        
+                    """
+                    
                     next_states = model_state(sim_states, actions)
                     
                     # action_mu, action_sigma = model_ASN(torch.tensor(state, dtype=torch.float32), torch.tensor(goal_state, dtype=torch.float32))
@@ -159,8 +162,9 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
 
                     for loop_iter in range(prob_vars.num_particles):
                         # print("np.random.choice(nb_actions, num_particles, p=action_probs[loop_iter].detach().numpy()) ", np.random.choice(nb_actions, 1, p=action_probs[loop_iter].detach().numpy()), "\n")
-                        particles[loop_iter, j] = np.random.choice(prob_vars.nb_actions, 1, p=action_probs[loop_iter].detach().numpy())
+                        particles[loop_iter, j+1] = np.random.choice(prob_vars.nb_actions, 1, p=action_probs[loop_iter].detach().numpy())
         
+                    sim_states = next_states#.cpu().numpy()
                 
                 # particles = np.random.randint(0, 2, (num_particles, horizon))
 
@@ -184,9 +188,11 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                         # print("np.random.normal(action_mu.detach().numpy()[0], action_sigma.detach().numpy()[0]) ", np.random.normal(action_mu.detach().numpy()[0], action_sigma.detach().numpy()[0]), "\n")
                         particles[loop_iter, :prob_vars.action_dim] = np.random.normal(action_mu.detach().numpy()[0], action_sigma.detach().numpy()[0])
                 
+                    sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                     for j in range(1, prob_vars.horizon):
                     # for j in range(horizon):
-                        sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
+                        # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
+                        
                         # actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
                         actions_array = particles[:, j * prob_vars.action_dim : (j + 1) * prob_vars.action_dim]
                         actions = torch.tensor([actions_array], dtype=torch.float32).reshape(len(particles), prob_vars.action_dim)
@@ -258,7 +264,9 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                         # print("action_sigma[0] ", action_sigma[0], "\n")
 
                         for loop_iter in range(prob_vars.num_particles):
-                            particles[loop_iter, j * prob_vars.action_dim : (j + 1) * prob_vars.action_dim] = np.random.normal(action_mu.detach().numpy()[loop_iter], action_sigma.detach().numpy()[loop_iter])
+                            particles[loop_iter, (j+1) * prob_vars.action_dim : (j + 2) * prob_vars.action_dim] = np.random.normal(action_mu.detach().numpy()[loop_iter], action_sigma.detach().numpy()[loop_iter])
+                
+                        sim_states = next_states#.cpu().numpy()
                 
                 else: # Pendulum, MountainCarContinuous, Pendulum_xyomega
                     for loop_iter in range(prob_vars.num_particles):
@@ -266,8 +274,9 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                         particles[loop_iter, 0] = np.random.normal(action_mu.detach().numpy()[0], action_sigma.detach().numpy()[0])
                 
                     # for j in range(1, horizon):
+                    sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                     for j in range(prob_vars.horizon):
-                        sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
+                        # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                         actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
 
                         # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher":
@@ -334,7 +343,9 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                         # print("action_sigma[0] ", action_sigma[0], "\n")
 
                         for loop_iter in range(prob_vars.num_particles):
-                            particles[loop_iter, j] = np.random.normal(action_mu.detach().numpy()[loop_iter], action_sigma.detach().numpy()[loop_iter])
+                            particles[loop_iter, j+1] = np.random.normal(action_mu.detach().numpy()[loop_iter], action_sigma.detach().numpy()[loop_iter])
+
+                        sim_states = next_states#.cpu().numpy()
         
                 # particles = np.random.uniform(action_low, action_high, (num_quantiles, horizon))
         

@@ -121,10 +121,10 @@ if __name__ == "__main__":
         gamma = 0.5
         horizon = 30
         goal = 0.45
-        # position = state[:, 0]
-        # velocity = state[:, 1]
-        # force = action[:, 0]
-        # cost = (goal - position) ** 2 
+        position = state[:, 0]
+        velocity = state[:, 1]
+        force = action[:, 0]
+        # costs = (goal - position) ** 2 
         #+ 0.1 * velocity ** 2 + 0.001 * (force ** 2)
 
         positions = state[:, :, 0]  # Assuming states is of shape (batch_size, time_steps, state_dim)
@@ -305,6 +305,7 @@ if __name__ == "__main__":
                      num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
     
         total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        print("total_reward ", total_reward, "\n")
         # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         episodic_return.append(total_reward)
         

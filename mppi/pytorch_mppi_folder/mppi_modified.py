@@ -639,19 +639,19 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
             state = env.unwrapped.state.copy()
         # elif prob == "PandaReach":
         #     state  = state['observation']
-        command_start = time.perf_counter()
+        # command_start = time.perf_counter()
         # print("state", state, "\n")
         action = mppi.command(state)
-        elapsed = time.perf_counter() - command_start
+        # elapsed = time.perf_counter() - command_start
         # res = env.step(action.cpu().numpy())
-        state, r, terminated, truncated, info = env.step(action.cpu().numpy())
+        next_state, r, terminated, truncated, info = env.step(action.cpu().numpy())
         
         # state, r = res[0], res[1]
         # print("r ", r, "\n")
         if prob == "Pendulum" or prob == "MountainCarContinuous":
-            state = env.unwrapped.state.copy()
+            next_state = env.unwrapped.state.copy()
         elif prob == "PandaReach" or prob == "PandaReachDense":
-            state  = state['observation']
+            next_state  = next_state['observation']
         
         total_reward += r
         # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
@@ -670,5 +670,6 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
         # print("state ", state, "\n")
         dataset[di, :mppi.nx] = torch.tensor(state, dtype=mppi.U.dtype)
         dataset[di, mppi.nx:] = action
+        state = next_state
     # print("i ", i, "\n")
     return total_reward, dataset

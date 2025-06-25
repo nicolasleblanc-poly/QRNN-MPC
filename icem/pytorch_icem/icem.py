@@ -221,12 +221,13 @@ def run_icem(ctrl: iCEM, seed, env, retrain_dynamics, retrain_after_iter=50, ite
         # elapsed = time.perf_counter() - command_start
         # res = env.step(action.cpu().numpy())
         # s, r = res[0], res[1]
-        state, r, terminated, truncated, info = env.step(action.cpu().numpy())
+        # action
+        next_state, r, terminated, truncated, info = env.step(action.cpu().numpy())
 
         if prob == "Pendulum" or prob == "MountainCarContinuous":
-            state = env.unwrapped.state.copy()
+            next_state = env.unwrapped.state.copy()
         elif prob == "PandaReach" or prob == "PandaReachDense":
-            state  = state['observation']
+            next_state  = next_state['observation']
 
         total_reward += r
         # logger.debug("action taken: %.4f cost received: %.4f time taken: %.5fs", action, -r, elapsed)
@@ -246,4 +247,8 @@ def run_icem(ctrl: iCEM, seed, env, retrain_dynamics, retrain_after_iter=50, ite
             dataset.zero_()
         dataset[di, :ctrl.nx] = torch.tensor(state, device=ctrl.device)
         dataset[di, ctrl.nx:] = action
+        
+        print("state ", state, "action ", action, "next_state ", next_state, "\n")
+        print("r ", r, "total_reward ", total_reward, "i ", i, "\n")
+        state = next_state
     return total_reward, dataset
