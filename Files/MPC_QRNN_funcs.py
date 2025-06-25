@@ -94,7 +94,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                 
                 # for j in range(horizon):
                 sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
-                for j in range(1, prob_vars.horizon):
+                for j in range(prob_vars.horizon-1):
                     # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                     actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
                     
@@ -188,7 +188,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                 
                     
                     sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
-                    for j in range(1, prob_vars.horizon):
+                    for j in range(prob_vars.horizon-1):
                     # for j in range(horizon):
                         # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                         # actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
@@ -273,7 +273,7 @@ def start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, 
                 
                     # for j in range(1, horizon):
                     sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
-                    for j in range(prob_vars.horizon):
+                    for j in range(prob_vars.horizon-1):
                         # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                         actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
 

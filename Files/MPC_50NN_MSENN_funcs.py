@@ -94,7 +94,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 
                 # for j in range(horizon):
                 sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
-                for j in range(1, prob_vars.horizon-1):
+                for j in range(prob_vars.horizon-1):
                     # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                     actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
                     
@@ -189,7 +189,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                         particles[loop_iter, :prob_vars.action_dim] = np.random.normal(action_mu.detach().numpy()[0], action_sigma.detach().numpy()[0])
                 
                     sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
-                    for j in range(1, prob_vars.horizon):
+                    for j in range(prob_vars.horizon-1):
                     # for j in range(horizon):
                         # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                         
@@ -275,7 +275,7 @@ def start_50NN_MSENN_MPC_wASGNN(prob_vars, env, seed, model_state, replay_buffer
                 
                     # for j in range(1, horizon):
                     sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
-                    for j in range(prob_vars.horizon):
+                    for j in range(prob_vars.horizon-1):
                         # sim_states = torch.tensor(state, dtype=torch.float32).repeat(len(particles), 1)
                         actions = torch.tensor(particles[:, j], dtype=torch.float32).reshape(len(particles),1)
 
