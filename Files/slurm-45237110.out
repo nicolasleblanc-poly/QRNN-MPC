@@ -10,3 +10,13 @@ The following modules were not unloaded:
   new_particles = np.random.multivariate_normal(mu.flatten(), sigma, size=num_particles)
 /lustre06/project/6086407/nileb3/QRNN-MPC/Files/particle_filtering.py:152: RuntimeWarning: covariance is not symmetric positive-semidefinite.
   new_particles = np.random.multivariate_normal(mu.flatten(), sigma, size=num_particles)
+prob  LunarLanderContinuous 
+
+all methods 
+
+episode_rep_rewards_MPC_PF_QRNN_WithASGNN_mid saved 
+
+episode_rep_rewards_MPC_PF_QRNN_basic_mid saved 
+
+all done 
+
