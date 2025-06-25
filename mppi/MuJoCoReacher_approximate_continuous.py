@@ -106,11 +106,11 @@ if __name__ == "__main__":
         # Get the folder where this script is located
         origin_folder = os.path.dirname(os.path.abspath(__file__))
         # Construct full path to save
-        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_June25.npz")
 
         np.savez(
         save_path,
-        f"{prob}_{method_name}_results.npz",
+        # f"{prob}_{method_name}_results.npz",
         episode_rewards=episodic_rep_returns,
         mean_rewards=mean_episodic_returns,
         std_rewards=std_episodic_returns

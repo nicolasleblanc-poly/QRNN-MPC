@@ -292,7 +292,7 @@ if __name__ == "__main__":
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_June25.npz")
     np.savez(save_path, episodic_return)
     # episodic_return_seeds = np.array(episodic_return_seeds)
 
