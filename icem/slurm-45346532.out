@@ -1,0 +1,54 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) blis/0.9.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/glfw/3.4/lib/python3.11/site-packages/glfw/__init__.py:917: GLFWError: (65550) b'X11: Failed to open display localhost:80.0'
+  warnings.warn(message, GLFWError)
+/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/glfw/3.4/lib/python3.11/site-packages/glfw/__init__.py:917: GLFWError: (65537) b'The GLFW library is not initialized'
+  warnings.warn(message, GLFWError)
+Traceback (most recent call last):
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/icem/MuJoCoReacher_approximate_continuous.py", line 241, in <module>
+    state, info = env.reset()
+                  ^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/wrappers/common.py", line 146, in reset
+    return super().reset(seed=seed, options=options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/core.py", line 333, in reset
+    return self.env.reset(seed=seed, options=options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/wrappers/common.py", line 400, in reset
+    return super().reset(seed=seed, options=options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/core.py", line 333, in reset
+    return self.env.reset(seed=seed, options=options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/wrappers/common.py", line 293, in reset
+    return env_reset_passive_checker(self.env, seed=seed, options=options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/utils/passive_env_checker.py", line 185, in env_reset_passive_checker
+    result = env.reset(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_env.py", line 190, in reset
+    self.render()
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_env.py", line 165, in render
+    return self.mujoco_renderer.render(self.render_mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 731, in render
+    viewer = self._get_viewer(render_mode=render_mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 746, in _get_viewer
+    self.viewer = WindowViewer(
+                  ^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 332, in __init__
+    monitor_width, monitor_height = glfw.get_video_mode(
+                                    ^^^^^^^^^^^^^^^^^^^^
+  File "/cvmfs/soft.computecanada.ca/easybuild/software/2023/x86-64-v3/Compiler/gcccore/glfw/3.4/lib/python3.11/site-packages/glfw/__init__.py", line 1177, in get_video_mode
+    videomode = _glfw.glfwGetVideoMode(monitor).contents
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: NULL pointer access
+/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py:373: UserWarning: [33mWARN: Environment was not properly closed using 'env.close()'. Please ensure to close the environment explicitly. GLFW module or dependencies are unloaded. Window cleanup might not have completed.[0m
+  warn(
