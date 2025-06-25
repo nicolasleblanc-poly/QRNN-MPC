@@ -114,6 +114,20 @@ sbatch --job-name=PE_Q_evoCEM run-PE-Q-EvoCEM.sh
 sbatch --job-name=PE_50_EvoCEM run-PE-50-EvoCEM.sh
 sbatch --job-name=PE_MSE_EvoCEM run-PE-MSE-EvoCEM.sh
 
+----------------------------------------------------------
+sbatch --job-name=MRE_Q_AS_ba run-MRE-Q-AS-ba.sh
+sbatch --job-name=MRE_Q_AS_ba_CEM run-MRE-Q-AS-ba-CEM.sh
+sbatch --job-name=MRE_Q_rnd_RS run-MRE-Q-rnd-RS.sh
+sbatch --job-name=MRE_Q_rnd_RS_CEM run-MRE-Q-rnd-RS-CEM.sh
+sbatch --job-name=MRE_50_AS_ba run-MRE-50-AS-ba.sh
+sbatch --job-name=MRE_50_AS_ba_CEM run-MRE-50-AS-ba-CEM.sh
+sbatch --job-name=MRE_50_rnd_RS run-MRE-50-rnd-RS.sh
+sbatch --job-name=MRE_50_rnd_RS_CEM run-MRE-50-rnd-RS-CEM.sh
+sbatch --job-name=MRE_MSE_AS_ba run-MRE-MSE-AS-ba.sh
+sbatch --job-name=MRE_MSE_AS_ba_CEM run-MRE-MSE-AS-ba-CEM.sh
+sbatch --job-name=MRE_MSE_rnd_RS run-MRE-MSE-rnd-RS.sh
+sbatch --job-name=MRE_MSE_rnd_RS_CEM run-MRE-MSE-rnd-RS-CEM.sh
+
 
 ----------------------------------------------------------
 sbatch --job-name=IP_Q_AS run-IP-Q-AS.sh

@@ -255,9 +255,9 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    # seed = 0
+    seed = 0
     # seed = 8
-    seed = 15
+    # seed = 15
     print("seed ", seed, "\n")
     episodic_return_seeds = []
     max_episodes = 400
