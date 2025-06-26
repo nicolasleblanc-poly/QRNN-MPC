@@ -237,7 +237,7 @@ if __name__ == "__main__":
 
     # downward_start = True
     # env = gym.make(ENV_NAME) # , render_mode="human"  # bypass the default TimeLimit wrapper
-    env = gym.make(ENV_NAME, render_mode="human")
+    env = gym.make(ENV_NAME) # , render_mode="human"
     state, info = env.reset()
     # state, info = env.reset()
     # print("state", state)
