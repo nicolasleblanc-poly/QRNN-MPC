@@ -41,12 +41,12 @@ if __name__ == "__main__":
 
     import random
 
-    randseed = 24
-    if randseed is None:
-        randseed = random.randint(0, 1000000)
-    random.seed(randseed)
-    np.random.seed(randseed)
-    torch.manual_seed(randseed)
+    # randseed = 24
+    # if randseed is None:
+    #     randseed = random.randint(0, 1000000)
+    # random.seed(randseed)
+    # np.random.seed(randseed)
+    # torch.manual_seed(randseed)
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
@@ -102,9 +102,9 @@ if __name__ == "__main__":
 
     def running_cost(state, action, horizon, t): # goal_state
         # print("goal_state ", goal_state, "\n")
-        # goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
+        goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
         # goal_state = np.array([-0.05190832,  0.14618306,  0.09561325]) # seed = 8
-        goal_state = np.array([0.05782301, 0.09474514, 0.10332203]) # seed = 15
+        # goal_state = np.array([0.05782301, 0.09474514, 0.10332203]) # seed = 15
         goal_state = torch.tensor(goal_state, dtype=torch.float32, device=state.device).reshape(1, 3)
         cost = torch.norm(state[:, :3] - goal_state, dim=1)
 

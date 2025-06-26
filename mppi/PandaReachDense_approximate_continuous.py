@@ -10,6 +10,7 @@ import logging
 import math
 from pytorch_mppi_folder import mppi_modified as mppi
 import os
+import panda_gym
 # from gym import logger as gym_log
 
 # gym_log.set_level(gym_log.INFO)
@@ -98,9 +99,9 @@ if __name__ == "__main__":
 
     def running_cost(state, action): # goal_state
         # print("goal_state ", goal_state, "\n")
-        # goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
+        goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
         # goal_state = np.array([-0.05190832,  0.14618306,  0.09561325]) # seed = 8
-        goal_state = np.array([0.05782301, 0.09474514, 0.10332203]) # seed = 15
+        # goal_state = np.array([0.05782301, 0.09474514, 0.10332203]) # seed = 15
         goal_state = torch.tensor(goal_state, dtype=torch.float32, device=state.device).reshape(1, 3)
         cost = torch.norm(state[:, :3] - goal_state, dim=1)
 
@@ -242,6 +243,8 @@ if __name__ == "__main__":
             done = terminated or truncated
             if done:
                 state, info = env.reset()  # reset environment if done
+                state  = observation['observation']
+                goal_state_boostrap = observation['desired_goal']
 
         train(new_data)
         # logger.info("bootstrapping finished")
@@ -251,9 +254,9 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    # seed = 0
+    seed = 0
     # seed = 8
-    seed = 15
+    # seed = 15
     print("seed ", seed, "\n")
     episodic_return_seeds = []
     max_episodes = 400
