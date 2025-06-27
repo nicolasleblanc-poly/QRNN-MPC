@@ -35,12 +35,12 @@ if __name__ == "__main__":
 
     import random
 
-    randseed = 24
-    if randseed is None:
-        randseed = random.randint(0, 1000000)
-    random.seed(randseed)
-    np.random.seed(randseed)
-    torch.manual_seed(randseed)
+    # randseed = 24
+    # if randseed is None:
+    #     randseed = random.randint(0, 1000000)
+    # random.seed(randseed)
+    # np.random.seed(randseed)
+    # torch.manual_seed(randseed)
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics

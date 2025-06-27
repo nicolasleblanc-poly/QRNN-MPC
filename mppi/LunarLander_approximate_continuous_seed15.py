@@ -31,7 +31,8 @@ if __name__ == "__main__":
     # noise_sigma = torch.tensor(1, device=d, dtype=dtype)
     noise_sigma = torch.eye(2, device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
-    lambda_ = 1.
+    lambda_ = 1e-2
+    # lambda_ = 1.
 
     import random
 
@@ -107,20 +108,20 @@ if __name__ == "__main__":
             - 10 * (left_leg + right_leg)
         return cost
 
-    def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+    # def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
-        # Get the folder where this script is located
-        origin_folder = os.path.dirname(os.path.abspath(__file__))
-        # Construct full path to save
-        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+    #     # Get the folder where this script is located
+    #     origin_folder = os.path.dirname(os.path.abspath(__file__))
+    #     # Construct full path to save
+    #     save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
 
-        np.savez(
-        save_path,
-        f"{prob}_{method_name}_results.npz",
-        episode_rewards=episodic_rep_returns,
-        mean_rewards=mean_episodic_returns,
-        std_rewards=std_episodic_returns
-        )
+    #     np.savez(
+    #     save_path,
+    #     f"{prob}_{method_name}_results.npz",
+    #     episode_rewards=episodic_rep_returns,
+    #     mean_rewards=mean_episodic_returns,
+    #     std_rewards=std_episodic_returns
+    #     )
 
     dataset = None
     # # create some true dynamics validation set to compare model against
@@ -338,7 +339,7 @@ if __name__ == "__main__":
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_June25.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_June27.npz")
     np.savez(save_path, episodic_return)
     
     # print("max_episodes", max_episodes, "\n")
