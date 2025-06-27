@@ -263,11 +263,11 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             env = gym.make("CartPole-v0", render_mode="rgb_array")
             
             if method_name == "A2C":
-                model = A2C("MlpPolicy", env, device='cpu', ent_coef=0.0) # , no normalize parameter
+                model = A2C(policy="MlpPolicy", env=env, device='cpu', ent_coef=0.0) # , no normalize parameter
             # elif method_name == "DDPG":
             #     model = DDPG("MlpPolicy", env)
             elif method_name == "PPO":
-                model = PPO("MlpPolicy", env, device='cpu', batch_size=256, clip_range='lin_0.2', ent_coef=0.0, gae_lambda=0.8, gamma=0.98, learning_rate='lin_0.001', n_epochs=20, n_steps=32) # , no normalize parameter
+                model = PPO(policy="MlpPolicy", env=env, device='cpu', batch_size=256, clip_range='lin_0.2', ent_coef=0.0, gae_lambda=0.8, gamma=0.98, learning_rate='lin_0.001', n_epochs=20, n_steps=32) # , no normalize parameter
             # elif method_name == "SAC":
             #     model = SAC("MlpPolicy", env)
             # elif method_name == "TD3":
@@ -415,9 +415,8 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
                 model = TQC(policy="MlpPolicy", env=env)
         
         elif prob == "PandaReach":
-            # No hyperparameter tuning available from sb3 for this env
-            # For the dense version, only TQC has hyperparameter tuning available
-            # I reuse the same hyperparameters for TQC here
+            # Hyperparameter tuning from sb3 is only available for TQC
+            # I assume its for the PandaReach-v3 environment (dense)
             
             env = gym.make("PandaReach-v3", render_mode="rgb_array")
             env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
@@ -436,8 +435,9 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
                 model = TQC(policy="MlpPolicy", env=env, batch_size=256, buffer_size=1000000, ent_coef='auto', gamma=0.95, learning_rate=0.001, policy_kwargs=dict(net_arch=[64,64], n_critics=1), replay_buffer_class='HerReplayBuffer', replay_buffer_kwargs=dict(online_sampling=True, goal_selection_strategy='future', n_sampled_goal=4)) # no normalize parameter
         
         elif prob == "PandaReacherDense":
-            # Hyperparameter tuning from sb3 is only available for TQC
-            # I assume its for the PandaReach-v3 environment (dense)
+            # No hyperparameter tuning available from sb3 for this env
+            # For the dense version, only TQC has hyperparameter tuning available
+            # I reuse the same hyperparameters for TQC here
             
             env = gym.make("PandaReachDense-v3", render_mode="rgb_array")
             env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
@@ -463,11 +463,11 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             # env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
             
             if method_name == "A2C":
-                model = A2C("MlpPolicy", env, device='cpu', ent_coef=0.0, normalize_advantage=False)
+                model = A2C(policy="MlpPolicy", env=env, device='cpu', ent_coef=0.0, normalize_advantage=False)
             elif method_name == "DDPG":
-                model = DDPG("MlpPolicy", env)
+                model = DDPG(policy="MlpPolicy", env=env)
             elif method_name == "PPO":
-                model = PPO("MlpPolicy", env, device='cpu', batch_size=256, clip_range='lin_0.2', ent_coef=0.0, gae_lambda=0.8, gamma=0.98, learning_rate='lin_0.001', n_epochs=20, n_steps=32, normalize_advantage=False)
+                model = PPO(policy="MlpPolicy", env=env, device='cpu', batch_size=256, clip_range='lin_0.2', ent_coef=0.0, gae_lambda=0.8, gamma=0.98, learning_rate='lin_0.001', n_epochs=20, n_steps=32, normalize_advantage=False)
             elif method_name == "SAC":
                 model = SAC(policy="MlpPolicy", env=env)
             elif method_name == "TD3":
