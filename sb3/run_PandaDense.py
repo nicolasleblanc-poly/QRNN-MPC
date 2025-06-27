@@ -9,7 +9,8 @@ from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 from stable_baselines3.common.vec_env import DummyVecEnv, VecMonitor
 # from stable_baselines3.common.callbacks import ProgressBarCallback, EvalCallback
 from stable_baselines3.common.callbacks import BaseCallback
-from funcs import run
+# from funcs import run
+from funcs_June27 import run
 import panda_gym
 import os
 import gymnasium as gym
@@ -24,10 +25,11 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_June27.npz")
 
     np.savez(
-    f"{prob}_{method_name}_results.npz",
+    save_path,
+    # f"{prob}_{method_name}_results.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
@@ -109,7 +111,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         elif prob == "PandaReach":
             env = gym.make("PandaReach-v3")
             env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
-        elif prob == "PandaReacherDense":
+        elif prob == "PandaReachDense":
             env = gym.make("PandaReachDense-v3")
             env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
         

@@ -9,7 +9,8 @@ from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 from stable_baselines3.common.vec_env import DummyVecEnv, VecMonitor
 # from stable_baselines3.common.callbacks import ProgressBarCallback, EvalCallback
 from stable_baselines3.common.callbacks import BaseCallback
-from funcs import run
+# from funcs import run
+from funcs_June27 import run
 import panda_gym
 import os
 import gymnasium as gym
@@ -27,7 +28,8 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
 
     np.savez(
-    f"{prob}_{method_name}_results.npz",
+    save_path,
+    # f"{prob}_{method_name}_results.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
@@ -106,7 +108,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             env = gym.make("LunarLanderContinuous-v3")
         elif prob == "Reacher":
             env = gym.make("Reacher-v5")
-        elif prob == "PandaReacher":
+        elif prob == "PandaReach":
             env = gym.make("PandaReacher-v3")
             env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
         elif prob == "PandaReachDense":

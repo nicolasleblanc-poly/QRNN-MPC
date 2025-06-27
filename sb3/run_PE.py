@@ -9,7 +9,8 @@ from stable_baselines3 import A2C, DDPG, PPO, SAC, TD3
 from stable_baselines3.common.vec_env import DummyVecEnv, VecMonitor
 # from stable_baselines3.common.callbacks import ProgressBarCallback, EvalCallback
 from stable_baselines3.common.callbacks import BaseCallback
-from funcs import run
+# from funcs import run
+from funcs_June27 import run
 
 env_seeds = [0, 8, 15]
 
