@@ -270,6 +270,9 @@ class MPPI():
             next_state = self._dynamics(state, u, t)
             # potentially handle dynamics in a specific way for the specific action sampler
             next_state = self._sample_specific_dynamics(next_state, state, u, t)
+
+            # next_state = torch.clip(next_state, -1e6, 1e6)  # Clip to avoid NaNs in cost
+
             state = next_state
             c = self._running_cost(state, u, t)
             cost_samples = cost_samples + c
