@@ -16,7 +16,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
 
     np.savez(
         save_path,
-        f"{prob}_{method_name}_results.npz",
+        # f"{prob}_{method_name}_results.npz",
         episode_rewards=episodic_rep_returns,
         mean_rewards=mean_episodic_returns,
         std_rewards=std_episodic_returns
@@ -313,7 +313,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         env = DummyVecEnv([lambda: env])  # Required for SB3
         env = VecMonitor(env, "logs/")  # Saves logs to "logs/"
         env.seed(seed)  # Set the seed for reproducibility
-        print("method  ", method_name, "\n")
+        print("method ", method_name, "\n")
         # env.reset()  # Reset the environment with the seed
 
         # model = A2C("MlpPolicy", env) # , verbose=1

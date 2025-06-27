@@ -45,7 +45,8 @@ if __name__ == "__main__":
     # Different sigma for lunar lander (one for each action dimension)
     # noise_sigma = torch.tensor([0.5, 0.5], device=d, dtype=dtype)
     noise_sigma = torch.tensor([1.0, 1.0], device=d, dtype=dtype)
-    lambda_ = 1.
+    lambda_ = 1e-2
+    # lambda_ = 1.
 
     # Set random seeds for reproducibility
     # randseed = 24
@@ -236,7 +237,7 @@ if __name__ == "__main__":
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_June25.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_June27.npz")
     np.savez(save_path, episodic_return)
     
     # print("max_episodes", max_episodes, "\n")

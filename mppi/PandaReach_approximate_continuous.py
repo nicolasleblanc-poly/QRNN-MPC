@@ -100,28 +100,28 @@ if __name__ == "__main__":
 
     def running_cost(state, action): # goal_state
         # print("goal_state ", goal_state, "\n")
-        goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
+        # goal_state = np.array([0.04108851, -0.06906398,  0.01229206]) # seed = 0
         # goal_state = np.array([-0.05190832,  0.14618306,  0.09561325]) # seed = 8
-        # goal_state = np.array([0.05782301, 0.09474514, 0.10332203]) # seed = 15
+        goal_state = np.array([0.05782301, 0.09474514, 0.10332203]) # seed = 15
         goal_state = torch.tensor(goal_state, dtype=torch.float32, device=state.device).reshape(1, 3)
         cost = torch.norm(state[:, :3] - goal_state, dim=1)
 
         return cost
 
-    def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+    # def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
-        # Get the folder where this script is located
-        origin_folder = os.path.dirname(os.path.abspath(__file__))
-        # Construct full path to save
-        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_June27.npz")
+        # # Get the folder where this script is located
+        # origin_folder = os.path.dirname(os.path.abspath(__file__))
+        # # Construct full path to save
+        # save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_June27.npz")
 
-        np.savez(
-        save_path,
-        # f"{prob}_{method_name}_results.npz",
-        episode_rewards=episodic_rep_returns,
-        mean_rewards=mean_episodic_returns,
-        std_rewards=std_episodic_returns
-        )
+        # np.savez(
+        # save_path,
+        # # f"{prob}_{method_name}_results.npz",
+        # episode_rewards=episodic_rep_returns,
+        # mean_rewards=mean_episodic_returns,
+        # std_rewards=std_episodic_returns
+        # )
 
     dataset = None
     # # create some true dynamics validation set to compare model against
@@ -249,9 +249,9 @@ if __name__ == "__main__":
         initial_state_dict = network.state_dict()
 
     # env_seeds = [0, 8, 15]
-    seed = 0
+    # seed = 0
     # seed = 8
-    # seed = 15
+    seed = 15
     print("seed ", seed, "\n")
     episodic_return_seeds = []
     max_episodes = 400
@@ -290,7 +290,7 @@ if __name__ == "__main__":
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_June25.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_June27.npz")
     np.savez(save_path, episodic_return)
     # episodic_return_seeds = np.array(episodic_return_seeds)
 

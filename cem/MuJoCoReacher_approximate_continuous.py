@@ -37,16 +37,17 @@ if __name__ == "__main__":
     # noise_sigma = torch.eye(2, device=d, dtype=dtype)
     noise_sigma = torch.tensor([1.0, 1.0], device=d, dtype=dtype)
     # noise_sigma = torch.tensor([[10, 0], [0, 10]], device=d, dtype=dtype)
-    lambda_ = 1.
+    lambda_ = 1e-2
+    # lambda_ = 1.
 
     import random
 
-    randseed = 24
-    if randseed is None:
-        randseed = random.randint(0, 1000000)
-    random.seed(randseed)
-    np.random.seed(randseed)
-    torch.manual_seed(randseed)
+    # randseed = 24
+    # if randseed is None:
+    #     randseed = random.randint(0, 1000000)
+    # random.seed(randseed)
+    # np.random.seed(randseed)
+    # torch.manual_seed(randseed)
     # logger.info("random seed %d", randseed)
 
     # new hyperparmaeters for approximate dynamics
@@ -110,7 +111,7 @@ if __name__ == "__main__":
         # Get the folder where this script is located
         origin_folder = os.path.dirname(os.path.abspath(__file__))
         # Construct full path to save
-        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_June25.npz")
+        save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_June27.npz")
 
         np.savez(
         save_path,
