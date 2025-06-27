@@ -285,7 +285,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             # elif method_name == "DDPG":
             #     model = DDPG("MlpPolicy", env)
             elif method_name == "PPO":
-                model = PPO(policy="MlpPolicy", env=env, device='cpu', ent_coef=0.0, gae_lambda=0.94, gammma=0.99, n_epochs=4, n_steps=256) # policy_kwargs={'norm_obs': True, 'norm_reward': False}, no normalize parameter
+                model = PPO(policy="MlpPolicy", env=env, device='cpu', ent_coef=0.0, gae_lambda=0.94, gamma=0.99, n_epochs=4, n_steps=256) # policy_kwargs={'norm_obs': True, 'norm_reward': False}, no normalize parameter
             # elif method_name == "SAC":
             #     model = SAC("MlpPolicy", env)
             # elif method_name == "TD3":
@@ -302,7 +302,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             # elif method_name == "DDPG":
             #     model = DDPG("MlpPolicy", env)
             elif method_name == "PPO":
-                model = PPO("MlpPolicy", env, device='cpu', ent_coef=0.0, gae_lambda=0.98, gammma=0.99, n_epochs=4, n_steps=16) # policy_kwargs={'norm_obs': True, 'norm_reward': False}, , no normalize parameter
+                model = PPO("MlpPolicy", env, device='cpu', ent_coef=0.0, gae_lambda=0.98, gamma=0.99, n_epochs=4, n_steps=16) # policy_kwargs={'norm_obs': True, 'norm_reward': False}, , no normalize parameter
             # elif method_name == "SAC":
             #     model = SAC("MlpPolicy", env)
             # elif method_name == "TD3":
