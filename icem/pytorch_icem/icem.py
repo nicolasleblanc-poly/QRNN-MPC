@@ -222,6 +222,10 @@ def run_icem(ctrl: iCEM, seed, env, retrain_dynamics, retrain_after_iter=50, ite
         # res = env.step(action.cpu().numpy())
         # s, r = res[0], res[1]
         # action
+        
+        if prob != "PandaReach" and prob != "PandaReachDense":
+            action = np.clip(action, env.action_space.low, env.action_space.high)
+        
         next_state, r, terminated, truncated, info = env.step(action.cpu().numpy())
 
         if prob == "Pendulum" or prob == "MountainCarContinuous":
