@@ -6,3 +6,4 @@ The following modules were not unloaded:
   3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
   4) gcc/12.3        9)  ucc/1.2.0
   5) hwloc/2.9.1     10) openmpi/4.1.5
+slurmstepd: error: *** JOB 45591997 ON nc10448 CANCELLED AT 2025-06-30T17:50:28 ***
