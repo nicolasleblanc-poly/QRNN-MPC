@@ -379,7 +379,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
         
         elif prob == "LunarLanderContinuous":
             # Hyperparameters were ran for v2
-            env = gym.make("LunarLanderContinuous-v2", render_mode="rgb_array")
+            env = gym.make("LunarLanderContinuous-v3", render_mode="rgb_array")
             
             # env = gym.make("LunarLanderContinuous-v3", render_mode="rgb_array")
             

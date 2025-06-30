@@ -30,10 +30,10 @@ import panda_gym
 # prob = "Pendulum_xyomega"
 # prob = "MountainCarContinuous"
 # prob = "LunarLanderContinuous"
-prob = "PandaReacher"
+# prob = "PandaReacher"
 # prob = "PandaReacherDense"
 # prob = "PandaPusher"
-# prob = "MuJoCoReacher"
+prob = "MuJoCoReacher"
 # prob = "MuJoCoPusher"
 
 # method_name = "MPC_QRNN_ASGNN_mid"
