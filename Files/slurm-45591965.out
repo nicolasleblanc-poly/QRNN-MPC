@@ -1,0 +1,42 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) blis/0.9.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+prob  InvertedPendulum 
+
+all methods 
+
+Traceback (most recent call last):
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/run_IP_Q_AS.py", line 77, in <module>
+    episode_rep_rewards_MPC_PF_QRNN_WithASGNN_mid, mean_episode_rep_rewards_MPC_PF_QRNN_WithASGNN_mid, std_episode_rep_rewards_MPC_PF_QRNN_WithASGNN_mid = main_QRNN_MPC(prob_vars, method_name, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/main_funcs.py", line 194, in main_QRNN_MPC
+    episode_reward_list = start_QRNN_MPC_wASGNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, optimizer_QRNN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASGNN)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/Files/MPC_QRNN_funcs.py", line 31, in start_QRNN_MPC_wASGNN
+    state, _ = env.reset(seed=seed)
+               ^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/wrappers/rendering.py", line 340, in reset
+    self._capture_frame()
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/wrappers/rendering.py", line 312, in _capture_frame
+    frame = self.env.render()
+            ^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_env.py", line 165, in render
+    return self.mujoco_renderer.render(self.render_mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 731, in render
+    viewer = self._get_viewer(render_mode=render_mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 755, in _get_viewer
+    self.viewer = OffScreenViewer(
+                  ^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 157, in __init__
+    super().__init__(model, data, width, height, max_geom, visual_options)
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 69, in __init__
+    self.con = mujoco.MjrContext(self.model, mujoco.mjtFontScale.mjFONTSCALE_150)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+mujoco.FatalError: an OpenGL platform library has not been loaded into this process, this most likely means that a valid OpenGL context has not been created before mjr_makeContext was called
