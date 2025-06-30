@@ -1,0 +1,24 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) blis/0.9.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+Traceback (most recent call last):
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/sb3/run_LLC.py", line 21, in <module>
+    run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/sb3/funcs_June27.py", line 387, in run
+    model = A2C(policy="MlpPolicy", env=env, device='cpu', ent_coef=0.0, gae_lambda=0.9, gamma=0.99, learning_rate='lin_7e-4', max_grad_norm=0.5, n_steps=8, normalize_advantage=False, policy_kwargs=dict(log_std_init=-2, ortho_init=False), use_rms_prop=True, use_sde=True, vf_coef=0.4) # no normalize, no normalize_kwargs
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/stable_baselines3/a2c/a2c.py", line 130, in __init__
+    self._setup_model()
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 116, in _setup_model
+    self._setup_lr_schedule()
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/stable_baselines3/common/base_class.py", line 276, in _setup_lr_schedule
+    self.lr_schedule = get_schedule_fn(self.learning_rate)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/stable_baselines3/common/utils.py", line 95, in get_schedule_fn
+    assert callable(value_schedule)
+AssertionError
