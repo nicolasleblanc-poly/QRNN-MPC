@@ -254,5 +254,6 @@ def run_icem(ctrl: iCEM, seed, env, retrain_dynamics, retrain_after_iter=50, ite
         
         # print("state ", state, "action ", action, "next_state ", next_state, "\n")
         # print("r ", r, "total_reward ", total_reward, "i ", i, "\n")
+        # print("info ", info, "\n")
         state = next_state
     return total_reward, dataset

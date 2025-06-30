@@ -386,13 +386,13 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             if method_name == "A2C":
                 model = A2C(policy="MlpPolicy", env=env, device='cpu', ent_coef=0.0, gae_lambda=0.9, gamma=0.99, learning_rate=7e-4, max_grad_norm=0.5, n_steps=8, normalize_advantage=False, policy_kwargs=dict(log_std_init=-2, ortho_init=False), use_rms_prop=True, use_sde=True, vf_coef=0.4) # no normalize, no normalize_kwargs
             elif method_name == "DDPG":
-                model = DDPG(policy="MlpPolicy", env=env, buffer_size=200000, gamma=0.98, gradient_steps=-1, learning_rate=0.001, policy_kwargs=dict(net_arch=[400,300]), train_freq=[1,'episode']) # no learning_starts, no noise_std nor noise_type parameters, no normalize parameter
+                model = DDPG(policy="MlpPolicy", env=env, buffer_size=200000, gamma=0.98, gradient_steps=-1, learning_rate=0.001, policy_kwargs=dict(net_arch=[400,300]), train_freq=(1,'episode')) # no learning_starts, no noise_std nor noise_type parameters, no normalize parameter
             elif method_name == "PPO":
                 model = PPO(policy="MlpPolicy", env=env, device='cpu', batch_size=64, ent_coef=0.01, gae_lambda=0.98, gamma=0.999, n_epochs=4, n_steps=1024) # no normalize parameter
             elif method_name == "SAC":
                 model = SAC(policy="MlpPolicy", env=env, batch_size=256, buffer_size=1000000, ent_coef='auto', gradient_steps=1, learning_rate=7.3e-4, policy_kwargs=dict(net_arch=[400, 300]), tau=0.01, train_freq=1)
             elif method_name == "TD3":
-                model = TD3(policy="MlpPolicy", env=env, buffer_size=200000, gamma=0.98, gradient_steps=-1, learning_rate=0.001, policy_kwargs=dict(net_arch=[400,300]), train_freq=[1,'episode']) # no learning_starts, no noise_std nor noise_type parameters, no normalize parameter
+                model = TD3(policy="MlpPolicy", env=env, buffer_size=200000, gamma=0.98, gradient_steps=-1, learning_rate=0.001, policy_kwargs=dict(net_arch=[400,300]), train_freq=(1,'episode')) # no learning_starts, no noise_std nor noise_type parameters, no normalize parameter
             elif method_name == "TQC":
                 model = TQC(policy="MlpPolicy", env=env, batch_size=256, buffer_size=1000000, ent_coef='auto', gradient_steps=1, learning_rate=7.3e-4, policy_kwargs=dict(net_arch=[400, 300]), tau=0.01, train_freq=1)
         
