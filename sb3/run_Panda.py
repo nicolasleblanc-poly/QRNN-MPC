@@ -25,7 +25,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_June27.npz")
 
     np.savez(
     save_path,
@@ -160,12 +160,12 @@ env_seeds = [0, 8, 15]
 steps_per_episode = 50
 max_episodes = 400
 prob = "PandaReach"
-# A2C
-run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
-# PPO
-run(env_seeds, prob, "PPO", steps_per_episode, max_episodes)
-# DDPG
-run(env_seeds, prob, "DDPG", steps_per_episode, max_episodes)
+# # A2C
+# run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
+# # PPO
+# run(env_seeds, prob, "PPO", steps_per_episode, max_episodes)
+# # DDPG
+# run(env_seeds, prob, "DDPG", steps_per_episode, max_episodes)
 # SAC
 run(env_seeds, prob, "SAC", steps_per_episode, max_episodes)
 # TD3
