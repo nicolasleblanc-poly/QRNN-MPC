@@ -267,7 +267,7 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             # elif method_name == "DDPG":
             #     model = DDPG("MlpPolicy", env)
             elif method_name == "PPO":
-                model = PPO(policy="MlpPolicy", env=env, device='cpu', batch_size=256, clip_range='lin_0.2', ent_coef=0.0, gae_lambda=0.8, gamma=0.98, learning_rate='lin_0.001', n_epochs=20, n_steps=32) # , no normalize parameter
+                model = PPO(policy="MlpPolicy", env=env, device='cpu', batch_size=256, learning_rate='lin_0.001', ent_coef=0.0, gae_lambda=0.8, gamma=0.98, n_epochs=20, n_steps=32) # , clip_range='lin_0.2',  # , no normalize parameter
             # elif method_name == "SAC":
             #     model = SAC("MlpPolicy", env)
             # elif method_name == "TD3":

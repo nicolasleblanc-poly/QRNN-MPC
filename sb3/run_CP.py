@@ -18,7 +18,7 @@ steps_per_episode = 200
 max_episodes = 400
 prob = "CartPole"
 # A2C
-run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
+# run(env_seeds, prob, "A2C", steps_per_episode, max_episodes)
 # PPO
 run(env_seeds, prob, "PPO", steps_per_episode, max_episodes)
 # # DDPG
