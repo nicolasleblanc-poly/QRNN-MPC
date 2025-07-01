@@ -461,13 +461,14 @@ def run(env_seeds, prob, method_name, steps_per_episode, max_episodes):
             import cartpole_continuous as cartpole_env
             env = cartpole_env.CartPoleContinuousEnv(render_mode="rgb_array")#.unwrapped
             # env = ObservationOnlyWrapper(env)  # Wrap the environment to only return the observation
+            env = gym.wrappers.TimeLimit(env, max_episode_steps=200)
             
             if method_name == "A2C":
                 model = A2C(policy="MlpPolicy", env=env, device='cpu', ent_coef=0.0, normalize_advantage=False)
             elif method_name == "DDPG":
                 model = DDPG(policy="MlpPolicy", env=env)
             elif method_name == "PPO":
-                model = PPO(policy="MlpPolicy", env=env, device='cpu', batch_size=256, clip_range='lin_0.2', ent_coef=0.0, gae_lambda=0.8, gamma=0.98, learning_rate='lin_0.001', n_epochs=20, n_steps=32, normalize_advantage=False)
+                model = PPO(policy="MlpPolicy", env=env, device='cpu', batch_size=256, clip_range=0.2, ent_coef=0.0, gae_lambda=0.8, gamma=0.98, learning_rate=0.001, n_epochs=20, n_steps=32, normalize_advantage=False)
             elif method_name == "SAC":
                 model = SAC(policy="MlpPolicy", env=env)
             elif method_name == "TD3":
