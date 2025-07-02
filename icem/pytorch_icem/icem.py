@@ -223,8 +223,9 @@ def run_icem(ctrl: iCEM, seed, env, retrain_dynamics, retrain_after_iter=50, ite
         # s, r = res[0], res[1]
         # action
         
+        # action = action
         if prob != "PandaReach" and prob != "PandaReachDense":
-            action = np.clip(action, env.action_space.low, env.action_space.high)
+            action = torch.clip(action, torch.tensor(env.action_space.low, dtype=torch.float32, device='cuda'), torch.tensor(env.action_space.high, dtype=torch.float32, device='cuda'))
         
         next_state, r, terminated, truncated, info = env.step(action.cpu().numpy())
 
