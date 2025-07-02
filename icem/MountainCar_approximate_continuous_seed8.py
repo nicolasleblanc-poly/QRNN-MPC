@@ -51,7 +51,8 @@ if __name__ == "__main__":
     ACTION_LOW = -1.0
     ACTION_HIGH = 1.0
 
-    d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    # d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    d = torch.device("cpu")  # use CPU for now
     dtype = torch.double
 
     noise_sigma = torch.tensor([1], device=d, dtype=dtype)
