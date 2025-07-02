@@ -1,0 +1,22 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) blis/0.9.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+/lustre06/project/6086407/nileb3/QRNN-MPC/icem/pytorch_icem/icem.py:69: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  self.sigma = torch.tensor(self.sigma).to(device=self.device)
+bootstrapping finished 
+
+Traceback (most recent call last):
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/icem/MountainCar_approximate_continuous_seed0.py", line 308, in <module>
+    total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lustre06/project/6086407/nileb3/QRNN-MPC/icem/pytorch_icem/icem.py", line 228, in run_icem
+    action = torch.clip(action, torch.tensor(env.action_space.low, dtype=torch.float32, device='cuda'), torch.tensor(env.action_space.high, dtype=torch.float32, device='cuda'))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/torch/cuda/__init__.py", line 372, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx
