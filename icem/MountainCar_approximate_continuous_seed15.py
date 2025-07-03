@@ -307,6 +307,7 @@ if __name__ == "__main__":
                      num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
     
         total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        print("total_reward ", total_reward, "\n")
         # total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         episodic_return.append(total_reward)
         
