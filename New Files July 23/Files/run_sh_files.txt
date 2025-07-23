@@ -1,0 +1,409 @@
+sbatch --job-name=CP_Q_AS_ba run-CP-Q-AS-ba.sh
+sbatch --job-name=AC_Q_AS_ba run-AC-Q-AS-ba.sh
+sbatch --job-name=LL_Q_AS_ba run-LL-Q-AS-ba.sh
+sbatch --job-name=MC_Q_AS_ba run-MC-Q-AS-ba.sh
+sbatch --job-name=MCC_Q_AS_ba run-MCC-Q-AS-ba.sh
+sbatch --job-name=LLC_Q_AS_ba run-LLC-Q-AS-ba.sh
+
+sbatch --job-name=CP_Q_AS_ba_CEM run-CP-Q-AS-ba-CEM.sh
+sbatch --job-name=AC_Q_AS_ba_CEM run-AC-Q-AS-ba-CEM.sh
+sbatch --job-name=LL_Q_AS_ba_CEM run-LL-Q-AS-ba-CEM.sh
+sbatch --job-name=MC_Q_AS_ba_CEM run-MC-Q-AS-ba-CEM.sh
+sbatch --job-name=MCC_Q_AS_ba_CEM run-MCC-Q-AS-ba-CEM.sh
+sbatch --job-name=LLC_Q_AS_ba_CEM run-LLC-Q-AS-ba-CEM.sh
+
+----------------------------------------------------------
+
+sbatch --job-name=CP_Q_rnd_RS run-CP-Q-rnd-RS.sh
+sbatch --job-name=AC_Q_rnd_RS run-AC-Q-rnd-RS.sh
+sbatch --job-name=LL_Q_rnd_RS run-LL-Q-rnd-RS.sh
+sbatch --job-name=MC_Q_rnd_RS run-MC-Q-rnd-RS.sh
+sbatch --job-name=MCC_Q_rnd_RS run-MCC-Q-rnd-RS.sh
+sbatch --job-name=LLC_Q_rnd_RS run-LLC-Q-rnd-RS.sh
+
+sbatch --job-name=CP_Q_rnd_RS_CEM run-CP-Q-rnd-RS-CEM.sh
+sbatch --job-name=AC_Q_rnd_RS_CEM run-AC-Q-rnd-RS-CEM.sh
+sbatch --job-name=LL_Q_rnd_RS_CEM run-LL-Q-rnd-RS-CEM.sh
+# sbatch --job-name=MC_Q_rnd_RS_CEM run-MC-Q-rnd-RS-CEM.sh
+sbatch --job-name=MC_Q_rnd_CEM run-MC-Q-rnd-CEM.sh
+sbatch --job-name=MCC_Q_rnd_RS_CEM run-MCC-Q-rnd-RS-CEM.sh
+sbatch --job-name=LLC_Q_rnd_RS_CEM run-LLC-Q-rnd-RS-CEM.sh
+
+----------------------------------------------------------
+
+sbatch --job-name=CP_50_AS_ba run-CP-50-AS-ba.sh
+sbatch --job-name=AC_50_AS_ba run-AC-50-AS-ba.sh
+sbatch --job-name=LL_50_AS_ba run-LL-50-AS-ba.sh
+sbatch --job-name=MC_50_AS_ba run-MC-50-AS-ba.sh
+sbatch --job-name=MCC_50_AS_ba run-MCC-50-AS-ba.sh
+sbatch --job-name=LLC_50_AS_ba run-LLC-50-AS-ba.sh
+
+sbatch --job-name=CP_50_AS_ba_CEM run-CP-50-AS-ba-CEM.sh
+sbatch --job-name=AC_50_AS_ba_CEM run-AC-50-AS-ba-CEM.sh
+sbatch --job-name=LL_50_AS_ba_CEM run-LL-50-AS-ba-CEM.sh
+sbatch --job-name=MC_50_AS_ba_CEM run-MC-50-AS-ba-CEM.sh
+sbatch --job-name=MCC_50_AS_ba_CEM run-MCC-50-AS-ba-CEM.sh
+sbatch --job-name=LLC_50_AS_ba_CEM run-LLC-50-AS-ba-CEM.sh
+
+----------------------------------------------------------
+
+sbatch --job-name=CP_50_rnd_RS run-CP-50-rnd-RS.sh
+sbatch --job-name=AC_50_rnd_RS run-AC-50-rnd-RS.sh
+sbatch --job-name=LL_50_rnd_RS run-LL-50-rnd-RS.sh
+sbatch --job-name=MC_50_rnd_RS run-MC-50-rnd-RS.sh
+sbatch --job-name=MCC_50_rnd_RS run-MCC-50-rnd-RS.sh
+sbatch --job-name=LLC_50_rnd_RS run-LLC-50-rnd-RS.sh
+
+sbatch --job-name=CP_50_rnd_RS_CEM run-CP-50-rnd-RS-CEM.sh
+sbatch --job-name=AC_50_rnd_RS_CEM run-AC-50-rnd-RS-CEM.sh
+sbatch --job-name=LL_50_rnd_RS_CEM run-LL-50-rnd-RS-CEM.sh
+# sbatch --job-name=MC_50_rnd_RS_CEM run-MC-50-rnd-RS-CEM.sh
+sbatch --job-name=MC_50_rnd_RS_CEM run-MC-50-rnd-RS-CEM.sh
+sbatch --job-name=MCC_50_rnd_RS_CEM run-MCC-50-rnd-RS-CEM.sh
+sbatch --job-name=LLC_50_rnd_RS_CEM run-LLC-50-rnd-RS-CEM.sh
+
+----------------------------------------------------------
+
+sbatch --job-name=CP_MSE_AS_ba run-CP-MSE-AS-ba.sh
+sbatch --job-name=AC_MSE_AS_ba run-AC-MSE-AS-ba.sh
+sbatch --job-name=LL_MSE_AS_ba run-LL-MSE-AS-ba.sh
+sbatch --job-name=MC_MSE_AS_ba run-MC-MSE-AS-ba.sh
+sbatch --job-name=MCC_MSE_AS_ba run-MCC-MSE-AS-ba.sh
+sbatch --job-name=LLC_MSE_AS_ba run-LLC-MSE-AS-ba.sh
+
+
+sbatch --job-name=CP_MSE_AS_ba_CEM run-CP-MSE-AS-ba-CEM.sh
+sbatch --job-name=AC_MSE_AS_ba_CEM run-AC-MSE-AS-ba-CEM.sh
+sbatch --job-name=LL_MSE_AS_ba_CEM run-LL-MSE-AS-ba-CEM.sh
+sbatch --job-name=MC_MSE_AS_ba_CEM run-MC-MSE-AS-ba-CEM.sh
+sbatch --job-name=MCC_MSE_AS_ba_CEM run-MCC-MSE-AS-ba-CEM.sh
+sbatch --job-name=LLC_MSE_AS_ba_CEM run-LLC-MSE-AS-ba-CEM.sh
+
+----------------------------------------------------------
+
+sbatch --job-name=CP_MSE_rnd_RS run-CP-MSE-rnd-RS.sh
+sbatch --job-name=AC_MSE_rnd_RS run-AC-MSE-rnd-RS.sh
+sbatch --job-name=LL_MSE_rnd_RS run-LL-MSE-rnd-RS.sh
+sbatch --job-name=MC_MSE_rnd_RS run-MC-MSE-rnd-RS.sh
+sbatch --job-name=MCC_MSE_rnd_RS run-MCC-MSE-rnd-RS.sh
+sbatch --job-name=LLC_MSE_rnd_RS run-LLC-MSE-rnd-RS.sh
+
+sbatch --job-name=CP_MSE_rnd_RS_CEM run-CP-MSE-rnd-RS-CEM.sh
+sbatch --job-name=AC_MSE_rnd_RS_CEM run-AC-MSE-rnd-RS-CEM.sh
+sbatch --job-name=LL_MSE_rnd_RS_CEM run-LL-MSE-rnd-RS-CEM.sh
+# sbatch --job-name=MC_MSE_rnd_RS_CEM run-MC-MSE-rnd-RS-CEM.sh
+sbatch --job-name=MC_MSE_rnd_CEM run-MC-MSE-rnd-CEM.sh
+sbatch --job-name=MCC_MSE_rnd_RS_CEM run-MCC-MSE-rnd-RS-CEM.sh
+sbatch --job-name=LLC_MSE_rnd_RS_CEM run-LLC-MSE-rnd-RS-CEM.sh
+
+----------------------------------------------------------
+sbatch --job-name=PE_Q_AS_ba run-PE-Q-AS-ba.sh
+sbatch --job-name=PE_Q_AS_ba_CEM run-PE-Q-AS-ba-CEM.sh
+sbatch --job-name=PE_Q_rnd_RS run-PE-Q-rnd-RS.sh
+sbatch --job-name=PE_Q_rnd_RS_CEM run-PE-Q-rnd-RS-CEM.sh
+sbatch --job-name=PE_50_AS_ba run-PE-50-AS-ba.sh
+sbatch --job-name=PE_50_AS_ba_CEM run-PE-50-AS-ba-CEM.sh
+sbatch --job-name=PE_50_rnd_RS run-PE-50-rnd-RS.sh
+sbatch --job-name=PE_50_rnd_RS_CEM run-PE-50-rnd-RS-CEM.sh
+sbatch --job-name=PE_MSE_AS_ba run-PE-MSE-AS-ba.sh
+sbatch --job-name=PE_MSE_AS_ba_CEM run-PE-MSE-AS-ba-CEM.sh
+sbatch --job-name=PE_MSE_rnd_RS run-PE-MSE-rnd-RS.sh
+sbatch --job-name=PE_MSE_rnd_RS_CEM run-PE-MSE-rnd-RS-CEM.sh
+
+sbatch --job-name=PE_Q_evoCEM run-PE-Q-EvoCEM.sh
+sbatch --job-name=PE_50_EvoCEM run-PE-50-EvoCEM.sh
+sbatch --job-name=PE_MSE_EvoCEM run-PE-MSE-EvoCEM.sh
+
+----------------------------------------------------------
+sbatch --job-name=MRE_Q_AS_ba run-MRE-Q-AS-ba.sh
+sbatch --job-name=MRE_Q_AS_ba_CEM run-MRE-Q-AS-ba-CEM.sh
+sbatch --job-name=MRE_Q_rnd_RS run-MRE-Q-rnd-RS.sh
+sbatch --job-name=MRE_Q_rnd_RS_CEM run-MRE-Q-rnd-RS-CEM.sh
+sbatch --job-name=MRE_50_AS_ba run-MRE-50-AS-ba.sh
+sbatch --job-name=MRE_50_AS_ba_CEM run-MRE-50-AS-ba-CEM.sh
+sbatch --job-name=MRE_50_rnd_RS run-MRE-50-rnd-RS.sh
+sbatch --job-name=MRE_50_rnd_RS_CEM run-MRE-50-rnd-RS-CEM.sh
+sbatch --job-name=MRE_MSE_AS_ba run-MRE-MSE-AS-ba.sh
+sbatch --job-name=MRE_MSE_AS_ba_CEM run-MRE-MSE-AS-ba-CEM.sh
+sbatch --job-name=MRE_MSE_rnd_RS run-MRE-MSE-rnd-RS.sh
+sbatch --job-name=MRE_MSE_rnd_RS_CEM run-MRE-MSE-rnd-RS-CEM.sh
+
+
+----------------------------------------------------------
+sbatch --job-name=IP_Q_AS run-IP-Q-AS.sh
+sbatch --job-name=IP_Q_ba run-IP-Q-ba.sh
+sbatch --job-name=IP_Q_AS_CEM run-IP-Q-AS-CEM.sh
+sbatch --job-name=IP_Q_ba_CEM run-IP-Q-ba-CEM.sh
+sbatch --job-name=IP_Q_rnd run-IP-Q-rnd.sh
+sbatch --job-name=IP_Q_RS run-IP-Q-RS.sh
+sbatch --job-name=IP_Q_rnd_RS_CEM run-IP-Q-rnd-CEM.sh
+sbatch --job-name=IP_50_AS run-IP-50-AS.sh
+sbatch --job-name=IP_50_ba run-IP-50-ba.sh
+sbatch --job-name=IP_50_AS_CEM run-IP-50-AS-CEM.sh
+sbatch --job-name=IP_50_ba_CEM run-IP-50-ba-CEM.sh
+sbatch --job-name=IP_50_rnd run-IP-50-rnd.sh
+sbatch --job-name=IP_50_RS run-IP-50-RS.sh
+sbatch --job-name=IP_50_rnd_CEM run-IP-50-rnd-CEM.sh
+sbatch --job-name=IP_MSE_AS run-IP-MSE-AS.sh
+sbatch --job-name=IP_MSE_ba run-IP-MSE-ba.sh
+sbatch --job-name=IP_MSE_AS_CEM run-IP-MSE-AS-CEM.sh
+sbatch --job-name=IP_MSE_ba_CEM run-IP-MSE-ba-CEM.sh
+sbatch --job-name=IP_MSE_rnd run-IP-MSE-rnd.sh
+sbatch --job-name=IP_MSE_RS run-IP-MSE-RS.sh
+sbatch --job-name=IP_MSE_rnd_CEM run-IP-MSE-rnd-CEM.sh
+
+sbatch --job-name=IP_Q_evoCEM run-IP-Q-EvoCEM.sh
+sbatch --job-name=IP_50_EvoCEM run-IP-50-EvoCEM.sh
+sbatch --job-name=IP_MSE_EvoCEM run-IP-MSE-EvoCEM.sh
+
+----------------------------------------------------------
+sbatch --job-name=CPC_Q_AS_ba run-CPC-Q-AS-ba.sh
+sbatch --job-name=CPC_Q_AS_ba_CEM run-CPC-Q-AS-ba-CEM.sh
+sbatch --job-name=CPC_Q_rnd_RS run-CPC-Q-rnd-RS.sh
+# sbatch --job-name=CPC_Q_rnd_RS_CEM run-CPC-Q-rnd-RS-CEM.sh
+sbatch --job-name=CPC_Q_rnd_CEM run-CPC-Q-rnd-CEM.sh
+sbatch --job-name=CPC_50_AS_ba run-CPC-50-AS-ba.sh
+sbatch --job-name=CPC_50_AS_ba_CEM run-CPC-50-AS-ba-CEM.sh
+sbatch --job-name=CPC_50_rnd_RS run-CPC-50-rnd-RS.sh
+# sbatch --job-name=CPC_50_rnd_RS_CEM run-CPC-50-rnd-RS-CEM.sh
+sbatch --job-name=CPC_50_rnd_CEM run-CPC-50-rnd-CEM.sh
+sbatch --job-name=CPC_MSE_AS_ba run-CPC-MSE-AS-ba.sh
+sbatch --job-name=CPC_MSE_AS_ba_CEM run-CPC-MSE-AS-ba-CEM.sh
+sbatch --job-name=CPC_MSE_rnd_RS run-CPC-MSE-rnd-RS.sh
+# sbatch --job-name=CPC_MSE_rnd_RS_CEM run-CPC-MSE-rnd-RS-CEM.sh
+sbatch --job-name=CPC_MSE_rnd_CEM run-CPC-MSE-rnd-CEM.sh
+
+sbatch --job-name=CPC_Q_evoCEM run-CPC-Q-EvoCEM.sh
+sbatch --job-name=CPC_50_EvoCEM run-CPC-50-EvoCEM.sh
+sbatch --job-name=CPC_MSE_EvoCEM run-CPC-MSE-EvoCEM.sh
+
+----------------------------------------------------------
+sbatch --job-name=MC_Q_AS run-MC-Q-AS.sh
+sbatch --job-name=MC_Q_ba run-MC-Q-ba.sh
+sbatch --job-name=MC_Q_AS_CEM run-MC-Q-AS-CEM.sh
+sbatch --job-name=MC_Q_ba_CEM run-MC-Q-ba-CEM.sh
+sbatch --job-name=MC_Q_rnd_RS run-MC-Q-rnd-RS.sh
+sbatch --job-name=MC_Q_rnd_CEM run-MC-Q-rnd-CEM.sh
+sbatch --job-name=MC_50_AS run-MC-50-AS.sh
+sbatch --job-name=MC_50_ba run-MC-50-ba.sh
+sbatch --job-name=MC_50_AS_CEM run-MC-50-AS-CEM.sh
+sbatch --job-name=MC_50_ba_CEM run-MC-50-ba-CEM.sh
+sbatch --job-name=MC_50_ba_CEM run-MC-50-ba-CEM.sh
+sbatch --job-name=MC_50_rnd_CEM run-MC-50-rnd-CEM.sh
+sbatch --job-name=MC_MSE_AS run-MC-MSE-AS.sh
+sbatch --job-name=MC_MSE_ba run-MC-MSE-ba.sh
+sbatch --job-name=MC_MSE_AS_CEM run-MC-MSE-AS-CEM.sh
+sbatch --job-name=MC_MSE_ba_CEM run-MC-MSE-ba-CEM.sh
+sbatch --job-name=MC_MSE_rnd_RS run-MC-MSE-rnd-RS.sh
+sbatch --job-name=MC_MSE_rnd_CEM run-MC-MSE-rnd-CEM.sh
+
+----------------------------------------------------------
+sbatch --job-name=MCC_Q_AS run-MCC-Q-AS.sh
+sbatch --job-name=MCC_Q_ba run-MCC-Q-ba.sh
+sbatch --job-name=MCC_Q_AS_CEM run-MCC-Q-AS-CEM.sh
+sbatch --job-name=MCC_Q_ba_CEM run-MCC-Q-ba-CEM.sh
+sbatch --job-name=MCC_Q_rnd_RS run-MCC-Q-rnd-RS.sh
+sbatch --job-name=MCC_Q_rnd_CEM run-MCC-Q-rnd-CEM.sh
+sbatch --job-name=MCC_50_AS run-MCC-50-AS.sh
+sbatch --job-name=MCC_50_ba run-MCC-50-ba.sh
+sbatch --job-name=MCC_50_AS_CEM run-MCC-50-AS-CEM.sh
+sbatch --job-name=MCC_50_ba_CEM run-MCC-50-ba-CEM.sh
+sbatch --job-name=MCC_50_rnd_RS run-MCC-50-rnd-RS.sh
+sbatch --job-name=MCC_50_rnd_CEM run-MCC-50-rnd-CEM.sh
+sbatch --job-name=MCC_MSE_AS run-MCC-MSE-AS.sh
+sbatch --job-name=MCC_MSE_ba run-MCC-MSE-ba.sh
+sbatch --job-name=MCC_MSE_AS_CEM run-MCC-MSE-AS-CEM.sh
+sbatch --job-name=MCC_MSE_ba_CEM run-MCC-MSE-ba-CEM.sh
+sbatch --job-name=MCC_MSE_rnd_RS run-MCC-MSE-rnd-RS.sh
+sbatch --job-name=MCC_MSE_rnd_CEM run-MCC-MSE-rnd-CEM.sh
+
+sbatch --job-name=MCC_Q_evoCEM run-MCC-Q-EvoCEM.sh
+sbatch --job-name=MCC_50_EvoCEM run-MCC-50-EvoCEM.sh
+sbatch --job-name=MCC_MSE_EvoCEM run-MCC-MSE-EvoCEM.sh
+
+----------------------------------------------------------
+sbatch --job-name=LLC_Q_AS run-LLC-Q-AS.sh
+sbatch --job-name=LLC_Q_ba run-LLC-Q-ba.sh
+sbatch --job-name=LLC_Q_AS_CEM run-LLC-Q-AS-CEM.sh
+sbatch --job-name=LLC_Q_ba_CEM run-LLC-Q-ba-CEM.sh
+sbatch --job-name=LLC_Q_rnd_RS run-LLC-Q-rnd-RS.sh
+sbatch --job-name=LLC_Q_rnd_CEM run-LLC-Q-rnd-CEM.sh
+sbatch --job-name=LLC_50_AS run-LLC-50-AS.sh
+sbatch --job-name=LLC_50_ba run-LLC-50-ba.sh
+sbatch --job-name=LLC_50_AS_CEM run-LLC-50-AS-CEM.sh
+sbatch --job-name=LLC_50_ba_CEM run-LLC-50-ba-CEM.sh
+sbatch --job-name=LLC_50_rnd_RS run-LLC-50-rnd-RS.sh
+sbatch --job-name=LLC_50_rnd_CEM run-LLC-50-rnd-CEM.sh
+sbatch --job-name=LLC_MSE_AS run-LLC-MSE-AS.sh
+sbatch --job-name=LLC_MSE_ba run-LLC-MSE-ba.sh
+sbatch --job-name=LLC_MSE_AS_CEM run-LLC-MSE-AS-CEM.sh
+sbatch --job-name=LLC_MSE_ba_CEM run-LLC-MSE-ba-CEM.sh
+sbatch --job-name=LLC_MSE_rnd_RS run-LLC-MSE-rnd-RS.sh
+sbatch --job-name=LLC_MSE_rnd_CEM run-LLC-MSE-rnd-CEM.sh
+
+
+----------------------------------------------------------
+sbatch --job-name=MCAv_Q_AS run-MC-Q-AS.sh
+sbatch --job-name=MCAv_Q_ba run-MC-Q-ba.sh
+sbatch --job-name=MCAv_Q_AS_CEM run-MC-Q-AS-CEM.sh
+sbatch --job-name=MCAv_Q_ba_CEM run-MC-Q-ba-CEM.sh
+sbatch --job-name=MCAv_Q_rnd_RS run-MC-Q-rnd-RS.sh
+sbatch --job-name=MCAv_Q_rnd_CEM run-MC-Q-rnd-CEM.sh
+sbatch --job-name=MCAv_50_AS run-MC-50-AS.sh
+sbatch --job-name=MCAv_50_ba run-MC-50-ba.sh
+sbatch --job-name=MCAv_50_AS_CEM run-MC-50-AS-CEM.sh
+sbatch --job-name=MCAv_50_ba_CEM run-MC-50-ba-CEM.sh
+sbatch --job-name=MCAv_50_rnd_RS run-MC-50-rnd-RS.sh
+sbatch --job-name=MCAv_50_rnd_CEM run-MC-50-rnd-CEM.sh
+sbatch --job-name=MCAv_MSE_AS run-MC-MSE-AS.sh
+sbatch --job-name=MCAv_MSE_ba run-MC-MSE-ba.sh
+sbatch --job-name=MCAv_MSE_AS_CEM run-MC-MSE-AS-CEM.sh
+sbatch --job-name=MCAv_MSE_ba_CEM run-MC-MSE-ba-CEM.sh
+sbatch --job-name=MCAv_MSE_rnd_RS run-MC-MSE-rnd-RS.sh
+sbatch --job-name=MCAv_MSE_rnd_CEM run-MC-MSE-rnd-CEM.sh
+
+----------------------------------------------------------
+sbatch --job-name=MCCAv_Q_AS run-MCC-Q-AS.sh
+sbatch --job-name=MCCAv_Q_ba run-MCC-Q-ba.sh
+sbatch --job-name=MCCAv_Q_AS_CEM run-MCC-Q-AS-CEM.sh
+sbatch --job-name=MCCAv_Q_ba_CEM run-MCC-Q-ba-CEM.sh
+sbatch --job-name=MCCAv_Q_rnd_RS run-MCC-Q-rnd-RS.sh
+sbatch --job-name=MCCAv_Q_rnd_CEM run-MCC-Q-rnd-CEM.sh
+sbatch --job-name=MCCAv_50_AS run-MCC-50-AS.sh
+sbatch --job-name=MCCAv_50_ba run-MCC-50-ba.sh
+sbatch --job-name=MCCAv_50_AS_CEM run-MCC-50-AS-CEM.sh
+sbatch --job-name=MCCAv_50_ba_CEM run-MCC-50-ba-CEM.sh
+sbatch --job-name=MCCAv_50_rnd_RS run-MCC-50-rnd-RS.sh
+sbatch --job-name=MCCAv_50_rnd_CEM run-MCC-50-rnd-CEM.sh
+sbatch --job-name=MCCAv_MSE_AS run-MCC-MSE-AS.sh
+sbatch --job-name=MCC_AvMSE_ba run-MCC-MSE-ba.sh
+sbatch --job-name=MCCAv_MSE_AS_CEM run-MCC-MSE-AS-CEM.sh
+sbatch --job-name=MCCAv_MSE_ba_CEM run-MCC-MSE-ba-CEM.sh
+sbatch --job-name=MCCAv_MSE_rnd_RS run-MCC-MSE-rnd-RS.sh
+sbatch --job-name=MCCAv_MSE_rnd_CEM run-MCC-MSE-rnd-CEM.sh
+
+sbatch --job-name=MCCAv_Q_evoCEM run-MCC-Q-EvoCEM.sh
+sbatch --job-name=MCCAv_50_EvoCEM run-MCC-50-EvoCEM.sh
+sbatch --job-name=MCCAv_MSE_EvoCEM run-MCC-MSE-EvoCEM.sh
+
+
+
+----------------------------------------------------------
+Need to run all these below - June 12th
+sbatch --job-name=MCC_Q_AS run-MCC-Q-AS_seed0.sh
+sbatch --job-name=MCC_Q_AS run-MCC-Q-AS_seed8.sh
+sbatch --job-name=MCC_Q_AS run-MCC-Q-AS_seed15.sh
+
+sbatch --job-name=MCC_Q_ba run-MCC-Q-ba_seed0.sh
+sbatch --job-name=MCC_Q_ba run-MCC-Q-ba_seed8.sh
+sbatch --job-name=MCC_Q_ba run-MCC-Q-ba_seed15.sh
+
+sbatch --job-name=MCC_Q_AS_CEM run-MCC-Q-AS-CEM_seed0.sh
+sbatch --job-name=MCC_Q_AS_CEM run-MCC-Q-AS-CEM_seed8.sh
+sbatch --job-name=MCC_Q_AS_CEM run-MCC-Q-AS-CEM_seed15.sh
+
+sbatch --job-name=MCC_Q_ba_CEM run-MCC-Q-ba-CEM_seed0.sh
+sbatch --job-name=MCC_Q_ba_CEM run-MCC-Q-ba-CEM_seed8.sh
+sbatch --job-name=MCC_Q_ba_CEM run-MCC-Q-ba-CEM_seed15.sh
+
+sbatch --job-name=MCC_Q_rnd_RS run-MCC-Q-rnd-RS_seed0.sh
+sbatch --job-name=MCC_Q_rnd_RS run-MCC-Q-rnd-RS_seed8.sh
+sbatch --job-name=MCC_Q_rnd_RS run-MCC-Q-rnd-RS_seed15.sh
+
+sbatch --job-name=MCC_Q_rnd_CEM run-MCC-Q-rnd-CEM_seed0.sh
+sbatch --job-name=MCC_Q_rnd_CEM run-MCC-Q-rnd-CEM_seed8.sh
+sbatch --job-name=MCC_Q_rnd_CEM run-MCC-Q-rnd-CEM_seed15.sh
+
+sbatch --job-name=MCC_50_AS run-MCC-50-AS_seed0.sh
+sbatch --job-name=MCC_50_AS run-MCC-50-AS_seed8.sh
+sbatch --job-name=MCC_50_AS run-MCC-50-AS_seed15.sh
+
+sbatch --job-name=MCC_50_ba run-MCC-50-ba_seed0.sh
+sbatch --job-name=MCC_50_ba run-MCC-50-ba_seed8.sh
+sbatch --job-name=MCC_50_ba run-MCC-50-ba_seed15.sh
+
+sbatch --job-name=MCC_50_AS_CEM run-MCC-50-AS-CEM_seed0.sh
+sbatch --job-name=MCC_50_AS_CEM run-MCC-50-AS-CEM_seed8.sh
+sbatch --job-name=MCC_50_AS_CEM run-MCC-50-AS-CEM_seed15.sh
+
+sbatch --job-name=MCC_50_ba_CEM run-MCC-50-ba-CEM_seed0.sh
+sbatch --job-name=MCC_50_ba_CEM run-MCC-50-ba-CEM_seed8.sh
+sbatch --job-name=MCC_50_ba_CEM run-MCC-50-ba-CEM_seed15.sh
+
+sbatch --job-name=MCC_50_rnd_RS run-MCC-50-rnd-RS_seed0.sh
+sbatch --job-name=MCC_50_rnd_RS run-MCC-50-rnd-RS_seed8.sh
+sbatch --job-name=MCC_50_rnd_RS run-MCC-50-rnd-RS_seed15.sh
+
+sbatch --job-name=MCC_50_rnd_CEM run-MCC-50-rnd-CEM_seed0.sh
+sbatch --job-name=MCC_50_rnd_CEM run-MCC-50-rnd-CEM_seed8.sh
+sbatch --job-name=MCC_50_rnd_CEM run-MCC-50-rnd-CEM_seed15.sh
+
+sbatch --job-name=MCC_MSE_AS run-MCC-MSE-AS_seed0.sh
+sbatch --job-name=MCC_MSE_AS run-MCC-MSE-AS_seed8.sh
+sbatch --job-name=MCC_MSE_AS run-MCC-MSE-AS_seed15.sh
+
+sbatch --job-name=MCC_MSE_ba run-MCC-MSE-ba_seed0.sh
+sbatch --job-name=MCC_MSE_ba run-MCC-MSE-ba_seed8.sh
+sbatch --job-name=MCC_MSE_ba run-MCC-MSE-ba_seed15.sh
+
+sbatch --job-name=MCC_MSE_AS_CEM run-MCC-MSE-AS-CEM_seed0.sh
+sbatch --job-name=MCC_MSE_AS_CEM run-MCC-MSE-AS-CEM_seed8.sh
+sbatch --job-name=MCC_MSE_AS_CEM run-MCC-MSE-AS-CEM_seed15.sh
+
+sbatch --job-name=MCC_MSE_ba_CEM run-MCC-MSE-ba-CEM_seed0.sh
+sbatch --job-name=MCC_MSE_ba_CEM run-MCC-MSE-ba-CEM_seed8.sh
+sbatch --job-name=MCC_MSE_ba_CEM run-MCC-MSE-ba-CEM_seed15.sh
+
+sbatch --job-name=MCC_MSE_rnd_RS run-MCC-MSE-rnd-RS_seed0.sh
+sbatch --job-name=MCC_MSE_rnd_RS run-MCC-MSE-rnd-RS_seed8.sh
+sbatch --job-name=MCC_MSE_rnd_RS run-MCC-MSE-rnd-RS_seed15.sh
+
+sbatch --job-name=MCC_MSE_rnd_CEM run-MCC-MSE-rnd-CEM_seed0.sh
+sbatch --job-name=MCC_MSE_rnd_CEM run-MCC-MSE-rnd-CEM_seed8.sh
+sbatch --job-name=MCC_MSE_rnd_CEM run-MCC-MSE-rnd-CEM_seed15.sh
+
+---
+sbatch --job-name=LLC0_Q_ba run-LLC-Q-ba_seed0.sh
+sbatch --job-name=LLC8_Q_ba run-LLC-Q-ba_seed8.sh
+sbatch --job-name=LLC15_Q_ba run-LLC-Q-ba_seed15.sh
+
+sbatch --job-name=LLC0_Q_AS_CEM run-LLC-Q-AS-CEM_seed0.sh
+sbatch --job-name=LLC8_Q_AS_CEM run-LLC-Q-AS-CEM_seed8.sh
+sbatch --job-name=LLC15_Q_AS_CEM run-LLC-Q-AS-CEM_seed15.sh
+
+sbatch --job-name=LLC0_Q_ba_CEM run-LLC-Q-ba-CEM_seed0.sh
+sbatch --job-name=LLC8_Q_ba_CEM run-LLC-Q-ba-CEM_seed8.sh
+sbatch --job-name=LLC15_Q_ba_CEM run-LLC-Q-ba-CEM_seed15.sh
+
+sbatch --job-name=LLC0_Q_rnd run-LLC-Q-rnd_seed0.sh
+sbatch --job-name=LLC8_Q_rnd run-LLC-Q-rnd_seed8.sh
+sbatch --job-name=LLC15_Q_rnd run-LLC-Q-rnd_seed15.sh
+
+sbatch --job-name=LLC0_Q_RS run-LLC-Q-RS_seed0.sh
+sbatch --job-name=LLC8_Q_RS run-LLC-Q-RS_seed8.sh
+sbatch --job-name=LLC15_Q_RS run-LLC-Q-RS_seed15.sh
+
+sbatch --job-name=LLC0_50_AS run-LLC-50-AS_seed0.sh
+sbatch --job-name=LLC8_50_AS run-LLC-50-AS_seed8.sh
+sbatch --job-name=LLC15_50_AS run-LLC-50-AS_seed15.sh
+
+sbatch --job-name=LLC0_50_ba run-LLC-50-ba_seed0.sh
+sbatch --job-name=LLC8_50_ba run-LLC-50-ba_seed8.sh
+sbatch --job-name=LLC15_50_ba run-LLC-50-ba_seed15.sh
+
+sbatch --job-name=LLC0_50_AS_CEM run-LLC-50-AS-CEM_seed0.sh
+sbatch --job-name=LLC8_50_AS_CEM run-LLC-50-AS-CEM_seed8.sh
+sbatch --job-name=LLC15_50_AS_CEM run-LLC-50-AS-CEM_seed15.sh
+
+sbatch --job-name=LLC0_50_ba_CEM run-LLC-50-ba-CEM_seed0.sh
+sbatch --job-name=LLC8_50_ba_CEM run-LLC-50-ba-CEM_seed8.sh
+sbatch --job-name=LLC15_50_ba_CEM run-LLC-50-ba-CEM_seed15.sh
+
+sbatch --job-name=LLC0_MSE_AS run-LLC-MSE-AS_seed0.sh
+sbatch --job-name=LLC8_MSE_AS run-LLC-MSE-AS_seed8.sh
+sbatch --job-name=LLC15_MSE_AS run-LLC-MSE-AS_seed15.sh
+
+sbatch --job-name=LLC0_MSE_ba run-LLC-MSE-ba_seed0.sh
+sbatch --job-name=LLC8_MSE_ba run-LLC-MSE-ba_seed8.sh
+sbatch --job-name=LLC15_MSE_ba run-LLC-MSE-ba_seed15.sh
+
