@@ -17,7 +17,7 @@ logging.getLogger("evotorch").disabled = True
 logging.getLogger("evotorch").setLevel(logging.ERROR)  # or logging.CRITICAL
 
 from state_pred_models import NextStateQuantileNetwork, quantile_loss, NextStateSinglePredNetwork, quantile_loss_median, mse_loss
-from main_funcs import main_QRNN_MPC, main_CEM, main_50NN_MSENN_MPC, main_CEM_50NN_MSENN, main_QRNN_MPC_LBFGSB, main_50NN_MSENN_MPC_LBFGSB
+from main_funcs import main_QRNN_MPC, main_50NN_MSENN_MPC
 from ASNN import ReplayBuffer_ASGNN, ActionSequenceNN, gaussian_nll_loss, categorical_cross_entropy_loss, train_ActionSequenceNN
 from setup import setup_class
 import os
