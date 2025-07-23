@@ -18,7 +18,7 @@ logging.getLogger("evotorch").setLevel(logging.ERROR)  # or logging.CRITICAL
 
 from state_pred_models import NextStateQuantileNetwork, quantile_loss, NextStateSinglePredNetwork, quantile_loss_median, mse_loss
 from main_funcs import main_QRNN_MPC, main_50NN_MSENN_MPC
-from ASNN import ReplayBuffer_ASGNN, ActionSequenceNN, gaussian_nll_loss, categorical_cross_entropy_loss, train_ActionSequenceNN
+from ASNN import ReplayBuffer_ASNN, ActionSequenceNN, gaussian_nll_loss, categorical_cross_entropy_loss, train_ActionSequenceNN
 from setup import setup_class
 import os
 
@@ -58,7 +58,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
 # if method_name == "MPC_MSENN_random_mid":
 # Run MPC-QRNN random mid
 do_RS = False
-use_ASGNN = False
+use_ASNN = False
 use_sampling = False
 use_mid = True
 do_QRNN_step_rnd = True
@@ -79,10 +79,10 @@ model_ASN = None
 optimizer_ASN = None
 
 if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
-    episode_rep_rewards_MPC_PF_MSENN_random_mid, mean_episode_rep_rewards_MPC_PF_MSENN_random_mid, std_episode_rep_rewards_MPC_PF_MSENN_random_mid, episode_rep_SuccessRate_MPC_PF_MSENN_random_mid, mean_episode_rep_SuccessRate_MPC_PF_MSENN_random_mid, std_episode_rep_SuccessRate_MPC_PF_MSENN_random_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+    episode_rep_rewards_MPC_PF_MSENN_random_mid, mean_episode_rep_rewards_MPC_PF_MSENN_random_mid, std_episode_rep_rewards_MPC_PF_MSENN_random_mid, episode_rep_SuccessRate_MPC_PF_MSENN_random_mid, mean_episode_rep_SuccessRate_MPC_PF_MSENN_random_mid, std_episode_rep_SuccessRate_MPC_PF_MSENN_random_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASNN)
 
 else:
-    episode_rep_rewards_MPC_PF_MSENN_random_mid, mean_episode_rep_rewards_MPC_PF_MSENN_random_mid, std_episode_rep_rewards_MPC_PF_MSENN_random_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+    episode_rep_rewards_MPC_PF_MSENN_random_mid, mean_episode_rep_rewards_MPC_PF_MSENN_random_mid, std_episode_rep_rewards_MPC_PF_MSENN_random_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASNN)
 
 save_data(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_random_mid, mean_episode_rep_rewards_MPC_PF_MSENN_random_mid, std_episode_rep_rewards_MPC_PF_MSENN_random_mid)
 print("episode_rep_rewards_MPC_PF_MSENN_random_mid saved \n")
@@ -91,7 +91,7 @@ print("episode_rep_rewards_MPC_PF_MSENN_random_mid saved \n")
 # # Run MPC-QRNN-CEM mid
 # if not prob_vars.discrete:
 #     do_RS = False
-#     use_ASGNN = False
+#     use_ASNN = False
 #     model_QRNN_pretrained = None
 #     optimizer_QRNN_pretrained = None
 #     use_QRNN = False
@@ -114,7 +114,7 @@ print("episode_rep_rewards_MPC_PF_MSENN_random_mid saved \n")
 #     replay_buffer_MSENN = []
 
 #     if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
-#         episode_rep_rewards_MSENN_MPC_CEM_mid, mean_episode_rep_rewards_MSENN_MPC_CEM_mid, std_episode_rep_rewards_MSENN_MPC_CEM_mid, episode_rep_SuccessRate_MSENN_MPC_CEM_mid, mean_episode_rep_SuccessRate_MPC_PF_MSENN_WithASGNN_sampling_mid, std_episode_rep_SuccessRate_MSENN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, use_sampling, use_mid)
+#         episode_rep_rewards_MSENN_MPC_CEM_mid, mean_episode_rep_rewards_MSENN_MPC_CEM_mid, std_episode_rep_rewards_MSENN_MPC_CEM_mid, episode_rep_SuccessRate_MSENN_MPC_CEM_mid, mean_episode_rep_SuccessRate_MPC_PF_MSENN_WithASNN_sampling_mid, std_episode_rep_SuccessRate_MSENN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, use_sampling, use_mid)
 
 #     else:
 #         episode_rep_rewards_MSENN_MPC_CEM_mid, mean_episode_rep_rewards_MSENN_MPC_CEM_mid, std_episode_rep_rewards_MSENN_MPC_CEM_mid = main_CEM_50NN_MSENN(prob_vars, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, use_sampling, use_mid)
@@ -124,7 +124,7 @@ print("episode_rep_rewards_MPC_PF_MSENN_random_mid saved \n")
 # # if method_name == "RS_mid_MSENN":
 # # Run Random shooting (RS)
 # do_RS = True
-# use_ASGNN = False
+# use_ASNN = False
 # use_sampling = False
 # use_mid = True
 # do_QRNN_step_rnd = False
@@ -145,10 +145,10 @@ print("episode_rep_rewards_MPC_PF_MSENN_random_mid saved \n")
 # loss_MSENN = mse_loss
 
 # if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or prob == "MuJoCoPusher":
-#     episode_rep_rewards_RS_mid, mean_episode_rep_rewards_RS_mid, std_episode_rep_rewards_RS_mid, episode_rep_SuccessRate_RS_mid, mean_episode_rep_SuccessRate_RS_mid, std_episode_rep_SuccessRate_RS_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+#     episode_rep_rewards_RS_mid, mean_episode_rep_rewards_RS_mid, std_episode_rep_rewards_RS_mid, episode_rep_SuccessRate_RS_mid, mean_episode_rep_SuccessRate_RS_mid, std_episode_rep_SuccessRate_RS_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASNN)
 
 # else:
-#     episode_rep_rewards_RS_mid, mean_episode_rep_rewards_RS_mid, std_episode_rep_rewards_RS_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASGNN)
+#     episode_rep_rewards_RS_mid, mean_episode_rep_rewards_RS_mid, std_episode_rep_rewards_RS_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASNN)
 
 # save_data(prob, method_name, episode_rep_rewards_RS_mid, mean_episode_rep_rewards_RS_mid, std_episode_rep_rewards_RS_mid)
 # print("episode_rep_rewards_RS_mid_MSENN saved \n")
