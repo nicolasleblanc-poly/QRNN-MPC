@@ -933,8 +933,8 @@ class setup_class:
         elif prob == "PandaPusher": # ToDo
             self.discrete = False
             self.horizon = 15
-            self.max_episodes = 400
-            self.max_steps = 50
+            self.max_episodes = 2#400
+            self.max_steps = 1#50
 
             # For test
             # self.max_episodes = 3
