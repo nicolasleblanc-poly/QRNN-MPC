@@ -32,7 +32,7 @@ print("all methods \n")
 use_CEM = True
 prob_vars = setup_class(prob, use_CEM)
 
-def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
+def save_data_CEM(prob, method_name, episodic_rep_returns, mean_episodic_returns, std_episodic_returns):
 
     # data = {
     #     'episode': np.arange(len(episodic_rep_returns)),
@@ -42,7 +42,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     origin_folder = os.path.dirname(os.path.abspath(__file__))
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_July23.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_July24_CEM.npz")
 
     np.savez(
     # f"{prob}_{method_name}_June25_CEM.npz",
@@ -83,7 +83,7 @@ if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or
 else:
     episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, mean_episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, std_episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN,loss_MSENN,  model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASNN)
 
-save_data(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, mean_episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, std_episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid)
+save_data_CEM(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, mean_episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, std_episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid)
 print("episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid saved \n")
 
 # if method_name == "MPC_MSENN_basic_mid":
@@ -115,7 +115,7 @@ if prob == "PandaReacher" or prob == "PandaPusher" or prob == "MuJoCoReacher" or
 else:
     episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASNN)
 
-save_data(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid)
+save_data_CEM(prob, method_name, episode_rep_rewards_MPC_PF_MSENN_basic_mid, mean_episode_rep_rewards_MPC_PF_MSENN_basic_mid, std_episode_rep_rewards_MPC_PF_MSENN_basic_mid)
 print("episode_rep_rewards_MPC_PF_MSENN_basic_mid saved \n")
 
 

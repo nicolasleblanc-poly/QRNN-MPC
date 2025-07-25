@@ -1114,7 +1114,7 @@ class setup_class:
             self.discrete = False
             self.horizon = 15
             self.max_episodes = 400
-            self.max_steps = 50 
+            self.max_steps = 100 
 
             # For test
             # self.max_episodes = 3

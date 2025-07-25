@@ -41,7 +41,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     origin_folder = os.path.dirname(os.path.abspath(__file__))
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_July23.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_July24.npz")
 
     np.savez(
     # f"{prob}_{method_name}_June25_CEM.npz",
