@@ -12,7 +12,7 @@ module purge
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python run_MC_UsingEnv_basic_CEM_July23.py # my_script.py
+python run_MC_UsingEnv_basic_CEM_July25.py # my_script.py
 # echo "all done"
 
 # #!/bin/bash
