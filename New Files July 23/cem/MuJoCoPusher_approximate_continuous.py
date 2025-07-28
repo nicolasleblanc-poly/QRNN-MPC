@@ -57,7 +57,7 @@ if __name__ == "__main__":
         # distance = torch.norm(state[:, -2:], dim=1)
         # control_cost = torch.sum(action ** 2, dim=1)
         # cost = distance + 0.001 * control_cost
-        cost = torch.norm(state[:, 14:17]-state[:, 17:20], dim=1)+torch.norm(state[:, 17:20]-state[:, 20:], dim=1)+0.1*(torch.norm(actions, dim=1))**2
+        cost = torch.norm(state[:, 14:17]-state[:, 17:20], dim=1)+torch.norm(state[:, 17:20]-state[:, 20:], dim=1)+0.1*(torch.norm(action, dim=1))**2
 
         return cost
 
