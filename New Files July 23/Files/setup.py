@@ -1155,7 +1155,7 @@ class setup_class:
             # self.states_high = None # torch.tensor([1, 1, 1, 1, 100, 100, torch.inf, torch.inf])
             
             def compute_cost_MuJoCoPusher(states, t, horizon, actions, goal_state=None):
-                return torch.norm(states[:, 14:17]-states[:, 17:20], dim=1)+torch.norm(states[:, 17:20]-states[:, 20:], dim=1)
+                return torch.norm(states[:, 14:17]-states[:, 17:20], dim=1)+torch.norm(states[:, 17:20]-states[:, 20:], dim=1)+0.1*(torch.norm(actions, dim=1))**2
                 
                 # return torch.sqrt(states[:, -2]**2+states[:, -1]**2)+0.1*(torch.norm(actions))**2
             

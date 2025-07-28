@@ -7,21 +7,22 @@ import numpy as np
 import torch
 import logging
 import math
-from pytorch_mppi_folder import mppi_modified as mppi
+from pytorch_cem import cem
 import os
-
 
 if __name__ == "__main__":
     ENV_NAME = "Pusher-v5"
     TIMESTEPS = 15  # T
     N_SAMPLES = 50  # K
+    N_ELITES = 10
+    SAMPLE_ITER = 3
     ACTION_LOW = [-2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0]
     ACTION_HIGH = [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0]
 
     d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     dtype = torch.double
 
-    noise_sigma = torch.eye(7, device=d, dtype=dtype)
+    noise_sigma = torch.tensor([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], device=d, dtype=dtype)
     lambda_ = 1e-2
 
     # new hyperparmaeters for approximate dynamics
@@ -51,9 +52,12 @@ if __name__ == "__main__":
 
         return next_state
 
-
-    def running_cost(state, action):
-        cost = torch.norm(state[:, 14:17]-state[:, 17:20], dim=1)+torch.norm(state[:, 17:20]-state[:, 20:], dim=1)+0.1*(torch.norm(actions, dim=1))**2
+    def running_cost(state, action, horion, t):
+        # Assuming the last two elements of the state vector represent the vector from fingertip to target
+        # distance = torch.norm(state[:, -2:], dim=1)
+        # control_cost = torch.sum(action ** 2, dim=1)
+        # cost = distance + 0.001 * control_cost
+        cost = torch.norm(state[:, 14:17]-state[:, 17:20], dim=1)+torch.norm(state[:, 17:20]-state[:, 20:], dim=1)+0.1*(torch.norm(action, dim=1))**2
 
         return cost
 
@@ -75,8 +79,6 @@ if __name__ == "__main__":
 
     def train(new_data):
         global dataset
-        # not normalized inside the simulator
-        # new_data[:, 0] = angle_normalize(new_data[:, 0])
         if not torch.is_tensor(new_data):
             new_data = torch.from_numpy(new_data)
         # clamp actions
@@ -87,12 +89,12 @@ if __name__ == "__main__":
             dataset = new_data
         else:
             dataset = torch.cat((dataset, new_data), dim=0)
-        
-        # train on the whole dataset (assume small enough we can train on all together)
+
         XU = dataset
         
         Y = XU[1:, :nx] - XU[:-1, :nx]
         xu = XU[:-1, :]  # make same size as Y
+
 
         # thaw network
         for param in network.parameters():
@@ -121,9 +123,12 @@ if __name__ == "__main__":
             pre_action_state = state # env.state
             action = np.random.uniform(low=ACTION_LOW[0], high=ACTION_HIGH[0], size=nu)
             state, reward, terminated, truncated, info = env.step(action)
-            # env.render()
             new_data[i, :nx] = pre_action_state
             new_data[i, nx:] = action
+
+            if terminated:
+                state, info = env.reset()
+                env.reset()
 
         train(new_data)
         print("bootstrapping finished \n")
@@ -134,23 +139,25 @@ if __name__ == "__main__":
     env_seeds = [0, 8, 15]
     episodic_return_seeds = []
     max_episodes = 400
-    method_name = "MPPI"
+    method_name = "CEM"
     prob = "MuJoCoPusher"
     max_steps = 100
     for seed in env_seeds:
         episodic_return = []
         # Reset network to initial pretrained weights
         network.load_state_dict(initial_state_dict)
-
-        mppi_gym = mppi.MPPI(dynamics, running_cost, nx, noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
-                                lambda_=lambda_, device=d, u_min=torch.tensor(ACTION_LOW, dtype=torch.double, device=d),
-                                u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d))
-        
+       
         for episode in range(max_episodes):
-            env.reset(seed=seed)            
-            total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # , prob=prob # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+            env.reset(seed=seed)
+
+            ctrl = cem.CEM(dynamics, running_cost, nx, nu, num_samples=N_SAMPLES, num_iterations=SAMPLE_ITER,
+                        horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
+                        u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
+            total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+           
             episodic_return.append(total_reward)
             
+
         episodic_return_seeds.append(episodic_return)
         
     episodic_return_seeds = np.array(episodic_return_seeds)
