@@ -1,0 +1,21 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+Lmod has detected the following error: The following module(s) are unknown:
+"python/3.10.0"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "python/3.10.0"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+python: can't open file '/project/6086407/nileb3/QRNN-MPC/New Files July 23/GP-MPC/examples/mujoco_pusher/run_mujoco_reacher_multiple.py': [Errno 2] No such file or directory
