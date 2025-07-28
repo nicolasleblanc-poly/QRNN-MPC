@@ -15,7 +15,7 @@ module load mujoco
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python MuJoCoReacher_approximate_continuous.py # my_script.py
+python MuJoCoPusher_approximate_continuous.py # my_script.py
 
 # #!/bin/bash
 # #SBATCH --mem=32G
