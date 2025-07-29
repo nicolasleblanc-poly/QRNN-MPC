@@ -1,0 +1,39 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+bootstrapping finished 
+
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/mppi/MuJoCoPusher_approximate_continuous.py", line 151, in <module>
+    total_reward, data = mppi.run_mppi(mppi_gym, seed, env, train, iter=max_steps, render=False) # , prob=prob # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/mppi/pytorch_mppi_folder/mppi_modified.py", line 647, in run_mppi
+    action = mppi.command(state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/mppi/pytorch_mppi_folder/mppi_modified.py", line 209, in command
+    return self._command(state)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/mppi/pytorch_mppi_folder/mppi_modified.py", line 222, in _command
+    cost_total = self._compute_total_cost_batch()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/mppi/pytorch_mppi_folder/mppi_modified.py", line 349, in _compute_total_cost_batch
+    rollout_cost, self.states, actions = self._compute_rollout_costs(self.perturbed_action)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/mppi/pytorch_mppi_folder/mppi_modified.py", line 277, in _compute_rollout_costs
+    c = self._running_cost(state, u, t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/arm_pytorch_utilities/tensor_utils.py", line 73, in wrapper
+    ret = func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/mppi/pytorch_mppi_folder/mppi_modified.py", line 183, in _running_cost
+    return self.running_cost(state, u)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/mppi/MuJoCoPusher_approximate_continuous.py", line 56, in running_cost
+    cost = torch.norm(state[:, 14:17]-state[:, 17:20], dim=1)+torch.norm(state[:, 17:20]-state[:, 20:], dim=1)+0.1*(torch.norm(actions, dim=1))**2
+                                                                                                                               ^^^^^^^
+NameError: name 'actions' is not defined. Did you mean: 'action'?
