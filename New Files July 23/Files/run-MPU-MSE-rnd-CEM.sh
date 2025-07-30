@@ -13,7 +13,7 @@ module load mujoco
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python run_MPU_MSE_AS_ba_CEM.py # my_script.py
+python run_MPU_MSE_rnd_CEM.py # my_script.py
 # echo "all done"
 
 # #!/bin/bash
