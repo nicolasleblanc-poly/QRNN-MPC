@@ -32,40 +32,40 @@ class NextStateQuantileNetwork(nn.Module):
         x = self.layer3(x)
         return x.view(-1, self.num_quantiles, state.size(-1))
 
-class NextStateQuantileNetworkWithBatchNorm(nn.Module): # Useless test, was meant for ASNN
-    def __init__(self, state_dim, action_dim, num_quantiles):
-        super(NextStateQuantileNetworkWithBatchNorm, self).__init__()
-        self.num_quantiles = num_quantiles
+# class NextStateQuantileNetworkWithBatchNorm(nn.Module): # Useless test, was meant for ASNN
+#     def __init__(self, state_dim, action_dim, num_quantiles):
+#         super(NextStateQuantileNetworkWithBatchNorm, self).__init__()
+#         self.num_quantiles = num_quantiles
 
-        # Input layer (state + action concatenation)
-        self.layer1 = nn.Linear(state_dim + action_dim, 256)
-        self.bn1 = nn.BatchNorm1d(256)
-        self.layer2 = nn.Linear(256, 256)
-        self.bn2 = nn.BatchNorm1d(256)
-        self.layer3 = nn.Linear(256, state_dim * num_quantiles)  # Output quantiles for each state dimension
-        # self.layer3 = torch.tanh(256, state_dim * num_quantiles)  # Output quantiles for each state dimension
+#         # Input layer (state + action concatenation)
+#         self.layer1 = nn.Linear(state_dim + action_dim, 256)
+#         self.bn1 = nn.BatchNorm1d(256)
+#         self.layer2 = nn.Linear(256, 256)
+#         self.bn2 = nn.BatchNorm1d(256)
+#         self.layer3 = nn.Linear(256, state_dim * num_quantiles)  # Output quantiles for each state dimension
+#         # self.layer3 = torch.tanh(256, state_dim * num_quantiles)  # Output quantiles for each state dimension
 
-    def forward(self, state, action):
-        # Concatenate state and action
-        # x = torch.cat((action, state))
-        # print("action ", action, "\n")
+#     def forward(self, state, action):
+#         # Concatenate state and action
+#         # x = torch.cat((action, state))
+#         # print("action ", action, "\n")
         
-        # print("state ", state, "\n")
-        # print("state.shape ", state.shape, "\n")
-        # print("action ", action, "\n")
-        # print("action.shape ", action.shape, "\n")
+#         # print("state ", state, "\n")
+#         # print("state.shape ", state.shape, "\n")
+#         # print("action ", action, "\n")
+#         # print("action.shape ", action.shape, "\n")
         
-        if len(state.shape) == 1:
-            x = torch.cat((action, state)).unsqueeze(0)
-        else:
-            x = torch.cat((action, state), dim=1) # .unsqueeze(1)
+#         if len(state.shape) == 1:
+#             x = torch.cat((action, state)).unsqueeze(0)
+#         else:
+#             x = torch.cat((action, state), dim=1) # .unsqueeze(1)
             
-        # print("x ", x, "\n")
-        # print("x.shape ", x.shape, "\n")
-        x = torch.relu(self.bn1(self.layer1(x)))
-        x = torch.relu(self.bn2(self.layer2(x)))
-        x = self.layer3(x)
-        return x.view(-1, self.num_quantiles, state.size(-1))
+#         # print("x ", x, "\n")
+#         # print("x.shape ", x.shape, "\n")
+#         x = torch.relu(self.bn1(self.layer1(x)))
+#         x = torch.relu(self.bn2(self.layer2(x)))
+#         x = self.layer3(x)
+#         return x.view(-1, self.num_quantiles, state.size(-1))
 
 def quantile_loss(predicted, target, quantiles, batch_size=32):
     """
@@ -98,7 +98,7 @@ def get_mid_quantile(num_quantiles, predicted_quantiles):
 
 def train_QRNN(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN):
     
-    model_QRNN.train()
+    # model_QRNN.train()
     
     batch = random.sample(replay_buffer_QRNN, prob_vars.batch_size)
     states, actions_train, rewards, next_states, dones = zip(*batch)
@@ -147,23 +147,23 @@ class NextStateSinglePredNetwork(nn.Module):
         x = torch.relu(self.layer2(x))
         return self.layer3(x)
     
-class NextStateSinglePredNetworkWithBatchNorm(nn.Module):
-    def __init__(self, state_dim, action_dim):
-        super(NextStateSinglePredNetworkWithBatchNorm, self).__init__()
-        self.layer1 = nn.Linear(state_dim + action_dim, 256)
-        self.bn1 = nn.BatchNorm1d(256)
-        self.layer2 = nn.Linear(256, 256)
-        self.bn2 = nn.BatchNorm1d(256)
-        self.layer3 = nn.Linear(256, state_dim)  # Single output per state dim
+# class NextStateSinglePredNetworkWithBatchNorm(nn.Module):
+#     def __init__(self, state_dim, action_dim):
+#         super(NextStateSinglePredNetworkWithBatchNorm, self).__init__()
+#         self.layer1 = nn.Linear(state_dim + action_dim, 256)
+#         self.bn1 = nn.BatchNorm1d(256)
+#         self.layer2 = nn.Linear(256, 256)
+#         self.bn2 = nn.BatchNorm1d(256)
+#         self.layer3 = nn.Linear(256, state_dim)  # Single output per state dim
 
-    def forward(self, state, action):
-        if len(state.shape) == 1:
-            x = torch.cat((action, state))
-        else:
-            x = torch.cat((action, state), dim=1) # .unsqueeze(1)
-        x = torch.relu(self.bn1(self.layer1(x)))
-        x = torch.relu(self.bn2(self.layer2(x)))
-        return self.layer3(x)
+#     def forward(self, state, action):
+#         if len(state.shape) == 1:
+#             x = torch.cat((action, state))
+#         else:
+#             x = torch.cat((action, state), dim=1) # .unsqueeze(1)
+#         x = torch.relu(self.bn1(self.layer1(x)))
+#         x = torch.relu(self.bn2(self.layer2(x)))
+#         return self.layer3(x)
     
 # Uses quantile regression loss only with 0.5 quantile
 def quantile_loss_median(predicted, target):
@@ -182,7 +182,7 @@ def mse_loss(predicted, target):
 
 def train_50NN_MSENN(prob_vars, model_state, replay_buffer_state, optimizer_state, loss_state):
     
-    model_state.train()
+    # model_state.train()
     
     batch = random.sample(replay_buffer_state, prob_vars.batch_size)
     states, actions_train, rewards, next_states, dones = zip(*batch)

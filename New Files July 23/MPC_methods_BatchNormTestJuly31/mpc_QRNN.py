@@ -10,7 +10,7 @@ def mpc_QRNN_func(prob_vars, sim_states, particles, use_ASGNN, model_QRNN, use_s
 
     costs = torch.zeros(prob_vars.num_particles)
     
-    model_QRNN.eval()
+    # model_QRNN.eval()
     
     for h in range(horizon):
         

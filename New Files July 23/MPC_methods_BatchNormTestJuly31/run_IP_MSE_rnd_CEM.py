@@ -16,7 +16,7 @@ import logging
 logging.getLogger("evotorch").disabled = True
 logging.getLogger("evotorch").setLevel(logging.ERROR)  # or logging.CRITICAL
 
-from state_pred_models import quantile_loss, quantile_loss_median, mse_loss, NextStateQuantileNetworkWithBatchNorm, NextStateSinglePredNetworkWithBatchNorm
+from state_pred_models import quantile_loss, quantile_loss_median, mse_loss, NextStateQuantileNetwork, NextStateSinglePredNetwork
 from main_funcs import main_QRNN_MPC, main_50NN_MSENN_MPC
 from ASNN import ReplayBuffer_ASNN, ActionSequenceNN, gaussian_nll_loss, categorical_cross_entropy_loss, train_ActionSequenceNN
 from setup import setup_class
@@ -41,7 +41,7 @@ def save_data(prob, method_name, episodic_rep_returns, mean_episodic_returns, st
     # }
 
     np.savez(
-    f"{prob}_{method_name}_July31_CEM_WithBatchNorm.npz",
+    f"{prob}_{method_name}_July31_CEM_WithASNNBatchNorm.npz",
     episode_rewards=episodic_rep_returns,
     mean_rewards=mean_episodic_returns,
     std_rewards=std_episodic_returns
@@ -62,7 +62,7 @@ use_QRNN = False
 use_50NN = False
 use_MSENN = True
 
-model_MSENN = NextStateSinglePredNetworkWithBatchNorm(prob_vars.state_dim, prob_vars.action_dim)
+model_MSENN = NextStateSinglePredNetwork(prob_vars.state_dim, prob_vars.action_dim)
 optimizer_MSENN = optim.Adam(model_MSENN.parameters(), lr=1e-3)
 loss_MSENN = mse_loss
 

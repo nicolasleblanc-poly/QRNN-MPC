@@ -9,7 +9,7 @@ def mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_state
 
     costs = torch.zeros(prob_vars.num_particles)
     
-    model_state.eval()
+    # model_state.eval()
     
     for h in range(horizon):
         if use_ASGNN and h == horizon-1: # Replace last action column with ASGNN predictions
