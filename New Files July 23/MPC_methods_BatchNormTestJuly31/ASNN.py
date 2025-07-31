@@ -60,7 +60,7 @@ class ActionSequenceNN(nn.Module):
             # self.action_output_layer = nn.Linear(64, action_dim) # Output logits for discrete actions
         else:
             self.mu_output_layer = nn.Linear(64, action_dim) # Mean for continuous actions
-            self.sigma_output_layer = np.exp(nn.Linear(64, action_dim)) # Uncertainty for continuous actions
+            self.sigma_output_layer = torch.exp(nn.Linear(64, action_dim)) # Uncertainty for continuous actions
             # Want sigma to be positive, so we take the exponential of the output (which is log(sigma))
 
     def combine_tensors(self, s, s_g):
