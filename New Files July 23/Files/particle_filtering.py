@@ -125,7 +125,11 @@ def continuous_cem_func(prob_vars, particles, costs, best_action_sequence, noisy
         sigma = np.std(top_particles, axis=0)
 
     # Sample new_particles
-    if prob_vars.action_dim > 1:
+    if prob_vars.action_dim > 1: # check shape of sigma here, need to be the same shape of mu
+        # print("mu.flatten().shape ", mu.flatten().shape, "\n")
+        # print("sigma.shape ", sigma.shape, "\n")
+        if mu.flatten().shape[0] != sigma.shape[0]:
+            raise ValueError("mu and sigma must have the same shape for multivariate normal sampling.")
         new_particles = np.random.multivariate_normal(mu.flatten(), sigma, size=num_particles)
     else:
         new_particles = np.random.normal(mu, sigma, size=(num_particles, horizon))

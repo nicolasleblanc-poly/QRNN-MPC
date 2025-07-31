@@ -43,6 +43,8 @@ class ActionSequenceNN(nn.Module):
         self.action_dim = action_dim
         self.discrete = discrete
         self.nb_actions = nb_actions
+        
+        # Add batch norm here
 
         self.fc = nn.Sequential(
                 nn.Linear(state_dim + goal_dim, 64),
@@ -57,6 +59,7 @@ class ActionSequenceNN(nn.Module):
         else:
             self.mu_output_layer = nn.Linear(64, action_dim) # Mean for continuous actions
             self.sigma_output_layer = nn.Linear(64, action_dim) # Uncertainty for continuous actions
+            # Want sigma to be positive, so we take the exponential of the output (which is log(sigma))
 
     def combine_tensors(self, s, s_g):
         if s.dim() == 1:

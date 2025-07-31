@@ -32,7 +32,7 @@ class NextStateQuantileNetwork(nn.Module):
         x = self.layer3(x)
         return x.view(-1, self.num_quantiles, state.size(-1))
 
-class NextStateQuantileNetworkWithBatchNorm(nn.Module):
+class NextStateQuantileNetworkWithBatchNorm(nn.Module): # Useless test, was meant for ASNN
     def __init__(self, state_dim, action_dim, num_quantiles):
         super(NextStateQuantileNetworkWithBatchNorm, self).__init__()
         self.num_quantiles = num_quantiles
