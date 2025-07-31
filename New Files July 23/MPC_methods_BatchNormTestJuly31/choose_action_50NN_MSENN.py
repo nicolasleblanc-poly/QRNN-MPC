@@ -6,7 +6,7 @@ import torch
 from mpc_50NN_MSENN import mpc_50NN_MSENN_func
 from particle_filtering import particle_filtering_func, discrete_cem_func, continuous_cem_func
 
-def choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASGNN, model_state, model_ASN, episode=0, step=1, goal_state=None):
+def choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASNN, model_state, model_ASN, episode=0, step=1, goal_state=None):
 
     best_cost = float('inf')
     best_action_sequence = None
@@ -22,7 +22,7 @@ def choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampli
         sim_states = torch.tensor(state, dtype=torch.float32).repeat(prob_vars.num_particles, 1)
 
 
-        costs = mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASGNN, model_state, use_sampling, use_mid, model_ASN)
+        costs = mpc_50NN_MSENN_func(prob_vars, sim_states, particles, use_ASNN, model_state, use_sampling, use_mid, model_ASN)
 
         min_idx = torch.argmin(costs)
         

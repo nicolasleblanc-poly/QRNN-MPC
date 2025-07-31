@@ -115,6 +115,9 @@ def categorical_cross_entropy_loss(action_probs, actions):
     # return -torch.sum(actions * torch.log(action_probs + 1e-10), dim=-1).mean()
 
 def train_ActionSequenceNN(model, replay_buffer, batch_size, optimizer, num_epochs):
+
+    model.train()
+
     for _ in range(num_epochs):
         states, goal_states, actions = replay_buffer.sample(batch_size)
 
