@@ -1,0 +1,37 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+/home/nileb3/myenv/lib/python3.11/site-packages/numpy/lib/function_base.py:2742: RuntimeWarning: invalid value encountered in subtract
+  X -= avg[:, None]
+prob  MuJoCoPusher 
+
+all methods 
+
+Traceback (most recent call last):
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/Files/run_MPU_MSE_AS_ba_CEM.py", line 81, in <module>
+    episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, mean_episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, std_episode_rep_rewards_MPC_PF_MSENN_WithASNN_mid, episode_rep_SuccessRate_MPC_PF_MSENN_WithASNN_mid, mean_episode_rep_SuccessRate_MPC_PF_MSENN_WithASNN_mid, std_episode_rep_SuccessRate_MPC_PF_MSENN_WithASNN_mid = main_50NN_MSENN_MPC(prob_vars, method_name, model_MSENN, replay_buffer_MSENN, optimizer_MSENN, loss_MSENN, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, do_QRNN_step_rnd, use_sampling, use_mid, use_ASNN)
+                                                                                                                                                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/Files/main_funcs.py", line 78, in main_50NN_MSENN_MPC
+    episode_reward_list, episode_SuccessRate = start_50NN_MSENN_MPC_wASNN(prob_vars, env, seed, model_state, replay_buffer_state, optimizer_state, loss_state, model_ASN, replay_buffer_ASN, optimizer_ASN, do_RS, use_sampling, use_mid, use_ASNN)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/Files/MPC_50NN_MSENN_funcs.py", line 55, in start_50NN_MSENN_MPC_wASNN
+    best_particle, action, best_cost, particles = choose_action_func_50NN_MSENN(prob_vars, state, particles, do_RS, use_sampling, use_mid, use_ASNN, model_state, model_ASNN, episode=episode, step=step, goal_state=prob_vars.goal_state)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/Files/choose_action_50NN_MSENN.py", line 48, in choose_action_func_50NN_MSENN
+    best_first_action, particles = continuous_cem_func(prob_vars, particles, costs, best_action_sequence)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/project/6086407/nileb3/QRNN-MPC/New Files July 23/Files/particle_filtering.py", line 129, in continuous_cem_func
+    new_particles = np.random.multivariate_normal(mu.flatten(), sigma, size=num_particles)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "numpy/random/mtrand.pyx", line 4236, in numpy.random.mtrand.RandomState.multivariate_normal
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/numpy/linalg/linalg.py", line 1681, in svd
+    u, s, vh = gufunc(a, signature=signature, extobj=extobj)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nileb3/myenv/lib/python3.11/site-packages/numpy/linalg/linalg.py", line 121, in _raise_linalgerror_svd_nonconvergence
+    raise LinAlgError("SVD did not converge")
+numpy.linalg.LinAlgError: SVD did not converge
