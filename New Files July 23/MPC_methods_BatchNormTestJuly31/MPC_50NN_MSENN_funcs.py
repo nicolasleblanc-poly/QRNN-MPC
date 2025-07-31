@@ -44,7 +44,9 @@ def start_50NN_MSENN_MPC_wASNN(prob_vars, env, seed, model_state, replay_buffer_
             particles = GenerateParticlesUsingASNN_func_50NN_MSENN(prob_vars, state, particles, model_state, model_ASNN)
             
         # for step in tqdm(range(max_steps)):
-        for step in range(prob_vars.max_steps):
+        # for step in range(prob_vars.max_steps):
+        step = 0
+        while step < prob_vars.max_steps:
             # Get the current state
 
             if prob_vars.prob == "Pendulum": # This is when you want to use the theta, omega representation
@@ -68,10 +70,17 @@ def start_50NN_MSENN_MPC_wASNN(prob_vars, env, seed, model_state, replay_buffer_
                 action = int(action)
                 actions_list.append(action)
             
-            # Apply the first action from the optimized sequence
-            next_state, reward, done, terminated, info = env.step(action)
-            
-            episode_reward += reward
+            if prob_vars.prob == "MountainCar" or prob_vars.prob == "MountainCarContinuous":
+                # Repeat the same action for nb_repeat_action environment steps
+                for _ in range(prob_vars.nb_repeat_action):
+                    next_state, reward, truncated, terminated, info = env.step(action)
+                    episode_reward += reward
+                    step += 1
+            else:
+                # Apply the first action from the optimized sequence
+                next_state, reward, truncated, terminated, info = env.step(action)
+                episode_reward += reward
+                step += 1
  
             if prob_vars.prob == "Pendulum":
                 next_state = env.state.copy()
@@ -105,7 +114,7 @@ def start_50NN_MSENN_MPC_wASNN(prob_vars, env, seed, model_state, replay_buffer_
                     # print("Reached target position \n")
                     done = True
             
-            done = done or terminated
+            done = truncated or terminated
             if done:
                 nb_episode_success += 1
                 break
@@ -159,7 +168,9 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
         particles = generate_random_action_sequences(prob_vars)
         
         # for step in range(tqdm(max_steps)): # If you want to use tqdm, uncomment this line
-        for step in range(prob_vars.max_steps):
+        # for step in range(prob_vars.max_steps):
+        step = 0
+        while step < prob_vars.max_steps:
 
             if prob_vars.prob == "Pendulum":
                 state = env.state.copy()
@@ -185,8 +196,17 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
             elif prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 action = int(action)
             
-            # Apply the first action from the optimized sequence
-            next_state, reward, done, truncated, info = env.step(action)
+            if prob_vars.prob == "MountainCar" or prob_vars.prob == "MountainCarContinuous":
+                # Repeat the same action for nb_repeat_action environment steps
+                for _ in range(prob_vars.nb_repeat_action):
+                    next_state, reward, truncated, terminated, info = env.step(action)
+                    episode_reward += reward
+                    step += 1
+            else:
+                # Apply the first action from the optimized sequence
+                next_state, reward, truncated, terminated, info = env.step(action)
+                episode_reward += reward
+                step += 1
             
             episode_reward += reward
             actions_list.append(action)
@@ -200,9 +220,9 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
                 next_state = np.array([next_state[0], next_state[1], next_state[2], next_state[3], next_state[6], next_state[7], next_state[8], next_state[9]])
                 
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
-                replay_buffer_state.append((state, np.array([action]), reward, next_state, truncated))
+                replay_buffer_state.append((state, np.array([action]), reward, next_state, terminated))
             else:
-                replay_buffer_state.append((state, action, reward, next_state, truncated))
+                replay_buffer_state.append((state, action, reward, next_state, terminated))
             
                 
             if len(replay_buffer_state) < prob_vars.batch_size:
@@ -210,7 +230,7 @@ def start_50NN_MSENNrand_RS(prob_vars, env, seed, model_state, replay_buffer_sta
             else:
                 train_50NN_MSENN(prob_vars, model_state, replay_buffer_state, optimizer_state, loss_state)
             
-            done = done or truncated
+            done = truncated or terminated
             if done:
                 nb_episode_success += 1
                 break

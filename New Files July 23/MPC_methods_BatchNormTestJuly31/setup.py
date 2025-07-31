@@ -9,6 +9,9 @@ class setup_class:
 
         self.nb_actions = None
 
+        # self.nb_repeat_action is only defined for MountainCar continuous and discrete
+        # Repeat the same action for 4 environment steps
+
         # Generate random seeds
         self.random_seeds = [0, 8, 15]
         # print("random_seeds ", type(random_seeds[0]), "\n")
@@ -265,6 +268,8 @@ class setup_class:
             self.horizon = 30
             # horizon = 100
             # max_episodes = 100
+
+            self.nb_repeat_action = 4 # Repeat the same action for 4 environment steps
             
             # self.max_episodes = 10
             self.max_episodes = 500
@@ -652,6 +657,8 @@ class setup_class:
             self.std = 3e-1
             # self.std = 6e-1
             self.change_prob = None
+
+            self.nb_repeat_action = 4 # Repeat the same action for 4 environment steps
             
             self.nb_top_particles = 5
             # nb_random = 10

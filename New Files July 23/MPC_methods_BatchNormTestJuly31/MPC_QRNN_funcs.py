@@ -41,7 +41,9 @@ def start_QRNN_MPC_wASNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, o
             particles = GenerateParticlesUsingASNN_func_QRNN(prob_vars, state, particles, model_QRNN, model_ASNN, use_sampling, use_mid)
 
         # for step in tqdm(range(max_steps)): # If you want to use tqdm, uncomment this line
-        for step in range(prob_vars.max_steps):
+        # for step in range(prob_vars.max_steps):
+        step = 0
+        while step < prob_vars.max_steps:
             if prob_vars.prob == "Pendulum":
                 state = env.state.copy()
             
@@ -63,10 +65,17 @@ def start_QRNN_MPC_wASNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, o
                 action = int(action)
                 actions_list.append(action)
             
-            # Apply the first action from the optimized sequence
-            next_state, reward, done, terminated, info = env.step(action)
-            
-            episode_reward += reward
+            if prob_vars.prob == "MountainCar" or prob_vars.prob == "MountainCarContinuous":
+                # Repeat the same action for nb_repeat_action environment steps
+                for _ in range(prob_vars.nb_repeat_action):
+                    next_state, reward, truncated, terminated, info = env.step(action)
+                    episode_reward += reward
+                    step += 1
+            else:
+                # Apply the first action from the optimized sequence
+                next_state, reward, truncated, terminated, info = env.step(action)
+                episode_reward += reward
+                step += 1
 
             if prob_vars.prob == "Pendulum":
                 next_state = env.state.copy()
@@ -100,7 +109,7 @@ def start_QRNN_MPC_wASNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, o
                     # print("Reached target position \n")
                     done = True
             
-            done = done or terminated
+            done = truncated or terminated
             if done:
                 nb_episode_success += 1
                 break
@@ -151,7 +160,9 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
         particles = generate_random_action_sequences(prob_vars)
         
         # for step in range(tqdm(max_steps)): # If you want to use tqdm, uncomment this lines
-        for step in range(prob_vars.max_steps):
+        # for step in range(prob_vars.max_steps):
+        step = 0
+        while step < prob_vars.max_steps:
             
             if prob_vars.prob == "Pendulum":
                 state = env.state.copy()
@@ -177,8 +188,17 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
             elif prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
                 action = int(action)
             
-            # Apply the first action from the optimized sequence
-            next_state, reward, done, truncated, info = env.step(action)
+            if prob_vars.prob == "MountainCar" or prob_vars.prob == "MountainCarContinuous":
+                # Repeat the same action for nb_repeat_action environment steps
+                for _ in range(prob_vars.nb_repeat_action):
+                    next_state, reward, truncated, terminated, info = env.step(action)
+                    episode_reward += reward
+                    step += 1
+            else:
+                # Apply the first action from the optimized sequence
+                next_state, reward, truncated, terminated, info = env.step(action)
+                episode_reward += reward
+                step += 1
             
             episode_reward += reward
             actions_list.append(action)
@@ -193,9 +213,9 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
                 next_state = np.array([next_state[0], next_state[1], next_state[2], next_state[3], next_state[6], next_state[7], next_state[8], next_state[9]])
 
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "MountainCar" or prob_vars.prob == "LunarLander":
-                replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, truncated))
+                replay_buffer_QRNN.append((state, np.array([action]), reward, next_state, terminated))
             else:
-                replay_buffer_QRNN.append((state, action, reward, next_state, truncated))
+                replay_buffer_QRNN.append((state, action, reward, next_state, terminated))
             
                 
             if len(replay_buffer_QRNN) < prob_vars.batch_size:
@@ -203,7 +223,7 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
             else:
                 train_QRNN(prob_vars, model_QRNN, replay_buffer_QRNN, optimizer_QRNN)
             
-            done = done or truncated
+            done = truncated or terminated
             if done:
                 nb_episode_success += 1
                 break
