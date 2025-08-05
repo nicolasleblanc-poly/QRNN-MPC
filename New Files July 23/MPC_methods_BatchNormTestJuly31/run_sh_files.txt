@@ -446,3 +446,29 @@ sbatch --job-name=MPU_M_AS_ba_CEM run-MPU-MSE-AS-ba-CEM.sh
 sbatch --job-name=MPU_M_rnd_CEM run-MPU-MSE-rnd-CEM.sh
 
 /home/nileb3/projects/def-bonizzat/nileb3/QRNN-MPC
+
+-------------------------------------
+
+sbatch --job-name=PP_AS_PFUE run-PP-UsingEnv-ASNN-PF-July26.sh
+sbatch --job-name=PP_ba_PFUE run-PP-UsingEnv-basic-PF-July26.sh
+
+sbatch --job-name=PP_rnd_PFUE run-PP-UsingEnv-rnd-PF-July26.sh
+sbatch --job-name=PP_RS_PFUE run-PP-UsingEnv-RS-PF-July26.sh
+
+sbatch --job-name=PP_AS_CEMUE run-PP-UsingEnv-ASNN-CEM-July26.sh
+sbatch --job-name=PP_ba_CEMUE run-PP-UsingEnv-basic-CEM-July26.sh
+
+sbatch --job-name=PP_rnd_CEMUE run-PP-UsingEnv-rnd-CEM-July26.sh
+
+-------------------------------------
+
+sbatch --job-name=PPD_AS_PFUE run-PPD-UsingEnv-ASNN-PF-July26.sh
+sbatch --job-name=PPD_ba_PFUE run-PPD-UsingEnv-basic-PF-July26.sh
+
+sbatch --job-name=PPD_rnd_PFUE run-PPD-UsingEnv-rnd-PF-July26.sh
+sbatch --job-name=PPD_RS_PFUE run-PPD-UsingEnv-RS-PF-July26.sh
+
+sbatch --job-name=PPD_AS_CEMUE run-PPD-UsingEnv-ASNN-CEM-July26.sh
+sbatch --job-name=PPD_ba_CEMUE run-PPD-UsingEnv-basic-CEM-July26.sh
+
+sbatch --job-name=PPD_rnd_CEMUE run-PPD-UsingEnv-rnd-CEM-July26.sh
