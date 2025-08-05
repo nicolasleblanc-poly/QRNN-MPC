@@ -2,7 +2,7 @@
 #SBATCH --mem=32G
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
-#SBATCH --time=7-00:00:00 
+#SBATCH --time=7-00:00:00
 #SBATCH --mail-user=<nicolas-3.leblanc@polymtl.ca>
 #SBATCH --mail-type=ALL
 
@@ -12,7 +12,7 @@ module purge
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python run_MC_UsingEnv_ASNN_basic_PF_July23.py # my_script.py
+python run_MC_UsingEnv_rnd_PF_July25.py # my_script.py
 # echo "all done"
 
 # #!/bin/bash
