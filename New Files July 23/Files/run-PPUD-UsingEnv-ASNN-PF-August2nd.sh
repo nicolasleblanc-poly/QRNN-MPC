@@ -12,7 +12,7 @@ module purge
 module load python/3.11.9 scipy-stack
 source ~/myenv/bin/activate
 
-python run_PPU_UsingEnv_rnd_CEM_July26.py # my_script.py
+python run_PPUD_UsingEnv_ASNN_PF_July26.py # my_script.py
 # echo "all done"
 
 # #!/bin/bash

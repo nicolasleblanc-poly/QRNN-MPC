@@ -73,7 +73,7 @@ def start_QRNN_MPC_wASNN(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, o
                     next_state, reward, truncated, terminated, info = env.step(action)
                     episode_reward += reward
                     step += 1
-                    
+
                     done = truncated or terminated
                     if done:
                         nb_episode_success += 1
@@ -204,6 +204,11 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
                     next_state, reward, truncated, terminated, info = env.step(action)
                     episode_reward += reward
                     step += 1
+
+                    done = truncated or terminated
+                    if done:
+                        nb_episode_success += 1
+                        break
             else:
                 # Apply the first action from the optimized sequence
                 next_state, reward, truncated, terminated, info = env.step(action)

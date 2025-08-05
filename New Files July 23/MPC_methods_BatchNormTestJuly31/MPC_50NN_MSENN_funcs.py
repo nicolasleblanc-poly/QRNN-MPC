@@ -79,6 +79,11 @@ def start_50NN_MSENN_MPC_wASNN(prob_vars, env, seed, model_state, replay_buffer_
                     next_state, reward, truncated, terminated, info = env.step(action)
                     episode_reward += reward
                     step += 1
+
+                    done = truncated or terminated
+                    if done:
+                        nb_episode_success += 1
+                        break
             else:
                 # Apply the first action from the optimized sequence
                 next_state, reward, truncated, terminated, info = env.step(action)
