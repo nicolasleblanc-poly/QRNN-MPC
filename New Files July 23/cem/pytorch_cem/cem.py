@@ -191,6 +191,7 @@ def run_cem(cem, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000, 
     if prob == "PandaReach" or prob == "PandaReachDense" or prob == "PandaPush" or prob == "PandaPushDense":
         # # global goal_state
         # goal_state = state['desired_goal']
+        state  = state['observation']
 
     # for i in range(iter):
     step = 0
@@ -240,8 +241,10 @@ def run_cem(cem, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000, 
         if done:
             break
 
-        di = i % retrain_after_iter
-        if di == 0 and i > 0:
+        # di = i % retrain_after_iter
+        # if di == 0 and i > 0:
+        di = step % retrain_after_iter
+        if di == 0 and step > 0:
             retrain_dynamics(dataset)
             # don't have to clear dataset since it'll be overridden, but useful for debugging
             dataset.zero_()
