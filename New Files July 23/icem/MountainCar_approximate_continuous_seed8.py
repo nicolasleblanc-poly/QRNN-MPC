@@ -205,6 +205,8 @@ if __name__ == "__main__":
     prob = "MountainCarContinuous"
     max_steps = 1000
     
+    nb_repeat_action = 4
+    
     episodic_return = []
     # Reset network to initial pretrained weights
     network.load_state_dict(initial_state_dict)
@@ -216,7 +218,7 @@ if __name__ == "__main__":
                      warmup_iters=5, online_iters=5,
                      num_samples=N_SAMPLES, num_elites=10, horizon=TIMESTEPS, device=d, )
     
-        total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False, prob=prob) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
+        total_reward, data = icem.run_icem(icem_gym, seed, env, train, iter=max_steps, render=False, prob=prob, nb_repeat_action=nb_repeat_action) # mppi.run_mppi(mppi_gym, seed, env, train, iter=max_episodes, render=False)
         print("total_reward ", total_reward, "\n")
         episodic_return.append(total_reward)
     
@@ -225,7 +227,7 @@ if __name__ == "__main__":
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_June27.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_August6.npz")
     np.savez(save_path, episodic_return)
     
     print("Saved data \n")

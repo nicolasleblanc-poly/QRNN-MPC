@@ -176,6 +176,8 @@ if __name__ == "__main__":
     max_steps = 1000
     # for seed in env_seeds:
     
+    nb_repeat_action = 4
+    
     episodic_return = []
     # Reset network to initial pretrained weights
     network.load_state_dict(initial_state_dict)
@@ -187,16 +189,15 @@ if __name__ == "__main__":
                         horizon=TIMESTEPS, device=d, num_elite=N_ELITES,
                         u_max=torch.tensor(ACTION_HIGH, dtype=torch.double, device=d), init_cov_diag=1)
 
-        total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False, prob = prob) # cem.run_cem(ctrl, env, train, iter=max_steps, render=False)
+        total_reward, data = cem.run_cem(ctrl, seed, env, train, iter=max_steps, render=False, prob = prob, nb_repeat_action=nb_repeat_action) # cem.run_cem(ctrl, env, train, iter=max_steps, render=False)
         episodic_return.append(total_reward)
         
-    
     episodic_return = np.array(episodic_return)
     
     # Get the folder where this script is located
     origin_folder = os.path.dirname(os.path.abspath(__file__))
     # Construct full path to save
-    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_July18.npz")
+    save_path = os.path.join(origin_folder, f"{prob}_{method_name}_results_seed{seed}_August6.npz")
     np.savez(save_path, episodic_return)
     
     print("Saved data \n")
