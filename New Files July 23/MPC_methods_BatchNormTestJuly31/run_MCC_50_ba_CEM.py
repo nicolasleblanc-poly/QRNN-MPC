@@ -93,7 +93,6 @@ use_sampling = False
 use_mid = True
 do_QRNN_step_rnd = False
 method_name = "MPC_50NN_basic_mid"
-method_name = "MPC_50NN_basic_mid"
 # use_QRNN = False
 use_50NN = True
 use_MSENN = False

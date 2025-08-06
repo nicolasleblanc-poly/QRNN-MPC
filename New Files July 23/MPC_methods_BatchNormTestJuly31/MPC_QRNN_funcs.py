@@ -209,13 +209,14 @@ def start_QRNNrand_RS(prob_vars, env, seed, model_QRNN, replay_buffer_QRNN, opti
                     if done:
                         nb_episode_success += 1
                         break
+                    
             else:
                 # Apply the first action from the optimized sequence
                 next_state, reward, truncated, terminated, info = env.step(action)
                 episode_reward += reward
                 step += 1
             
-            episode_reward += reward
+            # episode_reward += reward
             actions_list.append(action)
             
             if prob_vars.prob == "Pendulum":
