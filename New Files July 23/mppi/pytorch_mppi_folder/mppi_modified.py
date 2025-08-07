@@ -660,7 +660,6 @@ def run_mppi(mppi, seed, env, retrain_dynamics, retrain_after_iter=50, iter=1000
 
                 done = truncated or terminated
                 if done:
-                    nb_episode_success += 1
                     break
                 
         else:

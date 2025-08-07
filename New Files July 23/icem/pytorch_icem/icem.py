@@ -239,7 +239,6 @@ def run_icem(ctrl: iCEM, seed, env, retrain_dynamics, retrain_after_iter=50, ite
 
                 done = truncated or terminated
                 if done:
-                    nb_episode_success += 1
                     break
                 
         else:
