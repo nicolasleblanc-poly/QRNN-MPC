@@ -1,0 +1,11 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+pybullet build time: Jan 29 2025 23:17:20
+/localscratch/spool/slurmd/job65338414/slurm_script: line 15: 2013044 Killed                  python run_PPUD_UsingEnv_ASNN_CEM_July26.py
+slurmstepd: error: Detected 1 oom_kill event in StepId=65338414.batch. Some of the step tasks have been OOM Killed.
