@@ -2,7 +2,7 @@ import numpy as np
 import torch
 import copy
 
-def mpc_UsingEnv_func(prob_vars, sim_states, particles, use_ASGNN, model_ASN):
+def mpc_UsingEnv_func(prob_vars, sim_states, particles, use_ASNN, model_ASN):
     horizon = prob_vars.horizon
     num_particles = prob_vars.num_particles
     action_dim = prob_vars.action_dim
@@ -17,8 +17,8 @@ def mpc_UsingEnv_func(prob_vars, sim_states, particles, use_ASGNN, model_ASN):
         state_ids[:] = prob_vars.env.save_state()  # Save the initial state of the environment
     
     for h in range(horizon):
-        if use_ASGNN and h == horizon-1: # Replace last action column with ASGNN predictions
-            # Use ASGNN to generate last action/actions based of last non-terminal state
+        if use_ASNN and h == horizon-1: # Replace last action column with ASNN predictions
+            # Use ASNN to generate last action/actions based of last non-terminal state
             if prob_vars.prob == "CartPole" or prob_vars.prob == "Acrobot" or prob_vars.prob == "LunarLander" or prob_vars.prob == "MountainCar": # Discrete actions
 
                 action_probs = model_ASN(sim_states, torch.tensor(prob_vars.goal_state, dtype=torch.float32))
