@@ -171,7 +171,7 @@ if __name__ == "__main__":
     seed = 15
     episodic_return_seeds = []
     max_episodes = 300
-    method_name = "MPPI"
+    method_name = "CEM"
     prob = "MountainCarContinuous"
     max_steps = 1000
     # for seed in env_seeds:
