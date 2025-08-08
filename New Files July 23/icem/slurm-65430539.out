@@ -1,0 +1,614 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) CCconfig        6)  ucx/1.14.1         11) flexiblas/3.3.1
+  2) gentoo/2023     7)  libfabric/1.18.0   12) imkl/2023.2.0
+  3) gcccore/.12.3   8)  pmix/4.2.4         13) StdEnv/2023
+  4) gcc/12.3        9)  ucc/1.2.0
+  5) hwloc/2.9.1     10) openmpi/4.1.5
+/project/6086407/nileb3/QRNN-MPC/New Files July 23/icem/pytorch_icem/icem.py:69: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  self.sigma = torch.tensor(self.sigma).to(device=self.device)
+bootstrapping finished 
+
+total_reward  64.85632729580801 
+
+total_reward  27.868587897726897 
+
+total_reward  88.68663192616602 
+
+total_reward  -98.7753856576244 
+
+total_reward  84.01995213539078 
+
+total_reward  -95.57624087501867 
+
+total_reward  -97.89581006217801 
+
+total_reward  48.743100581657885 
+
+total_reward  -97.5962236280665 
+
+total_reward  50.54976803749857 
+
+total_reward  49.866397069450024 
+
+total_reward  48.75359943506005 
+
+total_reward  70.01615767039341 
+
+total_reward  80.64346753793905 
+
+total_reward  86.62090812685415 
+
+total_reward  66.07331936115705 
+
+total_reward  85.59626674877083 
+
+total_reward  78.64614784226174 
+
+total_reward  87.24892478143015 
+
+total_reward  -96.93444876436902 
+
+total_reward  -99.9999999999986 
+
+total_reward  65.69323781701743 
+
+total_reward  88.86954249213515 
+
+total_reward  -99.98673281381006 
+
+total_reward  -99.9999999999986 
+
+total_reward  -99.61463163700401 
+
+total_reward  -99.46185623720963 
+
+total_reward  -99.60787995149512 
+
+total_reward  -99.66207185228858 
+
+total_reward  89.04687437912848 
+
+total_reward  58.554804002631435 
+
+total_reward  79.09995608734165 
+
+total_reward  86.18124364767091 
+
+total_reward  63.351203087058394 
+
+total_reward  63.22198663011373 
+
+total_reward  83.79321406354231 
+
+total_reward  92.05214682592991 
+
+total_reward  79.5730534165247 
+
+total_reward  70.82941708640888 
+
+total_reward  49.09368237955856 
+
+total_reward  64.75365167175723 
+
+total_reward  86.52062622829253 
+
+total_reward  88.63039807655997 
+
+total_reward  86.0358138033782 
+
+total_reward  85.67510288446972 
+
+total_reward  84.30771706189337 
+
+total_reward  78.85272299150054 
+
+total_reward  85.73899306384766 
+
+total_reward  71.21533201961995 
+
+total_reward  88.03996241720826 
+
+total_reward  90.84408742338391 
+
+total_reward  85.09749306972088 
+
+total_reward  77.69756631682404 
+
+total_reward  90.59515083400642 
+
+total_reward  79.48455524266078 
+
+total_reward  -91.62372273118561 
+
+total_reward  85.49986024952229 
+
+total_reward  90.71750858944705 
+
+total_reward  87.03884509218732 
+
+total_reward  31.63953786843561 
+
+total_reward  73.53460117994572 
+
+total_reward  89.84348340667844 
+
+total_reward  83.5181655027787 
+
+total_reward  92.8975022455126 
+
+total_reward  92.0706562854442 
+
+total_reward  65.90803877410741 
+
+total_reward  80.67662132694278 
+
+total_reward  85.95992673187563 
+
+total_reward  71.78169947370178 
+
+total_reward  83.36061851948261 
+
+total_reward  75.36506368050439 
+
+total_reward  90.69914427822586 
+
+total_reward  93.98264182950857 
+
+total_reward  73.12413897980167 
+
+total_reward  68.12841792448681 
+
+total_reward  85.03906280971982 
+
+total_reward  79.41569578683256 
+
+total_reward  89.0626141440746 
+
+total_reward  79.66167899174475 
+
+total_reward  81.10177442931688 
+
+total_reward  84.44210459702336 
+
+total_reward  93.27219313721749 
+
+total_reward  40.647747936162745 
+
+total_reward  66.33677300539071 
+
+total_reward  80.02353633009432 
+
+total_reward  56.44483205107678 
+
+total_reward  41.94960507433125 
+
+total_reward  63.001751132475405 
+
+total_reward  84.92683097948472 
+
+total_reward  82.45689212769159 
+
+total_reward  68.02759936254307 
+
+total_reward  82.33613149474986 
+
+total_reward  90.3332686877254 
+
+total_reward  86.85862865993798 
+
+total_reward  93.57243837743033 
+
+total_reward  88.04420286569874 
+
+total_reward  94.11438308288507 
+
+total_reward  88.97637692402455 
+
+total_reward  91.9331825915885 
+
+total_reward  92.77032323712291 
+
+total_reward  91.04773422039132 
+
+total_reward  83.2910906311262 
+
+total_reward  68.05547827793953 
+
+total_reward  92.12766048578213 
+
+total_reward  78.99920386349972 
+
+total_reward  82.38166199684072 
+
+total_reward  91.69511117737983 
+
+total_reward  92.7841289622875 
+
+total_reward  66.29937230781746 
+
+total_reward  81.44349547552926 
+
+total_reward  74.27546255366951 
+
+total_reward  92.45634530226832 
+
+total_reward  61.418950992305575 
+
+total_reward  92.20587764389204 
+
+total_reward  63.1998155772809 
+
+total_reward  80.24078680925838 
+
+total_reward  94.26778276851587 
+
+total_reward  92.40699852387066 
+
+total_reward  91.64216061198324 
+
+total_reward  83.3080770411048 
+
+total_reward  93.31048159660362 
+
+total_reward  86.1292249337739 
+
+total_reward  91.77513647948436 
+
+total_reward  81.23742158487852 
+
+total_reward  68.40678994958665 
+
+total_reward  92.64846875085414 
+
+total_reward  87.28085583069715 
+
+total_reward  89.3006641007806 
+
+total_reward  93.2196768018007 
+
+total_reward  65.80949314634734 
+
+total_reward  93.70427775418452 
+
+total_reward  93.89084887745815 
+
+total_reward  84.72584920010534 
+
+total_reward  91.69473587393354 
+
+total_reward  93.54070503743691 
+
+total_reward  82.42621030504426 
+
+total_reward  83.60894625147543 
+
+total_reward  82.75895412057079 
+
+total_reward  92.77418106120649 
+
+total_reward  77.4833305926021 
+
+total_reward  94.65450281475854 
+
+total_reward  81.06088954424523 
+
+total_reward  75.07439660404395 
+
+total_reward  75.40402360678661 
+
+total_reward  93.63131184120881 
+
+total_reward  81.35535034614719 
+
+total_reward  72.80510684134487 
+
+total_reward  83.69503072576633 
+
+total_reward  58.41134365868733 
+
+total_reward  65.64731091170779 
+
+total_reward  68.80827993557102 
+
+total_reward  64.96223699361666 
+
+total_reward  83.61880611042253 
+
+total_reward  81.22410456343727 
+
+total_reward  66.6939064575524 
+
+total_reward  83.94352604827718 
+
+total_reward  47.10598747866614 
+
+total_reward  51.83413945015345 
+
+total_reward  67.22846703515103 
+
+total_reward  79.505541677991 
+
+total_reward  80.11107748375835 
+
+total_reward  -92.72970658353627 
+
+total_reward  82.95873745425111 
+
+total_reward  74.4351992143961 
+
+total_reward  79.97566538041602 
+
+total_reward  84.67602121811694 
+
+total_reward  75.05158634333009 
+
+total_reward  73.86821303777285 
+
+total_reward  78.60889135805425 
+
+total_reward  62.15086315169504 
+
+total_reward  92.30841587331626 
+
+total_reward  65.72464941532843 
+
+total_reward  92.1138509864796 
+
+total_reward  80.77597894883303 
+
+total_reward  75.1766364718357 
+
+total_reward  77.72930670054222 
+
+total_reward  89.33252294049677 
+
+total_reward  64.73263168521183 
+
+total_reward  90.84822363427158 
+
+total_reward  93.96516627733556 
+
+total_reward  92.37139915101466 
+
+total_reward  92.42264224388421 
+
+total_reward  80.57465020118335 
+
+total_reward  82.48463065151951 
+
+total_reward  94.18046940161358 
+
+total_reward  90.65648375390886 
+
+total_reward  78.79865040794343 
+
+total_reward  81.36164223598225 
+
+total_reward  63.46385210593153 
+
+total_reward  87.42591726746355 
+
+total_reward  91.37996486894983 
+
+total_reward  60.33826285030869 
+
+total_reward  91.95054900996901 
+
+total_reward  89.26240454130685 
+
+total_reward  91.6943630772918 
+
+total_reward  92.63948573780253 
+
+total_reward  88.68718021188047 
+
+total_reward  92.7471431119946 
+
+total_reward  90.54136447042693 
+
+total_reward  84.43889786011161 
+
+total_reward  79.68138587804563 
+
+total_reward  89.74679980676487 
+
+total_reward  74.87483258867826 
+
+total_reward  92.48897865565027 
+
+total_reward  76.29341794105079 
+
+total_reward  89.43187091033589 
+
+total_reward  84.77452376162222 
+
+total_reward  92.29136002685645 
+
+total_reward  84.27280142879268 
+
+total_reward  77.95721387643188 
+
+total_reward  82.55867450118616 
+
+total_reward  55.464891271301155 
+
+total_reward  92.0174895856451 
+
+total_reward  90.82704132730571 
+
+total_reward  59.856887161471846 
+
+total_reward  70.54283246736264 
+
+total_reward  90.3226916968085 
+
+total_reward  89.81046679406651 
+
+total_reward  90.67795301538841 
+
+total_reward  93.64824863914437 
+
+total_reward  91.25145802816436 
+
+total_reward  89.5309063854208 
+
+total_reward  87.96980695984224 
+
+total_reward  88.79959832629255 
+
+total_reward  90.48700709943623 
+
+total_reward  84.30339798124771 
+
+total_reward  60.073219687839675 
+
+total_reward  75.75377140503821 
+
+total_reward  73.38594322040919 
+
+total_reward  92.87905127314338 
+
+total_reward  78.64986954969113 
+
+total_reward  89.9146016919569 
+
+total_reward  89.84128032066295 
+
+total_reward  81.60130870979056 
+
+total_reward  87.34563862393847 
+
+total_reward  76.72670592767298 
+
+total_reward  82.09412468554481 
+
+total_reward  93.02821797426554 
+
+total_reward  90.0461271205755 
+
+total_reward  83.49399576341835 
+
+total_reward  81.69916437967133 
+
+total_reward  91.02997789741603 
+
+total_reward  72.40578816718612 
+
+total_reward  89.3419361617792 
+
+total_reward  78.53858861680766 
+
+total_reward  83.345674145841 
+
+total_reward  90.80724322445454 
+
+total_reward  92.0219841375595 
+
+total_reward  87.61440729374542 
+
+total_reward  91.20776521910004 
+
+total_reward  91.7593797082059 
+
+total_reward  85.48979490148082 
+
+total_reward  94.00041580968029 
+
+total_reward  27.89853817583446 
+
+total_reward  85.1015393668306 
+
+total_reward  90.11074006034639 
+
+total_reward  91.30913366780266 
+
+total_reward  74.98796692878454 
+
+total_reward  48.177010107847956 
+
+total_reward  88.66886091174004 
+
+total_reward  39.89982674457014 
+
+total_reward  31.223270292107586 
+
+total_reward  59.2339823680198 
+
+total_reward  66.13765903283073 
+
+total_reward  48.656914784591585 
+
+total_reward  85.96969854705169 
+
+total_reward  -88.53892916594468 
+
+total_reward  -96.55328074171908 
+
+total_reward  92.61104054864491 
+
+total_reward  -94.88571865115549 
+
+total_reward  35.65549155961115 
+
+total_reward  -93.17157683811386 
+
+total_reward  -98.80476734758724 
+
+total_reward  -97.24321162255994 
+
+total_reward  -98.3106723576028 
+
+total_reward  -99.41170327366027 
+
+total_reward  -99.12899899872798 
+
+total_reward  -99.48731325267899 
+
+total_reward  -99.66619816827517 
+
+total_reward  -99.61284040687003 
+
+total_reward  -98.5880686260683 
+
+total_reward  -97.90219829980126 
+
+total_reward  -99.35632466528845 
+
+total_reward  -99.38151951275378 
+
+total_reward  -99.5056861353108 
+
+total_reward  -99.43588989224124 
+
+total_reward  -99.71354100393508 
+
+total_reward  53.2754863148384 
+
+total_reward  -99.45372409132746 
+
+total_reward  -99.07449607585583 
+
+total_reward  -99.27774868268827 
+
+total_reward  -97.86026698071139 
+
+total_reward  -97.10510086229812 
+
+total_reward  -97.67291108498115 
+
+total_reward  -97.16040386242229 
+
+total_reward  -94.3287959728214 
+
+total_reward  24.14600688781742 
+
+total_reward  -94.4898487535688 
+
+total_reward  81.91380049739314 
+
+total_reward  19.339478821371813 
+
+Saved data 
+
